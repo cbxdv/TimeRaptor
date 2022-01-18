@@ -1,0 +1,10 @@
+{
+  "windowsize": {
+    "width": 900,
+    "height": 500
+  },
+  "notifications": true,
+  "closeOnExit": false,
+  "minimizeToSystemTray": true,
+  "notifyBefore": 1
+}

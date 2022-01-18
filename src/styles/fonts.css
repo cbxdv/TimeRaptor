@@ -1,0 +1,16 @@
+@font-face {
+  font-family: Outfit;
+  src: url('../assets/fonts/Outfit.ttf');
+}
+
+@font-face {
+  font-family: Dongle;
+  src: url('../assets/fonts/Dongle-Bold.ttf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: Dongle;
+  src: url('../assets/fonts/Dongle-Regular.ttf');
+  font-weight: normal;
+}

@@ -1,0 +1,321 @@
+{
+  "monday": [
+    {
+      "id": "3kgclxwe7tferts",
+      "title": "Mathematics",
+      "startTime": {
+        "hours": 8,
+        "minutes": 30,
+        "pm": false
+      },
+      "endTime": {
+        "hours": 10,
+        "minutes": 0,
+        "pm": false
+      },
+      "duration": 90,
+      "blockColor": "deepChampagne",
+      "description": "Addition, Subtraction, Multiplication, Division"
+    },
+    {
+      "id": "yrvyam8nmrn8ocs",
+      "title": "Computer Science",
+      "startTime": {
+        "hours": 12,
+        "minutes": 15,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 1,
+        "minutes": 15,
+        "pm": true
+      },
+      "duration": 60,
+      "blockColor": "teaGreen",
+      "description": "CS CS CS CS CS CS CS CS CS CS CS"
+    },
+    {
+      "id": "m25v5udhpzu5q0u",
+      "title": "English",
+      "startTime": {
+        "hours": 1,
+        "minutes": 20,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 2,
+        "minutes": 40,
+        "pm": true
+      },
+      "duration": 60,
+      "blockColor": "teaGreen",
+      "description": "ENG ENG ENG"
+    }
+  ],
+  "tuesday": [
+    {
+      "id": "o2qwle8sfxtczyq",
+      "title": "UI / UX",
+      "startTime": {
+        "hours": 11,
+        "minutes": 30,
+        "pm": false
+      },
+      "endTime": {
+        "hours": 12,
+        "minutes": 15,
+        "pm": true
+      },
+      "duration": 45,
+      "blockColor": "babyBlueEyes",
+      "description": "User Interface and User Experience"
+    },
+    {
+      "id": "04n0yj0z9f79w7p",
+      "title": "Data Science",
+      "startTime": {
+        "hours": 12,
+        "minutes": 30,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 1,
+        "minutes": 30,
+        "pm": true
+      },
+      "duration": 60,
+      "blockColor": "crayola",
+      "description": "CS CS CS CS CS CS CS CS CS CS CS"
+    },
+    {
+      "id": "e3dxwdzu5kdjzdj",
+      "title": "History",
+      "startTime": {
+        "hours": 2,
+        "minutes": 0,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 2,
+        "minutes": 45,
+        "pm": true
+      },
+      "duration": 45,
+      "blockColor": "greyedLavender",
+      "description": "HHHH"
+    }
+  ],
+  "wednesday": [
+    {
+      "id": "chpoe609j2k92dr",
+      "title": "Maths",
+      "startTime": {
+        "hours": 8,
+        "minutes": 30,
+        "pm": false
+      },
+      "endTime": {
+        "hours": 10,
+        "minutes": 0,
+        "pm": false
+      },
+      "duration": 90,
+      "blockColor": "mauve",
+      "description": "Math"
+    },
+    {
+      "id": "ts7e9v0qk13dyd5",
+      "title": "Computer Science",
+      "startTime": {
+        "hours": 11,
+        "minutes": 30,
+        "pm": false
+      },
+      "endTime": {
+        "hours": 12,
+        "minutes": 30,
+        "pm": true
+      },
+      "duration": 60,
+      "blockColor": "teaGreen",
+      "description": "CS CS CS CS CS CS CS CS CS CS CS"
+    },
+    {
+      "id": "3kgclxwe7tferts",
+      "title": "Data Science",
+      "startTime": {
+        "hours": 3,
+        "minutes": 30,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 4,
+        "minutes": 40,
+        "pm": false
+      },
+      "duration": 70,
+      "blockColor": "celeste",
+      "description": "ENG ENG ENG"
+    }
+  ],
+  "thursday": [
+    {
+      "id": "qikh5byjg0k85o0",
+      "title": "Mathematics",
+      "startTime": {
+        "hours": 9,
+        "minutes": 30,
+        "pm": false
+      },
+      "endTime": {
+        "hours": 10,
+        "minutes": 0,
+        "pm": false
+      },
+      "duration": 30,
+      "blockColor": "deepChampagne",
+      "description": "Addition, Subtraction, Multiplication, Division"
+    },
+    {
+      "id": "fa7g7v3mfq1vbyh",
+      "title": "Data Science",
+      "startTime": {
+        "hours": 2,
+        "minutes": 10,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 3,
+        "minutes": 0,
+        "pm": true
+      },
+      "duration": 50,
+      "blockColor": "teaGreen",
+      "description": "CS CS CS CS CS CS CS CS CS CS CS"
+    },
+    {
+      "id": "c2n69xdnlbcoxwn",
+      "title": "Computer Science",
+      "startTime": {
+        "hours": 9,
+        "minutes": 50,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 10,
+        "minutes": 30,
+        "pm": true
+      },
+      "duration": 40,
+      "blockColor": "teaGreen",
+      "description": "ENG ENG ENG"
+    }
+  ],
+  "friday": [
+    {
+      "id": "gy2bc8ofyxouk50",
+      "title": "Mathematics",
+      "startTime": {
+        "hours": 8,
+        "minutes": 30,
+        "pm": false
+      },
+      "endTime": {
+        "hours": 10,
+        "minutes": 0,
+        "pm": false
+      },
+      "duration": 90,
+      "blockColor": "deepChampagne",
+      "description": "Addition, Subtraction, Multiplication, Division"
+    },
+    {
+      "id": "n9j40dd8tj9jlfg",
+      "title": "Computer Science",
+      "startTime": {
+        "hours": 11,
+        "minutes": 0,
+        "pm": false
+      },
+      "endTime": {
+        "hours": 12,
+        "minutes": 0,
+        "pm": true
+      },
+      "duration": 60,
+      "blockColor": "teaGreen",
+      "description": "CS CS CS CS CS CS CS CS CS CS CS"
+    },
+    {
+      "id": "henmc08mqenfd6k",
+      "title": "Computer Science",
+      "startTime": {
+        "hours": 3,
+        "minutes": 10,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 4,
+        "minutes": 10,
+        "pm": true
+      },
+      "duration": 60,
+      "blockColor": "decoPeach",
+      "description": "ENG ENG ENG"
+    }
+  ],
+  "saturday": [
+    {
+      "id": "d0olpb58tlw9wal",
+      "title": "AI / ML",
+      "startTime": {
+        "hours": 12,
+        "minutes": 30,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 2,
+        "minutes": 0,
+        "pm": true
+      },
+      "duration": 90,
+      "blockColor": "crayola",
+      "description": "Addition, Subtraction, Multiplication, Division"
+    },
+    {
+      "id": "4rpqimk8gnyjrn8",
+      "title": "Math",
+      "startTime": {
+        "hours": 2,
+        "minutes": 15,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 2,
+        "minutes": 45,
+        "pm": true
+      },
+      "duration": 30,
+      "blockColor": "babyBlueEyes",
+      "description": "CS CS CS CS CS CS CS CS CS CS CS"
+    },
+    {
+      "id": "2s15jiwb0eu3oth",
+      "title": "Computer Science",
+      "startTime": {
+        "hours": 3,
+        "minutes": 0,
+        "pm": true
+      },
+      "endTime": {
+        "hours": 4,
+        "minutes": 0,
+        "pm": true
+      },
+      "duration": 60,
+      "blockColor": "decoPeach",
+      "description": "ENG ENG ENG"
+    }
+  ],
+  "sunday": []
+}
