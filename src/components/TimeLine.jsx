@@ -10,7 +10,7 @@ const TimeLine = () => {
     let line = []
     for (let i = 0; i < 24; i++) {
       line.push(
-        <OneHourComponent key={`${i}tlb`} key={`tlo${i}`}>
+        <OneHourComponent key={`${i}tlb`}>
           <span>{convertIndexToStringHours(i, true)}</span>
         </OneHourComponent>
       )

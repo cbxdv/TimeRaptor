@@ -9,7 +9,14 @@ import { getTimeString } from '../utils/timeUtils.js'
 import { themeColors } from '../styles/styleConstants.js'
 import { flexCenter, buttonStyles } from '../styles/styleUtils.js'
 
-const BlockTool = ({ timeblock, show, closeHandler, position, editHandler, deleteHandler }) => {
+const BlockTool = ({
+  timeblock,
+  show,
+  closeHandler,
+  position,
+  editHandler,
+  deleteHandler,
+}) => {
   let { title, startTime, endTime, description } = timeblock
   const timeString = `${getTimeString(startTime)} - ${getTimeString(endTime)}`
 

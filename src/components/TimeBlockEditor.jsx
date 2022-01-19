@@ -25,7 +25,11 @@ const TimeBlockEditor = ({
 
   const [title, setTitle] = useState('')
   const [day, setDay] = useState('monday')
-  const [startTime, setStartTime] = useState({ hours: 1, minutes: 0, pm: false, })
+  const [startTime, setStartTime] = useState({
+    hours: 1,
+    minutes: 0,
+    pm: false,
+  })
   const [endTime, setEndTime] = useState({ hours: 1, minutes: 0, pm: false })
   const [blockColor, setBlockColor] = useState('decoPeach')
   const [description, setDescription] = useState('')
@@ -53,7 +57,7 @@ const TimeBlockEditor = ({
       endTime,
       duration: getDurationMinutes(startTime, endTime),
       blockColor,
-      description
+      description,
     }
     if (edit) {
       // edit block

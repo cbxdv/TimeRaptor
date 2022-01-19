@@ -7,9 +7,8 @@ import { flexCenter } from '../styles/styleUtils.js'
 import DayColumn from './DayColumn.jsx'
 
 const DayContainer = () => {
-
   const blocksStatus = useSelector((state) => state.blocks.status)
-  
+
   if (blocksStatus === 'loading') {
     return <>Loading...</>
   }

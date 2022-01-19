@@ -14,7 +14,6 @@ import { getElectronContext } from '../redux/helpers/ElectronContext.js'
 import TextButton from './TextButton.jsx'
 
 const UserConfigsPanel = ({ closeHandler = () => {} }) => {
-  
   const dispatch = useDispatch()
 
   const openRepo = () => {

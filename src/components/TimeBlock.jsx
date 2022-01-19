@@ -77,7 +77,6 @@ const TimeBlock = ({ timeblock }) => {
     }
   }
 
-
   return (
     <React.Fragment>
       {showBlockEditor && (

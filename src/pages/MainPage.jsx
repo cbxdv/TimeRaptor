@@ -11,7 +11,6 @@ import { themeColors } from '../styles/styleConstants.js'
 import Header from '../components/Header.jsx'
 
 const MainPage = () => {
-
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -20,11 +19,11 @@ const MainPage = () => {
 
   return (
     <MainPageContainer>
-        <Header />
-        <MainContainer>
-          <TimeLine />
-          <DayContainer />
-        </MainContainer>
+      <Header />
+      <MainContainer>
+        <TimeLine />
+        <DayContainer />
+      </MainContainer>
     </MainPageContainer>
   )
 }

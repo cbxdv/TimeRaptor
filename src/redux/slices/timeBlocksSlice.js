@@ -77,8 +77,8 @@ const blocksSlice = createSlice({
       }
     },
     blocksCleared(state, action) {
-      state.dayData = initialState.dayData
-    }
+      state.dayData = initialState.dayData;
+    },
   },
   extraReducers(builder) {
     builder
@@ -97,7 +97,8 @@ const blocksSlice = createSlice({
   },
 });
 
-export const { blockAdded, blockDeleted, blockUpdated, blocksCleared } = blocksSlice.actions;
+export const { blockAdded, blockDeleted, blockUpdated, blocksCleared } =
+  blocksSlice.actions;
 
 export default blocksSlice.reducer;
 

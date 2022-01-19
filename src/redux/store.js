@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 
-import blocksReducer from  './slices/timeBlocksSlice.js'
+import blocksReducer from './slices/timeBlocksSlice.js';
 
 export default configureStore({
-    reducer: {
-        blocks: blocksReducer,
-    }
-})
+  reducer: {
+    blocks: blocksReducer,
+  },
+});

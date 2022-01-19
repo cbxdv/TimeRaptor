@@ -7,9 +7,9 @@ import store from './redux/store.js'
 import MainPage from './pages/MainPage.jsx'
 
 const App = () => (
-    <Provider store={store}>
-        <MainPage />
-    </Provider>
+  <Provider store={store}>
+    <MainPage />
+  </Provider>
 )
 
 ReactDOM.render(<App />, document.getElementById('root'))
