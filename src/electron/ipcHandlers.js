@@ -30,12 +30,12 @@ ipcMain.on('userconfigs:get', async () => {
 
 ipcMain.on('app:notify', (_, { title, body }) => {
   new Notification({
-    title: title || '',
-    body: body || '',
+    title: title || `Probably it's time`,
+    body: body || 'Have a good time!',
     icon: path.join(__dirname, '../assets/Logo.png'),
   }).show();
 });
 
-ipcMain.on('app:openlink', (_, link) => {
-  shell.openExternal(link);
+ipcMain.on('app:openrepolink', (_, link) => {
+  shell.openExternal('https://github.com/codeph0/TimeRaptor');
 });

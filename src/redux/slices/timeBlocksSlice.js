@@ -68,7 +68,6 @@ const blocksSlice = createSlice({
         });
         state.dayData[oldBlock.day] = specificDay;
       }
-      console.log(state);
 
       // Adding new block
       specificDay = state.dayData[newBlock.day];
@@ -77,6 +76,9 @@ const blocksSlice = createSlice({
         state.dayData[newBlock.day] = specificDay;
       }
     },
+    blocksCleared(state, action) {
+      state.dayData = initialState.dayData
+    }
   },
   extraReducers(builder) {
     builder
@@ -95,7 +97,7 @@ const blocksSlice = createSlice({
   },
 });
 
-export const { blockAdded, blockDeleted, blockUpdated } = blocksSlice.actions;
+export const { blockAdded, blockDeleted, blockUpdated, blocksCleared } = blocksSlice.actions;
 
 export default blocksSlice.reducer;
 

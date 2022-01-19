@@ -7,6 +7,8 @@ import { themeColors } from '../styles/styleConstants.js'
 import { flexCenter } from '../styles/styleUtils'
 
 const WithModal = ({ children, closeHandler, modalTitle }) => {
+
+  document.body.style.overflow = 'hidden'
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => (document.body.style.overflow = 'unset')

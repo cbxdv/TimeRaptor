@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+
+import { blocksCleared } from '../redux/slices/timeBlocksSlice.js'
 
 import WithModal from '../hooks/WithModal.jsx'
 
@@ -11,10 +14,13 @@ import { getElectronContext } from '../redux/helpers/ElectronContext.js'
 import TextButton from './TextButton.jsx'
 
 const UserConfigsPanel = ({ closeHandler = () => {} }) => {
+  
+  const dispatch = useDispatch()
+
   const openRepo = () => {
     try {
       const electron = getElectronContext()
-      electron.appOpenLink('https://github.com/codeph0/TimeRaptor')
+      electron.appOpenRepoLink()
     } catch (error) {
       console.log(error)
     }
@@ -24,7 +30,8 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
     try {
       const electron = getElectronContext()
       electron.clearAllTimeBlocks()
-      location.reload()
+      dispatch(blocksCleared())
+      closeHandler()
     } catch (error) {
       console.log(error)
     }
