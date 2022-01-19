@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+
+import { blocksCleared } from '../redux/slices/timeBlocksSlice.js'
 
 import WithModal from '../hooks/WithModal.jsx'
 
@@ -7,24 +10,16 @@ import WaveEmoji from '../assets/icons/Wave.png'
 import Octocat from '../assets/icons/Octocat.png'
 
 import { flexCenter } from '../styles/styleUtils.js'
-import { getElectronContext } from '../data/ElectronContext.js'
+import { getElectronContext } from '../redux/helpers/ElectronContext.js'
 import TextButton from './TextButton.jsx'
 
 const UserConfigsPanel = ({ closeHandler = () => {} }) => {
+  const dispatch = useDispatch()
+
   const openRepo = () => {
     try {
       const electron = getElectronContext()
-      electron.appOpenLink('https://github.com/codeph0/TimeRaptor')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const resetApp = () => {
-    try {
-      const electron = getElectronContext()
-      electron.resetApp()
-      closeHandler()
+      electron.appOpenRepoLink()
     } catch (error) {
       console.log(error)
     }
@@ -34,7 +29,8 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
     try {
       const electron = getElectronContext()
       electron.clearAllTimeBlocks()
-      location.reload()
+      dispatch(blocksCleared())
+      closeHandler()
     } catch (error) {
       console.log(error)
     }

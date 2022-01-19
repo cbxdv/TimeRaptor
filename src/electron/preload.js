@@ -1,4 +1,4 @@
-console.log(`👋🏻 from preload.js`);
+// console.log(`👋🏻 from preload.js`);
 
 const { ipcRenderer, contextBridge } = require('electron');
 
@@ -6,7 +6,7 @@ const { ipcRenderer, contextBridge } = require('electron');
 contextBridge.exposeInMainWorld('electron', {
   appVersion: () => ipcRenderer.invoke('app:version'),
   appNotify: (data) => ipcRenderer.send('app:notify', data),
-  appOpenLink: (data) => ipcRenderer.send('app:openlink', data),
+  appOpenRepoLink: (data) => ipcRenderer.send('app:openrepolink', data),
 
   getAllTimeBlocks: () => ipcRenderer.invoke('timeblocks:get'),
   updateTimeBlocks: (data) => ipcRenderer.send('timeblocks:update', data),

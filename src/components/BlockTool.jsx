@@ -1,32 +1,24 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
-import { useTimeBlocks } from '../data/contexts/timeBlocksContext.js'
-
 import BinIcon from '../assets/icons/Bin.svg'
 import EditIcon from '../assets/icons/Edit.svg'
 
 import { getTimeString } from '../utils/timeUtils.js'
-import { deleteTimeBlock } from '../data/actions/timeBlocksActions.js'
 
 import { themeColors } from '../styles/styleConstants.js'
 import { flexCenter, buttonStyles } from '../styles/styleUtils.js'
 
-const BlockTool = ({ timeblock, show, closeHandler, position, openEditor }) => {
+const BlockTool = ({
+  timeblock,
+  show,
+  closeHandler,
+  position,
+  editHandler,
+  deleteHandler,
+}) => {
   let { title, startTime, endTime, description } = timeblock
   const timeString = `${getTimeString(startTime)} - ${getTimeString(endTime)}`
-
-  const { state, dispatch } = useTimeBlocks()
-
-  const deleteHandler = () => {
-    closeHandler()
-    deleteTimeBlock({ timeblock, state, dispatch })
-  }
-
-  const editHandler = () => {
-    closeHandler()
-    openEditor()
-  }
 
   let ref = useRef(null)
 

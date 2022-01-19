@@ -1,18 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
-import { useTimeBlocks } from '../data/contexts/timeBlocksContext.js'
 import { flexCenter } from '../styles/styleUtils.js'
 
 import DayColumn from './DayColumn.jsx'
 
 const DayContainer = () => {
-  const {
-    state: { isLoading },
-  } = useTimeBlocks()
-  if (isLoading) {
-    return <div>Loading...</div>
+  const blocksStatus = useSelector((state) => state.blocks.status)
+
+  if (blocksStatus === 'loading') {
+    return <>Loading...</>
   }
+
   return (
     <DayContainerContainer>
       <DayColumnContainer>

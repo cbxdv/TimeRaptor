@@ -15,8 +15,8 @@ ipcMain.handle('timeblocks:get', async () => {
   return timeblocks;
 });
 
-ipcMain.on('timeblocks:update', async (_, data) => {
-  store.set('timeblocks', data);
+ipcMain.on('timeblocks:update', async (_, { day, dayData }) => {
+  store.set(`timeblocks.${day}`, dayData);
 });
 
 ipcMain.on('timeblocks:clear', () => {
@@ -30,12 +30,12 @@ ipcMain.on('userconfigs:get', async () => {
 
 ipcMain.on('app:notify', (_, { title, body }) => {
   new Notification({
-    title: title || '',
-    body: body || '',
+    title: title || `Probably it's time`,
+    body: body || 'Have a good time!',
     icon: path.join(__dirname, '../assets/Logo.png'),
   }).show();
 });
 
-ipcMain.on('app:openlink', (_, link) => {
-  shell.openExternal(link);
+ipcMain.on('app:openrepolink', (_, link) => {
+  shell.openExternal('https://github.com/codeph0/TimeRaptor');
 });

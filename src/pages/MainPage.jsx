@@ -1,24 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 
-import { TimeBlocksProvider } from '../data/contexts/timeBlocksContext.js'
+import { fetchBlocks } from '../redux/slices/timeBlocksSlice.js'
 
 import TimeLine from '../components/TimeLine.jsx'
 import DayContainer from '../components/DayContainer.jsx'
 
 import { themeColors } from '../styles/styleConstants.js'
-import TopPanel from '../components/Header.jsx'
+import Header from '../components/Header.jsx'
 
 const MainPage = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchBlocks())
+  }, [])
+
   return (
     <MainPageContainer>
-      <TimeBlocksProvider>
-        <TopPanel />
-        <MainContainer>
-          <TimeLine />
-          <DayContainer />
-        </MainContainer>
-      </TimeBlocksProvider>
+      <Header />
+      <MainContainer>
+        <TimeLine />
+        <DayContainer />
+      </MainContainer>
     </MainPageContainer>
   )
 }

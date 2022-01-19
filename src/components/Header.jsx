@@ -60,7 +60,8 @@ const Header = styled.div`
   ${flexCenter({ justifyContent: 'space-between' })};
   padding: 20px 60px;
   z-index: 5;
-  /* box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2); */
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 0 0 20px 20px;
 
   .header-logo {
     width: 45px;

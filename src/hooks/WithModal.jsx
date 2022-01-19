@@ -7,6 +7,7 @@ import { themeColors } from '../styles/styleConstants.js'
 import { flexCenter } from '../styles/styleUtils'
 
 const WithModal = ({ children, closeHandler, modalTitle }) => {
+  document.body.style.overflow = 'hidden'
   useEffect(() => {
     document.body.style.overflow = 'hidden'
     return () => (document.body.style.overflow = 'unset')
@@ -43,6 +44,7 @@ const ModalContainer = styled.div`
   z-index: 10;
   ${flexCenter()};
 `
+
 const ModalBody = styled.div`
   max-width: 80%;
   max-height: 70vh;
@@ -52,6 +54,7 @@ const ModalBody = styled.div`
   overflow: scroll;
   position: relative;
 `
+
 const ModalHeader = styled.div`
   height: 50px;
   background-color: ${themeColors.accent};
@@ -83,6 +86,7 @@ const ModalHeader = styled.div`
     }
   }
 `
+
 const ModalDrop = styled.div`
   position: absolute;
   top: 0;

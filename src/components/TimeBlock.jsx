@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+
+import { blockDeleted } from '../redux/slices/timeBlocksSlice.js'
 
 import BlockTool from './BlockTool.jsx'
 import TimeBlockEditor from './TimeBlockEditor.jsx'
@@ -10,6 +13,7 @@ import { flexCenter } from '../styles/styleUtils.js'
 import { varietyColors, themeColors } from '../styles/styleConstants.js'
 
 const TimeBlock = ({ timeblock }) => {
+  const dispatch = useDispatch()
   let {
     blockId,
     day,
@@ -21,8 +25,18 @@ const TimeBlock = ({ timeblock }) => {
     description,
   } = timeblock
 
-  const [showBlockTool, setshowBlockTool] = useState(false)
+  const [showBlockTool, setShowBlockTool] = useState(false)
   const [showBlockEditor, setShowBlockEditor] = useState(false)
+
+  const editHandler = () => {
+    setShowBlockEditor(true)
+    setShowBlockTool(false)
+  }
+
+  const deleteHandler = () => {
+    setShowBlockTool(false)
+    dispatch(blockDeleted(timeblock))
+  }
 
   let bgColor = varietyColors[blockColor]
   let startTimeString = getTimeString(startTime)
@@ -64,7 +78,7 @@ const TimeBlock = ({ timeblock }) => {
   }
 
   return (
-    <ToolContainer onClick={() => setshowBlockTool(true)}>
+    <React.Fragment>
       {showBlockEditor && (
         <TimeBlockEditor
           closeHandler={() => setShowBlockEditor(false)}
@@ -72,33 +86,36 @@ const TimeBlock = ({ timeblock }) => {
           edit
         />
       )}
-      <TimeBlockContainer
-        bgColor={bgColor}
-        startPosition={startPosition}
-        blockHeight={blockHeight}
-      >
-        <StylingLineContainer>
-          <TimeBlockStylingLine></TimeBlockStylingLine>
-        </StylingLineContainer>
-        <div style={{ overflow: 'scroll' }}>
-          <BlockHeading>{blockTitle}</BlockHeading>
-          {duration > 30 && (
-            <BlockSubText>
-              {startTimeString} - {endTimeString}
-            </BlockSubText>
+      <ToolContainer onClick={() => !showBlockTool && setShowBlockTool(true)}>
+        <TimeBlockContainer
+          bgColor={bgColor}
+          startPosition={startPosition}
+          blockHeight={blockHeight}
+        >
+          <StylingLineContainer>
+            <TimeBlockStylingLine />
+          </StylingLineContainer>
+          <div style={{ overflow: 'scroll' }}>
+            <BlockHeading>{blockTitle}</BlockHeading>
+            {duration > 30 && (
+              <BlockSubText>
+                {startTimeString} - {endTimeString}
+              </BlockSubText>
+            )}
+          </div>
+          {showBlockTool && (
+            <BlockTool
+              timeblock={timeblock}
+              position={tooltipPosition}
+              show={showBlockTool}
+              closeHandler={() => setShowBlockTool(false)}
+              deleteHandler={deleteHandler}
+              editHandler={editHandler}
+            />
           )}
-        </div>
-        {showBlockTool && (
-          <BlockTool
-            timeblock={timeblock}
-            position={tooltipPosition}
-            show={showBlockTool}
-            closeHandler={() => setshowBlockTool(false)}
-            openEditor={() => setShowBlockEditor(true)}
-          />
-        )}
-      </TimeBlockContainer>
-    </ToolContainer>
+        </TimeBlockContainer>
+      </ToolContainer>
+    </React.Fragment>
   )
 }
 
@@ -113,6 +130,7 @@ const TimeBlockContainer = styled.div`
   box-shadow: inset 0px 0px 10px rgba(255, 251, 251, 0.5);
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
 `
+
 const StylingLineContainer = styled.div`
   width: 20px;
   ${flexCenter()};
