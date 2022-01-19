@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
-import { getElectronContext, saveBlocksToDisk } from '../helpers/ElectronContext';
+import { getElectronContext } from '../helpers/ElectronContext';
 
 const initialState = {
   dayData: {
@@ -18,8 +18,14 @@ const initialState = {
 export const fetchBlocks = createAsyncThunk('blocks/fetchBlocks', async () => {
   const electron = getElectronContext();
   const response = await electron.getAllTimeBlocks();
-  if (!response || Object.keys(response).length !== 7) {
-    return initialState.dayData
+  if (!response) {
+    return initialState.dayData;
+  }
+  if (Object.keys(response).length !== 7) {
+    return {
+      ...initialState.dayData,
+      ...response,
+    };
   }
   return response;
 });
@@ -32,11 +38,10 @@ const blocksSlice = createSlice({
       const { day } = action.payload;
       let specificDay = state.dayData[day];
       if (specificDay) {
-        action.payload.id = nanoid()
+        action.payload.id = nanoid();
         specificDay.push(action.payload);
         state.dayData[day] = specificDay;
       }
-      // TODO: save to disk
     },
     blockDeleted(state, action) {
       const { id, day } = action.payload;
@@ -49,10 +54,9 @@ const blocksSlice = createSlice({
         });
         state.dayData[day] = specificDay;
       }
-      // TODO: save to disk
     },
     blockUpdated(state, action) {
-      const { oldBlock, newBlock } = action.payload
+      const { oldBlock, newBlock } = action.payload;
 
       // Deleting existing block
       let specificDay = state.dayData[oldBlock.day];
@@ -64,7 +68,7 @@ const blocksSlice = createSlice({
         });
         state.dayData[oldBlock.day] = specificDay;
       }
-      console.log(state)
+      console.log(state);
 
       // Adding new block
       specificDay = state.dayData[newBlock.day];
@@ -72,7 +76,6 @@ const blocksSlice = createSlice({
         specificDay.push(newBlock);
         state.dayData[newBlock.day] = specificDay;
       }
-      // TODO: save to disk
     },
   },
   extraReducers(builder) {
@@ -86,7 +89,8 @@ const blocksSlice = createSlice({
       })
       .addCase(fetchBlocks.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = 'Error fetching data from the disk. Try restarting the app.';
+        state.error =
+          'Error fetching data from the disk. Try restarting the app.';
       });
   },
 });

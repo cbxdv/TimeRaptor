@@ -15,8 +15,8 @@ ipcMain.handle('timeblocks:get', async () => {
   return timeblocks;
 });
 
-ipcMain.on('timeblocks:update', async (_, data) => {
-  store.set('timeblocks', data);
+ipcMain.on('timeblocks:update', async (_, { day, dayData }) => {
+  store.set(`timeblocks.${day}`, dayData);
 });
 
 ipcMain.on('timeblocks:clear', () => {
