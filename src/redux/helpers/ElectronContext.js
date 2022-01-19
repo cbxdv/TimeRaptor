@@ -14,3 +14,12 @@ export const getElectronContext = () => {
     throw 'Error connecting to context. Try restarting app.';
   }
 };
+
+export const saveBlocksToDisk = (dayData, day) => {
+  try {
+    const electronContext = getElectronContext();
+    electronContext.updateTimeBlocks({ dayData, day });
+  } catch (error) {
+    console.log(error);
+  }
+};

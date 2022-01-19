@@ -1,66 +1,68 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 
-import { useTimeBlocks } from '../data/contexts/timeBlocksContext.js'
+import { blockUpdated, blockAdded } from '../redux/slices/timeBlocksSlice.js'
 
 import WithModal from '../hooks/WithModal.jsx'
 import TextButton from './TextButton.jsx'
 import TextInput from './TextInput.jsx'
+import DayInput from './DayInput.jsx'
 import TimeInput from './TimeInput.jsx'
-
-import { flexCenter } from '../styles/styleUtils.js'
 import ColorPicker from './ColorPicker.jsx'
 import TextArea from './TextArea.jsx'
-import DayInput from './DayInput.jsx'
-import {
-  insertNewTimeBlock,
-  editTimeBlock,
-} from '../data/actions/timeBlocksActions.js'
+
+import { getDurationMinutes } from '../utils/timeUtils.js'
+
+import { flexCenter } from '../styles/styleUtils.js'
 
 const TimeBlockEditor = ({
   closeHandler,
   edit = false,
   currentBlock = null,
 }) => {
-  const { state, dispatch } = useTimeBlocks()
+  const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
   const [day, setDay] = useState('monday')
-  const [startTime, setStartTime] = useState({
-    hours: 1,
-    minutes: 0,
-    pm: false,
-  })
+  const [startTime, setStartTime] = useState({ hours: 1, minutes: 0, pm: false, })
   const [endTime, setEndTime] = useState({ hours: 1, minutes: 0, pm: false })
   const [blockColor, setBlockColor] = useState('decoPeach')
   const [description, setDescription] = useState('')
 
+  const checkData = () => {
+    if (title.length === 0) {
+      return false
+    }
+    const duration = getDurationMinutes(startTime, endTime)
+    if (duration <= 0) {
+      return false
+    }
+    return true
+  }
+
   const submitHandler = () => {
-    let res
+    if (!checkData()) {
+      return
+    }
+    const newBlock = {
+      ...currentBlock,
+      title,
+      day,
+      startTime,
+      endTime,
+      duration: getDurationMinutes(startTime, endTime),
+      blockColor,
+      description
+    }
     if (edit) {
-      res = editTimeBlock({
-        currentBlock,
-        newTimeBlock: {
-          title,
-          day,
-          startTime,
-          endTime,
-          blockColor,
-          description,
-        },
-        state,
-        dispatch,
-      })
+      // edit block
+      dispatch(blockUpdated({ oldBlock: currentBlock, newBlock }))
     } else {
-      res = insertNewTimeBlock({
-        timeBlock: { title, startTime, endTime, day, blockColor, description },
-        state,
-        dispatch,
-      })
+      // add new block
+      dispatch(blockAdded(newBlock))
     }
-    if (res) {
-      closeHandler()
-    }
+    closeHandler()
   }
 
   useEffect(() => {

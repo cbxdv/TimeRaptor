@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
-import { useTimeBlocks } from '../data/contexts/timeBlocksContext.js'
+import { selectBlocksByDay } from '../redux/slices/timeBlocksSlice.js'
+
 import { getCurrentTimeAndDay } from '../utils/timeUtils.js'
 import { timeBlockNotification } from '../utils/timeBlockUtils.js'
 
@@ -10,17 +12,15 @@ import TimeBlock from './TimeBlock.jsx'
 import { themeColors } from '../styles/styleConstants.js'
 
 const DayColumn = ({ dayId }) => {
-  const {
-    state: { dayData },
-  } = useTimeBlocks()
-  let properDayData = dayData[dayId]
+
+  const dayData = useSelector(state => selectBlocksByDay(state, dayId))
 
   let timer
 
   const notifyChecker = () => {
     let now
     timer = setInterval(() => {
-      properDayData.forEach((block) => {
+      dayData.forEach((block) => {
         let startHours = block.startTime.hours
         if (block.startTime.pm && block.startTime.hours !== 12) {
           startHours += 12
@@ -57,7 +57,7 @@ const DayColumn = ({ dayId }) => {
       </div>
       <DayColumnMain>
         <TimeBlockContainer>
-          {properDayData.map((timeblock) => (
+          {dayData.map((timeblock) => (
             <TimeBlock key={timeblock.id} timeblock={timeblock} />
           ))}
         </TimeBlockContainer>
