@@ -1,5 +1,5 @@
 <p align="center">
-  <img src='https://raw.githubusercontent.com/codeph0/TimeRaptor/main/assets/Top.png' />
+  <img src='https://raw.githubusercontent.com/codeph0/TimeRaptor/master/assets/Top.png' />
 </p>
 
 <a href='https://github.com/codeph0/TimeRaptor/actions/workflows/build.yml'>
