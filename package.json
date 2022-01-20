@@ -1,16 +1,41 @@
 {
   "name": "timeraptor",
-  "productName": "Time Raptor",
-  "version": "1.0.0",
+  "productName": "timeraptor",
+  "version": "0.0.1",
   "description": "An app to manage time",
   "main": ".webpack/main",
+  "build": {
+    "appId": "com.cibi.timeraptor",
+    "productName": "Time Raptor",
+    "win": {
+      "target" :[
+        "portable",
+        "squirrel",
+        "zip"
+      ],
+      "icon": "build/icon.png"
+    },
+    "mac": {
+      "category": "public.app-category.productivity"
+    },
+    "dmg": {
+      "icon": false
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Office"
+    }
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "prettify": "prettier . --write"
+    "prettify": "prettier . --write",
+    "build": "electron-forge make"
   },
   "keywords": [],
   "author": {
@@ -80,6 +105,8 @@
     "babel-loader": "^8.2.3",
     "css-loader": "^6.0.0",
     "electron": "16.0.7",
+    "electron-builder": "^22.14.5",
+    "electron-builder-squirrel-windows": "^23.0.0-alpha.0",
     "file-loader": "^6.2.0",
     "node-loader": "^2.0.0",
     "prettier": "^2.5.1",
