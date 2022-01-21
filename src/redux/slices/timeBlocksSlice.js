@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
-import { getElectronContext } from '../helpers/ElectronContext';
+import { getElectronContext, saveBlocksToDisk } from '../helpers/ElectronContext';
 
 const initialState = {
   dayData: {
@@ -42,6 +42,7 @@ const blocksSlice = createSlice({
         specificDay.push(action.payload);
         state.dayData[day] = specificDay;
       }
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     },
     blockDeleted(state, action) {
       const { id, day } = action.payload;
@@ -54,6 +55,7 @@ const blocksSlice = createSlice({
         });
         state.dayData[day] = specificDay;
       }
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     },
     blockUpdated(state, action) {
       const { oldBlock, newBlock } = action.payload;
@@ -75,9 +77,11 @@ const blocksSlice = createSlice({
         specificDay.push(newBlock);
         state.dayData[newBlock.day] = specificDay;
       }
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     },
     blocksCleared(state, action) {
       state.dayData = initialState.dayData;
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     },
   },
   extraReducers(builder) {

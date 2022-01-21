@@ -15,10 +15,10 @@ export const getElectronContext = () => {
   }
 };
 
-export const saveBlocksToDisk = (dayData, day) => {
+export const saveBlocksToDisk = (dayData) => {
   try {
     const electronContext = getElectronContext();
-    electronContext.updateTimeBlocks({ dayData, day });
+    electronContext.updateTimeBlocks(dayData);
   } catch (error) {
     console.log(error);
   }

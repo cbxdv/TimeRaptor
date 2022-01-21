@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 
 import { selectBlocksByDay } from '../redux/slices/timeBlocksSlice.js'
 import { selectNotificationState } from '../redux/slices/userConfigsSlice.js'
-import { saveBlocksToDisk } from '../redux/helpers/ElectronContext.js'
 
 import { getCurrentTimeAndDay } from '../utils/timeUtils.js'
 import { timeBlockNotification } from '../utils/timeBlockUtils.js'
@@ -16,10 +15,6 @@ import { themeColors } from '../styles/styleConstants.js'
 const DayColumn = ({ dayId }) => {
   const dayData = useSelector((state) => selectBlocksByDay(state, dayId))
   const notificationStatus = useSelector((state) => selectNotificationState(state))
-
-  if (dayData && dayData.length !== 0) {
-    saveBlocksToDisk(dayData, dayId)
-  }
 
   let timer
 
