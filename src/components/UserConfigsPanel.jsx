@@ -27,8 +27,6 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
 
   const clearTimeBlocks = () => {
     try {
-      const electron = getElectronContext()
-      electron.clearAllTimeBlocks()
       dispatch(blocksCleared())
       closeHandler()
     } catch (error) {
