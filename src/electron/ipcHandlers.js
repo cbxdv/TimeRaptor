@@ -23,10 +23,16 @@ ipcMain.on('timeblocks:clear', () => {
   store.delete('timeblocks');
 });
 
-ipcMain.on('userconfigs:get', async () => {
+ipcMain.handle('userconfigs:get', async () => {
   const userConfigs = await store.get('userconfigs');
+  console.log(userConfigs)
   return userConfigs;
 });
+
+ipcMain.on('userconfig:set', (_, { configName, configValue }) => {
+  console.log('setting', configName, configValue)
+  store.set(`userconfigs.${configName}`, configValue)
+})
 
 ipcMain.on('app:notify', (_, { title, body }) => {
   new Notification({

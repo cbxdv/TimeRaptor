@@ -1,20 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { blocksCleared } from '../redux/slices/timeBlocksSlice.js'
+import { selectConfigurations, notificationsToggled } from '../redux/slices/userConfigsSlice.js'
 
 import WithModal from '../hooks/WithModal.jsx'
+import TextButton from './TextButton.jsx'
+import CheckBox from './CheckBox.jsx'
 
 import WaveEmoji from '../assets/icons/Wave.png'
 import Octocat from '../assets/icons/Octocat.png'
 
 import { flexCenter } from '../styles/styleUtils.js'
 import { getElectronContext } from '../redux/helpers/ElectronContext.js'
-import TextButton from './TextButton.jsx'
 
 const UserConfigsPanel = ({ closeHandler = () => {} }) => {
   const dispatch = useDispatch()
+
+  const configurations = useSelector(state => selectConfigurations(state))
+
+  const notificationsToggle = () => {
+    dispatch(notificationsToggled())
+  }
 
   const openRepo = () => {
     try {
@@ -40,6 +48,10 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
     <WithModal modalTitle='User Configurations' closeHandler={closeHandler}>
       <UserConfigsPanelContainer>
         <MainPanel>
+          <OptionsContainer>
+            <div className='option-text'>Notifications</div>
+            <div className='option-config'><CheckBox checked={configurations.notifications} onClick={notificationsToggle} /></div>
+          </OptionsContainer>
           <ButtonContainer>
             <TextButton
               label='Clear Blocks'
@@ -74,8 +86,23 @@ const UserConfigsPanelContainer = styled.div`
 `
 
 const MainPanel = styled.div`
-  ${flexCenter()};
+  ${flexCenter({ flexDirection: 'column' })};
   margin-bottom: 30px;
+`
+
+const OptionsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 30px;
+
+  .option-text {
+    ${flexCenter()};
+    font-weight: bold;
+  }
+
+  .option-config {
+    ${flexCenter()};
+  }
 `
 
 const ButtonContainer = styled.div`

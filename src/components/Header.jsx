@@ -5,6 +5,7 @@ import CurrentTime from './CurrentTime.jsx'
 import TimeBlockEditor from './TimeBlockEditor.jsx'
 import UserConfigsPanel from './UserConfigsPanel.jsx'
 import IconButton from './IconButton.jsx'
+import NotificationsToggle from './NotificationsToggle.jsx'
 
 import GearIcon from '../assets/icons/Gear.svg'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
@@ -41,6 +42,9 @@ const TopPanel = () => {
             Icon={AddBlockIcon}
             onClick={() => setShowAddPanel(!showAddPanel)}
           />
+        </div>
+        <div className='hb-cont'>
+          <NotificationsToggle />
         </div>
         <div className='hb-cont'>
           <IconButton
