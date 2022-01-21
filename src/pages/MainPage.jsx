@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { fetchBlocks } from '../redux/slices/timeBlocksSlice.js'
+import { fetchUserConfigs } from '../redux/slices/userConfigsSlice.js'
 
 import TimeLine from '../components/TimeLine.jsx'
 import DayContainer from '../components/DayContainer.jsx'
@@ -11,12 +12,18 @@ import { themeColors } from '../styles/styleConstants.js'
 import Header from '../components/Header.jsx'
 
 const MainPage = () => {
+
   const dispatch = useDispatch()
+  const userConfigsStatus = useSelector((state) => state.userConfigs.status)
 
   useEffect(() => {
+    dispatch(fetchUserConfigs())
     dispatch(fetchBlocks())
   }, [])
 
+  if (userConfigsStatus === 'loading') {
+    return <>Loading...</>
+  }
   return (
     <MainPageContainer>
       <Header />

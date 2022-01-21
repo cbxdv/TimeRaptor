@@ -13,4 +13,5 @@ contextBridge.exposeInMainWorld('electron', {
   clearAllTimeBlocks: () => ipcRenderer.send('timeblocks:clear'),
 
   getUserConfigs: () => ipcRenderer.invoke('userconfigs:get'),
+  setUserConfig: data => ipcRenderer.send('userconfig:set', data)
 });
