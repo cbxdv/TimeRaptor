@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getElectronContext } from '../helpers/ElectronContext';
+import { getElectronContext, saveConfigToDisk } from '../helpers/ElectronContext';
 
 const initialState = {
     configurations: {
@@ -24,10 +24,11 @@ const userConfigsSlice = createSlice({
     initialState,
     reducers: {
         notificationsToggled(state, action) {
-            state.notifications = !(state.notifications)
+            state.configurations.notifications = !(state.configurations.notifications)
+            saveConfigToDisk('notifications', state.configurations.notifications)
         },
         darkModeToggled(state, action) {
-            state.darkMode = !(state.darkMode)
+            state.configurations.darkMode = !(state.configurations.darkMode)
         }
     },
     extraReducers(builder) {
@@ -53,3 +54,4 @@ export default userConfigsSlice.reducer
 
 // Selectors
 export const selectNotificationState = (state) => state.userConfigs.configurations.notifications
+export const selectConfigurations = (state) => state.userConfigs.configurations
