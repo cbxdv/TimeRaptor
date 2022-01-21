@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 
 import { selectBlocksByDay } from '../redux/slices/timeBlocksSlice.js'
+import { selectNotificationState } from '../redux/slices/userConfigsSlice.js'
 
 import { getCurrentTimeAndDay } from '../utils/timeUtils.js'
 import { timeBlockNotification } from '../utils/timeBlockUtils.js'
@@ -13,29 +14,32 @@ import { themeColors } from '../styles/styleConstants.js'
 
 const DayColumn = ({ dayId }) => {
   const dayData = useSelector((state) => selectBlocksByDay(state, dayId))
+  const notificationStatus = useSelector((state) => selectNotificationState(state))
 
   let timer
 
   const notifyChecker = () => {
     let now
-    timer = setInterval(() => {
-      dayData.forEach((block) => {
-        let startHours = block.startTime.hours
-        if (block.startTime.pm && block.startTime.hours !== 12) {
-          startHours += 12
-        }
-        if (block.startTime.pm === false && block.startTime.hours === 12) {
-          startHours = 0
-        }
-        let startMinutes = block.startTime.minutes
-        const t1 = new Date()
-        t1.setHours(startHours, startMinutes, 0, 0)
-        now = new Date().toTimeString()
-        if (now === t1.toTimeString()) {
-          timeBlockNotification(block.title, block.description)
-        }
-      })
-    }, 1000)
+    if (notificationStatus) {
+      timer = setInterval(() => {
+        dayData.forEach((block) => {
+          let startHours = block.startTime.hours
+          if (block.startTime.pm && block.startTime.hours !== 12) {
+            startHours += 12
+          }
+          if (block.startTime.pm === false && block.startTime.hours === 12) {
+            startHours = 0
+          }
+          let startMinutes = block.startTime.minutes
+          const t1 = new Date()
+          t1.setHours(startHours, startMinutes, 0, 0)
+          now = new Date().toTimeString()
+          if (now === t1.toTimeString()) {
+            timeBlockNotification(block.title, block.description)
+          }
+        })
+      }, 1000)
+    }
   }
 
   useEffect(() => {
