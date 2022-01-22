@@ -17,6 +17,9 @@ const CurrentTime = () => {
     timer = setInterval(() => {
       setCurrentTime(getCurrentTime())
     }, 1000)
+    return () => {
+      clearInterval(timer)
+    }
   }, [])
 
   useEffect(() => {
@@ -26,9 +29,6 @@ const CurrentTime = () => {
     ) {
       setCurrentDate(getCurrentDate())
       setCurrentDay(getCurrentDay())
-    }
-    return () => {
-      clearInterval(timer)
     }
   })
 
