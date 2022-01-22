@@ -75,7 +75,10 @@ const TimeBlock = ({ timeblock }) => {
           edit
         />
       )}
-      <ToolContainer onClick={() => !showBlockTool && setShowBlockTool(true)}>
+      <ToolContainer
+        onContextMenu={() => !showBlockTool && setShowBlockTool(true)}
+        onClick={() => !showBlockTool && setShowBlockTool(true)}
+      >
         <TimeBlockContainer
           bgColor={bgColor}
           startPosition={startPosition}
@@ -84,7 +87,7 @@ const TimeBlock = ({ timeblock }) => {
           <StylingLineContainer>
             <TimeBlockStylingLine />
           </StylingLineContainer>
-          <div style={{ overflow: 'scroll' }}>
+          <div>
             <BlockHeading>{blockTitle}</BlockHeading>
             {duration > 30 && (
               <BlockSubText>
@@ -96,7 +99,6 @@ const TimeBlock = ({ timeblock }) => {
             <BlockTool
               timeblock={timeblock}
               position={tooltipPosition}
-              show={showBlockTool}
               closeHandler={() => setShowBlockTool(false)}
               deleteHandler={deleteHandler}
               editHandler={editHandler}

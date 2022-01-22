@@ -133,7 +133,7 @@ export const getCurrentTimeAndDay = () => {
   let arr2 = arr1[0].split(':');
 
   const timeObj = {
-    hours: Number(arr2),
+    hours: Number(arr2[0]),
     minutes: Number(arr2[1]),
     seconds: Number(arr2[2]),
     pm: arr1[1] === 'PM',
@@ -141,4 +141,23 @@ export const getCurrentTimeAndDay = () => {
   };
 
   return timeObj;
+};
+
+/**
+ * Converts milli seconds to its hours minutes and seconds components
+ * @param {Number} time - The time to be converted (in milliseconds)
+ * @param {Boolean} includeSeconds - Boolean whether to include seconds
+ * @returns {{ hours: Number, minutes: Number, seconds: Number }} The hours, minutes and seconds
+ */
+export const milliToTimeObj = (time, includeSeconds) => {
+  var hours = Math.floor(time / 1000 / 60 / 60);
+  time -= hours * 1000 * 60 * 60;
+  var minutes = Math.floor(time / 1000 / 60);
+  time -= minutes * 1000 * 60;
+  if (!includeSeconds) {
+    return { hours, minutes };
+  }
+  var seconds = Math.floor(time / 1000);
+  time -= seconds * 1000;
+  return { hours, minutes, seconds };
 };

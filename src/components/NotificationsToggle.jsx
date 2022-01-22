@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
@@ -20,6 +20,19 @@ const NotificationsToggle = () => {
   const toggleNotifications = () => {
     dispatch(notificationsToggled())
   }
+
+  const keyBindHandler = (event) => {
+    if (event.key === 'n' || event.key === 'N') {
+      toggleNotifications()
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyBindHandler)
+    return () => {
+      document.removeEventListener('keydown', keyBindHandler)
+    }
+  })
 
   return (
     <NTContainer active={active} onClick={toggleNotifications}>

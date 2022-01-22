@@ -32,3 +32,39 @@ export const saveConfigToDisk = (configName, configValue) => {
     console.log(error);
   }
 };
+
+export const closeWindow = () => {
+  try {
+    const electronContext = getElectronContext();
+    electronContext.closeWindow();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const maximizeWindow = () => {
+  try {
+    const electronContext = getElectronContext();
+    electronContext.maximizeWindow();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const minimizeWindow = () => {
+  try {
+    const electronContext = getElectronContext();
+    electronContext.minimizeWindow();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const restoreWindow = () => {
+  try {
+    const electronContext = getElectronContext();
+    electronContext.restoreWindow();
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import CalendarIcon from '../assets/icons/CalendarDayView.svg'
 import WithModal from '../hooks/WithModal.jsx'
 import TextButton from './TextButton.jsx'
+import { dayStrings } from '../utils/strings.js'
 import { flexCenter, inputBack } from '../styles/styleUtils.js'
 
 const DayInput = ({ title = '', value, valueSetHandler }) => {
@@ -65,16 +66,6 @@ const DayPickerPanel = ({ day, closeHandler, mainSubmitHandler }) => {
       </ButtonsContainer>
     </WithModal>
   )
-}
-
-const dayStrings = {
-  monday: 'Monday',
-  tuesday: 'Tuesday',
-  wednesday: 'Wednesday',
-  thursday: 'Thursday',
-  friday: 'Friday',
-  saturday: 'Saturday',
-  sunday: 'Sunday',
 }
 
 const DayPickerTopBox = styled.div`

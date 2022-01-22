@@ -14,7 +14,7 @@ const CheckBox = ({ checked = true, onClick }) => {
 
 const CheckBoxContainer = styled.div`
   ${flexCenter()};
-  ${buttonStyles()}
+  ${buttonStyles()};
   height: 30px;
   width: 30px;
   border: 2px solid ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
@@ -22,8 +22,7 @@ const CheckBoxContainer = styled.div`
   cursor: pointer;
 
   & > svg {
-    width: 18px;
-    height: 18px;
+    ${flexCenter()};
     fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
   }
 `

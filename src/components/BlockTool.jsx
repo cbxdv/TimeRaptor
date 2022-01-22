@@ -6,14 +6,7 @@ import EditIcon from '../assets/icons/Edit.svg'
 import { buttonStyles, flexCenter } from '../styles/styleUtils.js'
 import { getTimeString } from '../utils/timeUtils.js'
 
-const BlockTool = ({
-  timeblock,
-  show,
-  closeHandler,
-  position,
-  editHandler,
-  deleteHandler,
-}) => {
+const BlockTool = ({ timeblock, closeHandler, position, editHandler, deleteHandler }) => {
   let { title, startTime, endTime, description } = timeblock
   const timeString = `${getTimeString(startTime)} - ${getTimeString(endTime)}`
 
@@ -25,14 +18,20 @@ const BlockTool = ({
     }
   }
 
+  const keyBindHandler = (event) => {
+    if (event.key === 'Escape') {
+      closeHandler()
+    }
+  }
+
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true)
+    document.addEventListener('keydown', keyBindHandler)
     return () => {
       document.removeEventListener('click', handleClickOutside, true)
+      document.removeEventListener('keydown', keyBindHandler)
     }
   })
-
-  if (!show) return null
 
   return (
     <BlockToolContainer ref={ref} position={position}>

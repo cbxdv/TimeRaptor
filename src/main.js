@@ -1,5 +1,9 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Tray, Menu } = require('electron');
 const path = require('path');
+const os = require('os');
+const Store = require('electron-store');
+
+const store = new Store();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -7,53 +11,87 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+let mainWindow = null;
+let tray = null;
+
 const createWindow = () => {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1220,
     height: 800,
-    minWidth: 1266,
-    minHeight: 859,
+    minWidth: 1220,
+    minHeight: 800,
+    show: false,
+    frame: os.platform() === 'win32' ? false : true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      backgroundThrottling: false,
     },
     icon: path.join(__dirname, './assets/Logo.png'),
   });
 
-  // and load the index.html of the app.
+  const menu = new Menu.buildFromTemplate([]);
+  mainWindow.setMenu(menu);
+
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Hiding menubar
   mainWindow.setMenuBarVisibility(false);
+
+  mainWindow.on('ready-to-show', () => mainWindow.show());
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+const createTray = () => {
+  tray = new Tray(path.join(__dirname, './assets/Logo.ico'));
+  tray.setToolTip('Time Raptor');
+  const trayMenu = Menu.buildFromTemplate([
+    {
+      label: 'Show',
+      click() {
+        showWindow();
+      },
+    },
+    { role: 'quit' },
+  ]);
+  tray.setContextMenu(trayMenu);
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  tray.on('click', () => {
+    showWindow();
+  });
+};
+
+const onReadyHandler = () => {
+  createWindow();
+  createTray();
+};
+
+app.on('ready', onReadyHandler);
+
+const showWindow = () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  } else {
+    mainWindow.show();
+  }
+};
+
+app.on('window-all-closed', async () => {
+  const close = await store.get('userconfigs.closeOnExit', false);
+  if (close) {
     app.quit();
   }
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });
 
 if (process.platform === 'win32') {
-  app.setAppUserModelId(app.name);
+  app.setAppUserModelId('Time Raptor');
 }
 
 // Importing and starting all ipc handlers of the app

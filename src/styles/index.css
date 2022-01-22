@@ -13,4 +13,6 @@
 body {
   font-family: Outfit, sans-serif;
   user-select: none;
+  background: black;
+  scroll-behavior: smooth;
 }

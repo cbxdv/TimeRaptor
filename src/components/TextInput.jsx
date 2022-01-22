@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 import { inputBack } from '../styles/styleUtils.js'
 
-const TextInput = ({ name, title, onChangeHandler, inputValue }) => {
+const TextInput = ({ name, title, onChangeHandler, inputValue, error }) => {
   return (
-    <Input>
+    <Input error={error}>
       <input
         type='text'
         name={name}
@@ -14,6 +14,7 @@ const TextInput = ({ name, title, onChangeHandler, inputValue }) => {
         autoComplete='false'
         autoCapitalize='false'
         className='input-box'
+        spellCheck='false'
         required
       />
       <label htmlFor={name} className='input-label'>
@@ -29,6 +30,7 @@ const Input = styled.div`
   .input-box {
     ${inputBack()};
     letter-spacing: 1px;
+    border: 2px solid ${({ error }) => (error ? `#E24446` : `transparent`)};
   }
 
   .input-label {

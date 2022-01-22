@@ -11,7 +11,8 @@ const initialState = {
     saturday: [],
     sunday: [],
   },
-  status: 'idle',
+  currentBlock: null,
+  status: 'loading',
   error: null,
 };
 
@@ -44,6 +45,7 @@ const blocksSlice = createSlice({
       }
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
+
     blockDeleted(state, action) {
       const { id, day } = action.payload;
       let specificDay = state.dayData[day];
@@ -57,6 +59,7 @@ const blocksSlice = createSlice({
       }
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
+
     blockUpdated(state, action) {
       const { oldBlock, newBlock } = action.payload;
 
@@ -79,9 +82,14 @@ const blocksSlice = createSlice({
       }
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
+
     blocksCleared(state, action) {
       state.dayData = initialState.dayData;
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
+    },
+
+    currentBlockChanged(state, action) {
+      state.currentBlock = action.payload;
     },
   },
   extraReducers(builder) {
@@ -100,10 +108,16 @@ const blocksSlice = createSlice({
   },
 });
 
-export const { blockAdded, blockDeleted, blockUpdated, blocksCleared } =
-  blocksSlice.actions;
+export const {
+  blockAdded,
+  blockDeleted,
+  blockUpdated,
+  blocksCleared,
+  currentBlockChanged,
+} = blocksSlice.actions;
 
 export default blocksSlice.reducer;
 
 // Selectors
 export const selectBlocksByDay = (state, day) => state.blocks.dayData[day];
+export const selectCurrentBlock = (state) => state.blocks.currentBlock;

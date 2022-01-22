@@ -6,13 +6,30 @@ import DayContainer from '../components/DayContainer.jsx'
 import Header from '../components/Header.jsx'
 import TimeLine from '../components/TimeLine.jsx'
 import { fetchBlocks } from '../redux/slices/timeBlocksSlice.js'
-import { fetchUserConfigs, selectDarkMode } from '../redux/slices/userConfigsSlice.js'
+import {
+  fetchUserConfigs,
+  selectDarkMode,
+  darkModeToggled,
+} from '../redux/slices/userConfigsSlice.js'
 import { darkThemeColors, lightThemeColors } from '../styles/styleConstants.js'
 
 const MainPage = () => {
   const dispatch = useDispatch()
   const userConfigsStatus = useSelector((state) => state.userConfigs.status)
   const darkMode = useSelector(selectDarkMode)
+
+  const keyBindHandler = (event) => {
+    if (event.key === 'l' || event.key === 'L') {
+      dispatch(darkModeToggled())
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyBindHandler)
+    return () => {
+      document.removeEventListener('keydown', keyBindHandler)
+    }
+  })
 
   useEffect(() => {
     dispatch(fetchUserConfigs())
@@ -46,6 +63,7 @@ const MainContainer = styled.main`
   padding-right: 10px;
   padding-left: 10px;
   padding-bottom: 30px;
+  position: relative;
 `
 
 export default MainPage

@@ -7,7 +7,7 @@ import { getTimeString } from '../utils/timeUtils.js'
 import TextButton from './TextButton.jsx'
 import { flexCenter, inputBack } from '../styles/styleUtils.js'
 
-const TimeInput = ({ title = '', value, valueSetHandler }) => {
+const TimeInput = ({ title = '', value, valueSetHandler, error }) => {
   const [showPickerPanel, setShowPickerPanel] = useState(false)
 
   const timeString = getTimeString(value)
@@ -21,7 +21,7 @@ const TimeInput = ({ title = '', value, valueSetHandler }) => {
           closeHandler={() => setShowPickerPanel(false)}
         />
       )}
-      <TimePickerTopBox>
+      <TimePickerTopBox error={error}>
         {timeString || title}
         <ClockIcon onClick={() => setShowPickerPanel(true)} />
       </TimePickerTopBox>
@@ -180,6 +180,7 @@ const ButtonsContainer = styled.div`
 const TimePickerTopBox = styled.div`
   ${inputBack()};
   ${flexCenter({ justifyContent: 'space-between' })};
+  border: 2px solid ${({ error }) => (error ? `#E24446` : `transparent`)};
 `
 
 export default TimeInput

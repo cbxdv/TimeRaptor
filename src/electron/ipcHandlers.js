@@ -1,4 +1,5 @@
-const { app, ipcMain, Notification, shell } = require('electron');
+const { app, ipcMain, Notification, shell, BrowserWindow } = require('electron');
+const os = require('os');
 const Store = require('electron-store');
 
 const path = require('path');
@@ -25,7 +26,8 @@ ipcMain.on('timeblocks:clear', () => {
 
 ipcMain.handle('userconfigs:get', async () => {
   const userConfigs = await store.get('userconfigs');
-  return userConfigs;
+  const platform = os.platform();
+  return { ...userConfigs, platform };
 });
 
 ipcMain.on('userconfig:set', (_, { configName, configValue }) => {
@@ -40,6 +42,32 @@ ipcMain.on('app:notify', (_, { title, body }) => {
   }).show();
 });
 
-ipcMain.on('app:openrepolink', (_, link) => {
+ipcMain.on('app:openrepolink', () => {
   shell.openExternal('https://github.com/codeph0/TimeRaptor');
+});
+
+ipcMain.on('window:close', async () => {
+  let win = BrowserWindow.getFocusedWindow();
+
+  const close = await store.get('userconfigs.closeOnExit', false);
+  if (close) {
+    app.quit();
+  } else {
+    win.hide();
+  }
+});
+
+ipcMain.on('window:minimize', () => {
+  let win = BrowserWindow.getFocusedWindow();
+  win.minimize();
+});
+
+ipcMain.on('window:maximize', () => {
+  let win = BrowserWindow.getFocusedWindow();
+  win.maximize();
+});
+
+ipcMain.on('window:restore', () => {
+  let win = BrowserWindow.getFocusedWindow();
+  win.restore();
 });

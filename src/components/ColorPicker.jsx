@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import PaletteIcon from '../assets/icons/Palette.svg'
 import WithModal from '../hooks/WithModal.jsx'
 import TextButton from './TextButton.jsx'
+import { varietyColorStrings } from '../utils/strings.js'
 import { varietyColors } from '../styles/styleConstants.js'
 import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils.js'
 
@@ -21,7 +22,7 @@ const ColorPicker = ({ title = '', color, valueSetHandler }) => {
       <ColorPickerTopBox>
         <div className='box-info'>
           <ColorsIndicator color={color} />
-          {colorNames[color] || title}
+          {varietyColorStrings[color] || title}
         </div>
         <PaletteIcon onClick={() => setShowPickerPanel(true)} />
       </ColorPickerTopBox>
@@ -42,7 +43,7 @@ const ColoPickerPanel = ({ color, closeHandler, mainSubmitHandler }) => {
   }
 
   const generateColorBlock = () => {
-    let colors = Object.keys(varietyColors)
+    let colors = Object.keys(varietyColorStrings)
     colors = colors.map((color) => (
       <ColorOptions
         key={color}
@@ -56,7 +57,7 @@ const ColoPickerPanel = ({ color, closeHandler, mainSubmitHandler }) => {
 
   return (
     <WithModal modalTitle='Pick a Color' closeHandler={closeHandler}>
-      <ColorText>{colorNames[selectedColor] || ''}</ColorText>
+      <ColorText>{varietyColorStrings[selectedColor] || ''}</ColorText>
       <ColorPickerPanelContainer>
         <PickerContainer>{generateColorBlock()}</PickerContainer>
       </ColorPickerPanelContainer>
@@ -66,19 +67,6 @@ const ColoPickerPanel = ({ color, closeHandler, mainSubmitHandler }) => {
       </ButtonsContainer>
     </WithModal>
   )
-}
-
-export const colorNames = {
-  decoPeach: `Deco Peach`,
-  deepChampagne: `Deep Champagne`,
-  crayola: `Crayola`,
-  teaGreen: `Tea Green`,
-  celeste: `Celeste`,
-  babyBlueEyes: `Baby Blue Eyes`,
-  greyedLavender: `Greyed Lavender`,
-  mauve: `Mauve`,
-  linen: `Linen`,
-  beige: `Beige`,
 }
 
 const ColorPickerPanelContainer = styled.div`

@@ -10,7 +10,10 @@ import { blocksCleared } from '../redux/slices/timeBlocksSlice.js'
 import {
   darkModeToggled,
   notificationsToggled,
+  closeOnExitToggled,
   selectConfigurations,
+  showCurrentTimeToggled,
+  showCurrentBlockToggled,
 } from '../redux/slices/userConfigsSlice.js'
 import CheckBox from './CheckBox.jsx'
 import TextButton from './TextButton.jsx'
@@ -26,6 +29,15 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
   }
   const darkModeToggle = () => {
     dispatch(darkModeToggled())
+  }
+  const closeOnExitToggle = () => {
+    dispatch(closeOnExitToggled())
+  }
+  const showCurrentTimeToggle = () => {
+    dispatch(showCurrentTimeToggled())
+  }
+  const showCurrentBlockToggle = () => {
+    dispatch(showCurrentBlockToggled())
   }
 
   const openRepo = () => {
@@ -58,9 +70,34 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
                 onClick={notificationsToggle}
               />
             </div>
+
             <div className='option-text'>Dark Mode</div>
             <div className='option-config'>
               <CheckBox checked={configurations.darkMode} onClick={darkModeToggle} />
+            </div>
+
+            <div className='option-text'>Close On Exit</div>
+            <div className='option-config'>
+              <CheckBox
+                checked={configurations.closeOnExit}
+                onClick={closeOnExitToggle}
+              />
+            </div>
+
+            <div className='option-text'>Show time on top</div>
+            <div className='option-config'>
+              <CheckBox
+                checked={configurations.showCurrentTime}
+                onClick={showCurrentTimeToggle}
+              />
+            </div>
+
+            <div className='option-text'>Show current block on top</div>
+            <div className='option-config'>
+              <CheckBox
+                checked={configurations.showCurrentBlock}
+                onClick={showCurrentBlockToggle}
+              />
             </div>
           </OptionsContainer>
           <ButtonContainer>
@@ -95,8 +132,9 @@ const MainPanel = styled.div`
 
 const OptionsContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: 12px;
+  grid-template-columns: 1fr 50px;
+  grid-column-gap: 30px;
+  grid-row-gap: 30px;
   margin-bottom: 30px;
 
   .option-text {
@@ -135,7 +173,7 @@ const BotText = styled.div`
       width: 100%;
       bottom: 8px;
       left: 0;
-      border: 1px solid black;
+      border: 1px solid ${({ theme }) => theme.text};
     }
   }
 `
