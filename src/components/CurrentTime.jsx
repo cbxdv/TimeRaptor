@@ -12,8 +12,9 @@ const CurrentTime = () => {
   const [currentDate, setCurrentDate] = useState(getCurrentDate())
   const [currentDay, setCurrentDay] = useState(getCurrentDay())
 
+  let timer
   useEffect(() => {
-    setInterval(() => {
+    timer = setInterval(() => {
       setCurrentTime(getCurrentTime())
     }, 1000)
   }, [])
@@ -25,6 +26,9 @@ const CurrentTime = () => {
     ) {
       setCurrentDate(getCurrentDate())
       setCurrentDay(getCurrentDay())
+    }
+    return () => {
+      clearInterval(timer)
     }
   })
 
