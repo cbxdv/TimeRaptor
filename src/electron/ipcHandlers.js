@@ -46,9 +46,16 @@ ipcMain.on('app:openrepolink', () => {
   shell.openExternal('https://github.com/codeph0/TimeRaptor');
 });
 
-ipcMain.on('window:close', () => {
+ipcMain.on('window:close', async () => {
   let win = BrowserWindow.getFocusedWindow()
-  win.close()
+
+  const close = await store.get('userconfigs.closeOnExit', false)
+  if (close) {
+    app.quit()
+  } else {
+    win.hide()
+  }
+
 })
 
 ipcMain.on('window:minimize', () => {

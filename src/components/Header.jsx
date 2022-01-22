@@ -44,6 +44,9 @@ const TopPanel = () => {
     if((event.key === 'q' || event.key === 'Q') && event.ctrlKey) {
       closeWindow()
     }
+    if((event.key === 'r' || event.key === 'R') && event.ctrlKey) {
+      location.reload()
+    }
   }
 
   useEffect(() => {

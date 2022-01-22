@@ -24,6 +24,7 @@ const createWindow = () => {
     frame: os.platform() === 'win32' ? false : true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      backgroundThrottling: false
     },
     icon: path.join(__dirname, './assets/Logo.png'),
   });
