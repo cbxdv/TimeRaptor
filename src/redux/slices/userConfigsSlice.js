@@ -6,7 +6,8 @@ const initialState = {
     platform: 'darwin',
     notifications: false,
     darkMode: false,
-    maximized: false
+    maximized: false,
+    closeOnExit: false,
   },
   status: 'idle',
   error: null,
@@ -36,6 +37,10 @@ const userConfigsSlice = createSlice({
     },
     maximizedToggled(state, action) {
       state.configurations.maximized = !state.configurations.maximized
+    },
+    closeOnExitToggled(state, action) {
+      state.configurations.closeOnExit = !state.configurations.closeOnExit;
+      saveConfigToDisk('closeOnExit', state.configurations.closeOnExit);
     }
   },
   extraReducers(builder) {
@@ -54,7 +59,7 @@ const userConfigsSlice = createSlice({
   },
 });
 
-export const { notificationsToggled, darkModeToggled, maximizedToggled } = userConfigsSlice.actions;
+export const { notificationsToggled, darkModeToggled, maximizedToggled, closeOnExitToggled } = userConfigsSlice.actions;
 
 export default userConfigsSlice.reducer;
 
@@ -65,3 +70,4 @@ export const selectNotificationState = (state) =>
 export const selectDarkMode = (state) => state.userConfigs.configurations.darkMode;
 export const selectPlatform = state => state.userConfigs.configurations.platform
 export const selectMaximized = state => state.userConfigs.configurations.maximized
+export const selectcloseOnExit = state => state.userConfigs.configurations.closeOnExit

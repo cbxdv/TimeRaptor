@@ -10,7 +10,9 @@ import { blocksCleared } from '../redux/slices/timeBlocksSlice.js'
 import {
   darkModeToggled,
   notificationsToggled,
+  closeOnExitToggled,
   selectConfigurations,
+  selectcloseOnExit
 } from '../redux/slices/userConfigsSlice.js'
 import CheckBox from './CheckBox.jsx'
 import TextButton from './TextButton.jsx'
@@ -26,6 +28,9 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
   }
   const darkModeToggle = () => {
     dispatch(darkModeToggled())
+  }
+  const closeOnExitToggle = () => {
+    dispatch(closeOnExitToggled())
   }
 
   const openRepo = () => {
@@ -61,6 +66,10 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
             <div className='option-text'>Dark Mode</div>
             <div className='option-config'>
               <CheckBox checked={configurations.darkMode} onClick={darkModeToggle} />
+            </div>
+            <div className='option-text'>Close On Exit</div>
+            <div className='option-config'>
+              <CheckBox checked={configurations.closeOnExit} onClick={closeOnExitToggle} />
             </div>
           </OptionsContainer>
           <ButtonContainer>
@@ -135,7 +144,7 @@ const BotText = styled.div`
       width: 100%;
       bottom: 8px;
       left: 0;
-      border: 1px solid black;
+      border: 1px solid ${({ theme }) => theme.text};
     }
   }
 `
