@@ -5,7 +5,7 @@ const initialState = {
   configurations: {
     platform: 'darwin',
     notifications: false,
-    darkMode: false,
+    darkMode: true,
     maximized: false,
     closeOnExit: false,
   },

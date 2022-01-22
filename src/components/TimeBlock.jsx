@@ -96,7 +96,6 @@ const TimeBlock = ({ timeblock }) => {
             <BlockTool
               timeblock={timeblock}
               position={tooltipPosition}
-              show={showBlockTool}
               closeHandler={() => setShowBlockTool(false)}
               deleteHandler={deleteHandler}
               editHandler={editHandler}

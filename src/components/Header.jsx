@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
@@ -33,6 +33,25 @@ const TopPanel = () => {
     }
     dispatch(maximizedToggled())
   }
+
+  const keyBindHandler = event => {
+    if(event.key === 'a' || event.key === 'A') {
+      setShowAddPanel(true)
+    }
+    if(event.key === ',' && event.ctrlKey) {
+      setShowUConfigPanel(true)
+    }
+    if((event.key === 'q' || event.key === 'Q') && event.ctrlKey) {
+      closeWindow()
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyBindHandler)
+    return () => {
+      document.removeEventListener('keydown', keyBindHandler)
+    }
+  })
 
   return (
     <Top>

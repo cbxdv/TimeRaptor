@@ -5,10 +5,22 @@ import CrossIcon from '../assets/icons/CrossIcon.svg'
 import { flexCenter } from '../styles/styleUtils'
 
 const WithModal = ({ children, closeHandler, modalTitle }) => {
+
   document.body.style.overflow = 'hidden'
+
+  const keyBindHandler = event => {
+    if (event.key === 'Escape') {
+      closeHandler()
+    }
+  }
+
   useEffect(() => {
     document.body.style.overflow = 'hidden'
-    return () => (document.body.style.overflow = 'unset')
+    document.addEventListener('keydown', keyBindHandler)
+    return () => {
+      document.body.style.overflow = 'unset'
+      document.removeEventListener('keydown', keyBindHandler)
+    }
   }, [])
 
   return (

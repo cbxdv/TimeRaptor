@@ -8,7 +8,6 @@ import { getTimeString } from '../utils/timeUtils.js'
 
 const BlockTool = ({
   timeblock,
-  show,
   closeHandler,
   position,
   editHandler,
@@ -25,14 +24,20 @@ const BlockTool = ({
     }
   }
 
+  const keyBindHandler = event => {
+    if (event.key === 'Escape') {
+      closeHandler()
+    }
+  }
+
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true)
+    document.addEventListener('keydown', keyBindHandler)
     return () => {
       document.removeEventListener('click', handleClickOutside, true)
+      document.removeEventListener('keydown', keyBindHandler)
     }
   })
-
-  if (!show) return null
 
   return (
     <BlockToolContainer ref={ref} position={position}>
