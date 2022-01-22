@@ -102,8 +102,10 @@ const DayColumn = ({ dayId }) => {
     const now = getCurrentTimeAndDay()
     if (now.day === dayId) {
       setIsToday(true)
-      clearInterval(timer)
-      notifyChecker()
+      if (dayData && dayData.length !== 0) {
+        clearInterval(timer)
+        notifyChecker()
+      }
     }
     return () => {
       clearInterval(timer)

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import { selectPlatform, selectMaximized, maximizedToggled } from '../redux/slices/userConfigsSlice'
+import { selectPlatform, selectMaximized, maximizedToggled, selectShowCurrentTime, selectShowCurrentBlock } from '../redux/slices/userConfigsSlice.js'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import CloseIcon from '../assets/icons/Close.svg'
 import MinimizeIcon from '../assets/icons/Minimize.svg'
@@ -22,6 +22,8 @@ const TopPanel = () => {
   const dispatch = useDispatch()
   const platform = useSelector(selectPlatform)
   const isMaximized = useSelector(selectMaximized)
+  const showCurrentTime = useSelector(selectShowCurrentTime)
+  const showCurrentBlock = useSelector(selectShowCurrentBlock)
 
   const [showAddPanel, setShowAddPanel] = useState(false)
   const [showUConfigPanel, setShowUConfigPanel] = useState(false)
@@ -71,10 +73,10 @@ const TopPanel = () => {
         </div>
         <div className='header-section'>
           <div className='hb-cont'>
-            <CurrentTime />
+            { showCurrentTime && <CurrentTime /> }
           </div>
           <div className='hb-cont'>
-            <CurrentBlock />
+            { showCurrentBlock && <CurrentBlock /> }
           </div>
         </div>
         <div className='header-section'  style={{ marginRight: platform === 'win32' && -80 }}>
@@ -180,7 +182,7 @@ const Header = styled.div`
 
 const WindowControls = styled.div`
   -webkit-app-region: drag;
-  height: 30px;
+  height: 20px;
   width: 100vw;
   position: fixed;
   top: 0;

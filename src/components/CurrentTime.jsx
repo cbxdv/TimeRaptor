@@ -29,6 +29,7 @@ const CurrentTime = () => {
     ) {
       setCurrentDate(getCurrentDate())
       setCurrentDay(getCurrentDay())
+      location.reload()
     }
   })
 
