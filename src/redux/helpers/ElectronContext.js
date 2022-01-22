@@ -40,7 +40,7 @@ export const closeWindow = () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const maximizeWindow = () => {
   try {
@@ -49,7 +49,7 @@ export const maximizeWindow = () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const minimizeWindow = () => {
   try {
@@ -58,7 +58,7 @@ export const minimizeWindow = () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const restoreWindow = () => {
   try {
@@ -67,4 +67,4 @@ export const restoreWindow = () => {
   } catch (error) {
     console.log(error);
   }
-}
+};

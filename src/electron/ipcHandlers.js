@@ -26,7 +26,7 @@ ipcMain.on('timeblocks:clear', () => {
 
 ipcMain.handle('userconfigs:get', async () => {
   const userConfigs = await store.get('userconfigs');
-  const platform = os.platform()
+  const platform = os.platform();
   return { ...userConfigs, platform };
 });
 
@@ -47,28 +47,27 @@ ipcMain.on('app:openrepolink', () => {
 });
 
 ipcMain.on('window:close', async () => {
-  let win = BrowserWindow.getFocusedWindow()
+  let win = BrowserWindow.getFocusedWindow();
 
-  const close = await store.get('userconfigs.closeOnExit', false)
+  const close = await store.get('userconfigs.closeOnExit', false);
   if (close) {
-    app.quit()
+    app.quit();
   } else {
-    win.hide()
+    win.hide();
   }
-
-})
+});
 
 ipcMain.on('window:minimize', () => {
-  let win = BrowserWindow.getFocusedWindow()
-  win.minimize()
-})
+  let win = BrowserWindow.getFocusedWindow();
+  win.minimize();
+});
 
 ipcMain.on('window:maximize', () => {
-  let win = BrowserWindow.getFocusedWindow()
-  win.maximize()
-})
+  let win = BrowserWindow.getFocusedWindow();
+  win.maximize();
+});
 
 ipcMain.on('window:restore', () => {
-  let win = BrowserWindow.getFocusedWindow()
-  win.restore()
-})
+  let win = BrowserWindow.getFocusedWindow();
+  win.restore();
+});

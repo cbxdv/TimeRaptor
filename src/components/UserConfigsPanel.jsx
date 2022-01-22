@@ -13,7 +13,7 @@ import {
   closeOnExitToggled,
   selectConfigurations,
   showCurrentTimeToggled,
-  showCurrentBlockToggled
+  showCurrentBlockToggled,
 } from '../redux/slices/userConfigsSlice.js'
 import CheckBox from './CheckBox.jsx'
 import TextButton from './TextButton.jsx'
@@ -63,7 +63,6 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
       <UserConfigsPanelContainer>
         <MainPanel>
           <OptionsContainer>
-
             <div className='option-text'>Notifications</div>
             <div className='option-config'>
               <CheckBox
@@ -79,19 +78,27 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
 
             <div className='option-text'>Close On Exit</div>
             <div className='option-config'>
-              <CheckBox checked={configurations.closeOnExit} onClick={closeOnExitToggle} />
+              <CheckBox
+                checked={configurations.closeOnExit}
+                onClick={closeOnExitToggle}
+              />
             </div>
 
             <div className='option-text'>Show time on top</div>
             <div className='option-config'>
-              <CheckBox checked={configurations.showCurrentTime} onClick={showCurrentTimeToggle} />
+              <CheckBox
+                checked={configurations.showCurrentTime}
+                onClick={showCurrentTimeToggle}
+              />
             </div>
 
             <div className='option-text'>Show current block on top</div>
             <div className='option-config'>
-              <CheckBox checked={configurations.showCurrentBlock} onClick={showCurrentBlockToggle} />
+              <CheckBox
+                checked={configurations.showCurrentBlock}
+                onClick={showCurrentBlockToggle}
+              />
             </div>
-
           </OptionsContainer>
           <ButtonContainer>
             <TextButton label='Clear Blocks' variant='danger' onClick={clearTimeBlocks} />
@@ -125,7 +132,7 @@ const MainPanel = styled.div`
 
 const OptionsContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 100px;
+  grid-template-columns: 1fr 50px;
   grid-column-gap: 30px;
   grid-row-gap: 30px;
   margin-bottom: 30px;

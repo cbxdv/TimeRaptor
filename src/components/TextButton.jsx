@@ -16,9 +16,9 @@ const TextButton = ({ label = '', variant = '', onClick = () => {} }) => {
 const getTextColor = (variant) => {
   switch (variant) {
     case 'danger':
-      return `#e24446`
+      return `#E24446`
     case 'success':
-      return `#36a568`
+      return `#36A568`
     default:
       return `#000000`
   }

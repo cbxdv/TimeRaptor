@@ -22,7 +22,7 @@ const NotificationsToggle = () => {
   }
 
   const keyBindHandler = (event) => {
-    if(event.key === 'n' || event.key === 'N') {
+    if (event.key === 'n' || event.key === 'N') {
       toggleNotifications()
     }
   }
@@ -33,7 +33,6 @@ const NotificationsToggle = () => {
       document.removeEventListener('keydown', keyBindHandler)
     }
   })
-
 
   return (
     <NTContainer active={active} onClick={toggleNotifications}>

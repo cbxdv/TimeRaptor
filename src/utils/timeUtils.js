@@ -155,9 +155,9 @@ export const milliToTimeObj = (time, includeSeconds) => {
   var minutes = Math.floor(time / 1000 / 60);
   time -= minutes * 1000 * 60;
   if (!includeSeconds) {
-    return { hours, minutes }
+    return { hours, minutes };
   }
   var seconds = Math.floor(time / 1000);
   time -= seconds * 1000;
-  return { hours, minutes, seconds }
-}
+  return { hours, minutes, seconds };
+};

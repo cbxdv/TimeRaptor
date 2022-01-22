@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
@@ -27,19 +27,39 @@ const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) =>
   const [blockColor, setBlockColor] = useState('decoPeach')
   const [description, setDescription] = useState('')
 
+  const [titleError, setTitleError] = useState(false)
+  const [timeError, setTimeError] = useState(false)
+
+  const inputRef = useRef(null)
+
   const checkData = () => {
+    let error = false
+
+    // Title length check
     if (title.length === 0) {
-      return false
+      error = true
+      setTitleError(true)
+      setTimeout(() => {
+        setTitleError(false)
+      }, 5000)
     }
+
+    // End time not being before start time check
     const duration = getDurationMinutes(startTime, endTime)
     if (duration <= 0) {
-      return false
+      error = true
+      setTimeError(true)
+      setTimeout(() => {
+        setTimeError(false)
+      }, 5000)
     }
-    return true
+
+    return !error
   }
 
   const submitHandler = () => {
     if (!checkData()) {
+      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return
     }
     const newBlock = {
@@ -62,7 +82,7 @@ const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) =>
     closeHandler()
   }
 
-  const keyBindHandler = event => {
+  const keyBindHandler = (event) => {
     if (event.key === 'Enter') {
       submitHandler()
     }
@@ -92,19 +112,21 @@ const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) =>
       <AddForm>
         <InputContainer>
           <TextInput
-            title='Subject Name'
-            name='subject'
+            title='Title'
+            name='title'
             inputValue={title}
+            error={titleError}
             onChangeHandler={(event) => setTitle(event.target.value)}
           />
         </InputContainer>
 
-        <InputContainer>
+        <InputContainer ref={inputRef}>
           <DayInput title='Day' value={day} valueSetHandler={(day) => setDay(day)} />
         </InputContainer>
 
         <InputContainer>
           <TimeInput
+            error={timeError}
             title='Start Time'
             value={startTime}
             valueSetHandler={(time) => setStartTime(time)}
@@ -113,6 +135,7 @@ const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) =>
 
         <InputContainer>
           <TimeInput
+            error={timeError}
             title='End Time'
             value={endTime}
             valueSetHandler={(time) => setEndTime(time)}
@@ -151,8 +174,8 @@ const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) =>
 
 const AddForm = styled.div`
   width: 100%;
-  padding: 30px 60px;
-  padding-top: 14px;
+  padding: 0 60px;
+  padding-bottom: 40px;
 `
 
 const InputContainer = styled.div`

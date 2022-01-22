@@ -9,7 +9,7 @@ const initialState = {
     maximized: false,
     closeOnExit: false,
     showCurrentTime: true,
-    showCurrentBlock: true
+    showCurrentBlock: true,
   },
   status: 'loading',
   error: null,
@@ -30,28 +30,28 @@ const userConfigsSlice = createSlice({
   initialState,
   reducers: {
     notificationsToggled(state, action) {
-      state.configurations.notifications = !state.configurations.notifications
-      saveConfigToDisk('notifications', state.configurations.notifications)
+      state.configurations.notifications = !state.configurations.notifications;
+      saveConfigToDisk('notifications', state.configurations.notifications);
     },
     darkModeToggled(state, action) {
-      state.configurations.darkMode = !state.configurations.darkMode
-      saveConfigToDisk('darkMode', state.configurations.darkMode)
+      state.configurations.darkMode = !state.configurations.darkMode;
+      saveConfigToDisk('darkMode', state.configurations.darkMode);
     },
     maximizedToggled(state, action) {
-      state.configurations.maximized = !state.configurations.maximized
+      state.configurations.maximized = !state.configurations.maximized;
     },
     closeOnExitToggled(state, action) {
       state.configurations.closeOnExit = !state.configurations.closeOnExit;
       saveConfigToDisk('closeOnExit', state.configurations.closeOnExit);
     },
     showCurrentTimeToggled(state, action) {
-      state.configurations.showCurrentTime = !state.configurations.showCurrentTime
-      saveConfigToDisk('showCurrentTime', state.configurations.showCurrentTime)
+      state.configurations.showCurrentTime = !state.configurations.showCurrentTime;
+      saveConfigToDisk('showCurrentTime', state.configurations.showCurrentTime);
     },
     showCurrentBlockToggled(state, action) {
-      state.configurations.showCurrentBlock = !state.configurations.showCurrentBlock
-      saveConfigToDisk('showCurrentBlock', state.configurations.showCurrentBlock)
-    }
+      state.configurations.showCurrentBlock = !state.configurations.showCurrentBlock;
+      saveConfigToDisk('showCurrentBlock', state.configurations.showCurrentBlock);
+    },
   },
   extraReducers(builder) {
     builder
@@ -69,7 +69,14 @@ const userConfigsSlice = createSlice({
   },
 });
 
-export const { notificationsToggled, darkModeToggled, maximizedToggled, closeOnExitToggled, showCurrentTimeToggled, showCurrentBlockToggled } = userConfigsSlice.actions;
+export const {
+  notificationsToggled,
+  darkModeToggled,
+  maximizedToggled,
+  closeOnExitToggled,
+  showCurrentTimeToggled,
+  showCurrentBlockToggled,
+} = userConfigsSlice.actions;
 
 export default userConfigsSlice.reducer;
 
@@ -78,8 +85,10 @@ export const selectConfigurations = (state) => state.userConfigs.configurations;
 export const selectNotificationState = (state) =>
   state.userConfigs.configurations.notifications;
 export const selectDarkMode = (state) => state.userConfigs.configurations.darkMode;
-export const selectPlatform = state => state.userConfigs.configurations.platform
-export const selectMaximized = state => state.userConfigs.configurations.maximized
-export const selectCloseOnExit = state => state.userConfigs.configurations.closeOnExit
-export const selectShowCurrentTime = state => state.userConfigs.configurations.showCurrentTime
-export const selectShowCurrentBlock = state => state.userConfigs.configurations.showCurrentBlock
+export const selectPlatform = (state) => state.userConfigs.configurations.platform;
+export const selectMaximized = (state) => state.userConfigs.configurations.maximized;
+export const selectCloseOnExit = (state) => state.userConfigs.configurations.closeOnExit;
+export const selectShowCurrentTime = (state) =>
+  state.userConfigs.configurations.showCurrentTime;
+export const selectShowCurrentBlock = (state) =>
+  state.userConfigs.configurations.showCurrentBlock;

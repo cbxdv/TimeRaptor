@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import { currentBlockChanged, selectBlocksByDay, selectCurrentBlock } from '../redux/slices/timeBlocksSlice.js'
+import {
+  currentBlockChanged,
+  selectBlocksByDay,
+  selectCurrentBlock,
+} from '../redux/slices/timeBlocksSlice.js'
 import { selectNotificationState } from '../redux/slices/userConfigsSlice.js'
 import { timeBlockNotification } from '../utils/timeBlockUtils.js'
 import { getCurrentTimeAndDay, milliToTimeObj } from '../utils/timeUtils.js'
@@ -29,7 +33,6 @@ const DayColumn = ({ dayId }) => {
     if (notificationStatus) {
       timer = setInterval(() => {
         dayData.forEach((block) => {
-
           // Start Object
           let startHours = block.startTime.hours
           if (block.startTime.pm && block.startTime.hours !== 12) {
@@ -57,7 +60,7 @@ const DayColumn = ({ dayId }) => {
           // Now object
           now = new Date()
 
-          if ((endDateObj - now) < 0) {
+          if (endDateObj - now < 0) {
             return
           }
 
@@ -74,7 +77,7 @@ const DayColumn = ({ dayId }) => {
 
         selectedBlock = {
           ...selectedBlock,
-          timeLeft: milliToTimeObj(endDateObj - now, false)
+          timeLeft: milliToTimeObj(endDateObj - now, false),
         }
 
         // Checking whether the current block id is same as the selected block id
@@ -86,14 +89,16 @@ const DayColumn = ({ dayId }) => {
           if (currentBlock.id !== selectedBlock.id) {
             // If current block exists and the current block's id is not equal to selected block's id
             dispatch(currentBlockChanged(selectedBlock))
-          } else if ((currentBlock.timeLeft.hours !== selectedBlock.timeLeft.hours) || (currentBlock.timeLeft.minutes !== selectedBlock.timeLeft.minutes)) {
+          } else if (
+            currentBlock.timeLeft.hours !== selectedBlock.timeLeft.hours ||
+            currentBlock.timeLeft.minutes !== selectedBlock.timeLeft.minutes
+          ) {
             dispatch(currentBlockChanged(selectedBlock))
           }
           // If current block exists but actuallly nothing is selected as current block
         } else if (currentBlock && !selectedBlock) {
           dispatch(currentBlockChanged(null))
         }
-        
       }, 1000)
     }
   }
@@ -121,8 +126,8 @@ const DayColumn = ({ dayId }) => {
         <TimeBlockContainer>
           {dayData.map((timeblock) => (
             <TimeBlock key={timeblock.id} timeblock={timeblock} />
-            ))}
-            { isToday && <CurrentTimeLine /> }
+          ))}
+          {isToday && <CurrentTimeLine />}
         </TimeBlockContainer>
       </DayColumnMain>
     </DayColumnContainer>
@@ -149,7 +154,7 @@ const DayIndicator = styled.div`
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: ${({ isToday }) => isToday && `#FC6C5E`}
+  color: ${({ isToday }) => isToday && `#FC6C5E`};
 `
 
 const TimeBlockContainer = styled.div`

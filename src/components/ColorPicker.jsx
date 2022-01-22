@@ -69,8 +69,6 @@ const ColoPickerPanel = ({ color, closeHandler, mainSubmitHandler }) => {
   )
 }
 
-
-
 const ColorPickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   background-color: ${({ theme }) => theme.shade1};

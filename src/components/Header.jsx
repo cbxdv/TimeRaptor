@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import { selectPlatform, selectMaximized, maximizedToggled, selectShowCurrentTime, selectShowCurrentBlock } from '../redux/slices/userConfigsSlice.js'
+import {
+  selectPlatform,
+  selectMaximized,
+  maximizedToggled,
+  selectShowCurrentTime,
+  selectShowCurrentBlock,
+} from '../redux/slices/userConfigsSlice.js'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import CloseIcon from '../assets/icons/Close.svg'
 import MinimizeIcon from '../assets/icons/Minimize.svg'
@@ -15,7 +21,12 @@ import IconButton from './IconButton.jsx'
 import NotificationsToggle from './NotificationsToggle.jsx'
 import TimeBlockEditor from './TimeBlockEditor.jsx'
 import UserConfigsPanel from './UserConfigsPanel.jsx'
-import { closeWindow, maximizeWindow, minimizeWindow, restoreWindow } from '../redux/helpers/ElectronContext.js'
+import {
+  closeWindow,
+  maximizeWindow,
+  minimizeWindow,
+  restoreWindow,
+} from '../redux/helpers/ElectronContext.js'
 import { flexCenter } from '../styles/styleUtils.js'
 
 const TopPanel = () => {
@@ -37,17 +48,17 @@ const TopPanel = () => {
     dispatch(maximizedToggled())
   }
 
-  const keyBindHandler = event => {
-    if(event.key === 'a' || event.key === 'A') {
+  const keyBindHandler = (event) => {
+    if (event.key === 'a' || event.key === 'A') {
       setShowAddPanel(true)
     }
-    if(event.key === ',' && event.ctrlKey) {
+    if (event.key === ',' && event.ctrlKey) {
       setShowUConfigPanel(true)
     }
-    if((event.key === 'q' || event.key === 'Q') && event.ctrlKey) {
+    if ((event.key === 'q' || event.key === 'Q') && event.ctrlKey) {
       closeWindow()
     }
-    if((event.key === 'r' || event.key === 'R') && event.ctrlKey) {
+    if ((event.key === 'r' || event.key === 'R') && event.ctrlKey) {
       location.reload()
     }
   }
@@ -72,14 +83,13 @@ const TopPanel = () => {
           <h3>Timetable</h3>
         </div>
         <div className='header-section'>
-          <div className='hb-cont'>
-            { showCurrentTime && <CurrentTime /> }
-          </div>
-          <div className='hb-cont'>
-            { showCurrentBlock && <CurrentBlock /> }
-          </div>
+          <div className='hb-cont'>{showCurrentTime && <CurrentTime />}</div>
+          <div className='hb-cont'>{showCurrentBlock && <CurrentBlock />}</div>
         </div>
-        <div className='header-section'  style={{ marginRight: platform === 'win32' && -80 }}>
+        <div
+          className='header-section'
+          style={{ marginRight: platform === 'win32' && -80 }}
+        >
           <div>
             <IconButton
               label='Add'
@@ -97,21 +107,19 @@ const TopPanel = () => {
             />
           </div>
         </div>
-        {
-          platform === 'win32' && (
-            <ControlsContainer>
-              <Control variant='minimize' onClick={minimizeWindow}>
-                <MinimizeIcon />
-              </Control>
-              <Control variant='openFull' onClick={maximizeHandler}>
-                <OpenFull />
-              </Control>
-              <Control variant='close' onClick={closeWindow}>
-                <CloseIcon />
-              </Control>
-            </ControlsContainer>
-          )
-        }
+        {platform === 'win32' && (
+          <ControlsContainer>
+            <Control variant='minimize' onClick={minimizeWindow}>
+              <MinimizeIcon />
+            </Control>
+            <Control variant='openFull' onClick={maximizeHandler}>
+              <OpenFull />
+            </Control>
+            <Control variant='close' onClick={closeWindow}>
+              <CloseIcon />
+            </Control>
+          </ControlsContainer>
+        )}
       </Header>
     </Top>
   )
@@ -138,7 +146,7 @@ const Control = styled.div`
   height: 100%;
   width: 100%;
   padding: 2px;
-  
+
   & > svg {
     transform: scale(0.8);
     fill: ${({ theme }) => theme.text};
@@ -150,12 +158,11 @@ const Control = styled.div`
     background: ${({ variant }) => variant === 'close' && `#FD5652`};
     background: ${({ variant }) => variant === 'minimize' && `#fdbd41`};
     background: ${({ variant }) => variant === 'openFull' && `#33C949`};
-    
+
     svg {
-      fill: #FFFFFF;
+      fill: #ffffff;
     }
   }
-
 `
 
 const Header = styled.div`

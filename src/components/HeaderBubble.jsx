@@ -7,7 +7,7 @@ const HeaderBubble = ({ mainText = '', secText = '' }) => {
   return (
     <HeaderBubbleContainer>
       <MainText>{mainText}</MainText>
-      { secText.length !== 0 && <SecText>{secText}</SecText>}
+      {secText.length !== 0 && <SecText>{secText}</SecText>}
     </HeaderBubbleContainer>
   )
 }

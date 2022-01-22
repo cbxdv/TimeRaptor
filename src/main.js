@@ -11,8 +11,8 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-let mainWindow = null
-let tray = null
+let mainWindow = null;
+let tray = null;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
@@ -24,60 +24,63 @@ const createWindow = () => {
     frame: os.platform() === 'win32' ? false : true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      backgroundThrottling: false
+      backgroundThrottling: false,
     },
     icon: path.join(__dirname, './assets/Logo.png'),
   });
 
-  const menu = new Menu.buildFromTemplate([])
-  mainWindow.setMenu(menu)
+  const menu = new Menu.buildFromTemplate([]);
+  mainWindow.setMenu(menu);
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
-  
+
   // Hiding menubar
   mainWindow.setMenuBarVisibility(false);
 
-  mainWindow.on('ready-to-show', () => mainWindow.show())
-
+  mainWindow.on('ready-to-show', () => mainWindow.show());
 };
 
 const createTray = () => {
-  tray = new Tray(path.join(__dirname, './assets/Logo.ico'))
-  tray.setToolTip('Time Raptor')
+  tray = new Tray(path.join(__dirname, './assets/Logo.ico'));
+  tray.setToolTip('Time Raptor');
   const trayMenu = Menu.buildFromTemplate([
     {
       label: 'Show',
-      click() { showWindow() }
+      click() {
+        showWindow();
+      },
     },
     { role: 'quit' },
-  ])
-  tray.setContextMenu(trayMenu)
+  ]);
+  tray.setContextMenu(trayMenu);
 
-  tray.on('click', () => { showWindow() })
-}
+  tray.on('click', () => {
+    showWindow();
+  });
+};
 
 const onReadyHandler = () => {
-  createWindow()
-  createTray()
-}
+  createWindow();
+  createTray();
+};
 
 app.on('ready', onReadyHandler);
 
 const showWindow = () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
+    createWindow();
   } else {
-    mainWindow.show()
+    mainWindow.show();
   }
-}
+};
 
 app.on('window-all-closed', async () => {
-  const close = await store.get('userconfigs.closeOnExit', false)
+  const close = await store.get('userconfigs.closeOnExit', false);
   if (close) {
-    app.quit()
+    app.quit();
   }
 });
 
