@@ -3,8 +3,10 @@ import { getElectronContext, saveConfigToDisk } from '../helpers/ElectronContext
 
 const initialState = {
   configurations: {
+    platform: 'darwin',
     notifications: false,
     darkMode: false,
+    maximized: false
   },
   status: 'idle',
   error: null,
@@ -13,6 +15,7 @@ const initialState = {
 export const fetchUserConfigs = createAsyncThunk('userConfigs/fetch', async () => {
   const electron = getElectronContext();
   const response = await electron.getUserConfigs();
+  response.maximized = false;
   return {
     ...initialState.configurations,
     ...response,
@@ -31,6 +34,9 @@ const userConfigsSlice = createSlice({
       state.configurations.darkMode = !state.configurations.darkMode;
       saveConfigToDisk('darkMode', state.configurations.darkMode);
     },
+    maximizedToggled(state, action) {
+      state.configurations.maximized = !state.configurations.maximized
+    }
   },
   extraReducers(builder) {
     builder
@@ -48,7 +54,7 @@ const userConfigsSlice = createSlice({
   },
 });
 
-export const { notificationsToggled, darkModeToggled } = userConfigsSlice.actions;
+export const { notificationsToggled, darkModeToggled, maximizedToggled } = userConfigsSlice.actions;
 
 export default userConfigsSlice.reducer;
 
@@ -57,3 +63,5 @@ export const selectConfigurations = (state) => state.userConfigs.configurations;
 export const selectNotificationState = (state) =>
   state.userConfigs.configurations.notifications;
 export const selectDarkMode = (state) => state.userConfigs.configurations.darkMode;
+export const selectPlatform = state => state.userConfigs.configurations.platform
+export const selectMaximized = state => state.userConfigs.configurations.maximized
