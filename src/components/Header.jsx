@@ -77,7 +77,7 @@ const TopPanel = () => {
             <CurrentBlock />
           </div>
         </div>
-        <div className='header-section'  style={{ marginRight: platform === 'win32' && -100 }}>
+        <div className='header-section'  style={{ marginRight: platform === 'win32' && -80 }}>
           <div>
             <IconButton
               label='Add'
@@ -179,11 +179,11 @@ const Header = styled.div`
 `
 
 const WindowControls = styled.div`
-  height: 20px;
-  width: 100%;
   -webkit-app-region: drag;
-  position: absolute;
-  top: 0
+  height: 30px;
+  width: 100vw;
+  position: fixed;
+  top: 0;
 `
 
 export default TopPanel

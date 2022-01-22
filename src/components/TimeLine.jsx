@@ -59,7 +59,7 @@ const OneBlockSecs = styled.div`
 const TimeLineTickerContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })}
   position: absolute;
-  top: -12px;
+  top: -10px;
   left: 0;
   height: 100%;
   width: 100%;

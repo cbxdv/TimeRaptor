@@ -35,6 +35,7 @@ const blocksSlice = createSlice({
   name: 'blocks',
   initialState,
   reducers: {
+
     blockAdded(state, action) {
       const { day } = action.payload;
       let specificDay = state.dayData[day];
@@ -45,6 +46,7 @@ const blocksSlice = createSlice({
       }
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
+
     blockDeleted(state, action) {
       const { id, day } = action.payload;
       let specificDay = state.dayData[day];
@@ -58,6 +60,7 @@ const blocksSlice = createSlice({
       }
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
+
     blockUpdated(state, action) {
       const { oldBlock, newBlock } = action.payload;
 
@@ -80,10 +83,12 @@ const blocksSlice = createSlice({
       }
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
+
     blocksCleared(state, action) {
       state.dayData = initialState.dayData;
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
+    
     currentBlockChanged(state, action) {
       state.currentBlock = action.payload
     }

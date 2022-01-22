@@ -133,7 +133,7 @@ export const getCurrentTimeAndDay = () => {
   let arr2 = arr1[0].split(':');
 
   const timeObj = {
-    hours: Number(arr2),
+    hours: Number(arr2[0]),
     minutes: Number(arr2[1]),
     seconds: Number(arr2[2]),
     pm: arr1[1] === 'PM',

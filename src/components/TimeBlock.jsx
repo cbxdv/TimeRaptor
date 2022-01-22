@@ -84,7 +84,7 @@ const TimeBlock = ({ timeblock }) => {
           <StylingLineContainer>
             <TimeBlockStylingLine />
           </StylingLineContainer>
-          <div style={{ overflow: 'scroll' }}>
+          <div>
             <BlockHeading>{blockTitle}</BlockHeading>
             {duration > 30 && (
               <BlockSubText>

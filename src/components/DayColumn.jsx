@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
@@ -6,6 +6,8 @@ import { currentBlockChanged, selectBlocksByDay, selectCurrentBlock } from '../r
 import { selectNotificationState } from '../redux/slices/userConfigsSlice.js'
 import { timeBlockNotification } from '../utils/timeBlockUtils.js'
 import { getCurrentTimeAndDay, milliToTimeObj } from '../utils/timeUtils.js'
+import CurrentTimeLine from './CurrentTimeLine.jsx'
+import { dayStrings } from '../utils/strings.js'
 import TimeBlock from './TimeBlock.jsx'
 
 const DayColumn = ({ dayId }) => {
@@ -13,6 +15,8 @@ const DayColumn = ({ dayId }) => {
   const dayData = useSelector((state) => selectBlocksByDay(state, dayId))
   const notificationStatus = useSelector(selectNotificationState)
   const currentBlock = useSelector(selectCurrentBlock)
+
+  const [isToday, setIsToday] = useState(false)
 
   let timer
 
@@ -97,6 +101,7 @@ const DayColumn = ({ dayId }) => {
   useEffect(() => {
     const now = getCurrentTimeAndDay()
     if (now.day === dayId) {
+      setIsToday(true)
       clearInterval(timer)
       notifyChecker()
     }
@@ -108,13 +113,14 @@ const DayColumn = ({ dayId }) => {
   return (
     <DayColumnContainer>
       <div style={{ height: 20, marginBottom: 10, paddingLeft: 5 }}>
-        <DayIndicator>{dayId}</DayIndicator>
+        <DayIndicator isToday={isToday}>{dayStrings[dayId]}</DayIndicator>
       </div>
       <DayColumnMain>
         <TimeBlockContainer>
           {dayData.map((timeblock) => (
             <TimeBlock key={timeblock.id} timeblock={timeblock} />
-          ))}
+            ))}
+            { isToday && <CurrentTimeLine /> }
         </TimeBlockContainer>
       </DayColumnMain>
     </DayColumnContainer>
@@ -141,6 +147,7 @@ const DayIndicator = styled.div`
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: ${({ isToday }) => isToday && `#FC6C5E`}
 `
 
 const TimeBlockContainer = styled.div`

@@ -13,7 +13,6 @@ const MainPage = () => {
   const dispatch = useDispatch()
   const userConfigsStatus = useSelector((state) => state.userConfigs.status)
   const darkMode = useSelector(selectDarkMode)
-
   
   const keyBindHandler = event => {
     if(event.key === 'l' || event.key === 'L') {
@@ -27,7 +26,6 @@ const MainPage = () => {
       document.removeEventListener('keydown', keyBindHandler)
     }
   })
-
 
   useEffect(() => {
     dispatch(fetchUserConfigs())
@@ -61,6 +59,7 @@ const MainContainer = styled.main`
   padding-right: 10px;
   padding-left: 10px;
   padding-bottom: 30px;
+  position: relative;
 `
 
 export default MainPage
