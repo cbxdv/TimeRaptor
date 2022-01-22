@@ -76,4 +76,6 @@ const CurrentTimeLineContainer = styled.div`
   scroll-behavior: smooth;
 `
 
+// const Indicator = styled.div
+
 export default CurrentTimeLine
