@@ -1,27 +1,31 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
 
-import { blocksCleared } from '../redux/slices/timeBlocksSlice.js'
-import { selectConfigurations, notificationsToggled } from '../redux/slices/userConfigsSlice.js'
-
-import WithModal from '../hooks/WithModal.jsx'
-import TextButton from './TextButton.jsx'
-import CheckBox from './CheckBox.jsx'
-
-import WaveEmoji from '../assets/icons/Wave.png'
 import Octocat from '../assets/icons/Octocat.png'
-
-import { flexCenter } from '../styles/styleUtils.js'
+import WaveEmoji from '../assets/icons/Wave.png'
+import WithModal from '../hooks/WithModal.jsx'
 import { getElectronContext } from '../redux/helpers/ElectronContext.js'
+import { blocksCleared } from '../redux/slices/timeBlocksSlice.js'
+import {
+  darkModeToggled,
+  notificationsToggled,
+  selectConfigurations,
+} from '../redux/slices/userConfigsSlice.js'
+import CheckBox from './CheckBox.jsx'
+import TextButton from './TextButton.jsx'
+import { flexCenter } from '../styles/styleUtils.js'
 
 const UserConfigsPanel = ({ closeHandler = () => {} }) => {
   const dispatch = useDispatch()
 
-  const configurations = useSelector(state => selectConfigurations(state))
+  const configurations = useSelector((state) => selectConfigurations(state))
 
   const notificationsToggle = () => {
     dispatch(notificationsToggled())
+  }
+  const darkModeToggle = () => {
+    dispatch(darkModeToggled())
   }
 
   const openRepo = () => {
@@ -48,14 +52,19 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
         <MainPanel>
           <OptionsContainer>
             <div className='option-text'>Notifications</div>
-            <div className='option-config'><CheckBox checked={configurations.notifications} onClick={notificationsToggle} /></div>
+            <div className='option-config'>
+              <CheckBox
+                checked={configurations.notifications}
+                onClick={notificationsToggle}
+              />
+            </div>
+            <div className='option-text'>Dark Mode</div>
+            <div className='option-config'>
+              <CheckBox checked={configurations.darkMode} onClick={darkModeToggle} />
+            </div>
           </OptionsContainer>
           <ButtonContainer>
-            <TextButton
-              label='Clear Blocks'
-              variant='danger'
-              onClick={clearTimeBlocks}
-            />
+            <TextButton label='Clear Blocks' variant='danger' onClick={clearTimeBlocks} />
           </ButtonContainer>
         </MainPanel>
         <BotText>
@@ -63,11 +72,7 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
             <img src={WaveEmoji} className='bot-text-img' />
             <span>Made by Cibi</span>
           </div>
-          <div
-            className='bot-text-sec'
-            onClick={openRepo}
-            style={{ cursor: 'pointer' }}
-          >
+          <div className='bot-text-sec' onClick={openRepo} style={{ cursor: 'pointer' }}>
             <img src={Octocat} className='bot-text-img' />
             <div style={{ position: 'relative' }}>
               <span className='bot-link'>GitHub</span>
@@ -91,6 +96,7 @@ const MainPanel = styled.div`
 const OptionsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-row-gap: 12px;
   margin-bottom: 30px;
 
   .option-text {

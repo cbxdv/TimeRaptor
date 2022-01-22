@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { flexCenter } from '../styles/styleUtils.js'
-import { themeColors } from '../styles/styleConstants.js'
 
 const HeaderBubble = ({ mainText = '', secText = '' }) => {
   return (
@@ -14,9 +13,9 @@ const HeaderBubble = ({ mainText = '', secText = '' }) => {
 }
 
 const HeaderBubbleContainer = styled.div`
-  background: ${themeColors.shade1};
+  background: ${({ theme }) => theme.shade1};
   width: 150px;
-  ${flexCenter({ flexDirection: 'column', alignItems: 'baseline' })}
+  ${flexCenter({ flexDirection: 'column' })}
   padding: 10px;
   border-radius: 8px;
 `
@@ -33,6 +32,7 @@ const SecText = styled.p`
   font-size: larger;
   font-weight: normal;
   font-size: 19px;
+  height: 20px;
 `
 
 export default HeaderBubble

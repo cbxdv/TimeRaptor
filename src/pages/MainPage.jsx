@@ -1,20 +1,18 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import styled, { ThemeProvider } from 'styled-components'
 
-import { fetchBlocks } from '../redux/slices/timeBlocksSlice.js'
-import { fetchUserConfigs } from '../redux/slices/userConfigsSlice.js'
-
-import TimeLine from '../components/TimeLine.jsx'
 import DayContainer from '../components/DayContainer.jsx'
-
-import { themeColors } from '../styles/styleConstants.js'
 import Header from '../components/Header.jsx'
+import TimeLine from '../components/TimeLine.jsx'
+import { fetchBlocks } from '../redux/slices/timeBlocksSlice.js'
+import { fetchUserConfigs, selectDarkMode } from '../redux/slices/userConfigsSlice.js'
+import { darkThemeColors, lightThemeColors } from '../styles/styleConstants.js'
 
 const MainPage = () => {
-
   const dispatch = useDispatch()
   const userConfigsStatus = useSelector((state) => state.userConfigs.status)
+  const darkMode = useSelector(selectDarkMode)
 
   useEffect(() => {
     dispatch(fetchUserConfigs())
@@ -25,18 +23,21 @@ const MainPage = () => {
     return <>Loading...</>
   }
   return (
-    <MainPageContainer>
-      <Header />
-      <MainContainer>
-        <TimeLine />
-        <DayContainer />
-      </MainContainer>
-    </MainPageContainer>
+    <ThemeProvider theme={darkMode ? darkThemeColors : lightThemeColors}>
+      <MainPageContainer>
+        <Header />
+        <MainContainer>
+          <TimeLine />
+          <DayContainer />
+        </MainContainer>
+      </MainPageContainer>
+    </ThemeProvider>
   )
 }
 
 const MainPageContainer = styled.div`
-  background-color: ${themeColors.background};
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.text};
   min-height: 100vh;
 `
 const MainContainer = styled.main`
@@ -44,7 +45,7 @@ const MainContainer = styled.main`
   padding-top: 30px;
   padding-right: 10px;
   padding-left: 10px;
-  margin-bottom: 30px;
+  padding-bottom: 30px;
 `
 
 export default MainPage

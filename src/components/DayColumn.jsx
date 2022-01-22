@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 import { selectBlocksByDay } from '../redux/slices/timeBlocksSlice.js'
 import { selectNotificationState } from '../redux/slices/userConfigsSlice.js'
-
-import { getCurrentTimeAndDay } from '../utils/timeUtils.js'
 import { timeBlockNotification } from '../utils/timeBlockUtils.js'
-
+import { getCurrentTimeAndDay } from '../utils/timeUtils.js'
 import TimeBlock from './TimeBlock.jsx'
-
-import { themeColors } from '../styles/styleConstants.js'
 
 const DayColumn = ({ dayId }) => {
   const dayData = useSelector((state) => selectBlocksByDay(state, dayId))
@@ -76,7 +72,8 @@ const DayColumnContainer = styled.div`
 `
 
 const DayColumnMain = styled.div`
-  background-color: ${themeColors.secondary};
+  background-color: ${({ theme }) =>
+    theme.name === 'dark' ? theme.shade1 : theme.secondary};
   width: 100%;
   height: 1960px;
   border-radius: 8px;

@@ -1,18 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import AddBlockIcon from '../assets/icons/AddBlock.svg'
+import GearIcon from '../assets/icons/Gear.svg'
+import Logo from '../assets/Logo.png'
 import CurrentTime from './CurrentTime.jsx'
-import TimeBlockEditor from './TimeBlockEditor.jsx'
-import UserConfigsPanel from './UserConfigsPanel.jsx'
 import IconButton from './IconButton.jsx'
 import NotificationsToggle from './NotificationsToggle.jsx'
-
-import GearIcon from '../assets/icons/Gear.svg'
-import AddBlockIcon from '../assets/icons/AddBlock.svg'
-import Logo from '../assets/Logo.png'
-
+import TimeBlockEditor from './TimeBlockEditor.jsx'
+import UserConfigsPanel from './UserConfigsPanel.jsx'
 import { flexCenter } from '../styles/styleUtils.js'
-import { themeColors } from '../styles/styleConstants.js'
 
 const TopPanel = () => {
   const [showAddPanel, setShowAddPanel] = useState(false)
@@ -20,9 +17,7 @@ const TopPanel = () => {
 
   return (
     <Header>
-      {showAddPanel && (
-        <TimeBlockEditor closeHandler={() => setShowAddPanel(false)} />
-      )}
+      {showAddPanel && <TimeBlockEditor closeHandler={() => setShowAddPanel(false)} />}
       {showUConfigPanel && (
         <UserConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
       )}
@@ -60,7 +55,7 @@ const TopPanel = () => {
 const Header = styled.div`
   position: sticky;
   top: 0;
-  background-color: ${themeColors.background};
+  background-color: ${({ theme }) => theme.secondary};
   ${flexCenter({ justifyContent: 'space-between' })};
   padding: 20px 60px;
   z-index: 5;

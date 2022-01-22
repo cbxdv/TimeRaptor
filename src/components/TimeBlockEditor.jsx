@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
-
-import { blockUpdated, blockAdded } from '../redux/slices/timeBlocksSlice.js'
+import styled from 'styled-components'
 
 import WithModal from '../hooks/WithModal.jsx'
+import { blockAdded, blockUpdated } from '../redux/slices/timeBlocksSlice.js'
+import { getDurationMinutes } from '../utils/timeUtils.js'
+import ColorPicker from './ColorPicker.jsx'
+import DayInput from './DayInput.jsx'
+import TextArea from './TextArea.jsx'
 import TextButton from './TextButton.jsx'
 import TextInput from './TextInput.jsx'
-import DayInput from './DayInput.jsx'
 import TimeInput from './TimeInput.jsx'
-import ColorPicker from './ColorPicker.jsx'
-import TextArea from './TextArea.jsx'
-
-import { getDurationMinutes } from '../utils/timeUtils.js'
-
 import { flexCenter } from '../styles/styleUtils.js'
 
-const TimeBlockEditor = ({
-  closeHandler,
-  edit = false,
-  currentBlock = null,
-}) => {
+const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
@@ -94,11 +87,7 @@ const TimeBlockEditor = ({
         </InputContainer>
 
         <InputContainer>
-          <DayInput
-            title='Day'
-            value={day}
-            valueSetHandler={(day) => setDay(day)}
-          />
+          <DayInput title='Day' value={day} valueSetHandler={(day) => setDay(day)} />
         </InputContainer>
 
         <InputContainer>

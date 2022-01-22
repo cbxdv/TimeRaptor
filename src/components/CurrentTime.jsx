@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { getCurrentDay, getCurrentDate } from '../utils/timeUtils.js'
-
+import { getCurrentDate, getCurrentDay } from '../utils/timeUtils.js'
 import HeaderBubble from './HeaderBubble.jsx'
 
 const getCurrentTime = () => {
@@ -13,8 +12,9 @@ const CurrentTime = () => {
   const [currentDate, setCurrentDate] = useState(getCurrentDate())
   const [currentDay, setCurrentDay] = useState(getCurrentDay())
 
+  let timer
   useEffect(() => {
-    setInterval(() => {
+    timer = setInterval(() => {
       setCurrentTime(getCurrentTime())
     }, 1000)
   }, [])
@@ -27,13 +27,13 @@ const CurrentTime = () => {
       setCurrentDate(getCurrentDate())
       setCurrentDay(getCurrentDay())
     }
+    return () => {
+      clearInterval(timer)
+    }
   })
 
   return (
-    <HeaderBubble
-      mainText={currentTime}
-      secText={`${currentDate} - ${currentDay}`}
-    />
+    <HeaderBubble mainText={currentTime} secText={`${currentDate} - ${currentDay}`} />
   )
 }
 

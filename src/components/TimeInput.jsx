@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import ClockIcon from '../assets/icons/Time.svg'
-
-import TextButton from './TextButton.jsx'
 import WithModal from '../hooks/WithModal.jsx'
-
 import { getTimeString } from '../utils/timeUtils.js'
-
-import { inputBack, flexCenter } from '../styles/styleUtils.js'
-import { themeColors } from '../styles/styleConstants.js'
+import TextButton from './TextButton.jsx'
+import { flexCenter, inputBack } from '../styles/styleUtils.js'
 
 const TimeInput = ({ title = '', value, valueSetHandler }) => {
   const [showPickerPanel, setShowPickerPanel] = useState(false)
@@ -27,12 +23,7 @@ const TimeInput = ({ title = '', value, valueSetHandler }) => {
       )}
       <TimePickerTopBox>
         {timeString || title}
-        <div
-          onClick={() => setShowPickerPanel(true)}
-          style={{ cursor: 'pointer' }}
-        >
-          <ClockIcon />
-        </div>
+        <ClockIcon onClick={() => setShowPickerPanel(true)} />
       </TimePickerTopBox>
     </React.Fragment>
   )
@@ -104,11 +95,7 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
           </PickerSecsContainer>
           <PickerSecsContainer>
             <div>
-              <PickerOption
-                selected={!pm}
-                onClick={() => setPm(false)}
-                key={`ampm0`}
-              >
+              <PickerOption selected={!pm} onClick={() => setPm(false)} key={`ampm0`}>
                 a.m.
               </PickerOption>
               <PickerOption
@@ -125,11 +112,7 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
       </TimePickerPanelContainer>
       <ButtonsContainer>
         <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton
-          label='Submit'
-          variant='success'
-          onClick={() => submitHandler()}
-        />
+        <TextButton label='Submit' variant='success' onClick={() => submitHandler()} />
       </ButtonsContainer>
     </WithModal>
   )
@@ -137,13 +120,13 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
 
 const TimePickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
-  background-color: ${themeColors.shade1};
+  background-color: ${({ theme }) => theme.shade1};
   border-radius: 8px;
   margin: 30px;
 `
 
 const PickerHeader = styled.div`
-  background-color: ${themeColors.accent};
+  background-color: ${({ theme }) => theme.accent};
   height: 40px;
   border-radius: 8px;
   font-family: Outfit;
@@ -155,7 +138,6 @@ const PickerHeader = styled.div`
     ${flexCenter()}
     width: 90px;
     height: 43px;
-    color: ${themeColors.shade1};
   }
 `
 
@@ -163,31 +145,30 @@ const PickerSecsContainer = styled.div`
   height: 200px;
   width: 100%;
   ${flexCenter({ flexDirection: 'column' })}
-  overflow: scroll;
-  padding: 10px 0;
+  padding: 5px 0;
 
   .sec-container {
+    overflow: scroll;
     height: 100%;
   }
 `
-
 const PickerOption = styled.div`
-  background-color: ${(props) =>
-    props.alt ? themeColors.background : themeColors.secondary};
-  background-color: ${(props) => props.selected && `#e7f8eb`};
-  border: ${(props) => props.selected && `1px solid #60D394`};
-  border-radius: ${(props) => props.selected && `8px`};
+  background-color: ${({ theme }) => theme.secondary};
+  border: ${({ selected }) => selected && `2px solid #60D394`};
+  border-radius: 8px;
   ${flexCenter()}
   width: 60px;
-  height: 40px;
+  padding: 10px 30px;
+  margin: 5px 0;
+  height: max-content;
   font-family: Outfit;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 
   &:hover {
-    background: ${themeColors.shade2};
-    color: ${themeColors.accent};
+    background: ${({ theme }) => theme.shade2};
+    color: ${({ theme }) => theme.text};
   }
 `
 

@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { convertIndexToStringHours } from '../utils/timeUtils.js'
-
 import { flexCenter } from '../styles/styleUtils.js'
 
 const TimeLine = () => {
@@ -21,9 +20,7 @@ const TimeLine = () => {
   const generateTimeLineSecs = () => {
     let secs = []
     for (let i = 0; i <= 24 * 4; i++) {
-      secs.push(
-        <OneBlockSecs key={`tls${i}`}>{i % 4 !== 0 && <TLine />}</OneBlockSecs>
-      )
+      secs.push(<OneBlockSecs key={`tls${i}`}>{i % 4 !== 0 && <TLine />}</OneBlockSecs>)
     }
     return secs
   }
@@ -70,7 +67,8 @@ const TimeLineTickerContainer = styled.div`
 
 const TLine = styled.hr`
   width: 15px;
-  background-color: #d4d4d4;
+  border-color: ${({ theme }) =>
+    theme.name === 'dark' ? `rgba(255, 255, 255, 0.2)` : `rgba(0, 0, 0, 0.1)`};
   transform: translateY(-1px);
 `
 

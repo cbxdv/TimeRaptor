@@ -3,11 +3,8 @@ import styled from 'styled-components'
 
 import BinIcon from '../assets/icons/Bin.svg'
 import EditIcon from '../assets/icons/Edit.svg'
-
+import { buttonStyles, flexCenter } from '../styles/styleUtils.js'
 import { getTimeString } from '../utils/timeUtils.js'
-
-import { themeColors } from '../styles/styleConstants.js'
-import { flexCenter, buttonStyles } from '../styles/styleUtils.js'
 
 const BlockTool = ({
   timeblock,
@@ -58,16 +55,16 @@ const BlockTool = ({
 }
 
 const BlockToolContainer = styled.div`
+  ${flexCenter()};
   padding: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
   border-radius: 8px;
-  ${flexCenter()};
   position: absolute;
   z-index: 3;
-  background: ${themeColors.accent};
-  color: ${themeColors.shade1};
-  right: ${(props) => props.position === 'left' && `110%`};
-  left: ${(props) => props.position === 'right' && `110%`};
+  background: ${({ theme }) => theme.accent};
+  color: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.shade1)};
+  right: ${({ position }) => position === 'left' && `110%`};
+  left: ${({ position }) => position === 'right' && `110%`};
 `
 
 const ButtonsContainer = styled.div`
@@ -76,18 +73,16 @@ const ButtonsContainer = styled.div`
 
 const IconButton = styled.button`
   ${buttonStyles()};
-  background: ${(props) => (props.danger ? `#FFE5E5` : themeColors.shade1)};
-  border: 1px solid
-    ${(props) => (props.danger ? `#e24446` : themeColors.accent)};
-  outline: none;
-  border-radius: 8px;
   ${flexCenter()};
+  border: 2px solid ${({ danger }) => (danger ? `#e24446` : `#2C9AFF`)};
+  outline: none;
+  border-radius: 10px;
   margin: 0 4px;
   height: 40px;
   width: 40px;
 
   & > svg {
-    fill: ${(props) => (props.danger ? `#e24446` : themeColors.accent)};
+    fill: ${({ danger }) => (danger ? `#e24446` : `#2C9AFF`)};
   }
 `
 
@@ -95,16 +90,14 @@ const PositionIndicator = styled.div`
   width: 0;
   height: 0;
   position: absolute;
-  ${(props) => props.position === 'right' && `right: 100%;`};
-  ${(props) => props.position === 'left' && `left: 100%`};
+  ${({ position }) => position === 'right' && `right: 100%;`};
+  ${({ position }) => position === 'left' && `left: 100%`};
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  ${(props) =>
-    props.position === 'right' &&
-    `border-right: 10px solid ${themeColors.accent}`};
-  ${(props) =>
-    props.position === 'left' &&
-    `border-left: 10px solid ${themeColors.accent}`};
+  ${({ theme, position }) =>
+    position === 'right' && `border-right: 10px solid ${theme.accent}`};
+  ${({ theme, position }) =>
+    position === 'left' && `border-left: 10px solid ${theme.accent}`};
 `
 
 const TooltipTextContainer = styled.div`
