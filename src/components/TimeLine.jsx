@@ -67,7 +67,8 @@ const TimeLineTickerContainer = styled.div`
 
 const TLine = styled.hr`
   width: 15px;
-  background-color: #d4d4d4;
+  border-color: ${({ theme }) =>
+    theme.name === 'dark' ? `rgba(255, 255, 255, 0.2)` : `rgba(0, 0, 0, 0.1)`};
   transform: translateY(-1px);
 `
 
