@@ -42,7 +42,7 @@ const blocksSlice = createSlice({
         specificDay.push(action.payload);
         state.dayData[day] = specificDay;
       }
-      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
     blockDeleted(state, action) {
       const { id, day } = action.payload;
@@ -55,7 +55,7 @@ const blocksSlice = createSlice({
         });
         state.dayData[day] = specificDay;
       }
-      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
     blockUpdated(state, action) {
       const { oldBlock, newBlock } = action.payload;
@@ -77,11 +77,11 @@ const blocksSlice = createSlice({
         specificDay.push(newBlock);
         state.dayData[newBlock.day] = specificDay;
       }
-      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
     blocksCleared(state, action) {
       state.dayData = initialState.dayData;
-      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
     },
   },
   extraReducers(builder) {
@@ -95,8 +95,7 @@ const blocksSlice = createSlice({
       })
       .addCase(fetchBlocks.rejected, (state, action) => {
         state.status = 'failed';
-        state.error =
-          'Error fetching data from the disk. Try restarting the app.';
+        state.error = 'Error fetching data from the disk. Try restarting the app.';
       });
   },
 });

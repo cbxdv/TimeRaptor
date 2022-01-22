@@ -1,10 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-
-import { flexCenter } from '../styles/styleUtils.js'
+import styled from 'styled-components'
 
 import DayColumn from './DayColumn.jsx'
+import { flexCenter } from '../styles/styleUtils.js'
 
 const DayContainer = () => {
   const blocksStatus = useSelector((state) => state.blocks.status)
@@ -48,7 +47,7 @@ const DayContainerContainer = styled.div`
 `
 
 const DayColumnContainer = styled.div`
-  margin-right: ${(props) => (props.rm ? 0 : `5px`)};
+  margin-right: ${({ rm }) => (rm ? 0 : `5px`)};
   width: 100%;
   border-radius: 8px;
 `

@@ -25,14 +25,14 @@ ipcMain.on('timeblocks:clear', () => {
 
 ipcMain.handle('userconfigs:get', async () => {
   const userConfigs = await store.get('userconfigs');
-  console.log(userConfigs)
+  console.log(userConfigs);
   return userConfigs;
 });
 
 ipcMain.on('userconfig:set', (_, { configName, configValue }) => {
-  console.log('setting', configName, configValue)
-  store.set(`userconfigs.${configName}`, configValue)
-})
+  console.log('setting', configName, configValue);
+  store.set(`userconfigs.${configName}`, configValue);
+});
 
 ipcMain.on('app:notify', (_, { title, body }) => {
   new Notification({

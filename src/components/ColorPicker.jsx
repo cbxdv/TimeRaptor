@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import PaletteIcon from '../assets/icons/Palette.svg'
 import WithModal from '../hooks/WithModal.jsx'
 import TextButton from './TextButton.jsx'
-
-import PaletteIcon from '../assets/icons/Palette.svg'
-
-import { themeColors, varietyColors } from '../styles/styleConstants.js'
-import { flexCenter, inputBack, buttonStyles } from '../styles/styleUtils.js'
+import { varietyColors } from '../styles/styleConstants.js'
+import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils.js'
 
 const ColorPicker = ({ title = '', color, valueSetHandler }) => {
   const [showPickerPanel, setShowPickerPanel] = useState(false)
@@ -25,12 +23,7 @@ const ColorPicker = ({ title = '', color, valueSetHandler }) => {
           <ColorsIndicator color={color} />
           {colorNames[color] || title}
         </div>
-        <div
-          onClick={() => setShowPickerPanel(true)}
-          style={{ cursor: 'pointer' }}
-        >
-          <PaletteIcon />
-        </div>
+        <PaletteIcon onClick={() => setShowPickerPanel(true)} />
       </ColorPickerTopBox>
     </React.Fragment>
   )
@@ -69,11 +62,7 @@ const ColoPickerPanel = ({ color, closeHandler, mainSubmitHandler }) => {
       </ColorPickerPanelContainer>
       <ButtonsContainer>
         <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton
-          label='Submit'
-          variant='success'
-          onClick={() => submitHandler()}
-        />
+        <TextButton label='Submit' variant='success' onClick={() => submitHandler()} />
       </ButtonsContainer>
     </WithModal>
   )
@@ -94,7 +83,7 @@ export const colorNames = {
 
 const ColorPickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
-  background-color: ${themeColors.shade1};
+  background-color: ${({ theme }) => theme.shade1};
   border-radius: 8px;
   margin: 30px;
   overflow: scroll;
@@ -109,17 +98,15 @@ const PickerContainer = styled.div`
 
 const ColorOptions = styled.div`
   ${buttonStyles()};
-  background: ${(props) => varietyColors[props.color]};
+  background: ${({ color }) => varietyColors[color]};
   height: 30px;
   width: 30px;
   border: 0.5px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   margin: 10px;
   cursor: pointer;
-  border: ${(props) =>
-    props.selected
-      ? `3px solid ${themeColors.accent}`
-      : `0.5px solid rgba(0, 0, 0, 0.2)`};
+  border: ${({ selected }) =>
+    selected ? `3px solid #60D394` : `0.5px solid rgba(0, 0, 0, 0.2)`};
 `
 
 const ButtonsContainer = styled.div`
@@ -133,7 +120,6 @@ const ColorText = styled.div`
   font-weight: bold;
   width: 100%;
   ${flexCenter()};
-  color: ${themeColors.accent};
   margin-top: 30px;
 `
 
@@ -149,7 +135,7 @@ const ColorPickerTopBox = styled.div`
 const ColorsIndicator = styled.div`
   width: 20px;
   height: 20px;
-  background-color: ${(props) => varietyColors[props.color]};
+  background-color: ${({ color }) => varietyColors[color]};
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   margin-right: 10px;

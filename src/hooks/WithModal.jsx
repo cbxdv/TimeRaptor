@@ -2,8 +2,6 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import CrossIcon from '../assets/icons/CrossIcon.svg'
-
-import { themeColors } from '../styles/styleConstants.js'
 import { flexCenter } from '../styles/styleUtils'
 
 const WithModal = ({ children, closeHandler, modalTitle }) => {
@@ -37,7 +35,8 @@ const WithModal = ({ children, closeHandler, modalTitle }) => {
 const ModalContainer = styled.div`
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: ${({ theme }) =>
+    theme.name === 'dark' ? `rgb(35, 35, 35, 0.5)` : `rgba(0, 0, 0, 0.5)`};
   position: fixed;
   top: 0;
   left: 0;
@@ -48,7 +47,7 @@ const ModalContainer = styled.div`
 const ModalBody = styled.div`
   max-width: 80%;
   max-height: 70vh;
-  background: white;
+  background: ${({ theme }) => theme.secondary};
   border-radius: 8px;
   z-index: 20;
   overflow: scroll;
@@ -56,10 +55,10 @@ const ModalBody = styled.div`
 `
 
 const ModalHeader = styled.div`
-  height: 50px;
-  background-color: ${themeColors.accent};
-  color: ${themeColors.shade1};
   ${flexCenter({ justifyContent: 'space-between' })};
+  height: 50px;
+  background-color: ${({ theme }) => theme.accent};
+  color: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.shade1)};
   border-radius: 8px;
   padding: 0 30px;
   position: sticky;
@@ -74,15 +73,15 @@ const ModalHeader = styled.div`
   }
 
   .close-container {
-    cursor: pointer;
     ${flexCenter()};
+    cursor: pointer;
 
     &:active {
       transform: scale(0.9);
     }
 
     & > svg {
-      fill: ${themeColors.shade1};
+      fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.shade1)};
     }
   }
 `

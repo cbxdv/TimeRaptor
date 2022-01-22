@@ -48,6 +48,7 @@ const Input = styled.div`
     & + .input-label {
       transform: translateY(-36px);
       font-size: 14px;
+      font-weight: normal;
     }
   }
 `

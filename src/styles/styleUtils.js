@@ -1,7 +1,5 @@
 import { css } from 'styled-components';
 
-import { themeColors } from './styleConstants.js';
-
 /**
  * Center a element using flex
  * @param {{alignItems?: String, justifyContent?: String, flexDirection? : String}} options Options for flex
@@ -28,14 +26,14 @@ export function flexCenter(options = {}) {
 export const buttonStyles = () => css`
   ${flexCenter()};
   outline: none;
-  border: none;
+  border: 1px solid ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
   border-radius: 8px;
-  background-color: ${themeColors.shade1};
+  background: none;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
 
   & > svg {
-    fill: ${themeColors.accent};
+    fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
   }
 
   &:active {
@@ -48,10 +46,21 @@ export const inputBack = () => css`
   width: 300px;
   outline: none;
   border: none;
-  background-color: ${themeColors.shade1};
+  background-color: ${({ theme }) => theme.shade1};
+  color: ${({ theme }) => theme.text};
   border-radius: 8px;
   padding: 0 14px;
   font-family: Outfit;
   font-size: 16px;
   font-weight: 600;
+
+  & > svg {
+    fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
+    cursor: pointer;
+  }
+
+  &::selection {
+    background: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.shade1};
+  }
 `;

@@ -1,29 +1,18 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 
 import { blockDeleted } from '../redux/slices/timeBlocksSlice.js'
-
+import { getTimeString } from '../utils/timeUtils.js'
 import BlockTool from './BlockTool.jsx'
 import TimeBlockEditor from './TimeBlockEditor.jsx'
-
-import { getTimeString } from '../utils/timeUtils.js'
-
 import { flexCenter } from '../styles/styleUtils.js'
-import { varietyColors, themeColors } from '../styles/styleConstants.js'
+import { varietyColors } from '../styles/styleConstants.js'
 
 const TimeBlock = ({ timeblock }) => {
   const dispatch = useDispatch()
-  let {
-    blockId,
-    day,
-    title,
-    startTime,
-    endTime,
-    duration,
-    blockColor,
-    description,
-  } = timeblock
+  let { blockId, day, title, startTime, endTime, duration, blockColor, description } =
+    timeblock
 
   const [showBlockTool, setShowBlockTool] = useState(false)
   const [showBlockEditor, setShowBlockEditor] = useState(false)
@@ -122,10 +111,11 @@ const TimeBlock = ({ timeblock }) => {
 const TimeBlockContainer = styled.div`
   width: 100%;
   ${flexCenter({ justifyContent: 'flex-start' })}
-  background-color: ${(props) => props.bgColor || `#FFADAD`};
-  height: ${(props) => props.blockHeight}px;
+  background-color: ${({ bgColor }) => bgColor || `#FFADAD`};
+  color: #000000;
+  height: ${({ blockHeight }) => blockHeight}px;
   position: absolute;
-  top: ${(props) => props.startPosition}px;
+  top: ${({ startPosition }) => startPosition}px;
   border-radius: 8px;
   box-shadow: inset 0px 0px 10px rgba(255, 251, 251, 0.5);
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);

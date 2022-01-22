@@ -26,9 +26,9 @@ export const saveBlocksToDisk = (dayData) => {
 
 export const saveConfigToDisk = (configName, configValue) => {
   try {
-    const electronContext = getElectronContext()
-    electronContext.setUserConfig({ configName, configValue })
+    const electronContext = getElectronContext();
+    electronContext.setUserConfig({ configName, configValue });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};

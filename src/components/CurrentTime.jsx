@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { getCurrentDay, getCurrentDate } from '../utils/timeUtils.js'
-
+import { getCurrentDate, getCurrentDay } from '../utils/timeUtils.js'
 import HeaderBubble from './HeaderBubble.jsx'
 
 const getCurrentTime = () => {
@@ -30,10 +29,7 @@ const CurrentTime = () => {
   })
 
   return (
-    <HeaderBubble
-      mainText={currentTime}
-      secText={`${currentDate} - ${currentDay}`}
-    />
+    <HeaderBubble mainText={currentTime} secText={`${currentDate} - ${currentDay}`} />
   )
 }
 

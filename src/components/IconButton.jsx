@@ -15,13 +15,13 @@ const IconButton = ({ Icon, label = '', onClick = () => {} }) => {
 const IconButtonContainer = styled.div`
   ${buttonStyles()};
   height: 40px;
-  width: ${(props) => (props.labelLength === 0 ? `40px` : `120px`)};
+  width: ${({ labelLength }) => (labelLength === 0 ? `40px` : `120px`)};
   font-family: Outfit;
   font-size: 18px;
   font-weight: 700;
 
   & > svg {
-    margin-right: ${(props) => (props.labelLength === 0 ? `0` : `10px`)};
+    margin-right: ${({ labelLength }) => (labelLength === 0 ? `0` : `10px`)};
   }
 `
 
