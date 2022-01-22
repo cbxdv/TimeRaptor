@@ -11,7 +11,7 @@ import { varietyColors } from '../styles/styleConstants.js'
 
 const TimeBlock = ({ timeblock }) => {
   const dispatch = useDispatch()
-  let { blockId, day, title, startTime, endTime, duration, blockColor, description } =
+  let { day, title, startTime, endTime, duration, blockColor } =
     timeblock
 
   const [showBlockTool, setShowBlockTool] = useState(false)
