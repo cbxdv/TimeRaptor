@@ -75,7 +75,7 @@ const TimeBlock = ({ timeblock }) => {
           edit
         />
       )}
-      <ToolContainer onClick={() => !showBlockTool && setShowBlockTool(true)}>
+      <ToolContainer onContextMenu={() => !showBlockTool && setShowBlockTool(true)} onClick={() => !showBlockTool && setShowBlockTool(true)}>
         <TimeBlockContainer
           bgColor={bgColor}
           startPosition={startPosition}
