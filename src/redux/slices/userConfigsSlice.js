@@ -9,7 +9,7 @@ const initialState = {
     maximized: false,
     closeOnExit: false,
   },
-  status: 'idle',
+  status: 'loading',
   error: null,
 };
 

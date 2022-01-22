@@ -7,7 +7,7 @@ const HeaderBubble = ({ mainText = '', secText = '' }) => {
   return (
     <HeaderBubbleContainer>
       <MainText>{mainText}</MainText>
-      <SecText>{secText}</SecText>
+      { secText.length !== 0 && <SecText>{secText}</SecText>}
     </HeaderBubbleContainer>
   )
 }
@@ -18,6 +18,7 @@ const HeaderBubbleContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })}
   padding: 10px;
   border-radius: 8px;
+  min-height: 60px;
 `
 
 const MainText = styled.p`

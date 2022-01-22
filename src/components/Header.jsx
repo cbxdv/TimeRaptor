@@ -10,6 +10,7 @@ import OpenFull from '../assets/icons/OpenFull.svg'
 import GearIcon from '../assets/icons/Gear.svg'
 import Logo from '../assets/Logo.png'
 import CurrentTime from './CurrentTime.jsx'
+import CurrentBlock from './CurrentBlock.jsx'
 import IconButton from './IconButton.jsx'
 import NotificationsToggle from './NotificationsToggle.jsx'
 import TimeBlockEditor from './TimeBlockEditor.jsx'
@@ -71,6 +72,9 @@ const TopPanel = () => {
         <div className='header-section'>
           <div className='hb-cont'>
             <CurrentTime />
+          </div>
+          <div className='hb-cont'>
+            <CurrentBlock />
           </div>
         </div>
         <div className='header-section'  style={{ marginRight: platform === 'win32' && -100 }}>
