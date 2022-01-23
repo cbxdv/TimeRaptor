@@ -1,41 +1,20 @@
 {
   "name": "timeraptor",
-  "productName": "timeraptor",
-  "version": "0.2.0",
+  "productName": "Time Raptor",
+  "version": "0.2.5",
   "description": "An app to manage time",
   "main": ".webpack/main",
-  "build": {
-    "appId": "com.cibi.timeraptor",
-    "productName": "Time Raptor",
-    "win": {
-      "target": [
-        "portable",
-        "squirrel",
-        "zip"
-      ],
-      "icon": "build/icon.png"
-    },
-    "mac": {
-      "category": "public.app-category.productivity"
-    },
-    "dmg": {
-      "icon": false
-    },
-    "linux": {
-      "target": [
-        "AppImage"
-      ],
-      "category": "Office"
-    }
-  },
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/codeph0/TimeRaptor.git"
+	},
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "prettify": "prettier . --write",
-    "build": "electron-forge make"
+    "prettify": "prettier . --write"
   },
   "keywords": [],
   "author": {
@@ -45,19 +24,34 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "./build/icon",
+        "appCopyright": "Cibi",
+        "appBundleId": "com.cibi.timeraptor",
+        "appCategoryType": "public.app-category.productivity"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "timeraptor"
+            "name": "TimeRaptor",
+            "iconUrl": "https://raw.githubusercontent.com/codeph0/TimeRaptor/master/build/icon.ico",
+            "loadingGif": "./build/loading.gif",
+            "setupIcon": "./build/icon.ico"
           }
         },
         {
           "name": "@electron-forge/maker-zip",
           "platforms": [
-            "darwin"
+            "darwin",
+            "win32"
           ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "icon": "./build/icon.icns"
+          }
         },
         {
           "name": "@electron-forge/maker-deb",
@@ -88,6 +82,18 @@
             }
           }
         ]
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "codeph0",
+              "name": "TimeRaptor"
+            },
+            "prerelease": false
+          }
+        }
       ]
     }
   },
@@ -96,17 +102,17 @@
     "@babel/preset-react": "^7.16.7",
     "@electron-forge/cli": "^6.0.0-beta.63",
     "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.63",
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "@electron-forge/plugin-webpack": "6.0.0-beta.63",
+    "@electron-forge/publisher-github": "^6.0.0-beta.63",
     "@svgr/webpack": "^6.2.0",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.0.0",
     "electron": "16.0.7",
-    "electron-builder": "^22.14.5",
-    "electron-builder-squirrel-windows": "^23.0.0-alpha.0",
     "file-loader": "^6.2.0",
     "node-loader": "^2.0.0",
     "prettier": "^2.5.1",
@@ -119,6 +125,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "update-electron-app": "^2.0.1"
   }
 }

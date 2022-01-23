@@ -2,6 +2,7 @@ const { app, BrowserWindow, Tray, Menu } = require('electron');
 const path = require('path');
 const os = require('os');
 const Store = require('electron-store');
+const isSquirrelStartup = require('electron-squirrel-startup')
 
 const store = new Store();
 
@@ -93,6 +94,11 @@ app.on('activate', () => {
 if (process.platform === 'win32') {
   app.setAppUserModelId('Time Raptor');
 }
+
+if (isSquirrelStartup)
+  app.quit()
+
+require('update-electron-app')()
 
 // Importing and starting all ipc handlers of the app
 require('./electron/ipcHandlers.js');
