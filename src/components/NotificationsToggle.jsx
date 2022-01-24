@@ -4,13 +4,13 @@ import styled from 'styled-components'
 
 import {
   notificationsToggled,
-  selectNotificationState,
-} from '../redux/slices/userConfigsSlice.js'
+  selectNotificationState
+} from '../redux/slices/userConfigsSlice'
 
 import NotificationsActiveIcon from '../assets/icons/NotificationsActive.svg'
 import NotificationsOffIcon from '../assets/icons/NotificationsOff.svg'
 
-import { flexCenter, buttonStyles } from '../styles/styleUtils.js'
+import { flexCenter, buttonStyles } from '../styles/styleUtils'
 
 const NotificationsToggle = () => {
   const dispatch = useDispatch()
@@ -36,7 +36,11 @@ const NotificationsToggle = () => {
 
   return (
     <NTContainer active={active} onClick={toggleNotifications}>
-      {!active ? <NotificationsOffIcon fill='red' /> : <NotificationsActiveIcon />}
+      {!active ? (
+        <NotificationsOffIcon fill='red' />
+      ) : (
+        <NotificationsActiveIcon />
+      )}
     </NTContainer>
   )
 }

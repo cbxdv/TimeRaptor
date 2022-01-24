@@ -1,13 +1,10 @@
-import { getElectronContext } from '../redux/helpers/ElectronContext.js';
+import { getElectronContext } from '../redux/helpers/ElectronContext';
 
+// eslint-disable-next-line import/prefer-default-export
 export const timeBlockNotification = (title, description) => {
-  try {
-    const electron = getElectronContext();
-    electron.appNotify({
-      title: `${title} starts now`,
-      body: `${description}`,
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  const electron = getElectronContext();
+  electron.appNotify({
+    title: `${title} starts now`,
+    body: `${description}`
+  });
 };

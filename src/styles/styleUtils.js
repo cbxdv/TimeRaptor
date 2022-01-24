@@ -2,7 +2,8 @@ import { css } from 'styled-components';
 
 /**
  * Center a element using flex
- * @param {{alignItems?: String, justifyContent?: String, flexDirection? : String}} options Options for flex
+ * @param {{alignItems?: String, justifyContent?: String, flexDirection? : String}} options
+ * Options for flex
  */
 export function flexCenter(options = {}) {
   let { alignItems, justifyContent, flexDirection } = options;
@@ -26,7 +27,8 @@ export function flexCenter(options = {}) {
 export const buttonStyles = () => css`
   ${flexCenter()};
   outline: none;
-  border: 1px solid ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
+  border: 1px solid
+    ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
   border-radius: 8px;
   background: none;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);

@@ -1,16 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { buttonStyles } from '../styles/styleUtils.js'
+import { buttonStyles } from '../styles/styleUtils'
 
-const IconButton = ({ Icon, label = '', onClick = () => {} }) => {
-  return (
-    <IconButtonContainer labelLength={label.length} onClick={onClick}>
-      {Icon !== undefined && <Icon />}
-      {label.length !== 0 && label}
-    </IconButtonContainer>
-  )
-}
+const IconButton = ({ Icon, label = '', onClick = () => {} }) => (
+  <IconButtonContainer labelLength={label.length} onClick={onClick}>
+    {Icon !== undefined && <Icon />}
+    {label.length !== 0 && label}
+  </IconButtonContainer>
+)
 
 const IconButtonContainer = styled.div`
   ${buttonStyles()};

@@ -1,26 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { inputBack, flexCenter } from '../styles/styleUtils.js'
+import { inputBack, flexCenter } from '../styles/styleUtils'
 
-const TextArea = ({ name, title, onChangeHandler, inputValue }) => {
-  return (
-    <Textarea>
-      <textarea
-        name={name}
-        className='text-area'
-        onChange={onChangeHandler}
-        value={inputValue}
-        autoComplete='false'
-        autoCapitalize='false'
-        required
-      />
-      <label htmlFor='name' className='input-label'>
-        {title}
-      </label>
-    </Textarea>
-  )
-}
+const TextArea = ({ name, title, onChangeHandler, inputValue }) => (
+  <Textarea>
+    <textarea
+      name={name}
+      className='text-area'
+      onChange={onChangeHandler}
+      value={inputValue}
+      autoComplete='false'
+      autoCapitalize='false'
+      required
+    />
+    <label htmlFor='name' className='input-label'>
+      {title}
+    </label>
+  </Textarea>
+)
 
 const Textarea = styled.div`
   position: relative;

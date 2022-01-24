@@ -1,16 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { flexCenter } from '../styles/styleUtils.js'
+import { flexCenter } from '../styles/styleUtils'
 
-const HeaderBubble = ({ mainText = '', secText = '' }) => {
-  return (
-    <HeaderBubbleContainer>
-      <MainText>{mainText}</MainText>
-      {secText.length !== 0 && <SecText>{secText}</SecText>}
-    </HeaderBubbleContainer>
-  )
-}
+const HeaderBubble = ({ mainText = '', secText = '' }) => (
+  <HeaderBubbleContainer>
+    <MainText>{mainText}</MainText>
+    {secText.length !== 0 && <SecText>{secText}</SecText>}
+  </HeaderBubbleContainer>
+)
 
 const HeaderBubbleContainer = styled.div`
   background: ${({ theme }) => theme.shade1};

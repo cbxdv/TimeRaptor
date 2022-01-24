@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import CalendarIcon from '../assets/icons/CalendarDayView.svg'
-import WithModal from '../hooks/WithModal.jsx'
-import TextButton from './TextButton.jsx'
-import { dayStrings } from '../utils/strings.js'
-import { flexCenter, inputBack } from '../styles/styleUtils.js'
+import WithModal from '../hooks/WithModal'
+import TextButton from './TextButton'
+import { dayStrings } from '../utils/strings'
+import { flexCenter, inputBack } from '../styles/styleUtils'
 
 const DayInput = ({ title = '', value, valueSetHandler }) => {
   const [showPickerPanel, setShowPickerPanel] = useState(false)
   return (
-    <React.Fragment>
+    <>
       {showPickerPanel && (
         <DayPickerPanel
           day={value}
@@ -22,7 +22,7 @@ const DayInput = ({ title = '', value, valueSetHandler }) => {
         {dayStrings[value] || title}
         <CalendarIcon onClick={() => setShowPickerPanel(true)} />
       </DayPickerTopBox>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -39,19 +39,15 @@ const DayPickerPanel = ({ day, closeHandler, mainSubmitHandler }) => {
   }
 
   const generateDayOptions = () => {
-    let i = 0
-    let dayArr = Object.keys(dayStrings).map((d) => {
-      i++
-      return (
-        <PickerOption
-          selected={selectedDay === d}
-          onClick={() => setSelectedDay(d)}
-          key={`${d}-option`}
-        >
-          {dayStrings[d]}
-        </PickerOption>
-      )
-    })
+    const dayArr = Object.keys(dayStrings).map((d) => (
+      <PickerOption
+        selected={selectedDay === d}
+        onClick={() => setSelectedDay(d)}
+        key={`${d}-option`}
+      >
+        {dayStrings[d]}
+      </PickerOption>
+    ))
     return dayArr
   }
 
@@ -62,7 +58,11 @@ const DayPickerPanel = ({ day, closeHandler, mainSubmitHandler }) => {
       </DayPickerPanelContainer>
       <ButtonsContainer>
         <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton label='Submit' variant='success' onClick={() => submitHandler()} />
+        <TextButton
+          label='Submit'
+          variant='success'
+          onClick={() => submitHandler()}
+        />
       </ButtonsContainer>
     </WithModal>
   )

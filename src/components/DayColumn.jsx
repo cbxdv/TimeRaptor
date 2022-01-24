@@ -5,14 +5,14 @@ import styled from 'styled-components'
 import {
   currentBlockChanged,
   selectBlocksByDay,
-  selectCurrentBlock,
-} from '../redux/slices/timeBlocksSlice.js'
-import { selectNotificationState } from '../redux/slices/userConfigsSlice.js'
-import { timeBlockNotification } from '../utils/timeBlockUtils.js'
-import { getCurrentTimeAndDay, milliToTimeObj } from '../utils/timeUtils.js'
-import CurrentTimeLine from './CurrentTimeLine.jsx'
-import { dayStrings } from '../utils/strings.js'
-import TimeBlock from './TimeBlock.jsx'
+  selectCurrentBlock
+} from '../redux/slices/timeBlocksSlice'
+import { selectNotificationState } from '../redux/slices/userConfigsSlice'
+import { timeBlockNotification } from '../utils/timeBlockUtils'
+import { getCurrentTimeAndDay, milliToTimeObj } from '../utils/timeUtils'
+import CurrentTimeLine from './CurrentTimeLine'
+import { dayStrings } from '../utils/strings'
+import TimeBlock from './TimeBlock'
 
 const DayColumn = ({ dayId }) => {
   const dispatch = useDispatch()
@@ -41,7 +41,7 @@ const DayColumn = ({ dayId }) => {
           if (block.startTime.pm === false && block.startTime.hours === 12) {
             startHours = 0
           }
-          let startMinutes = block.startTime.minutes
+          const startMinutes = block.startTime.minutes
           startDateObj = new Date()
           startDateObj.setHours(startHours, startMinutes, 0, 0)
 
@@ -53,7 +53,7 @@ const DayColumn = ({ dayId }) => {
           if (block.endTime.pm === false && block.endTime.hours === 12) {
             endHours = 0
           }
-          let endMinutes = block.endTime.minutes
+          const endMinutes = block.endTime.minutes
           endDateObj = new Date()
           endDateObj.setHours(endHours, endMinutes, 0, 0)
 
@@ -77,7 +77,7 @@ const DayColumn = ({ dayId }) => {
 
         selectedBlock = {
           ...selectedBlock,
-          timeLeft: milliToTimeObj(endDateObj - now, false),
+          timeLeft: milliToTimeObj(endDateObj - now, false)
         }
 
         // Checking whether the current block id is same as the selected block id

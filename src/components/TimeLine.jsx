@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { convertIndexToStringHours } from '../utils/timeUtils.js'
-import { flexCenter } from '../styles/styleUtils.js'
+import { convertIndexToStringHours } from '../utils/timeUtils'
+import { flexCenter } from '../styles/styleUtils'
 
 const TimeLine = () => {
   const generateTimeLine = () => {
-    let line = []
-    for (let i = 0; i < 24; i++) {
+    const line = []
+    for (let i = 0; i < 24; i += 1) {
       line.push(
         <OneHourComponent key={`${i}tlb`}>
           <span>{convertIndexToStringHours(i, true)}</span>
@@ -18,9 +18,11 @@ const TimeLine = () => {
   }
 
   const generateTimeLineSecs = () => {
-    let secs = []
-    for (let i = 0; i <= 24 * 4; i++) {
-      secs.push(<OneBlockSecs key={`tls${i}`}>{i % 4 !== 0 && <TLine />}</OneBlockSecs>)
+    const secs = []
+    for (let i = 0; i <= 24 * 4; i += 1) {
+      secs.push(
+        <OneBlockSecs key={`tls${i}`}>{i % 4 !== 0 && <TLine />}</OneBlockSecs>
+      )
     }
     return secs
   }

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import ClockIcon from '../assets/icons/Time.svg'
-import WithModal from '../hooks/WithModal.jsx'
-import { getTimeString } from '../utils/timeUtils.js'
-import TextButton from './TextButton.jsx'
-import { flexCenter, inputBack } from '../styles/styleUtils.js'
+import WithModal from '../hooks/WithModal'
+import { getTimeString } from '../utils/timeUtils'
+import TextButton from './TextButton'
+import { flexCenter, inputBack } from '../styles/styleUtils'
 
 const TimeInput = ({ title = '', value, valueSetHandler, error }) => {
   const [showPickerPanel, setShowPickerPanel] = useState(false)
@@ -13,7 +13,7 @@ const TimeInput = ({ title = '', value, valueSetHandler, error }) => {
   const timeString = getTimeString(value)
 
   return (
-    <React.Fragment>
+    <>
       {showPickerPanel && (
         <TimePickerPanel
           time={value}
@@ -25,7 +25,7 @@ const TimeInput = ({ title = '', value, valueSetHandler, error }) => {
         {timeString || title}
         <ClockIcon onClick={() => setShowPickerPanel(true)} />
       </TimePickerTopBox>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -46,8 +46,8 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
   }
 
   const generateHoursOptions = () => {
-    let hoursArr = []
-    for (let index = 1; index <= 12; index++) {
+    const hoursArr = []
+    for (let index = 1; index <= 12; index += 1) {
       hoursArr.push(
         <PickerOption
           selected={hours === index}
@@ -62,7 +62,7 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
     return hoursArr
   }
   const generateMinutesOptions = () => {
-    let mintuesArr = []
+    const mintuesArr = []
     for (let index = 0; index < 60; index += 5) {
       mintuesArr.push(
         <PickerOption
@@ -95,14 +95,18 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
           </PickerSecsContainer>
           <PickerSecsContainer>
             <div>
-              <PickerOption selected={!pm} onClick={() => setPm(false)} key={`ampm0`}>
+              <PickerOption
+                selected={!pm}
+                onClick={() => setPm(false)}
+                key='ampm0'
+              >
                 a.m.
               </PickerOption>
               <PickerOption
                 selected={pm}
                 alt={1}
                 onClick={() => setPm(true)}
-                key={`ampm1`}
+                key='ampm1'
               >
                 p.m.
               </PickerOption>
@@ -112,7 +116,11 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
       </TimePickerPanelContainer>
       <ButtonsContainer>
         <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton label='Submit' variant='success' onClick={() => submitHandler()} />
+        <TextButton
+          label='Submit'
+          variant='success'
+          onClick={() => submitHandler()}
+        />
       </ButtonsContainer>
     </WithModal>
   )

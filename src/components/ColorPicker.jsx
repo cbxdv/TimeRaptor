@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import PaletteIcon from '../assets/icons/Palette.svg'
-import WithModal from '../hooks/WithModal.jsx'
-import TextButton from './TextButton.jsx'
-import { varietyColorStrings } from '../utils/strings.js'
-import { varietyColors } from '../styles/styleConstants.js'
-import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils.js'
+import WithModal from '../hooks/WithModal'
+import TextButton from './TextButton'
+import { varietyColorStrings } from '../utils/strings'
+import { varietyColors } from '../styles/styleConstants'
+import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils'
 
 const ColorPicker = ({ title = '', color, valueSetHandler }) => {
   const [showPickerPanel, setShowPickerPanel] = useState(false)
   return (
-    <React.Fragment>
+    <>
       {showPickerPanel && (
         <ColoPickerPanel
           color={color}
@@ -26,7 +26,7 @@ const ColorPicker = ({ title = '', color, valueSetHandler }) => {
         </div>
         <PaletteIcon onClick={() => setShowPickerPanel(true)} />
       </ColorPickerTopBox>
-    </React.Fragment>
+    </>
   )
 }
 
@@ -44,12 +44,12 @@ const ColoPickerPanel = ({ color, closeHandler, mainSubmitHandler }) => {
 
   const generateColorBlock = () => {
     let colors = Object.keys(varietyColorStrings)
-    colors = colors.map((color) => (
+    colors = colors.map((colorOption) => (
       <ColorOptions
-        key={color}
-        selected={selectedColor === color}
-        color={color}
-        onClick={() => setSelectedColor(color)}
+        key={colorOption}
+        selected={selectedColor === colorOption}
+        color={colorOption}
+        onClick={() => setSelectedColor(colorOption)}
       />
     ))
     return colors
@@ -63,7 +63,11 @@ const ColoPickerPanel = ({ color, closeHandler, mainSubmitHandler }) => {
       </ColorPickerPanelContainer>
       <ButtonsContainer>
         <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton label='Submit' variant='success' onClick={() => submitHandler()} />
+        <TextButton
+          label='Submit'
+          variant='success'
+          onClick={() => submitHandler()}
+        />
       </ButtonsContainer>
     </WithModal>
   )

@@ -11,60 +11,43 @@ export const getElectronContext = () => {
     }
     return electronContext;
   } catch {
-    throw 'Error connecting to context. Try restarting app.';
+    // eslint-disable-next-line no-console
+    console.log('Error connecting to context. Try restarting app.');
   }
+  return null;
 };
 
 export const saveBlocksToDisk = (dayData) => {
-  try {
-    const electronContext = getElectronContext();
-    electronContext.updateTimeBlocks(dayData);
-  } catch (error) {
-    console.log(error);
-  }
+  const electronContext = getElectronContext();
+  electronContext.updateTimeBlocks(dayData);
 };
 
 export const saveConfigToDisk = (configName, configValue) => {
-  try {
-    const electronContext = getElectronContext();
-    electronContext.setUserConfig({ configName, configValue });
-  } catch (error) {
-    console.log(error);
-  }
+  const electronContext = getElectronContext();
+  electronContext.setUserConfig({ configName, configValue });
 };
 
 export const closeWindow = () => {
-  try {
-    const electronContext = getElectronContext();
-    electronContext.closeWindow();
-  } catch (error) {
-    console.log(error);
-  }
+  const electronContext = getElectronContext();
+  electronContext.closeWindow();
 };
 
 export const maximizeWindow = () => {
-  try {
-    const electronContext = getElectronContext();
-    electronContext.maximizeWindow();
-  } catch (error) {
-    console.log(error);
-  }
+  const electronContext = getElectronContext();
+  electronContext.maximizeWindow();
 };
 
 export const minimizeWindow = () => {
-  try {
-    const electronContext = getElectronContext();
-    electronContext.minimizeWindow();
-  } catch (error) {
-    console.log(error);
-  }
+  const electronContext = getElectronContext();
+  electronContext.minimizeWindow();
 };
 
 export const restoreWindow = () => {
-  try {
-    const electronContext = getElectronContext();
-    electronContext.restoreWindow();
-  } catch (error) {
-    console.log(error);
-  }
+  const electronContext = getElectronContext();
+  electronContext.restoreWindow();
+};
+
+export const reloadWindow = () => {
+  const electronContext = getElectronContext();
+  electronContext.reloadWindow();
 };

@@ -2,8 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import DayColumn from './DayColumn.jsx'
-import { flexCenter } from '../styles/styleUtils.js'
+import DayColumn from './DayColumn'
+import { flexCenter } from '../styles/styleUtils'
 
 const DayContainer = () => {
   const blocksStatus = useSelector((state) => state.blocks.status)

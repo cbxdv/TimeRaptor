@@ -1,14 +1,14 @@
+/* eslint-disable */
 const { app, BrowserWindow, Tray, Menu } = require('electron');
 const path = require('path');
 const os = require('os');
 const Store = require('electron-store');
-const isSquirrelStartup = require('electron-squirrel-startup')
+const isSquirrelStartup = require('electron-squirrel-startup');
 
 const store = new Store();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
-  // eslint-disable-line global-require
   app.quit();
 }
 
@@ -22,12 +22,12 @@ const createWindow = () => {
     minWidth: 1220,
     minHeight: 800,
     show: false,
-    frame: os.platform() === 'win32' ? false : true,
+    frame: os.platform() !== 'win32',
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      backgroundThrottling: false,
+      backgroundThrottling: false
     },
-    icon: path.join(__dirname, './assets/Logo.png'),
+    icon: path.join(__dirname, './assets/Logo.png')
   });
 
   const menu = new Menu.buildFromTemplate([]);
@@ -52,9 +52,9 @@ const createTray = () => {
       label: 'Show',
       click() {
         showWindow();
-      },
+      }
     },
-    { role: 'quit' },
+    { role: 'quit' }
   ]);
   tray.setContextMenu(trayMenu);
 
@@ -95,10 +95,11 @@ if (process.platform === 'win32') {
   app.setAppUserModelId('Time Raptor');
 }
 
-if (isSquirrelStartup)
-  app.quit()
+if (isSquirrelStartup) {
+  app.quit();
+}
 
-require('update-electron-app')()
+require('update-electron-app')();
 
 // Importing and starting all ipc handlers of the app
 require('./electron/ipcHandlers.js');

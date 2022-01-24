@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import { selectCurrentBlock } from '../redux/slices/timeBlocksSlice'
-import HeaderBubble from './HeaderBubble.jsx'
+import HeaderBubble from './HeaderBubble'
 
 const CurrentBlock = () => {
   const currentBlock = useSelector(selectCurrentBlock)
@@ -12,8 +12,8 @@ const CurrentBlock = () => {
 
   if (currentBlock && currentBlock.id) {
     mainText = currentBlock.title
-    let hours = currentBlock.timeLeft.hours
-    let minutes = currentBlock.timeLeft.minutes
+    const { hours } = currentBlock.timeLeft
+    let { minutes } = currentBlock.timeLeft
     if (minutes === 0) {
       minutes = 1
     }
@@ -26,13 +26,9 @@ const CurrentBlock = () => {
   }
 
   if (mainText.length !== 0) {
-    return (
-      <React.Fragment>
-        <HeaderBubble mainText={mainText} secText={secText} />
-      </React.Fragment>
-    )
+    return <HeaderBubble mainText={mainText} secText={secText} />
   }
-  return <></>
+  return <div />
 }
 
 export default React.memo(CurrentBlock)

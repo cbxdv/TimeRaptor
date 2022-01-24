@@ -3,18 +3,26 @@ import styled from 'styled-components'
 
 import BinIcon from '../assets/icons/Bin.svg'
 import EditIcon from '../assets/icons/Edit.svg'
-import { buttonStyles, flexCenter } from '../styles/styleUtils.js'
-import { getTimeString } from '../utils/timeUtils.js'
+import { buttonStyles, flexCenter } from '../styles/styleUtils'
+import { getTimeString } from '../utils/timeUtils'
 
-const BlockTool = ({ timeblock, closeHandler, position, editHandler, deleteHandler }) => {
-  let { title, startTime, endTime, description } = timeblock
+const BlockTool = ({
+  timeblock,
+  closeHandler,
+  position,
+  editHandler,
+  deleteHandler
+}) => {
+  const { title, startTime, endTime, description } = timeblock
   const timeString = `${getTimeString(startTime)} - ${getTimeString(endTime)}`
 
-  let ref = useRef(null)
+  const ref = useRef(null)
 
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
-      closeHandler && closeHandler()
+      if (closeHandler) {
+        closeHandler()
+      }
     }
   }
 
@@ -44,7 +52,7 @@ const BlockTool = ({ timeblock, closeHandler, position, editHandler, deleteHandl
         <IconButton danger={false} onClick={editHandler}>
           <EditIcon />
         </IconButton>
-        <IconButton danger={true} onClick={deleteHandler}>
+        <IconButton danger onClick={deleteHandler}>
           <BinIcon />
         </IconButton>
       </ButtonsContainer>

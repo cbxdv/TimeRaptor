@@ -2,17 +2,16 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import { blockDeleted } from '../redux/slices/timeBlocksSlice.js'
-import { getTimeString } from '../utils/timeUtils.js'
-import BlockTool from './BlockTool.jsx'
-import TimeBlockEditor from './TimeBlockEditor.jsx'
-import { flexCenter } from '../styles/styleUtils.js'
-import { varietyColors } from '../styles/styleConstants.js'
+import { blockDeleted } from '../redux/slices/timeBlocksSlice'
+import { getTimeString } from '../utils/timeUtils'
+import BlockTool from './BlockTool'
+import TimeBlockEditor from './TimeBlockEditor'
+import { flexCenter } from '../styles/styleUtils'
+import { varietyColors } from '../styles/styleConstants'
 
 const TimeBlock = ({ timeblock }) => {
   const dispatch = useDispatch()
-  let { blockId, day, title, startTime, endTime, duration, blockColor, description } =
-    timeblock
+  const { day, title, startTime, endTime, duration, blockColor } = timeblock
 
   const [showBlockTool, setShowBlockTool] = useState(false)
   const [showBlockEditor, setShowBlockEditor] = useState(false)
@@ -27,10 +26,10 @@ const TimeBlock = ({ timeblock }) => {
     dispatch(blockDeleted(timeblock))
   }
 
-  let bgColor = varietyColors[blockColor]
+  const bgColor = varietyColors[blockColor]
   let startTimeString = getTimeString(startTime)
   let endTimeString = getTimeString(endTime)
-  let blockHeight = (duration / 15) * 20
+  const blockHeight = (duration / 15) * 20
   let startPosition = startTime.hours * 80 + (startTime.minutes / 15) * 20 + 20
   if (startTime.pm === false && startTime.hours === 12) {
     startPosition -= 12 * 80
@@ -53,7 +52,7 @@ const TimeBlock = ({ timeblock }) => {
 
   let blockTitle = title
   if (title.length > 12) {
-    blockTitle = blockTitle.slice(0, 12) + '...'
+    blockTitle = `${blockTitle.slice(0, 12)}...`
   }
 
   if (startTimeString.length + endTimeString > 24) {
@@ -67,7 +66,7 @@ const TimeBlock = ({ timeblock }) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       {showBlockEditor && (
         <TimeBlockEditor
           closeHandler={() => setShowBlockEditor(false)}
@@ -106,7 +105,7 @@ const TimeBlock = ({ timeblock }) => {
           )}
         </TimeBlockContainer>
       </ToolContainer>
-    </React.Fragment>
+    </>
   )
 }
 

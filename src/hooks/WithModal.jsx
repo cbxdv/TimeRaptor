@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import CrossIcon from '../assets/icons/CrossIcon.svg'
-import { flexCenter } from '../styles/styleUtils'
+import { flexCenter, buttonStyles } from '../styles/styleUtils'
 
 const WithModal = ({ children, closeHandler, modalTitle }) => {
   document.body.style.overflow = 'hidden'
@@ -28,14 +28,9 @@ const WithModal = ({ children, closeHandler, modalTitle }) => {
       <ModalBody>
         <ModalHeader>
           <h1>{modalTitle}</h1>
-          <div
-            className='close-container'
-            onClick={() => {
-              closeHandler()
-            }}
-          >
+          <ModalCloseButton type='button' onClick={closeHandler}>
             <CrossIcon />
-          </div>
+          </ModalCloseButton>
         </ModalHeader>
         <div>{children}</div>
       </ModalBody>
@@ -92,8 +87,19 @@ const ModalHeader = styled.div`
     }
 
     & > svg {
-      fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.shade1)};
+      fill: ${({ theme }) =>
+        theme.name === 'dark' ? theme.text : theme.shade1};
     }
+  }
+`
+
+const ModalCloseButton = styled.button`
+  ${buttonStyles()};
+  border: none;
+  box-shadow: none;
+
+  & > svg {
+    fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.shade1)};
   }
 `
 

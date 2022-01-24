@@ -2,18 +2,22 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import WithModal from '../hooks/WithModal.jsx'
-import { blockAdded, blockUpdated } from '../redux/slices/timeBlocksSlice.js'
-import { getDurationMinutes } from '../utils/timeUtils.js'
-import ColorPicker from './ColorPicker.jsx'
-import DayInput from './DayInput.jsx'
-import TextArea from './TextArea.jsx'
-import TextButton from './TextButton.jsx'
-import TextInput from './TextInput.jsx'
-import TimeInput from './TimeInput.jsx'
-import { flexCenter } from '../styles/styleUtils.js'
+import WithModal from '../hooks/WithModal'
+import { blockAdded, blockUpdated } from '../redux/slices/timeBlocksSlice'
+import { getDurationMinutes } from '../utils/timeUtils'
+import ColorPicker from './ColorPicker'
+import DayInput from './DayInput'
+import TextArea from './TextArea'
+import TextButton from './TextButton'
+import TextInput from './TextInput'
+import TimeInput from './TimeInput'
+import { flexCenter } from '../styles/styleUtils'
 
-const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) => {
+const TimeBlockEditor = ({
+  closeHandler,
+  edit = false,
+  currentBlock = null
+}) => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
@@ -21,7 +25,7 @@ const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) =>
   const [startTime, setStartTime] = useState({
     hours: 1,
     minutes: 0,
-    pm: false,
+    pm: false
   })
   const [endTime, setEndTime] = useState({ hours: 1, minutes: 0, pm: false })
   const [blockColor, setBlockColor] = useState('decoPeach')
@@ -70,7 +74,7 @@ const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) =>
       endTime,
       duration: getDurationMinutes(startTime, endTime),
       blockColor,
-      description,
+      description
     }
     if (edit) {
       // edit block
@@ -121,7 +125,11 @@ const TimeBlockEditor = ({ closeHandler, edit = false, currentBlock = null }) =>
         </InputContainer>
 
         <InputContainer ref={inputRef}>
-          <DayInput title='Day' value={day} valueSetHandler={(day) => setDay(day)} />
+          <DayInput
+            title='Day'
+            value={day}
+            valueSetHandler={(selectedDay) => setDay(selectedDay)}
+          />
         </InputContainer>
 
         <InputContainer>

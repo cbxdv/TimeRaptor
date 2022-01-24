@@ -1,28 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { inputBack } from '../styles/styleUtils.js'
+import { inputBack } from '../styles/styleUtils'
 
-const TextInput = ({ name, title, onChangeHandler, inputValue, error }) => {
-  return (
-    <Input error={error}>
-      <input
-        type='text'
-        name={name}
-        value={inputValue}
-        onChange={onChangeHandler}
-        autoComplete='false'
-        autoCapitalize='false'
-        className='input-box'
-        spellCheck='false'
-        required
-      />
-      <label htmlFor={name} className='input-label'>
-        {title}
-      </label>
-    </Input>
-  )
-}
+const TextInput = ({ name, title, onChangeHandler, inputValue, error }) => (
+  <Input error={error}>
+    <input
+      type='text'
+      name={name}
+      value={inputValue}
+      onChange={onChangeHandler}
+      autoComplete='false'
+      autoCapitalize='false'
+      className='input-box'
+      spellCheck='false'
+      required
+    />
+    <label htmlFor={name} className='input-label'>
+      {title}
+    </label>
+  </Input>
+)
 
 const Input = styled.div`
   position: relative;
