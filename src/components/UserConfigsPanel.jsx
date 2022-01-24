@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Octocat from '../assets/icons/Octocat.png'
 import WaveEmoji from '../assets/icons/Wave.png'
 import WithModal from '../hooks/WithModal'
-import { getElectronContext } from '../redux/helpers/ElectronContext'
+import { getElectronContext } from '../utils/ElectronContext'
 import { blocksCleared } from '../redux/slices/timeBlocksSlice'
 import {
   darkModeToggled,

@@ -27,7 +27,7 @@ import {
   minimizeWindow,
   restoreWindow,
   reloadWindow
-} from '../redux/helpers/ElectronContext'
+} from '../utils/ElectronContext'
 import { flexCenter } from '../styles/styleUtils'
 
 const TopPanel = () => {

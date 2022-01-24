@@ -17,4 +17,4 @@
 
 - Created using [Electron](https://www.electronjs.org/), [React](https://reactjs.org/), [Redux](https://redux.js.org/)
 - If any issues, use [Issues](https://github.com/codeph0/TimeRaptor/issues) tab to raise an issue
-- ⭐ or Follow is appreciated 😁 (Shameless)
+- ⭐ or Follow is appreciated 😁

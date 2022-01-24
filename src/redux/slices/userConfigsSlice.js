@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getElectronContext,
   saveConfigToDisk
-} from '../helpers/ElectronContext';
+} from '../../utils/ElectronContext';
 
 const initialState = {
   configurations: {

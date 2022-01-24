@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
 import {
   getElectronContext,
   saveBlocksToDisk
-} from '../helpers/ElectronContext';
+} from '../../utils/ElectronContext';
 
 const initialState = {
   dayData: {
