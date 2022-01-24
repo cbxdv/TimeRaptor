@@ -4,20 +4,20 @@ import styled from 'styled-components'
 
 import Octocat from '../assets/icons/Octocat.png'
 import WaveEmoji from '../assets/icons/Wave.png'
-import WithModal from '../hooks/WithModal.jsx'
-import { getElectronContext } from '../redux/helpers/ElectronContext.js'
-import { blocksCleared } from '../redux/slices/timeBlocksSlice.js'
+import WithModal from '../hooks/WithModal'
+import { getElectronContext } from '../redux/helpers/ElectronContext'
+import { blocksCleared } from '../redux/slices/timeBlocksSlice'
 import {
   darkModeToggled,
   notificationsToggled,
   closeOnExitToggled,
   selectConfigurations,
   showCurrentTimeToggled,
-  showCurrentBlockToggled,
-} from '../redux/slices/userConfigsSlice.js'
-import CheckBox from './CheckBox.jsx'
-import TextButton from './TextButton.jsx'
-import { flexCenter } from '../styles/styleUtils.js'
+  showCurrentBlockToggled
+} from '../redux/slices/userConfigsSlice'
+import CheckBox from './CheckBox'
+import TextButton from './TextButton'
+import { flexCenter } from '../styles/styleUtils'
 
 const UserConfigsPanel = ({ closeHandler = () => {} }) => {
   const dispatch = useDispatch()
@@ -41,21 +41,13 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
   }
 
   const openRepo = () => {
-    try {
-      const electron = getElectronContext()
-      electron.appOpenRepoLink()
-    } catch (error) {
-      console.log(error)
-    }
+    const electron = getElectronContext()
+    electron.appOpenRepoLink()
   }
 
   const clearTimeBlocks = () => {
-    try {
-      dispatch(blocksCleared())
-      closeHandler()
-    } catch (error) {
-      console.log(error)
-    }
+    dispatch(blocksCleared())
+    closeHandler()
   }
 
   return (
@@ -73,7 +65,10 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
 
             <div className='option-text'>Dark Mode</div>
             <div className='option-config'>
-              <CheckBox checked={configurations.darkMode} onClick={darkModeToggle} />
+              <CheckBox
+                checked={configurations.darkMode}
+                onClick={darkModeToggle}
+              />
             </div>
 
             <div className='option-text'>Close On Exit</div>
@@ -101,16 +96,25 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
             </div>
           </OptionsContainer>
           <ButtonContainer>
-            <TextButton label='Clear Blocks' variant='danger' onClick={clearTimeBlocks} />
+            <TextButton
+              label='Clear Blocks'
+              variant='danger'
+              onClick={clearTimeBlocks}
+            />
           </ButtonContainer>
         </MainPanel>
         <BotText>
           <div className='bot-text-sec'>
-            <img src={WaveEmoji} className='bot-text-img' />
+            <img src={WaveEmoji} className='bot-text-img' alt='Hi!' />
             <span>Made by Cibi</span>
           </div>
-          <div className='bot-text-sec' onClick={openRepo} style={{ cursor: 'pointer' }}>
-            <img src={Octocat} className='bot-text-img' />
+          <div
+            className='bot-text-sec'
+            role='link'
+            onClick={openRepo}
+            style={{ cursor: 'pointer' }}
+          >
+            <img src={Octocat} className='bot-text-img' alt='GitHub' />
             <div style={{ position: 'relative' }}>
               <span className='bot-link'>GitHub</span>
             </div>

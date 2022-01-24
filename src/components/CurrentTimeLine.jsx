@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
-import { getCurrentTimeAndDay } from '../utils/timeUtils.js'
+import { getCurrentTimeAndDay } from '../utils/timeUtils'
 
 const CurrentTimeLine = () => {
   // Creating a scroll state variable to check whether the componenet is moving
@@ -15,7 +15,10 @@ const CurrentTimeLine = () => {
       return
     }
     setScrolling(true)
-    currentTimeLineRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    currentTimeLineRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    })
     setTimeout(() => {
       setScrolling(false)
     }, 2000)
@@ -61,7 +64,10 @@ const CurrentTimeLine = () => {
 
   return (
     <div>
-      <CurrentTimeLineContainer startPosition={startPosition} ref={currentTimeLineRef} />
+      <CurrentTimeLineContainer
+        startPosition={startPosition}
+        ref={currentTimeLineRef}
+      />
     </div>
   )
 }

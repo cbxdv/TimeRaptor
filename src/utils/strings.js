@@ -5,18 +5,18 @@ export const dayStrings = {
   thursday: 'Thursday',
   friday: 'Friday',
   saturday: 'Saturday',
-  sunday: 'Sunday',
+  sunday: 'Sunday'
 };
 
 export const varietyColorStrings = {
-  decoPeach: `Deco Peach`,
-  deepChampagne: `Deep Champagne`,
-  crayola: `Crayola`,
-  teaGreen: `Tea Green`,
-  celeste: `Celeste`,
-  babyBlueEyes: `Baby Blue Eyes`,
-  greyedLavender: `Greyed Lavender`,
-  mauve: `Mauve`,
-  linen: `Linen`,
-  beige: `Beige`,
+  decoPeach: 'Deco Peach',
+  deepChampagne: 'Deep Champagne',
+  crayola: 'Crayola',
+  teaGreen: 'Tea Green',
+  celeste: 'Celeste',
+  babyBlueEyes: 'Baby Blue Eyes',
+  greyedLavender: 'Greyed Lavender',
+  mauve: 'Mauve',
+  linen: 'Linen',
+  beige: 'Beige'
 };

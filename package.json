@@ -5,15 +5,15 @@
   "description": "An app to manage time",
   "main": ".webpack/main",
   "repository": {
-		"type": "git",
-		"url": "https://github.com/codeph0/TimeRaptor.git"
-	},
+    "type": "git",
+    "url": "https://github.com/codeph0/TimeRaptor.git"
+  },
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\"",
+    "lint": "eslint --fix --ext .js,.jsx .",
     "prettify": "prettier . --write"
   },
   "keywords": [],
@@ -113,6 +113,13 @@
     "babel-loader": "^8.2.3",
     "css-loader": "^6.0.0",
     "electron": "16.0.7",
+    "eslint": "^8.7.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "file-loader": "^6.2.0",
     "node-loader": "^2.0.0",
     "prettier": "^2.5.1",

@@ -1,27 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { buttonStyles } from '../styles/styleUtils.js'
+import { buttonStyles } from '../styles/styleUtils'
 
 const TextButton = ({ label = '', variant = '', onClick = () => {} }) => {
-  const textColor = getTextColor(variant)
+  const getTextColor = () => {
+    switch (variant) {
+      case 'danger':
+        return `#E24446`
+      case 'success':
+        return `#36A568`
+      default:
+        return `#000000`
+    }
+  }
+
+  const textColor = getTextColor()
 
   return (
     <TextButtonContainer textColor={textColor} onClick={onClick}>
       {label}
     </TextButtonContainer>
   )
-}
-
-const getTextColor = (variant) => {
-  switch (variant) {
-    case 'danger':
-      return `#E24446`
-    case 'success':
-      return `#36A568`
-    default:
-      return `#000000`
-  }
 }
 
 const TextButtonContainer = styled.button`

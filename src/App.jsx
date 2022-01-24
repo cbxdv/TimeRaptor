@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 
-import store from './redux/store.js'
+import store from './redux/store'
 
-import MainPage from './pages/MainPage.jsx'
+import MainPage from './pages/MainPage'
 
 const App = () => (
   <Provider store={store}>

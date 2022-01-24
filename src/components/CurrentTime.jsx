@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import { getCurrentDate, getCurrentDay } from '../utils/timeUtils.js'
-import HeaderBubble from './HeaderBubble.jsx'
+import { getCurrentDate, getCurrentDay } from '../utils/timeUtils'
+import { reloadWindow } from '../redux/helpers/ElectronContext'
+import HeaderBubble from './HeaderBubble'
 
-const getCurrentTime = () => {
-  return new Date().toLocaleTimeString()
-}
+const getCurrentTime = () => new Date().toLocaleTimeString()
 
 const CurrentTime = () => {
   const [currentTime, setCurrentTime] = useState(getCurrentTime())
@@ -24,17 +23,20 @@ const CurrentTime = () => {
 
   useEffect(() => {
     if (
-      (new Date().toLocaleTimeString() === '12:00:00 AM') |
-      (new Date().toLocaleTimeString() === '00:00:00 AM')
+      new Date().toLocaleTimeString() === '12:00:00 AM' ||
+      new Date().toLocaleTimeString() === '00:00:00 AM'
     ) {
       setCurrentDate(getCurrentDate())
       setCurrentDay(getCurrentDay())
-      location.reload()
+      reloadWindow()
     }
   })
 
   return (
-    <HeaderBubble mainText={currentTime} secText={`${currentDate} - ${currentDay}`} />
+    <HeaderBubble
+      mainText={currentTime}
+      secText={`${currentDate} - ${currentDay}`}
+    />
   )
 }
 

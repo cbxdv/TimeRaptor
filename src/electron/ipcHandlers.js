@@ -1,4 +1,11 @@
-const { app, ipcMain, Notification, shell, BrowserWindow } = require('electron');
+const {
+  app,
+  ipcMain,
+  Notification,
+  shell,
+  BrowserWindow
+  // eslint-disable-next-line
+} = require('electron');
 const os = require('os');
 const Store = require('electron-store');
 
@@ -36,9 +43,9 @@ ipcMain.on('userconfig:set', (_, { configName, configValue }) => {
 
 ipcMain.on('app:notify', (_, { title, body }) => {
   new Notification({
-    title: title || `Probably it's time`,
+    title: title || "Probably it's time",
     body: body || 'Have a good time!',
-    icon: path.join(__dirname, '../assets/Logo.png'),
+    icon: path.join(__dirname, '../assets/Logo.png')
   }).show();
 });
 
@@ -47,7 +54,7 @@ ipcMain.on('app:openrepolink', () => {
 });
 
 ipcMain.on('window:close', async () => {
-  let win = BrowserWindow.getFocusedWindow();
+  const win = BrowserWindow.getFocusedWindow();
 
   const close = await store.get('userconfigs.closeOnExit', false);
   if (close) {
@@ -58,16 +65,21 @@ ipcMain.on('window:close', async () => {
 });
 
 ipcMain.on('window:minimize', () => {
-  let win = BrowserWindow.getFocusedWindow();
+  const win = BrowserWindow.getFocusedWindow();
   win.minimize();
 });
 
 ipcMain.on('window:maximize', () => {
-  let win = BrowserWindow.getFocusedWindow();
+  const win = BrowserWindow.getFocusedWindow();
   win.maximize();
 });
 
 ipcMain.on('window:restore', () => {
-  let win = BrowserWindow.getFocusedWindow();
+  const win = BrowserWindow.getFocusedWindow();
   win.restore();
+});
+
+ipcMain.on('window:reload', () => {
+  const win = BrowserWindow.getFocusedWindow();
+  win.reload();
 });

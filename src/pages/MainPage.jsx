@@ -2,16 +2,16 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled, { ThemeProvider } from 'styled-components'
 
-import DayContainer from '../components/DayContainer.jsx'
-import Header from '../components/Header.jsx'
-import TimeLine from '../components/TimeLine.jsx'
-import { fetchBlocks } from '../redux/slices/timeBlocksSlice.js'
+import DayContainer from '../components/DayContainer'
+import Header from '../components/Header'
+import TimeLine from '../components/TimeLine'
+import { fetchBlocks } from '../redux/slices/timeBlocksSlice'
 import {
   fetchUserConfigs,
   selectDarkMode,
-  darkModeToggled,
-} from '../redux/slices/userConfigsSlice.js'
-import { darkThemeColors, lightThemeColors } from '../styles/styleConstants.js'
+  darkModeToggled
+} from '../redux/slices/userConfigsSlice'
+import { darkThemeColors, lightThemeColors } from '../styles/styleConstants'
 
 const MainPage = () => {
   const dispatch = useDispatch()

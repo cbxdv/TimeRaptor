@@ -7,27 +7,28 @@ import {
   selectMaximized,
   maximizedToggled,
   selectShowCurrentTime,
-  selectShowCurrentBlock,
-} from '../redux/slices/userConfigsSlice.js'
+  selectShowCurrentBlock
+} from '../redux/slices/userConfigsSlice'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import CloseIcon from '../assets/icons/Close.svg'
 import MinimizeIcon from '../assets/icons/Minimize.svg'
 import OpenFull from '../assets/icons/OpenFull.svg'
 import GearIcon from '../assets/icons/Gear.svg'
 import Logo from '../assets/Logo.png'
-import CurrentTime from './CurrentTime.jsx'
-import CurrentBlock from './CurrentBlock.jsx'
-import IconButton from './IconButton.jsx'
-import NotificationsToggle from './NotificationsToggle.jsx'
-import TimeBlockEditor from './TimeBlockEditor.jsx'
-import UserConfigsPanel from './UserConfigsPanel.jsx'
+import CurrentTime from './CurrentTime'
+import CurrentBlock from './CurrentBlock'
+import IconButton from './IconButton'
+import NotificationsToggle from './NotificationsToggle'
+import TimeBlockEditor from './TimeBlockEditor'
+import UserConfigsPanel from './UserConfigsPanel'
 import {
   closeWindow,
   maximizeWindow,
   minimizeWindow,
   restoreWindow,
-} from '../redux/helpers/ElectronContext.js'
-import { flexCenter } from '../styles/styleUtils.js'
+  reloadWindow
+} from '../redux/helpers/ElectronContext'
+import { flexCenter } from '../styles/styleUtils'
 
 const TopPanel = () => {
   const dispatch = useDispatch()
@@ -59,7 +60,7 @@ const TopPanel = () => {
       closeWindow()
     }
     if ((event.key === 'r' || event.key === 'R') && event.ctrlKey) {
-      location.reload()
+      reloadWindow()
     }
   }
 
@@ -74,12 +75,14 @@ const TopPanel = () => {
     <Top>
       <WindowControls />
       <Header>
-        {showAddPanel && <TimeBlockEditor closeHandler={() => setShowAddPanel(false)} />}
+        {showAddPanel && (
+          <TimeBlockEditor closeHandler={() => setShowAddPanel(false)} />
+        )}
         {showUConfigPanel && (
           <UserConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
         )}
         <div className='header-section'>
-          <img src={Logo} className='header-logo' />
+          <img src={Logo} className='header-logo' alt='Time Raptor' />
           <h3>Timetable</h3>
         </div>
         <div className='header-section'>
