@@ -18,17 +18,17 @@ ipcMain.handle('app:version', async () => {
   return appVersion;
 });
 
-ipcMain.handle('timeblocks:get', async () => {
-  const timeblocks = await store.get('timeblocks');
-  return timeblocks;
+ipcMain.handle('timetable:get', async () => {
+  const timetable = await store.get('timetable');
+  return timetable;
 });
 
-ipcMain.on('timeblocks:update', async (_, dayData) => {
-  store.set('timeblocks', dayData);
+ipcMain.on('timetable:update', async (_, dayData) => {
+  store.set('timetable', dayData);
 });
 
-ipcMain.on('timeblocks:clear', () => {
-  store.delete('timeblocks');
+ipcMain.on('timetable:clear', () => {
+  store.delete('timetable');
 });
 
 ipcMain.handle('userConfigs:get', async () => {

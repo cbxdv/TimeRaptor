@@ -1,7 +1,7 @@
 {
   "name": "timeraptor",
   "productName": "Time Raptor",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "An app to manage time",
   "main": ".webpack/main",
   "repository": {

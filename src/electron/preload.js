@@ -15,9 +15,9 @@ contextBridge.exposeInMainWorld('electron', {
   restoreWindow: () => ipcRenderer.send('window:restore'),
   reloadWindow: () => ipcRenderer.send('window:reload'),
 
-  getAllTimeBlocks: () => ipcRenderer.invoke('timeblocks:get'),
-  updateTimeBlocks: data => ipcRenderer.send('timeblocks:update', data),
-  clearAllTimeBlocks: () => ipcRenderer.send('timeblocks:clear'),
+  getAllTimeBlocks: () => ipcRenderer.invoke('timetable:get'),
+  updateTimeBlocks: data => ipcRenderer.send('timetable:update', data),
+  clearAllTimeBlocks: () => ipcRenderer.send('timetable:clear'),
 
   getUserConfigs: () => ipcRenderer.invoke('userConfigs:get'),
   setUserConfig: data => ipcRenderer.send('userConfig:set', data)
