@@ -13,9 +13,10 @@ if (require('electron-squirrel-startup')) {
 }
 
 let mainWindow = null;
+let loadingWindow = null;
 let tray = null;
 
-const createWindow = () => {
+const createMainWindow = () => {
   mainWindow = new BrowserWindow({
     width: 1220,
     height: 800,
@@ -46,7 +47,25 @@ const createWindow = () => {
     if (minimized !== undefined && minimized === true) {
       return;
     }
+    if (loadingWindow) {
+      loadingWindow.close();
+    }
     mainWindow.show();
+  });
+};
+
+const createLoadingWindow = () => {
+  loadingWindow = new BrowserWindow({
+    width: 300,
+    height: 300,
+    frame: false,
+    transparent: true
+  });
+  loadingWindow.setResizable(false);
+  loadingWindow.loadURL('file://' + __dirname + '/pages/Loading.html');
+  loadingWindow.on('closed', () => (loadingWindow = null));
+  loadingWindow.on('ready-to-show', () => {
+    loadingWindow.show();
   });
 };
 
@@ -70,7 +89,8 @@ const createTray = () => {
 };
 
 const onReadyHandler = () => {
-  createWindow();
+  createLoadingWindow();
+  createMainWindow();
   createTray();
 };
 

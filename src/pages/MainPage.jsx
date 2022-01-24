@@ -5,6 +5,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import DayContainer from '../components/DayContainer'
 import Header from '../components/Header'
 import TimeLine from '../components/TimeLine'
+import Loader from '../components/Loader'
 import { fetchBlocks } from '../redux/slices/timeBlocksSlice'
 import {
   fetchUserConfigs,
@@ -37,7 +38,20 @@ const MainPage = () => {
   }, [])
 
   if (userConfigsStatus === 'loading') {
-    return <>Loading...</>
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100vw',
+          height: '100vh',
+          background: 'black'
+        }}
+      >
+        <Loader />
+      </div>
+    )
   }
   return (
     <ThemeProvider theme={darkMode ? darkThemeColors : lightThemeColors}>

@@ -23,7 +23,7 @@ const CheckBox = ({ checked = true, onClick, animation = true }) => {
   useEffect(() => {
     if (animation) {
       if (markRef && markRef.current) {
-        if (!checked) {
+        if (checked) {
           markRef.current.classList.remove('hide')
         } else {
           markRef.current.classList.add('hide')
