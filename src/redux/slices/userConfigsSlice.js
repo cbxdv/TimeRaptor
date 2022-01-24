@@ -16,7 +16,7 @@ const initialState = {
     showCurrentTime: true,
     showCurrentBlock: true,
     openMinimized: false,
-    appVersion: '123'
+    appVersion: ''
   },
   status: 'loading',
   error: null
