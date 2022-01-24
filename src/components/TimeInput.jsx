@@ -141,6 +141,7 @@ const PickerHeader = styled.div`
   font-size: 14px;
   font-weight: bold;
   display: flex;
+  color: ${({ theme }) => theme.name === 'dark' ? theme.text : theme.shade1};
 
   .head-sec {
     ${flexCenter()}
@@ -162,7 +163,7 @@ const PickerSecsContainer = styled.div`
 `
 const PickerOption = styled.div`
   background-color: ${({ theme }) => theme.secondary};
-  border: ${({ selected }) => selected && `2px solid #60D394`};
+  border: 2px solid ${({ selected }) => selected ? `#60D394` : `transparent`};
   border-radius: 8px;
   ${flexCenter()}
   width: 60px;
