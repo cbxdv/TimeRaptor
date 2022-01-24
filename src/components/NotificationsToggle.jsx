@@ -22,7 +22,7 @@ const NotificationsToggle = () => {
   }
 
   const keyBindHandler = event => {
-    if (event.key === 'n' || event.key === 'N') {
+    if ((event.key === 'n' || event.key === 'N') && event.ctrlKey) {
       toggleNotifications()
     }
   }

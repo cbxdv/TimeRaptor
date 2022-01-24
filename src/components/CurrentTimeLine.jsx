@@ -25,7 +25,7 @@ const CurrentTimeLine = () => {
   }
 
   const keyBindHandler = event => {
-    if (event.key === 'f' || event.key === 'F') {
+    if ((event.key === 'f' || event.key === 'F') && event.ctrlKey) {
       scrollToTime()
     }
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 import ClockIcon from '../assets/icons/Time.svg'
@@ -34,10 +34,24 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
   const [minutes, setMinutes] = useState(0)
   const [pm, setPm] = useState(0)
 
+  const hoursRef = useRef(null)
+  const minutesRef = useRef(null)
+
   useEffect(() => {
     setHours(time.hours)
     setMinutes(time.minutes)
     setPm(time.pm)
+
+    setTimeout(() => {
+      setTimeout(() => {
+        hoursRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 100)
+
+      setTimeout(() => {
+        minutesRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 500)
+
+    })
   }, [])
 
   const submitHandler = () => {
@@ -54,6 +68,7 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
           alt={index % 2}
           onClick={() => setHours(index)}
           key={`hour${index}`}
+          ref={hours === index ? hoursRef : null}
         >
           {index}
         </PickerOption>
@@ -61,6 +76,7 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
     }
     return hoursArr
   }
+
   const generateMinutesOptions = () => {
     const mintuesArr = []
     for (let index = 0; index < 60; index += 5) {
@@ -70,6 +86,7 @@ const TimePickerPanel = ({ time, closeHandler, mainSubmitHandler }) => {
           alt={index % 2}
           onClick={() => setMinutes(index)}
           key={`minute${index}`}
+          ref={minutes === index ? minutesRef : null}
         >
           {index}
         </PickerOption>
@@ -141,6 +158,7 @@ const PickerHeader = styled.div`
   font-size: 14px;
   font-weight: bold;
   display: flex;
+  color: ${({ theme }) => theme.name === 'dark' ? theme.text : theme.shade1};
 
   .head-sec {
     ${flexCenter()}
@@ -162,7 +180,7 @@ const PickerSecsContainer = styled.div`
 `
 const PickerOption = styled.div`
   background-color: ${({ theme }) => theme.secondary};
-  border: ${({ selected }) => selected && `2px solid #60D394`};
+  border: 2px solid ${({ selected }) => selected ? `#60D394` : `transparent`};
   border-radius: 8px;
   ${flexCenter()}
   width: 60px;

@@ -20,7 +20,7 @@ const MainPage = () => {
   const darkMode = useSelector(selectDarkMode)
 
   const keyBindHandler = event => {
-    if (event.key === 'l' || event.key === 'L') {
+    if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
       dispatch(darkModeToggled())
     }
   }

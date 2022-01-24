@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 
 import CalendarIcon from '../assets/icons/CalendarDayView.svg'
@@ -29,10 +29,17 @@ const DayInput = ({ title = '', value, valueSetHandler }) => {
 const DayPickerPanel = ({ day, closeHandler, mainSubmitHandler }) => {
   const [selectedDay, setSelectedDay] = useState('')
 
+  const dayRef = useRef(null)
+
   useEffect(() => {
     setSelectedDay(day)
-  }, [])
 
+    setTimeout(() => {
+      if (dayRef && dayRef.current) {
+        dayRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    }, 100)
+  }, [])
   const submitHandler = () => {
     mainSubmitHandler(selectedDay)
     closeHandler()
@@ -44,6 +51,7 @@ const DayPickerPanel = ({ day, closeHandler, mainSubmitHandler }) => {
         selected={selectedDay === d}
         onClick={() => setSelectedDay(d)}
         key={`${d}-option`}
+        ref={selectedDay === d ? dayRef : null}
       >
         {dayStrings[d]}
       </PickerOption>
@@ -88,7 +96,7 @@ const OptionsContainer = styled.div`
 
 const PickerOption = styled.div`
   background-color: ${({ theme }) => theme.secondary};
-  border: ${({ selected }) => selected && `2px solid #60D394`};
+  border: 2px solid ${({ selected }) => selected ? `#60D394` : `transparent`};
   border-radius: 8px;
   ${flexCenter()}
   width: 200px;
