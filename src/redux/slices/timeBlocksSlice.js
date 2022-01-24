@@ -55,7 +55,7 @@ const blocksSlice = createSlice({
       const { id, day } = action.payload;
       let specificDay = state.dayData[day];
       if (specificDay) {
-        specificDay = specificDay.filter((block) => block.id !== id);
+        specificDay = specificDay.filter(block => block.id !== id);
         state.dayData[day] = specificDay;
       }
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
@@ -67,7 +67,7 @@ const blocksSlice = createSlice({
       // Deleting existing block
       let specificDay = state.dayData[oldBlock.day];
       if (specificDay) {
-        specificDay = specificDay.filter((block) => block.id !== oldBlock.id);
+        specificDay = specificDay.filter(block => block.id !== oldBlock.id);
         state.dayData[oldBlock.day] = specificDay;
       }
 
@@ -91,14 +91,14 @@ const blocksSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchBlocks.pending, (state) => {
+      .addCase(fetchBlocks.pending, state => {
         state.status = 'loading';
       })
       .addCase(fetchBlocks.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.dayData = action.payload;
       })
-      .addCase(fetchBlocks.rejected, (state) => {
+      .addCase(fetchBlocks.rejected, state => {
         state.status = 'failed';
         state.error =
           'Error fetching data from the disk. Try restarting the app.';
@@ -118,4 +118,4 @@ export default blocksSlice.reducer;
 
 // Selectors
 export const selectBlocksByDay = (state, day) => state.blocks.dayData[day];
-export const selectCurrentBlock = (state) => state.blocks.currentBlock;
+export const selectCurrentBlock = state => state.blocks.currentBlock;

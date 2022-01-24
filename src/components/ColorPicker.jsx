@@ -44,7 +44,7 @@ const ColoPickerPanel = ({ color, closeHandler, mainSubmitHandler }) => {
 
   const generateColorBlock = () => {
     let colors = Object.keys(varietyColorStrings)
-    colors = colors.map((colorOption) => (
+    colors = colors.map(colorOption => (
       <ColorOptions
         key={colorOption}
         selected={selectedColor === colorOption}

@@ -27,7 +27,7 @@ const createWindow = () => {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       backgroundThrottling: false
     },
-    icon: path.join(__dirname, './assets/Logo.png')
+    icon: path.join(__dirname, './assets/Logo.ico')
   });
 
   const menu = new Menu.buildFromTemplate([]);
@@ -36,12 +36,18 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Hiding menubar
   mainWindow.setMenuBarVisibility(false);
 
-  mainWindow.on('ready-to-show', () => mainWindow.show());
+  mainWindow.on('ready-to-show', async () => {
+    const minimized = await store.get('userConfigs.openMinimized');
+    if (minimized !== undefined && minimized === true) {
+      return;
+    }
+    mainWindow.show();
+  });
 };
 
 const createTray = () => {

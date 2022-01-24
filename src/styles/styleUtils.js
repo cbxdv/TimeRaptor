@@ -33,6 +33,7 @@ export const buttonStyles = () => css`
   background: none;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: transform linear 0.15s;
 
   & > svg {
     fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};

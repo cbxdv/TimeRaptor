@@ -18,7 +18,7 @@ const BlockTool = ({
 
   const ref = useRef(null)
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = event => {
     if (ref.current && !ref.current.contains(event.target)) {
       if (closeHandler) {
         closeHandler()
@@ -26,7 +26,7 @@ const BlockTool = ({
     }
   }
 
-  const keyBindHandler = (event) => {
+  const keyBindHandler = event => {
     if (event.key === 'Escape') {
       closeHandler()
     }

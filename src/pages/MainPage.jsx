@@ -15,10 +15,10 @@ import { darkThemeColors, lightThemeColors } from '../styles/styleConstants'
 
 const MainPage = () => {
   const dispatch = useDispatch()
-  const userConfigsStatus = useSelector((state) => state.userConfigs.status)
+  const userConfigsStatus = useSelector(state => state.userConfigs.status)
   const darkMode = useSelector(selectDarkMode)
 
-  const keyBindHandler = (event) => {
+  const keyBindHandler = event => {
     if (event.key === 'l' || event.key === 'L') {
       dispatch(darkModeToggled())
     }

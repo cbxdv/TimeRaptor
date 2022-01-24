@@ -6,6 +6,7 @@
   "jsxSingleQuote": true,
   "trailingComma": "none",
   "singleQuote": true,
+  "endOfLine": "lf",
   "overrides": [
     {
       "files": "*.jsx",

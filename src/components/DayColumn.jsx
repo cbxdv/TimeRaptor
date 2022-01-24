@@ -16,7 +16,7 @@ import TimeBlock from './TimeBlock'
 
 const DayColumn = ({ dayId }) => {
   const dispatch = useDispatch()
-  const dayData = useSelector((state) => selectBlocksByDay(state, dayId))
+  const dayData = useSelector(state => selectBlocksByDay(state, dayId))
   const notificationStatus = useSelector(selectNotificationState)
   const currentBlock = useSelector(selectCurrentBlock)
 
@@ -32,7 +32,7 @@ const DayColumn = ({ dayId }) => {
 
     if (notificationStatus) {
       timer = setInterval(() => {
-        dayData.forEach((block) => {
+        dayData.forEach(block => {
           // Start Object
           let startHours = block.startTime.hours
           if (block.startTime.pm && block.startTime.hours !== 12) {
@@ -107,6 +107,9 @@ const DayColumn = ({ dayId }) => {
     const now = getCurrentTimeAndDay()
     if (now.day === dayId) {
       setIsToday(true)
+      if (dayData.length === 0) {
+        dispatch(currentBlockChanged(null))
+      }
       if (dayData && dayData.length !== 0) {
         clearInterval(timer)
         notifyChecker()
@@ -124,7 +127,7 @@ const DayColumn = ({ dayId }) => {
       </div>
       <DayColumnMain>
         <TimeBlockContainer>
-          {dayData.map((timeblock) => (
+          {dayData.map(timeblock => (
             <TimeBlock key={timeblock.id} timeblock={timeblock} />
           ))}
           {isToday && <CurrentTimeLine />}
@@ -154,7 +157,7 @@ const DayIndicator = styled.div`
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: ${({ isToday }) => isToday && `#FC6C5E`};
+  color: ${({ isToday }) => isToday && `#FD2513`};
 `
 
 const TimeBlockContainer = styled.div`

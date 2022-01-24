@@ -82,7 +82,7 @@ export const getTimeString = (timeObj, hoursOnly = false) => {
  *  @param {Number} timeIndex - The time index to be converted
  *  @returns {String} - The string corresponding to the time index provided
  */
-export const convertIndexToStringHours = (timeIndex) => {
+export const convertIndexToStringHours = timeIndex => {
   if (timeIndex === 0 || timeIndex === 24) {
     return '12 a.m.';
   }
@@ -108,7 +108,7 @@ export const convertIndexToStringHours = (timeIndex) => {
  *    A negative integer is returned when end time is before start time.
  */
 export const getDurationMinutes = (startTime, endTime) => {
-  const minutesFromDayStart = (timeObj) => {
+  const minutesFromDayStart = timeObj => {
     let totalMinutes = 0;
     let { hours } = timeObj;
     const { minutes } = timeObj;

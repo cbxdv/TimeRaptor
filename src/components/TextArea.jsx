@@ -39,7 +39,8 @@ const Textarea = styled.div`
     left: 10px;
     top: 15px;
     pointer-events: none;
-    transition: all 0.1s ease-in-out;
+    transition: 0.1s ease-in-out;
+    transition-property: transform, font-size;
   }
 
   .text-area:active,

@@ -31,14 +31,15 @@ ipcMain.on('timeblocks:clear', () => {
   store.delete('timeblocks');
 });
 
-ipcMain.handle('userconfigs:get', async () => {
-  const userConfigs = await store.get('userconfigs');
+ipcMain.handle('userConfigs:get', async () => {
+  const appVersion = app.getVersion();
+  const userConfigs = await store.get('userConfigs');
   const platform = os.platform();
-  return { ...userConfigs, platform };
+  return { ...userConfigs, platform, appVersion };
 });
 
-ipcMain.on('userconfig:set', (_, { configName, configValue }) => {
-  store.set(`userconfigs.${configName}`, configValue);
+ipcMain.on('userConfig:set', (_, { configName, configValue }) => {
+  store.set(`userConfigs.${configName}`, configValue);
 });
 
 ipcMain.on('app:notify', (_, { title, body }) => {
@@ -49,14 +50,14 @@ ipcMain.on('app:notify', (_, { title, body }) => {
   }).show();
 });
 
-ipcMain.on('app:openrepolink', () => {
+ipcMain.on('app:openRepoLink', () => {
   shell.openExternal('https://github.com/codeph0/TimeRaptor');
 });
 
 ipcMain.on('window:close', async () => {
   const win = BrowserWindow.getFocusedWindow();
 
-  const close = await store.get('userconfigs.closeOnExit', false);
+  const close = await store.get('userConfigs.closeOnExit', false);
   if (close) {
     app.quit();
   } else {
