@@ -50,7 +50,7 @@ const TopPanel = () => {
   }
 
   const keyBindHandler = event => {
-    if (event.key === 'a' || event.key === 'A') {
+    if ((event.key === 'a' || event.key === 'A') && event.ctrlKey) {
       setShowAddPanel(true)
     }
     if (event.key === ',' && event.ctrlKey) {
