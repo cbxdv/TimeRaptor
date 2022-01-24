@@ -14,7 +14,9 @@ const initialState = {
     maximized: false,
     closeOnExit: false,
     showCurrentTime: true,
-    showCurrentBlock: true
+    showCurrentBlock: true,
+    openMinimized: false,
+    appVersion: '123'
   },
   status: 'loading',
   error: null
@@ -64,18 +66,22 @@ const userConfigsSlice = createSlice({
         'showCurrentBlock',
         state.configurations.showCurrentBlock
       );
+    },
+    openMinimizedToggled(state) {
+      state.configurations.openMinimized = !state.configurations.openMinimized;
+      saveConfigToDisk('openMinimized', state.configurations.openMinimized);
     }
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchUserConfigs.pending, (state) => {
+      .addCase(fetchUserConfigs.pending, state => {
         state.status = 'loading';
       })
       .addCase(fetchUserConfigs.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.configurations = action.payload;
       })
-      .addCase(fetchUserConfigs.rejected, (state) => {
+      .addCase(fetchUserConfigs.rejected, state => {
         state.status = 'failed';
         state.error =
           'Error fetching data from the disk. Try restarting the app.';
@@ -89,24 +95,25 @@ export const {
   maximizedToggled,
   closeOnExitToggled,
   showCurrentTimeToggled,
-  showCurrentBlockToggled
+  showCurrentBlockToggled,
+  openMinimizedToggled
 } = userConfigsSlice.actions;
 
 export default userConfigsSlice.reducer;
 
 // Selectors
-export const selectConfigurations = (state) => state.userConfigs.configurations;
-export const selectNotificationState = (state) =>
+export const selectConfigurations = state => state.userConfigs.configurations;
+export const selectNotificationState = state =>
   state.userConfigs.configurations.notifications;
-export const selectDarkMode = (state) =>
+export const selectDarkMode = state =>
   state.userConfigs.configurations.darkMode;
-export const selectPlatform = (state) =>
+export const selectPlatform = state =>
   state.userConfigs.configurations.platform;
-export const selectMaximized = (state) =>
+export const selectMaximized = state =>
   state.userConfigs.configurations.maximized;
-export const selectCloseOnExit = (state) =>
+export const selectCloseOnExit = state =>
   state.userConfigs.configurations.closeOnExit;
-export const selectShowCurrentTime = (state) =>
+export const selectShowCurrentTime = state =>
   state.userConfigs.configurations.showCurrentTime;
-export const selectShowCurrentBlock = (state) =>
+export const selectShowCurrentBlock = state =>
   state.userConfigs.configurations.showCurrentBlock;

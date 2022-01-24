@@ -7,7 +7,7 @@ const CurrentTimeLine = () => {
   // Creating a scroll state variable to check whether the componenet is moving
   // This prevents multiple scroll inputs especially when using key binds
   const [isScrolling, setScrolling] = useState(false)
-  const [startPosition, setStartPosition] = useState(78)
+  const [startPosition, setStartPosition] = useState(20)
 
   const currentTimeLineRef = useRef(null)
   const scrollToTime = () => {
@@ -24,7 +24,7 @@ const CurrentTimeLine = () => {
     }, 2000)
   }
 
-  const keyBindHandler = (event) => {
+  const keyBindHandler = event => {
     if (event.key === 'f' || event.key === 'F') {
       scrollToTime()
     }
@@ -37,9 +37,11 @@ const CurrentTimeLine = () => {
 
     const checkStartPosition = () => {
       currentTime = getCurrentTimeAndDay()
-      tempStart = currentTime.hours * 80 + (currentTime.minutes / 15) * 20 + 20
+      tempStart = currentTime.hours * 80 + (currentTime.minutes / 15) * 20 + 19
       if (currentTime.pm === true) {
-        tempStart += 12 * 80
+        if (currentTime.hours !== 12) {
+          tempStart += 12 * 80
+        }
       }
       if (currentTime.pm === false && currentTime.hours === 12) {
         tempStart -= 12 * 80
@@ -63,7 +65,8 @@ const CurrentTimeLine = () => {
   }, [])
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
+      <Indicator startPosition={startPosition} />
       <CurrentTimeLineContainer
         startPosition={startPosition}
         ref={currentTimeLineRef}
@@ -72,16 +75,24 @@ const CurrentTimeLine = () => {
   )
 }
 
-const CurrentTimeLineContainer = styled.div`
+const CurrentTimeLineContainer = styled.hr`
   position: absolute;
   top: ${({ startPosition }) => startPosition}px;
-  width: 80%;
+  width: 100%;
   left: 0;
-  border: 2px solid #fc6c5e;
-  box-shadow: 0 0 10px 0 #fc6c5e;
+  border: 1px dashed #fd2513;
+  box-shadow: 0 0 10px 0 #fd2513;
   scroll-behavior: smooth;
 `
 
-// const Indicator = styled.div
+const Indicator = styled.div`
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: ${({ startPosition }) => startPosition - 3}px;
+  left: 0;
+  border-radius: 100%;
+  border: 4px solid #fd2513;
+`
 
 export default CurrentTimeLine

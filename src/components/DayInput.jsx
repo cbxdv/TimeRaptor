@@ -39,7 +39,7 @@ const DayPickerPanel = ({ day, closeHandler, mainSubmitHandler }) => {
   }
 
   const generateDayOptions = () => {
-    const dayArr = Object.keys(dayStrings).map((d) => (
+    const dayArr = Object.keys(dayStrings).map(d => (
       <PickerOption
         selected={selectedDay === d}
         onClick={() => setSelectedDay(d)}

@@ -86,7 +86,7 @@ const TimeBlockEditor = ({
     closeHandler()
   }
 
-  const keyBindHandler = (event) => {
+  const keyBindHandler = event => {
     if (event.key === 'Enter') {
       submitHandler()
     }
@@ -111,6 +111,16 @@ const TimeBlockEditor = ({
     setDescription(currentBlock.description)
   }, [])
 
+  const clearState = () => {
+    setTitle('')
+    setDay('monday')
+    setStartTime({ hours: 1, minutes: 0, pm: false })
+    setEndTime({ hours: 1, minutes: 0, pm: false })
+    setBlockColor('decoPeach')
+    setDescription('')
+    inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   return (
     <WithModal modalTitle='Add New Block' closeHandler={closeHandler}>
       <AddForm>
@@ -120,7 +130,7 @@ const TimeBlockEditor = ({
             name='title'
             inputValue={title}
             error={titleError}
-            onChangeHandler={(event) => setTitle(event.target.value)}
+            onChangeHandler={event => setTitle(event.target.value)}
           />
         </InputContainer>
 
@@ -128,7 +138,7 @@ const TimeBlockEditor = ({
           <DayInput
             title='Day'
             value={day}
-            valueSetHandler={(selectedDay) => setDay(selectedDay)}
+            valueSetHandler={selectedDay => setDay(selectedDay)}
           />
         </InputContainer>
 
@@ -137,7 +147,7 @@ const TimeBlockEditor = ({
             error={timeError}
             title='Start Time'
             value={startTime}
-            valueSetHandler={(time) => setStartTime(time)}
+            valueSetHandler={time => setStartTime(time)}
           />
         </InputContainer>
 
@@ -146,7 +156,7 @@ const TimeBlockEditor = ({
             error={timeError}
             title='End Time'
             value={endTime}
-            valueSetHandler={(time) => setEndTime(time)}
+            valueSetHandler={time => setEndTime(time)}
           />
         </InputContainer>
 
@@ -154,7 +164,7 @@ const TimeBlockEditor = ({
           <ColorPicker
             title='Block Color'
             color={blockColor}
-            valueSetHandler={(color) => setBlockColor(color)}
+            valueSetHandler={color => setBlockColor(color)}
           />
         </InputContainer>
 
@@ -163,12 +173,12 @@ const TimeBlockEditor = ({
             title='Description'
             name='description'
             inputValue={description}
-            onChangeHandler={(event) => setDescription(event.target.value)}
+            onChangeHandler={event => setDescription(event.target.value)}
           />
         </InputContainer>
 
         <ButtonsContainer>
-          <TextButton label='Discard' variant='danger' onClick={closeHandler} />
+          <TextButton label='Clear' variant='danger' onClick={clearState} />
           <TextButton
             label={`${edit ? `Edit` : `Submit`}`}
             variant='success'

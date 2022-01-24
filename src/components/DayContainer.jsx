@@ -6,7 +6,7 @@ import DayColumn from './DayColumn'
 import { flexCenter } from '../styles/styleUtils'
 
 const DayContainer = () => {
-  const blocksStatus = useSelector((state) => state.blocks.status)
+  const blocksStatus = useSelector(state => state.blocks.status)
 
   if (blocksStatus === 'loading') {
     return <>Loading...</>

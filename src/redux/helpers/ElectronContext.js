@@ -17,7 +17,7 @@ export const getElectronContext = () => {
   return null;
 };
 
-export const saveBlocksToDisk = (dayData) => {
+export const saveBlocksToDisk = dayData => {
   const electronContext = getElectronContext();
   electronContext.updateTimeBlocks(dayData);
 };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import CrossIcon from '../assets/icons/CrossIcon.svg'
@@ -7,13 +7,23 @@ import { flexCenter, buttonStyles } from '../styles/styleUtils'
 const WithModal = ({ children, closeHandler, modalTitle }) => {
   document.body.style.overflow = 'hidden'
 
-  const keyBindHandler = (event) => {
-    if (event.key === 'Escape') {
+  const ref = useRef(null)
+
+  const close = () => {
+    ref.current.style.opacity = 0
+    setTimeout(() => {
       closeHandler()
+    }, 150)
+  }
+
+  const keyBindHandler = event => {
+    if (event.key === 'Escape') {
+      close()
     }
   }
 
   useEffect(() => {
+    ref.current.style.opacity = 1
     document.body.style.overflow = 'hidden'
     document.addEventListener('keydown', keyBindHandler)
     return () => {
@@ -23,12 +33,12 @@ const WithModal = ({ children, closeHandler, modalTitle }) => {
   }, [])
 
   return (
-    <ModalContainer>
-      <ModalDrop onClick={() => closeHandler()} />
+    <ModalContainer ref={ref}>
+      <ModalDrop onClick={() => close()} />
       <ModalBody>
         <ModalHeader>
           <h1>{modalTitle}</h1>
-          <ModalCloseButton type='button' onClick={closeHandler}>
+          <ModalCloseButton type='button' onClick={close}>
             <CrossIcon />
           </ModalCloseButton>
         </ModalHeader>
@@ -39,6 +49,7 @@ const WithModal = ({ children, closeHandler, modalTitle }) => {
 }
 
 const ModalContainer = styled.div`
+  ${flexCenter()};
   width: 100vw;
   height: 100vh;
   background: ${({ theme }) =>
@@ -47,7 +58,8 @@ const ModalContainer = styled.div`
   top: 0;
   left: 0;
   z-index: 10;
-  ${flexCenter()};
+  opacity: 0;
+  transition: opacity 0.1s linear;
 `
 
 const ModalBody = styled.div`

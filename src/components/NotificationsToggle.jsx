@@ -15,13 +15,13 @@ import { flexCenter, buttonStyles } from '../styles/styleUtils'
 const NotificationsToggle = () => {
   const dispatch = useDispatch()
 
-  const active = useSelector((state) => selectNotificationState(state))
+  const active = useSelector(state => selectNotificationState(state))
 
   const toggleNotifications = () => {
     dispatch(notificationsToggled())
   }
 
-  const keyBindHandler = (event) => {
+  const keyBindHandler = event => {
     if (event.key === 'n' || event.key === 'N') {
       toggleNotifications()
     }

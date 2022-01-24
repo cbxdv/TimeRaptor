@@ -49,7 +49,7 @@ const TopPanel = () => {
     dispatch(maximizedToggled())
   }
 
-  const keyBindHandler = (event) => {
+  const keyBindHandler = event => {
     if (event.key === 'a' || event.key === 'A') {
       setShowAddPanel(true)
     }
@@ -60,6 +60,8 @@ const TopPanel = () => {
       closeWindow()
     }
     if ((event.key === 'r' || event.key === 'R') && event.ctrlKey) {
+      // eslint-disable-next-line
+      location.reload()
       reloadWindow()
     }
   }

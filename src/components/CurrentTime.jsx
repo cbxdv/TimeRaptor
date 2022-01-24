@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 import { getCurrentDate, getCurrentDay } from '../utils/timeUtils'
-import { reloadWindow } from '../redux/helpers/ElectronContext'
 import HeaderBubble from './HeaderBubble'
 
 const getCurrentTime = () => new Date().toLocaleTimeString()
@@ -28,7 +27,8 @@ const CurrentTime = () => {
     ) {
       setCurrentDate(getCurrentDate())
       setCurrentDay(getCurrentDay())
-      reloadWindow()
+      // eslint-disable-next-line
+      location.reload()
     }
   })
 

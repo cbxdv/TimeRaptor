@@ -13,7 +13,8 @@ import {
   closeOnExitToggled,
   selectConfigurations,
   showCurrentTimeToggled,
-  showCurrentBlockToggled
+  showCurrentBlockToggled,
+  openMinimizedToggled
 } from '../redux/slices/userConfigsSlice'
 import CheckBox from './CheckBox'
 import TextButton from './TextButton'
@@ -22,7 +23,7 @@ import { flexCenter } from '../styles/styleUtils'
 const UserConfigsPanel = ({ closeHandler = () => {} }) => {
   const dispatch = useDispatch()
 
-  const configurations = useSelector((state) => selectConfigurations(state))
+  const configurations = useSelector(state => selectConfigurations(state))
 
   const notificationsToggle = () => {
     dispatch(notificationsToggled())
@@ -38,6 +39,9 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
   }
   const showCurrentBlockToggle = () => {
     dispatch(showCurrentBlockToggled())
+  }
+  const openMinimizedToggle = () => {
+    dispatch(openMinimizedToggled())
   }
 
   const openRepo = () => {
@@ -71,11 +75,19 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
               />
             </div>
 
-            <div className='option-text'>Close On Exit</div>
+            <div className='option-text'>Close on exit</div>
             <div className='option-config'>
               <CheckBox
                 checked={configurations.closeOnExit}
                 onClick={closeOnExitToggle}
+              />
+            </div>
+
+            <div className='option-text'>Open minimized</div>
+            <div className='option-config'>
+              <CheckBox
+                checked={configurations.openMinimized}
+                onClick={openMinimizedToggle}
               />
             </div>
 
@@ -120,6 +132,9 @@ const UserConfigsPanel = ({ closeHandler = () => {} }) => {
             </div>
           </div>
         </BotText>
+        <AppVersionContainer>
+          App Version {configurations.appVersion}
+        </AppVersionContainer>
       </UserConfigsPanelContainer>
     </WithModal>
   )
@@ -180,6 +195,13 @@ const BotText = styled.div`
       border: 1px solid ${({ theme }) => theme.text};
     }
   }
+`
+
+const AppVersionContainer = styled.div`
+  ${flexCenter()};
+  font-size: 14px;
+  margin-top: 30px;
+  color: grey;
 `
 
 export default UserConfigsPanel
