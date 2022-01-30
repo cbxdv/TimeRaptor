@@ -45,8 +45,7 @@ ipcMain.on('userConfig:set', (_, { configName, configValue }) => {
 ipcMain.on('app:notify', (_, { title, body }) => {
   new Notification({
     title: title || "Probably it's time",
-    body: body || 'Have a good time!',
-    icon: path.join(__dirname, '../assets/Logo.png')
+    body: body || 'Have a good time!'
   }).show();
 });
 

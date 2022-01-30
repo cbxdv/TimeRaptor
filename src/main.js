@@ -3,18 +3,15 @@ const { app, BrowserWindow, Tray, Menu } = require('electron');
 const path = require('path');
 const os = require('os');
 const Store = require('electron-store');
-const isSquirrelStartup = require('electron-squirrel-startup');
 
 const store = new Store();
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
-  app.quit();
-}
-
 let mainWindow = null;
-let loadingWindow = null;
+let loadingWindow = null; 
 let tray = null;
+
+// Boolean to indicate whether the app is quiting or just closing window
+let isAppQuitting = false;
 
 const createMainWindow = () => {
   mainWindow = new BrowserWindow({
@@ -26,17 +23,27 @@ const createMainWindow = () => {
     frame: os.platform() !== 'win32',
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      backgroundThrottling: false
+      backgroundThrottling: false,
+      devTools: false
     },
     icon: path.join(__dirname, './assets/Logo.ico')
   });
 
-  const menu = new Menu.buildFromTemplate([]);
-  mainWindow.setMenu(menu);
+  const menu = new Menu.buildFromTemplate([
+    {
+      label: 'Time Raptor',
+      submenu: [
+        { role: 'close' },
+        { role: 'quit' }
+      ]
+    }
+  ]);
+
+  Menu.setApplicationMenu(menu)
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Open the DevTools.
+  // Open the DevTools
   // mainWindow.webContents.openDevTools();
 
   // Hiding menubar
@@ -52,6 +59,19 @@ const createMainWindow = () => {
     }
     mainWindow.show();
   });
+
+  mainWindow.on('close', async event => {
+    if (!isAppQuitting) {
+      event.preventDefault();
+    }
+    const close = await store.get('userConfigs.closeOnExit', false);
+    if (close) {
+      app.quit();
+    } else {
+      mainWindow.hide();
+    }
+  });
+
 };
 
 const createLoadingWindow = () => {
@@ -70,7 +90,13 @@ const createLoadingWindow = () => {
 };
 
 const createTray = () => {
-  tray = new Tray(path.join(__dirname, './assets/Logo.ico'));
+
+  let iconPath = path.join(__dirname, './assets/trayIcons/Icon.ico');
+  if (os.platform === 'darwin') {
+    iconPath = path.join(__dirname, './assets/trayIcons/Icon.png');
+  }
+
+  tray = new Tray(iconPath);
   tray.setToolTip('Time Raptor');
   const trayMenu = Menu.buildFromTemplate([
     {
@@ -81,11 +107,14 @@ const createTray = () => {
     },
     { role: 'quit' }
   ]);
+
   tray.setContextMenu(trayMenu);
 
-  tray.on('click', () => {
-    showWindow();
-  });
+  if (os.platform == 'win32') {
+    tray.on('click', () => {
+      showWindow();
+    });
+  }
 };
 
 const onReadyHandler = () => {
@@ -98,31 +127,30 @@ app.on('ready', onReadyHandler);
 
 const showWindow = () => {
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    createMainWindow();
   } else {
     mainWindow.show();
   }
 };
 
-app.on('window-all-closed', async () => {
-  const close = await store.get('userconfigs.closeOnExit', false);
-  if (close) {
-    app.quit();
-  }
-});
+app.on('activate', showWindow);
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+app.on('before-quit', () => isAppQuitting = true )
+
+app.on('will-quit', () => isAppQuitting = true )
+
+app.on('quit', () => {
+  if (BrowserWindow.getAllWindows().length !== 0) {
+    mainWindow.close()
+    tray = null;
+    mainWindow = null;
   }
-});
+  tray = null;
+  app.quit();
+})
 
 if (process.platform === 'win32') {
-  app.setAppUserModelId('Time Raptor');
-}
-
-if (isSquirrelStartup) {
-  app.quit();
+  app.setAppUserModelId(process.execPath)
 }
 
 require('update-electron-app')();
