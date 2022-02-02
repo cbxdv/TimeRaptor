@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import {
   getElectronContext,
   saveConfigToDisk
 } from '../../utils/ElectronContext';
 
 import { IState, IUserConfigsState } from '../../@types/StateInterfaces';
+import { DayStringTypes } from '../../@types/DayAndTimeInterfaces';
 
 const initialState: IUserConfigsState = {
   configurations: {
@@ -18,7 +19,16 @@ const initialState: IUserConfigsState = {
     showCurrentTime: true,
     showCurrentBlock: true,
     openMinimized: false,
-    appVersion: ''
+    appVersion: '',
+    daysToShow: {
+      sunday: true,
+      monday: true,
+      tuesday: true,
+      wednesday: true,
+      thursday: true,
+      friday: true,
+      saturday: true
+    }
   },
   status: 'loading',
   error: null
@@ -72,6 +82,10 @@ const userConfigsSlice = createSlice({
     openMinimizedToggled(state) {
       state.configurations.openMinimized = !state.configurations.openMinimized;
       saveConfigToDisk('openMinimized', state.configurations.openMinimized);
+    },
+    dayToShowToggled(state, action: PayloadAction<DayStringTypes>) {
+      state.configurations.daysToShow[action.payload] = !state.configurations.daysToShow[action.payload]
+      saveConfigToDisk('daysToShow', JSON.parse(JSON.stringify(state.configurations.daysToShow)))
     }
   },
   extraReducers(builder) {
@@ -98,7 +112,8 @@ export const {
   closeOnExitToggled,
   showCurrentTimeToggled,
   showCurrentBlockToggled,
-  openMinimizedToggled
+  openMinimizedToggled,
+  dayToShowToggled
 } = userConfigsSlice.actions;
 
 export default userConfigsSlice.reducer;
@@ -120,3 +135,4 @@ export const selectShowCurrentTime = (state: IState) =>
   state.userConfigs.configurations.showCurrentTime;
 export const selectShowCurrentBlock = (state: IState) =>
   state.userConfigs.configurations.showCurrentBlock;
+export const selectDaysToShow = (state: IState) => state.userConfigs.configurations.daysToShow

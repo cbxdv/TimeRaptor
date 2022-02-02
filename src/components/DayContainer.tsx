@@ -2,41 +2,38 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { selectDaysToShow } from '../redux/slices/userConfigsSlice'
 import DayColumn from './DayColumn';
+import { daysArray } from '../utils/strings'
 import { flexCenter } from '../styles/styleUtils';
 
 import { IState } from '../@types/StateInterfaces';
 
 const DayContainer = () => {
   const blocksStatus = useSelector((state: IState) => state.timetable.status);
+  const daysToShow = useSelector(selectDaysToShow)
 
   if (blocksStatus === 'loading') {
     return <>Loading...</>;
   }
 
+  const generateDayColumns = () => {
+    const dayColumns: React.ReactElement[] = []
+    daysArray.forEach(day => {
+      if (daysToShow[day] === true) {
+        dayColumns.push(
+          <DayColumnContainer key={`DayColumn-${day}`}>
+            <DayColumn dayId={day} />
+          </DayColumnContainer>
+        )
+      }
+    })
+    return dayColumns
+  }
+
   return (
     <DayContainerContainer>
-      <DayColumnContainer>
-        <DayColumn dayId='monday' />
-      </DayColumnContainer>
-      <DayColumnContainer>
-        <DayColumn dayId='tuesday' />
-      </DayColumnContainer>
-      <DayColumnContainer>
-        <DayColumn dayId='wednesday' />
-      </DayColumnContainer>
-      <DayColumnContainer>
-        <DayColumn dayId='thursday' />
-      </DayColumnContainer>
-      <DayColumnContainer>
-        <DayColumn dayId='friday' />
-      </DayColumnContainer>
-      <DayColumnContainer>
-        <DayColumn dayId='saturday' />
-      </DayColumnContainer>
-      <DayColumnContainer rm>
-        <DayColumn dayId='sunday' />
-      </DayColumnContainer>
+      { generateDayColumns() }
     </DayContainerContainer>
   );
 };

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import DoneIcon from '../assets/icons/Done.svg';
 import { flexCenter } from '../styles/styleUtils';
 
+/** A Checkbox component */
 const CheckBox: React.FC<CheckBoxProps> = ({ checked, onClick, animation }) => {
   const markRef = useRef<HTMLDivElement | null>(null);
 
@@ -43,12 +44,13 @@ const CheckBox: React.FC<CheckBoxProps> = ({ checked, onClick, animation }) => {
 
 type CheckBoxProps = {
   checked?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   animation?: boolean;
 };
 
 CheckBox.defaultProps = {
   checked: true,
+  onClick: () => {},
   animation: true
 };
 

@@ -42,6 +42,8 @@ const TextButtonContainer = styled.button<{ textColor: string }>`
   font-family: Outfit;
   font-weight: 800;
   font-size: 16px;
+  margin: 10px 0;
+  padding: 0 20px;
 `;
 
 export default TextButton;

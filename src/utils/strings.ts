@@ -1,4 +1,4 @@
-import { IDayTypes } from '../@types/DayAndTimeInterfaces';
+import { DayStringTypes, IDayTypes } from '../@types/DayAndTimeInterfaces';
 import { IColors } from '../@types/TimeBlockInterfaces';
 
 export const dayStrings: IDayTypes = {
@@ -23,3 +23,13 @@ export const varietyColorStrings: IColors = {
   linen: 'Linen',
   beige: 'Beige'
 };
+
+export const daysArray: DayStringTypes[] = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday'
+];
