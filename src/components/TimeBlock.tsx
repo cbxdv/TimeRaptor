@@ -53,11 +53,6 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
     startPosition += 12 * 80
   }
 
-  let blockTitle = title
-  if (title.length > 12) {
-    blockTitle = `${blockTitle.slice(0, 12)}...`
-  }
-
   return (
     <>
       {showBlockEditor && (
@@ -79,14 +74,14 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
           <StylingLineContainer>
             <TimeBlockStylingLine />
           </StylingLineContainer>
-          <div>
-            <BlockHeading>{blockTitle}</BlockHeading>
-            {duration > 30 && (
+          <TimeBlockDetailsContainer>
+            {duration > 15 && <BlockHeading>{title}</BlockHeading>}
+            {duration > 40 && (
               <BlockSubText>
                 {startTimeString} - {endTimeString}
               </BlockSubText>
             )}
-          </div>
+          </TimeBlockDetailsContainer>
           {showBlockTool && (
             <BlockTool
               timeBlock={timeblock}
@@ -117,6 +112,7 @@ const TimeBlockContainer = styled.div<TimeBlockContainerProps>`
   border-radius: 8px;
   box-shadow: inset 0px 0px 10px rgba(255, 251, 251, 0.5);
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
+  padding: 10px;
 `
 
 type TimeBlockContainerProps = {
@@ -126,10 +122,11 @@ type TimeBlockContainerProps = {
 }
 
 const StylingLineContainer = styled.div`
-  width: 20px;
   ${flexCenter()};
+  width: 10px;
   position: relative;
   height: 100%;
+  margin-right: 10px;
 `
 
 const TimeBlockStylingLine = styled.div`
@@ -137,16 +134,27 @@ const TimeBlockStylingLine = styled.div`
   height: 60%;
   opacity: 20%;
   border-radius: 8px;
+  position: absolute;
+  left: 5;
+`
+
+const TimeBlockDetailsContainer = styled.div`
+  ${flexCenter({ alignItems: 'flex-start', flexDirection: 'column' })};
+  display: block;
+  width: 100%;
+  overflow: hidden;
 `
 
 const BlockHeading = styled.h1`
   font-family: 'Dongle';
   font-weight: bold;
   font-size: 25px;
-  height: 25px;
-  ${flexCenter({ justifyContent: 'flex-start' })}
-  margin-bottom: -4px;
-  flex-grow: 1;
+  max-height: 25px;
+  margin-top: -5px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const BlockSubText = styled.p`
@@ -154,6 +162,10 @@ const BlockSubText = styled.p`
   font-weight: normal;
   font-size: 18px;
   height: 20px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const ToolContainer = styled.div`
