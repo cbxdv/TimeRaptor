@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import PaletteIcon from '../assets/icons/Palette.svg'
-import WithModal from '../hooks/WithModal'
-import TextButton from './TextButton'
+import WithModal from '../wrappers/WithModal'
 import { varietyColorStrings } from '../utils/strings'
 import { varietyColors } from '../styles/styleConstants'
 import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils'
@@ -61,7 +60,6 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
 
   const submitHandler = () => {
     mainSubmitHandler(selectedColor)
-    closeHandler()
   }
 
   const generateColorBlock = () => {
@@ -78,19 +76,17 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
   }
 
   return (
-    <WithModal modalTitle='Pick a Color' closeHandler={closeHandler}>
+    <WithModal
+      modalTitle='Pick a Color'
+      closeHandler={closeHandler}
+      mainButtonProps={{ onClick: submitHandler }}
+      bodyPadding='0 30px 30px 30px'
+      scrollLockDisabled
+    >
       <ColorText>{varietyColorStrings[selectedColor] || ''}</ColorText>
       <ColorPickerPanelContainer>
         <PickerContainer>{generateColorBlock()}</PickerContainer>
       </ColorPickerPanelContainer>
-      <ButtonsContainer>
-        <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton
-          label='Submit'
-          variant='success'
-          onClick={() => submitHandler()}
-        />
-      </ButtonsContainer>
     </WithModal>
   )
 }
@@ -105,8 +101,8 @@ const ColorPickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   background-color: ${({ theme }) => theme.shade1};
   border-radius: 8px;
-  margin: 30px;
   overflow: scroll;
+  margin: 30px 0;
 `
 
 const PickerContainer = styled.div`
@@ -130,11 +126,6 @@ const ColorOptions = styled.div<ColorPropTypes>`
 `
 
 type ColorPropTypes = { selected: boolean; color: ColorStringTypes }
-
-const ButtonsContainer = styled.div`
-  ${flexCenter({ justifyContent: 'space-between' })};
-  margin: 30px;
-`
 
 const ColorText = styled.div`
   font-family: Outfit;

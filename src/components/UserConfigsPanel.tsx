@@ -6,7 +6,7 @@ import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import Octocat from '../assets/icons/Octocat.png'
 import WaveEmoji from '../assets/icons/Wave.png'
 import PartyPopperEmoji from '../assets/icons/PartyPopper.png'
-import WithModal from '../hooks/WithModal'
+import WithModal from '../wrappers/WithModal'
 import { getElectronContext } from '../utils/ElectronContext'
 import { daysArray, dayStrings } from '../utils/strings'
 import { blocksCleared } from '../redux/slices/timetableSlice'
@@ -60,7 +60,6 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
 
   const clearTimeBlocks = () => {
     dispatch(blocksCleared())
-    closeHandler()
   }
 
   return (
@@ -186,7 +185,7 @@ const DaysToShowPanel: React.FC<DaysToShowPanelProps> = ({ closeHandler }) => {
   const generateOptions = () => {
     const dayOptions: React.ReactElement[] = []
 
-    daysArray.forEach(day => {
+    daysArray.forEach((day: DayStringTypes) => {
       dayOptions.push(
         <React.Fragment key={`ShowDayOption-${day}`}>
           <div className='option-text'>{dayStrings[day]}</div>

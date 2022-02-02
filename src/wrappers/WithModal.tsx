@@ -1,13 +1,18 @@
 import React, { useEffect, useRef, ReactNode } from 'react'
 import styled from 'styled-components'
 
+import TextButton from '../components/TextButton'
 import CrossIcon from '../assets/icons/CrossIcon.svg'
 import { flexCenter, buttonStyles } from '../styles/styleUtils'
 
 const WithModal: React.FC<WithModalProps> = ({
   children,
   closeHandler,
-  modalTitle
+  modalTitle,
+  bodyPadding,
+  mainButtonProps,
+  secButtonProps,
+  scrollLockDisabled
 }) => {
   document.body.style.overflow = 'hidden'
 
@@ -28,10 +33,14 @@ const WithModal: React.FC<WithModalProps> = ({
 
   useEffect(() => {
     ref.current.style.opacity = 1
-    document.body.style.overflow = 'hidden'
+    if (!scrollLockDisabled) {
+      document.body.style.overflow = 'hidden'
+    }
     document.addEventListener('keydown', keyBindHandler)
     return () => {
-      document.body.style.overflow = 'unset'
+      if (!scrollLockDisabled) {
+        document.body.style.overflow = 'unset'
+      }
       document.removeEventListener('keydown', keyBindHandler)
     }
   }, [])
@@ -46,7 +55,26 @@ const WithModal: React.FC<WithModalProps> = ({
             <CrossIcon />
           </ModalCloseButton>
         </ModalHeader>
-        <div>{children}</div>
+        <div style={bodyPadding ? { padding: bodyPadding } : {}}>
+          {children}
+          {mainButtonProps && (
+            <ButtonsContainer>
+              <TextButton
+                label={(secButtonProps && secButtonProps.label) || 'Close'}
+                variant='danger'
+                onClick={(secButtonProps && secButtonProps.onClick) || close}
+              />
+              <TextButton
+                label={mainButtonProps.label || 'Submit'}
+                variant='success'
+                onClick={() => {
+                  close()
+                  mainButtonProps.onClick()
+                }}
+              />
+            </ButtonsContainer>
+          )}
+        </div>
       </ModalBody>
     </ModalContainer>
   )
@@ -56,6 +84,23 @@ type WithModalProps = {
   children: ReactNode
   closeHandler: () => void
   modalTitle: string
+  mainButtonProps?: {
+    label?: string
+    onClick: () => void | null
+  } | null
+  secButtonProps?: {
+    label: string
+    onClick: () => void | null
+  } | null
+  bodyPadding?: string
+  scrollLockDisabled?: boolean
+}
+
+WithModal.defaultProps = {
+  mainButtonProps: null,
+  secButtonProps: null,
+  bodyPadding: '0',
+  scrollLockDisabled: false
 }
 
 const ModalContainer = styled.div`
@@ -131,6 +176,12 @@ const ModalDrop = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
+`
+
+const ButtonsContainer = styled.div`
+  ${flexCenter({ justifyContent: 'space-between' })};
+  /* margin-bottom: 30px; */
+  min-width: 250px;
 `
 
 export default WithModal

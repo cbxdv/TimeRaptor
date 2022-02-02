@@ -8,6 +8,7 @@ import { daysArray } from '../utils/strings'
 import { flexCenter } from '../styles/styleUtils'
 
 import { IState } from '../@types/StateInterfaces'
+import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 
 const DayContainer = () => {
   const blocksStatus = useSelector((state: IState) => state.timetable.status)
@@ -19,7 +20,7 @@ const DayContainer = () => {
 
   const generateDayColumns = () => {
     const dayColumns: React.ReactElement[] = []
-    daysArray.forEach(day => {
+    daysArray.forEach((day: DayStringTypes) => {
       if (daysToShow[day] === true) {
         dayColumns.push(
           <DayColumnContainer key={`DayColumn-${day}`}>

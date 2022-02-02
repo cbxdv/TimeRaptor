@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import CalendarIcon from '../assets/icons/CalendarDayView.svg'
-import WithModal from '../hooks/WithModal'
-import TextButton from './TextButton'
+import WithModal from '../wrappers/WithModal'
 import { dayStrings } from '../utils/strings'
 import { flexCenter, inputBack } from '../styles/styleUtils'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
@@ -59,7 +58,6 @@ const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
 
   const submitHandler = () => {
     mainSubmitHandler(selectedDay)
-    closeHandler()
   }
 
   const generateDayOptions = () => {
@@ -77,18 +75,16 @@ const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
   }
 
   return (
-    <WithModal modalTitle='Pick a day' closeHandler={closeHandler}>
+    <WithModal
+      modalTitle='Pick a day'
+      closeHandler={closeHandler}
+      mainButtonProps={{ onClick: submitHandler }}
+      bodyPadding='0 30px 30px 30px'
+      scrollLockDisabled
+    >
       <DayPickerPanelContainer>
         <OptionsContainer>{generateDayOptions()}</OptionsContainer>
       </DayPickerPanelContainer>
-      <ButtonsContainer>
-        <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton
-          label='Submit'
-          variant='success'
-          onClick={() => submitHandler()}
-        />
-      </ButtonsContainer>
     </WithModal>
   )
 }
@@ -108,7 +104,9 @@ const DayPickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   background-color: ${({ theme }) => theme.shade1};
   border-radius: 8px;
-  margin: 30px;
+  padding: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `
 
 const OptionsContainer = styled.div`
@@ -136,11 +134,4 @@ const PickerOption = styled.div<{ selected?: boolean }>`
     color: ${({ theme }) => theme.text};
   }
 `
-
-const ButtonsContainer = styled.div`
-  ${flexCenter({ justifyContent: 'space-between' })};
-  margin: 30px;
-  min-width: 250px;
-`
-
 export default DayInput

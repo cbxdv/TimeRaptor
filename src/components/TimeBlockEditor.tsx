@@ -2,16 +2,14 @@ import React, { useState, useEffect, useRef, ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import WithModal from '../hooks/WithModal'
+import WithModal from '../wrappers/WithModal'
 import { blockAdded, blockUpdated } from '../redux/slices/timetableSlice'
 import { getDurationMinutes } from '../utils/timeUtils'
 import ColorPicker from './ColorPicker'
 import DayInput from './DayInput'
 import TextArea from './TextArea'
-import TextButton from './TextButton'
 import TextInput from './TextInput'
 import TimeInput from './TimeInput'
-import { flexCenter } from '../styles/styleUtils'
 
 import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
 import { ColorStringTypes, ITimeBlock } from '../@types/TimeBlockInterfaces'
@@ -129,7 +127,13 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
   }
 
   return (
-    <WithModal modalTitle='Add New Block' closeHandler={closeHandler}>
+    <WithModal
+      modalTitle='Add New Block'
+      closeHandler={closeHandler}
+      mainButtonProps={{ label: edit ? 'Edit' : 'Add', onClick: submitHandler }}
+      secButtonProps={{ label: 'Clear', onClick: clearState }}
+      bodyPadding='0 50px 30px 50px'
+    >
       <AddForm>
         <InputContainer>
           <TextInput
@@ -189,15 +193,6 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
             }
           />
         </InputContainer>
-
-        <ButtonsContainer>
-          <TextButton label='Clear' variant='danger' onClick={clearState} />
-          <TextButton
-            label={`${edit ? `Edit` : `Submit`}`}
-            variant='success'
-            onClick={() => submitHandler()}
-          />
-        </ButtonsContainer>
       </AddForm>
     </WithModal>
   )
@@ -216,16 +211,15 @@ TimeBlockEditor.defaultProps = {
 
 const AddForm = styled.div`
   width: 100%;
-  padding: 0 60px;
-  padding-bottom: 40px;
+  /* padding: 0 60px; */
 `
 
 const InputContainer = styled.div`
   margin: 40px 0;
 `
 
-const ButtonsContainer = styled.div`
-  ${flexCenter({ justifyContent: 'space-between' })};
-`
+// const ButtonsContainer = styled.div`
+//   ${flexCenter({ justifyContent: 'space-between' })};
+// `
 
 export default TimeBlockEditor

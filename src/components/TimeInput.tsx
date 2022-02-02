@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import ClockIcon from '../assets/icons/Time.svg'
-import WithModal from '../hooks/WithModal'
+import WithModal from '../wrappers/WithModal'
 import { getTimeString } from '../utils/timeUtils'
-import TextButton from './TextButton'
 import { flexCenter, inputBack } from '../styles/styleUtils'
 
 import { ITimeObject } from '../@types/DayAndTimeInterfaces'
@@ -79,7 +78,6 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
 
   const submitHandler = () => {
     mainSubmitHandler({ hours, minutes, pm })
-    closeHandler()
   }
 
   const generateHoursOptions = () => {
@@ -117,7 +115,13 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
   }
 
   return (
-    <WithModal modalTitle='Pick Time' closeHandler={closeHandler}>
+    <WithModal
+      modalTitle='Pick Time'
+      closeHandler={closeHandler}
+      mainButtonProps={{ onClick: submitHandler }}
+      bodyPadding='30px'
+      scrollLockDisabled
+    >
       <TimePickerPanelContainer>
         <PickerHeader>
           <div className='head-sec'>Hour</div>
@@ -151,14 +155,6 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
           </PickerSecsContainer>
         </div>
       </TimePickerPanelContainer>
-      <ButtonsContainer>
-        <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton
-          label='Submit'
-          variant='success'
-          onClick={() => submitHandler()}
-        />
-      </ButtonsContainer>
     </WithModal>
   )
 }
@@ -173,7 +169,7 @@ const TimePickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   background-color: ${({ theme }) => theme.shade1};
   border-radius: 8px;
-  margin: 30px;
+  margin-bottom: 20px;
 `
 
 const PickerHeader = styled.div`
@@ -222,11 +218,6 @@ const PickerOption = styled.div<{ selected: boolean }>`
     background: ${({ theme }) => theme.shade2};
     color: ${({ theme }) => theme.text};
   }
-`
-
-const ButtonsContainer = styled.div`
-  ${flexCenter({ justifyContent: 'space-between' })};
-  margin: 30px;
 `
 
 const TimePickerTopBox = styled.div<{ error: boolean }>`

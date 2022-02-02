@@ -22,10 +22,7 @@ const CurrentTime = () => {
   }, [])
 
   useEffect(() => {
-    if (
-      new Date().toLocaleTimeString() === '12:00:00 AM' ||
-      new Date().toLocaleTimeString() === '00:00:00 AM'
-    ) {
+    if (currentTime === '12:00:00 AM' || currentTime === '00:00:00 AM') {
       setCurrentDate(getCurrentDate())
       setCurrentDay(getCurrentDay())
 
