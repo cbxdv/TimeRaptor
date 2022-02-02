@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
-const Loader = () => <Ring />;
+const Loader = () => <Ring />
 
 const Ring = styled.div`
   display: inline-block;
@@ -27,6 +27,6 @@ const Ring = styled.div`
       transform: rotate(360deg);
     }
   }
-`;
+`
 
-export default Loader;
+export default Loader

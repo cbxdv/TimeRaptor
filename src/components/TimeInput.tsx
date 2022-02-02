@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect, useRef } from 'react'
+import styled from 'styled-components'
 
-import ClockIcon from '../assets/icons/Time.svg';
-import WithModal from '../hooks/WithModal';
-import { getTimeString } from '../utils/timeUtils';
-import TextButton from './TextButton';
-import { flexCenter, inputBack } from '../styles/styleUtils';
+import ClockIcon from '../assets/icons/Time.svg'
+import WithModal from '../hooks/WithModal'
+import { getTimeString } from '../utils/timeUtils'
+import TextButton from './TextButton'
+import { flexCenter, inputBack } from '../styles/styleUtils'
 
-import { ITimeObject } from '../@types/DayAndTimeInterfaces';
+import { ITimeObject } from '../@types/DayAndTimeInterfaces'
 
 const TimeInput: React.FC<TimeInputProps> = ({
   title = '',
@@ -15,9 +15,9 @@ const TimeInput: React.FC<TimeInputProps> = ({
   valueSetHandler,
   error
 }) => {
-  const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false);
+  const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)
 
-  const timeString = getTimeString(value);
+  const timeString = getTimeString(value)
 
   return (
     <>
@@ -33,57 +33,57 @@ const TimeInput: React.FC<TimeInputProps> = ({
         <ClockIcon onClick={() => setShowPickerPanel(true)} />
       </TimePickerTopBox>
     </>
-  );
-};
+  )
+}
 
 type TimeInputProps = {
-  title: string;
-  value: ITimeObject;
-  valueSetHandler: (selectedTime: ITimeObject) => void;
-  error: boolean;
-};
+  title: string
+  value: ITimeObject
+  valueSetHandler: (selectedTime: ITimeObject) => void
+  error: boolean
+}
 
 const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
   time,
   closeHandler,
   mainSubmitHandler
 }) => {
-  const [hours, setHours] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(0);
-  const [pm, setPm] = useState<boolean>(false);
+  const [hours, setHours] = useState<number>(0)
+  const [minutes, setMinutes] = useState<number>(0)
+  const [pm, setPm] = useState<boolean>(false)
 
-  const hoursRef = useRef<HTMLDivElement>(null);
-  const minutesRef = useRef<HTMLDivElement>(null);
+  const hoursRef = useRef<HTMLDivElement>(null)
+  const minutesRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setHours(time.hours);
-    setMinutes(time.minutes);
-    setPm(time.pm);
+    setHours(time.hours)
+    setMinutes(time.minutes)
+    setPm(time.pm)
 
     setTimeout(() => {
       setTimeout(() => {
         hoursRef.current.scrollIntoView({
           behavior: 'smooth',
           block: 'center'
-        });
-      }, 100);
+        })
+      }, 100)
 
       setTimeout(() => {
         minutesRef.current.scrollIntoView({
           behavior: 'smooth',
           block: 'center'
-        });
-      }, 500);
-    });
-  }, []);
+        })
+      }, 500)
+    })
+  }, [])
 
   const submitHandler = () => {
-    mainSubmitHandler({ hours, minutes, pm });
-    closeHandler();
-  };
+    mainSubmitHandler({ hours, minutes, pm })
+    closeHandler()
+  }
 
   const generateHoursOptions = () => {
-    const hoursArr = [];
+    const hoursArr = []
     for (let index = 1; index <= 12; index += 1) {
       hoursArr.push(
         <PickerOption
@@ -94,13 +94,13 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
         >
           {index}
         </PickerOption>
-      );
+      )
     }
-    return hoursArr;
-  };
+    return hoursArr
+  }
 
   const generateMinutesOptions = () => {
-    const mintuesArr = [];
+    const mintuesArr = []
     for (let index = 0; index < 60; index += 5) {
       mintuesArr.push(
         <PickerOption
@@ -111,10 +111,10 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
         >
           {index}
         </PickerOption>
-      );
+      )
     }
-    return mintuesArr;
-  };
+    return mintuesArr
+  }
 
   return (
     <WithModal modalTitle='Pick Time' closeHandler={closeHandler}>
@@ -160,21 +160,21 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
         />
       </ButtonsContainer>
     </WithModal>
-  );
-};
+  )
+}
 
 type TimePickerPanelProps = {
-  time: ITimeObject;
-  closeHandler: () => void;
-  mainSubmitHandler: (selectedTime: ITimeObject) => void;
-};
+  time: ITimeObject
+  closeHandler: () => void
+  mainSubmitHandler: (selectedTime: ITimeObject) => void
+}
 
 const TimePickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   background-color: ${({ theme }) => theme.shade1};
   border-radius: 8px;
   margin: 30px;
-`;
+`
 
 const PickerHeader = styled.div`
   background-color: ${({ theme }) => theme.accent};
@@ -191,7 +191,7 @@ const PickerHeader = styled.div`
     width: 90px;
     height: 43px;
   }
-`;
+`
 
 const PickerSecsContainer = styled.div`
   height: 200px;
@@ -203,7 +203,7 @@ const PickerSecsContainer = styled.div`
     overflow: scroll;
     height: 100%;
   }
-`;
+`
 const PickerOption = styled.div<{ selected: boolean }>`
   background-color: ${({ theme }) => theme.secondary};
   border: 2px solid ${({ selected }) => (selected ? `#60D394` : `transparent`)};
@@ -222,17 +222,17 @@ const PickerOption = styled.div<{ selected: boolean }>`
     background: ${({ theme }) => theme.shade2};
     color: ${({ theme }) => theme.text};
   }
-`;
+`
 
 const ButtonsContainer = styled.div`
   ${flexCenter({ justifyContent: 'space-between' })};
   margin: 30px;
-`;
+`
 
 const TimePickerTopBox = styled.div<{ error: boolean }>`
   ${inputBack()};
   ${flexCenter({ justifyContent: 'space-between' })};
   border: 2px solid ${({ error }) => (error ? `#E24446` : `transparent`)};
-`;
+`
 
-export default TimeInput;
+export default TimeInput

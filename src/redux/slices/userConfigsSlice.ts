@@ -84,8 +84,12 @@ const userConfigsSlice = createSlice({
       saveConfigToDisk('openMinimized', state.configurations.openMinimized);
     },
     dayToShowToggled(state, action: PayloadAction<DayStringTypes>) {
-      state.configurations.daysToShow[action.payload] = !state.configurations.daysToShow[action.payload]
-      saveConfigToDisk('daysToShow', JSON.parse(JSON.stringify(state.configurations.daysToShow)))
+      state.configurations.daysToShow[action.payload] =
+        !state.configurations.daysToShow[action.payload];
+      saveConfigToDisk(
+        'daysToShow',
+        JSON.parse(JSON.stringify(state.configurations.daysToShow))
+      );
     }
   },
   extraReducers(builder) {
@@ -135,4 +139,5 @@ export const selectShowCurrentTime = (state: IState) =>
   state.userConfigs.configurations.showCurrentTime;
 export const selectShowCurrentBlock = (state: IState) =>
   state.userConfigs.configurations.showCurrentBlock;
-export const selectDaysToShow = (state: IState) => state.userConfigs.configurations.daysToShow
+export const selectDaysToShow = (state: IState) =>
+  state.userConfigs.configurations.daysToShow;

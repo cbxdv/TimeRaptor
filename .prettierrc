@@ -9,7 +9,7 @@
   "endOfLine": "lf",
   "overrides": [
     {
-      "files": "*.jsx",
+      "files": "*.tsx",
       "options": {
         "semi": false
       }

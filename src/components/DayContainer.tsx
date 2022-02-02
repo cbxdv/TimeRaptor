@@ -1,20 +1,20 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import React from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
 import { selectDaysToShow } from '../redux/slices/userConfigsSlice'
-import DayColumn from './DayColumn';
+import DayColumn from './DayColumn'
 import { daysArray } from '../utils/strings'
-import { flexCenter } from '../styles/styleUtils';
+import { flexCenter } from '../styles/styleUtils'
 
-import { IState } from '../@types/StateInterfaces';
+import { IState } from '../@types/StateInterfaces'
 
 const DayContainer = () => {
-  const blocksStatus = useSelector((state: IState) => state.timetable.status);
+  const blocksStatus = useSelector((state: IState) => state.timetable.status)
   const daysToShow = useSelector(selectDaysToShow)
 
   if (blocksStatus === 'loading') {
-    return <>Loading...</>;
+    return <>Loading...</>
   }
 
   const generateDayColumns = () => {
@@ -31,24 +31,20 @@ const DayContainer = () => {
     return dayColumns
   }
 
-  return (
-    <DayContainerContainer>
-      { generateDayColumns() }
-    </DayContainerContainer>
-  );
-};
+  return <DayContainerContainer>{generateDayColumns()}</DayContainerContainer>
+}
 
 const DayContainerContainer = styled.div`
   ${flexCenter()};
   height: 100%;
   width: 100%;
   border-radius: 8px;
-`;
+`
 
 const DayColumnContainer = styled.div<{ rm?: boolean }>`
   margin-right: ${({ rm }) => (rm ? 0 : `5px`)};
   width: 100%;
   border-radius: 8px;
-`;
+`
 
-export default DayContainer;
+export default DayContainer

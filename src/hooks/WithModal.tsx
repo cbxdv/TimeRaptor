@@ -1,40 +1,40 @@
-import React, { useEffect, useRef, ReactNode } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useRef, ReactNode } from 'react'
+import styled from 'styled-components'
 
-import CrossIcon from '../assets/icons/CrossIcon.svg';
-import { flexCenter, buttonStyles } from '../styles/styleUtils';
+import CrossIcon from '../assets/icons/CrossIcon.svg'
+import { flexCenter, buttonStyles } from '../styles/styleUtils'
 
 const WithModal: React.FC<WithModalProps> = ({
   children,
   closeHandler,
   modalTitle
 }) => {
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'
 
-  const ref = useRef(null);
+  const ref = useRef(null)
 
   const close = () => {
-    ref.current.style.opacity = 0;
+    ref.current.style.opacity = 0
     setTimeout(() => {
-      closeHandler();
-    }, 150);
-  };
+      closeHandler()
+    }, 150)
+  }
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      close();
+      close()
     }
-  };
+  }
 
   useEffect(() => {
-    ref.current.style.opacity = 1;
-    document.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', keyBindHandler);
+    ref.current.style.opacity = 1
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', keyBindHandler)
     return () => {
-      document.body.style.overflow = 'unset';
-      document.removeEventListener('keydown', keyBindHandler);
-    };
-  }, []);
+      document.body.style.overflow = 'unset'
+      document.removeEventListener('keydown', keyBindHandler)
+    }
+  }, [])
 
   return (
     <ModalContainer ref={ref}>
@@ -49,14 +49,14 @@ const WithModal: React.FC<WithModalProps> = ({
         <div>{children}</div>
       </ModalBody>
     </ModalContainer>
-  );
-};
+  )
+}
 
 type WithModalProps = {
-  children: ReactNode;
-  closeHandler: () => void;
-  modalTitle: string;
-};
+  children: ReactNode
+  closeHandler: () => void
+  modalTitle: string
+}
 
 const ModalContainer = styled.div`
   ${flexCenter()};
@@ -70,7 +70,7 @@ const ModalContainer = styled.div`
   z-index: 10;
   opacity: 0;
   transition: opacity 0.1s linear;
-`;
+`
 
 const ModalBody = styled.div`
   max-width: 80%;
@@ -80,7 +80,7 @@ const ModalBody = styled.div`
   z-index: 20;
   overflow: scroll;
   position: relative;
-`;
+`
 
 const ModalHeader = styled.div`
   ${flexCenter({ justifyContent: 'space-between' })};
@@ -113,7 +113,7 @@ const ModalHeader = styled.div`
         theme.name === 'dark' ? theme.text : theme.shade1};
     }
   }
-`;
+`
 
 const ModalCloseButton = styled.button`
   ${buttonStyles()};
@@ -123,7 +123,7 @@ const ModalCloseButton = styled.button`
   & > svg {
     fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.shade1)};
   }
-`;
+`
 
 const ModalDrop = styled.div`
   position: absolute;
@@ -131,6 +131,6 @@ const ModalDrop = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-`;
+`
 
-export default WithModal;
+export default WithModal

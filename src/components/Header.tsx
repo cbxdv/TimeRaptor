@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import styled from 'styled-components'
 
 import {
   selectPlatform,
@@ -8,69 +8,69 @@ import {
   maximizedToggled,
   selectShowCurrentTime,
   selectShowCurrentBlock
-} from '../redux/slices/userConfigsSlice';
-import AddBlockIcon from '../assets/icons/AddBlock.svg';
-import CloseIcon from '../assets/icons/Close.svg';
-import MinimizeIcon from '../assets/icons/Minimize.svg';
-import OpenFull from '../assets/icons/OpenFull.svg';
-import GearIcon from '../assets/icons/Gear.svg';
-import Logo from '../assets/Logo.png';
-import CurrentTime from './CurrentTime';
-import CurrentBlock from './CurrentBlock';
-import IconButton from './IconButton';
-import NotificationsToggle from './NotificationsToggle';
-import TimeBlockEditor from './TimeBlockEditor';
-import UserConfigsPanel from './UserConfigsPanel';
+} from '../redux/slices/userConfigsSlice'
+import AddBlockIcon from '../assets/icons/AddBlock.svg'
+import CloseIcon from '../assets/icons/Close.svg'
+import MinimizeIcon from '../assets/icons/Minimize.svg'
+import OpenFull from '../assets/icons/OpenFull.svg'
+import GearIcon from '../assets/icons/Gear.svg'
+import Logo from '../assets/Logo.png'
+import CurrentTime from './CurrentTime'
+import CurrentBlock from './CurrentBlock'
+import IconButton from './IconButton'
+import NotificationsToggle from './NotificationsToggle'
+import TimeBlockEditor from './TimeBlockEditor'
+import UserConfigsPanel from './UserConfigsPanel'
 import {
   closeWindow,
   maximizeWindow,
   minimizeWindow,
   restoreWindow,
   reloadWindow
-} from '../utils/ElectronContext';
-import { flexCenter } from '../styles/styleUtils';
+} from '../utils/ElectronContext'
+import { flexCenter } from '../styles/styleUtils'
 
 const TopPanel = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const platform = useSelector(selectPlatform);
-  const isMaximized = useSelector(selectMaximized);
-  const showCurrentTime = useSelector(selectShowCurrentTime);
-  const showCurrentBlock = useSelector(selectShowCurrentBlock);
+  const platform = useSelector(selectPlatform)
+  const isMaximized = useSelector(selectMaximized)
+  const showCurrentTime = useSelector(selectShowCurrentTime)
+  const showCurrentBlock = useSelector(selectShowCurrentBlock)
 
-  const [showAddPanel, setShowAddPanel] = useState<boolean>(false);
-  const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false);
+  const [showAddPanel, setShowAddPanel] = useState<boolean>(false)
+  const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
 
   const maximizeHandler = () => {
     if (isMaximized || window.innerHeight > 1000 || window.innerWidth > 1500) {
-      restoreWindow();
+      restoreWindow()
     } else {
-      maximizeWindow();
+      maximizeWindow()
     }
-    dispatch(maximizedToggled());
-  };
+    dispatch(maximizedToggled())
+  }
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'a' || event.key === 'A') && event.ctrlKey) {
-      setShowAddPanel(true);
+      setShowAddPanel(true)
     }
     if (event.key === ',' && event.ctrlKey) {
-      setShowUConfigPanel(true);
+      setShowUConfigPanel(true)
     }
     if ((event.key === 'q' || event.key === 'Q') && event.ctrlKey) {
-      closeWindow();
+      closeWindow()
     }
     if ((event.key === 'r' || event.key === 'R') && event.ctrlKey) {
-      reloadWindow();
+      reloadWindow()
     }
-  };
+  }
 
   useEffect(() => {
-    document.addEventListener('keydown', keyBindHandler);
+    document.addEventListener('keydown', keyBindHandler)
     return () => {
-      document.removeEventListener('keydown', keyBindHandler);
-    };
-  });
+      document.removeEventListener('keydown', keyBindHandler)
+    }
+  })
 
   return (
     <Top>
@@ -126,21 +126,21 @@ const TopPanel = () => {
         )}
       </Header>
     </Top>
-  );
-};
+  )
+}
 
 const Top = styled.div`
   position: sticky;
   top: 0;
   z-index: 5;
-`;
+`
 
 const ControlsContainer = styled.div`
   ${flexCenter()};
   align-self: flex-start;
   margin-top: -10px;
   margin-right: -20px;
-`;
+`
 
 const Control = styled.div<{ variant: string }>`
   ${flexCenter()};
@@ -167,7 +167,7 @@ const Control = styled.div<{ variant: string }>`
       fill: #ffffff;
     }
   }
-`;
+`
 
 const Header = styled.div`
   background-color: ${({ theme }) => theme.secondary};
@@ -189,7 +189,7 @@ const Header = styled.div`
     ${flexCenter()};
     margin: 0 20px;
   }
-`;
+`
 
 const WindowControls = styled.div`
   -webkit-app-region: drag;
@@ -197,6 +197,6 @@ const WindowControls = styled.div`
   width: 100vw;
   position: fixed;
   top: 0;
-`;
+`
 
-export default TopPanel;
+export default TopPanel

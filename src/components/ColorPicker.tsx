@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components'
 
-import PaletteIcon from '../assets/icons/Palette.svg';
-import WithModal from '../hooks/WithModal';
-import TextButton from './TextButton';
-import { varietyColorStrings } from '../utils/strings';
-import { varietyColors } from '../styles/styleConstants';
-import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils';
+import PaletteIcon from '../assets/icons/Palette.svg'
+import WithModal from '../hooks/WithModal'
+import TextButton from './TextButton'
+import { varietyColorStrings } from '../utils/strings'
+import { varietyColors } from '../styles/styleConstants'
+import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils'
 
-import { ColorStringTypes } from '../@types/TimeBlockInterfaces';
+import { ColorStringTypes } from '../@types/TimeBlockInterfaces'
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
   title,
   color,
   valueSetHandler
 }) => {
-  const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false);
+  const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)
 
   return (
     <>
@@ -34,18 +34,18 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
         <PaletteIcon onClick={() => setShowPickerPanel(true)} />
       </ColorPickerTopBox>
     </>
-  );
-};
+  )
+}
 
 type ColorPickerProps = {
-  title?: string;
-  color: ColorStringTypes;
-  valueSetHandler: (selectedColor: ColorStringTypes) => void;
-};
+  title?: string
+  color: ColorStringTypes
+  valueSetHandler: (selectedColor: ColorStringTypes) => void
+}
 
 ColorPicker.defaultProps = {
   title: 'Pick a color'
-};
+}
 
 const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
   color,
@@ -53,19 +53,19 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
   mainSubmitHandler
 }) => {
   const [selectedColor, setSelectedColor] =
-    useState<ColorStringTypes>('decoPeach');
+    useState<ColorStringTypes>('decoPeach')
 
   useEffect(() => {
-    setSelectedColor(color);
-  }, []);
+    setSelectedColor(color)
+  }, [])
 
   const submitHandler = () => {
-    mainSubmitHandler(selectedColor);
-    closeHandler();
-  };
+    mainSubmitHandler(selectedColor)
+    closeHandler()
+  }
 
   const generateColorBlock = () => {
-    const colors = Object.keys(varietyColorStrings);
+    const colors = Object.keys(varietyColorStrings)
     const colorsElements = colors.map((colorOption: ColorStringTypes) => (
       <ColorOptions
         key={colorOption}
@@ -73,9 +73,9 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
         color={colorOption}
         onClick={() => setSelectedColor(colorOption)}
       />
-    ));
-    return colorsElements;
-  };
+    ))
+    return colorsElements
+  }
 
   return (
     <WithModal modalTitle='Pick a Color' closeHandler={closeHandler}>
@@ -92,14 +92,14 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
         />
       </ButtonsContainer>
     </WithModal>
-  );
-};
+  )
+}
 
 type ColoPickerPanelProps = {
-  color: ColorStringTypes;
-  closeHandler: () => void;
-  mainSubmitHandler: (selectedColor: ColorStringTypes) => void;
-};
+  color: ColorStringTypes
+  closeHandler: () => void
+  mainSubmitHandler: (selectedColor: ColorStringTypes) => void
+}
 
 const ColorPickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
@@ -107,14 +107,14 @@ const ColorPickerPanelContainer = styled.div`
   border-radius: 8px;
   margin: 30px;
   overflow: scroll;
-`;
+`
 
 const PickerContainer = styled.div`
   padding: 10px;
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(5, 1fr);
-`;
+`
 
 const ColorOptions = styled.div<ColorPropTypes>`
   ${buttonStyles()};
@@ -127,14 +127,14 @@ const ColorOptions = styled.div<ColorPropTypes>`
   cursor: pointer;
   border: ${({ selected }) =>
     selected ? `3px solid #60D394` : `0.5px solid rgba(0, 0, 0, 0.2)`};
-`;
+`
 
-type ColorPropTypes = { selected: boolean; color: ColorStringTypes };
+type ColorPropTypes = { selected: boolean; color: ColorStringTypes }
 
 const ButtonsContainer = styled.div`
   ${flexCenter({ justifyContent: 'space-between' })};
   margin: 30px;
-`;
+`
 
 const ColorText = styled.div`
   font-family: Outfit;
@@ -143,7 +143,7 @@ const ColorText = styled.div`
   width: 100%;
   ${flexCenter()};
   margin-top: 30px;
-`;
+`
 
 const ColorPickerTopBox = styled.div`
   ${inputBack()};
@@ -152,7 +152,7 @@ const ColorPickerTopBox = styled.div`
   .box-info {
     ${flexCenter()};
   }
-`;
+`
 
 const ColorsIndicator = styled.div<{ color: ColorStringTypes }>`
   width: 20px;
@@ -161,6 +161,6 @@ const ColorsIndicator = styled.div<{ color: ColorStringTypes }>`
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   margin-right: 10px;
-`;
+`
 
-export default ColorPicker;
+export default ColorPicker

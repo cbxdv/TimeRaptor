@@ -1,34 +1,34 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
-import { buttonStyles } from '../styles/styleUtils';
+import { buttonStyles } from '../styles/styleUtils'
 
 const TextButton: React.FC<TextButtonProps> = ({ label, variant, onClick }) => {
   const getTextColor = () => {
     switch (variant) {
       case 'danger':
-        return `#E24446`;
+        return `#E24446`
       case 'success':
-        return `#36A568`;
+        return `#36A568`
       default:
-        return `#000000`;
+        return `#000000`
     }
-  };
+  }
 
-  const textColor = getTextColor();
+  const textColor = getTextColor()
 
   return (
     <TextButtonContainer textColor={textColor} onClick={onClick}>
       {label}
     </TextButtonContainer>
-  );
-};
+  )
+}
 
 type TextButtonProps = {
-  label: string;
-  variant: 'danger' | 'success' | '';
-  onClick: () => void;
-};
+  label: string
+  variant: 'danger' | 'success' | ''
+  onClick: () => void
+}
 
 const TextButtonContainer = styled.button<{ textColor: string }>`
   ${buttonStyles()};
@@ -44,6 +44,6 @@ const TextButtonContainer = styled.button<{ textColor: string }>`
   font-size: 16px;
   margin: 10px 0;
   padding: 0 20px;
-`;
+`
 
-export default TextButton;
+export default TextButton

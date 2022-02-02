@@ -1,77 +1,77 @@
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 
-import WithModal from '../hooks/WithModal';
-import { blockAdded, blockUpdated } from '../redux/slices/timetableSlice';
-import { getDurationMinutes } from '../utils/timeUtils';
-import ColorPicker from './ColorPicker';
-import DayInput from './DayInput';
-import TextArea from './TextArea';
-import TextButton from './TextButton';
-import TextInput from './TextInput';
-import TimeInput from './TimeInput';
-import { flexCenter } from '../styles/styleUtils';
+import WithModal from '../hooks/WithModal'
+import { blockAdded, blockUpdated } from '../redux/slices/timetableSlice'
+import { getDurationMinutes } from '../utils/timeUtils'
+import ColorPicker from './ColorPicker'
+import DayInput from './DayInput'
+import TextArea from './TextArea'
+import TextButton from './TextButton'
+import TextInput from './TextInput'
+import TimeInput from './TimeInput'
+import { flexCenter } from '../styles/styleUtils'
 
-import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces';
-import { ColorStringTypes, ITimeBlock } from '../@types/TimeBlockInterfaces';
+import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
+import { ColorStringTypes, ITimeBlock } from '../@types/TimeBlockInterfaces'
 
 const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
   closeHandler,
   edit = false,
   currentBlock = null
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [title, setTitle] = useState<string>('');
-  const [day, setDay] = useState<DayStringTypes>('monday');
+  const [title, setTitle] = useState<string>('')
+  const [day, setDay] = useState<DayStringTypes>('monday')
   const [startTime, setStartTime] = useState<ITimeObject>({
     hours: 1,
     minutes: 0,
     pm: false
-  });
+  })
   const [endTime, setEndTime] = useState<ITimeObject>({
     hours: 1,
     minutes: 0,
     pm: false
-  });
-  const [blockColor, setBlockColor] = useState<ColorStringTypes>('decoPeach');
-  const [description, setDescription] = useState<string>('');
+  })
+  const [blockColor, setBlockColor] = useState<ColorStringTypes>('decoPeach')
+  const [description, setDescription] = useState<string>('')
 
-  const [titleError, setTitleError] = useState<boolean>(false);
-  const [timeError, setTimeError] = useState<boolean>(false);
+  const [titleError, setTitleError] = useState<boolean>(false)
+  const [timeError, setTimeError] = useState<boolean>(false)
 
-  const inputRef = useRef(null);
+  const inputRef = useRef(null)
 
   const checkData = () => {
-    let error = false;
+    let error = false
 
     // Title length check
     if (title.length === 0) {
-      error = true;
-      setTitleError(true);
+      error = true
+      setTitleError(true)
       setTimeout(() => {
-        setTitleError(false);
-      }, 5000);
+        setTitleError(false)
+      }, 5000)
     }
 
     // End time not being before start time check
-    const duration = getDurationMinutes(startTime, endTime);
+    const duration = getDurationMinutes(startTime, endTime)
     if (duration <= 0) {
-      error = true;
-      setTimeError(true);
+      error = true
+      setTimeError(true)
       setTimeout(() => {
-        setTimeError(false);
-      }, 5000);
+        setTimeError(false)
+      }, 5000)
     }
 
-    return !error;
-  };
+    return !error
+  }
 
   const submitHandler = () => {
     if (!checkData()) {
-      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
+      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      return
     }
     const newBlock = {
       ...currentBlock,
@@ -82,51 +82,51 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
       duration: getDurationMinutes(startTime, endTime),
       blockColor,
       description
-    };
+    }
     if (edit) {
       // edit block
-      dispatch(blockUpdated({ oldBlock: currentBlock, newBlock }));
+      dispatch(blockUpdated({ oldBlock: currentBlock, newBlock }))
     } else {
       // add new block
-      dispatch(blockAdded(newBlock));
+      dispatch(blockAdded(newBlock))
     }
-    closeHandler();
-  };
+    closeHandler()
+  }
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
-      submitHandler();
+      submitHandler()
     }
-  };
+  }
 
   useEffect(() => {
-    document.addEventListener('keydown', keyBindHandler);
+    document.addEventListener('keydown', keyBindHandler)
     return () => {
-      document.removeEventListener('keydown', keyBindHandler);
-    };
-  });
+      document.removeEventListener('keydown', keyBindHandler)
+    }
+  })
 
   useEffect(() => {
     if (!currentBlock || Object.keys(currentBlock).length === 0) {
-      return;
+      return
     }
-    setTitle(currentBlock.title);
-    setDay(currentBlock.day);
-    setStartTime(currentBlock.startTime);
-    setEndTime(currentBlock.endTime);
-    setBlockColor(currentBlock.blockColor);
-    setDescription(currentBlock.description);
-  }, []);
+    setTitle(currentBlock.title)
+    setDay(currentBlock.day)
+    setStartTime(currentBlock.startTime)
+    setEndTime(currentBlock.endTime)
+    setBlockColor(currentBlock.blockColor)
+    setDescription(currentBlock.description)
+  }, [])
 
   const clearState = () => {
-    setTitle('');
-    setDay('monday');
-    setStartTime({ hours: 1, minutes: 0, pm: false });
-    setEndTime({ hours: 1, minutes: 0, pm: false });
-    setBlockColor('decoPeach');
-    setDescription('');
-    inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  };
+    setTitle('')
+    setDay('monday')
+    setStartTime({ hours: 1, minutes: 0, pm: false })
+    setEndTime({ hours: 1, minutes: 0, pm: false })
+    setBlockColor('decoPeach')
+    setDescription('')
+    inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
 
   return (
     <WithModal modalTitle='Add New Block' closeHandler={closeHandler}>
@@ -200,32 +200,32 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
         </ButtonsContainer>
       </AddForm>
     </WithModal>
-  );
-};
+  )
+}
 
 type TimeBlockEditorProps = {
-  closeHandler: () => void;
-  edit?: boolean;
-  currentBlock?: ITimeBlock | null;
-};
+  closeHandler: () => void
+  edit?: boolean
+  currentBlock?: ITimeBlock | null
+}
 
 TimeBlockEditor.defaultProps = {
   edit: false,
   currentBlock: null
-};
+}
 
 const AddForm = styled.div`
   width: 100%;
   padding: 0 60px;
   padding-bottom: 40px;
-`;
+`
 
 const InputContainer = styled.div`
   margin: 40px 0;
-`;
+`
 
 const ButtonsContainer = styled.div`
   ${flexCenter({ justifyContent: 'space-between' })};
-`;
+`
 
-export default TimeBlockEditor;
+export default TimeBlockEditor

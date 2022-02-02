@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 
-import { DayStringTypes } from '../@types/DayAndTimeInterfaces';
-import Octocat from '../assets/icons/Octocat.png';
-import WaveEmoji from '../assets/icons/Wave.png';
+import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
+import Octocat from '../assets/icons/Octocat.png'
+import WaveEmoji from '../assets/icons/Wave.png'
 import PartyPopperEmoji from '../assets/icons/PartyPopper.png'
-import WithModal from '../hooks/WithModal';
-import { getElectronContext } from '../utils/ElectronContext';
+import WithModal from '../hooks/WithModal'
+import { getElectronContext } from '../utils/ElectronContext'
 import { daysArray, dayStrings } from '../utils/strings'
-import { blocksCleared } from '../redux/slices/timetableSlice';
+import { blocksCleared } from '../redux/slices/timetableSlice'
 import {
   darkModeToggled,
   notificationsToggled,
@@ -20,52 +20,54 @@ import {
   openMinimizedToggled,
   selectDaysToShow,
   dayToShowToggled
-} from '../redux/slices/userConfigsSlice';
-import CheckBox from './CheckBox';
-import TextButton from './TextButton';
-import { flexCenter } from '../styles/styleUtils';
+} from '../redux/slices/userConfigsSlice'
+import CheckBox from './CheckBox'
+import TextButton from './TextButton'
+import { flexCenter } from '../styles/styleUtils'
 
 const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
   closeHandler
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const [showDaysToShowPanel, setShowDaysToShowPanel] = useState<boolean>(false)
 
-  const configurations = useSelector(selectConfigurations);
+  const configurations = useSelector(selectConfigurations)
 
   const notificationsToggle = () => {
-    dispatch(notificationsToggled());
-  };
+    dispatch(notificationsToggled())
+  }
   const darkModeToggle = () => {
-    dispatch(darkModeToggled());
-  };
+    dispatch(darkModeToggled())
+  }
   const closeOnExitToggle = () => {
-    dispatch(closeOnExitToggled());
-  };
+    dispatch(closeOnExitToggled())
+  }
   const showCurrentTimeToggle = () => {
-    dispatch(showCurrentTimeToggled());
-  };
+    dispatch(showCurrentTimeToggled())
+  }
   const showCurrentBlockToggle = () => {
-    dispatch(showCurrentBlockToggled());
-  };
+    dispatch(showCurrentBlockToggled())
+  }
   const openMinimizedToggle = () => {
-    dispatch(openMinimizedToggled());
-  };
+    dispatch(openMinimizedToggled())
+  }
 
   const openRepo = () => {
-    const electron = getElectronContext();
-    electron.appOpenRepoLink();
-  };
+    const electron = getElectronContext()
+    electron.appOpenRepoLink()
+  }
 
   const clearTimeBlocks = () => {
-    dispatch(blocksCleared());
-    closeHandler();
-  };
+    dispatch(blocksCleared())
+    closeHandler()
+  }
 
   return (
     <WithModal modalTitle='User Configurations' closeHandler={closeHandler}>
-      { showDaysToShowPanel && <DaysToShowPanel closeHandler={() => setShowDaysToShowPanel(false)} /> }
+      {showDaysToShowPanel && (
+        <DaysToShowPanel closeHandler={() => setShowDaysToShowPanel(false)} />
+      )}
       <UserConfigsPanelContainer>
         <MainPanel>
           <OptionsContainer>
@@ -118,7 +120,7 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
             </div>
           </OptionsContainer>
           <ButtonContainer>
-          <TextButton
+            <TextButton
               label='Configure Days'
               variant='success'
               onClick={() => setShowDaysToShowPanel(true)}
@@ -152,12 +154,12 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
         </AppVersionContainer>
       </UserConfigsPanelContainer>
     </WithModal>
-  );
-};
+  )
+}
 
 type UserConfigsPanelProps = {
-  closeHandler: () => void;
-};
+  closeHandler: () => void
+}
 
 const DaysToShowPanel: React.FC<DaysToShowPanelProps> = ({ closeHandler }) => {
   const dispatch = useDispatch()
@@ -187,7 +189,7 @@ const DaysToShowPanel: React.FC<DaysToShowPanelProps> = ({ closeHandler }) => {
     daysArray.forEach(day => {
       dayOptions.push(
         <React.Fragment key={`ShowDayOption-${day}`}>
-          <div className='option-text'>{ dayStrings[day] }</div>
+          <div className='option-text'>{dayStrings[day]}</div>
           <div className='option-config'>
             <CheckBox
               checked={daysToShow[day]}
@@ -202,7 +204,7 @@ const DaysToShowPanel: React.FC<DaysToShowPanelProps> = ({ closeHandler }) => {
       <React.Fragment key='ShowDayOption-weekend'>
         <div className='option-text' style={{ color: '#fd2513' }}>
           <EmojiImage src={PartyPopperEmoji} alt='Party Popper' />
-            Weekend
+          Weekend
           <EmojiImage src={PartyPopperEmoji} alt='Party Popper' />
         </div>
         <div className='option-config'>
@@ -216,13 +218,11 @@ const DaysToShowPanel: React.FC<DaysToShowPanelProps> = ({ closeHandler }) => {
 
     return dayOptions
   }
-  
+
   return (
     <WithModal modalTitle='Select days to show' closeHandler={closeHandler}>
       <UserConfigsPanelContainer>
-        <ShowDaysOptionsContainer>
-          { generateOptions() }
-        </ShowDaysOptionsContainer>
+        <ShowDaysOptionsContainer>{generateOptions()}</ShowDaysOptionsContainer>
       </UserConfigsPanelContainer>
     </WithModal>
   )
@@ -234,12 +234,12 @@ type DaysToShowPanelProps = {
 
 const UserConfigsPanelContainer = styled.div`
   padding: 30px;
-`;
+`
 
 const MainPanel = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   margin-bottom: 30px;
-`;
+`
 
 const OptionsContainer = styled.div`
   display: grid;
@@ -256,12 +256,12 @@ const OptionsContainer = styled.div`
   .option-config {
     ${flexCenter()};
   }
-`;
+`
 
 const ButtonContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   margin: 0 10px;
-`;
+`
 
 const EmojiImage = styled.img`
   height: 25px;
@@ -293,17 +293,17 @@ const BotText = styled.div`
       border: 1px solid ${({ theme }) => theme.text};
     }
   }
-`;
+`
 
 const AppVersionContainer = styled.div`
   ${flexCenter()};
   font-size: 14px;
   margin-top: 30px;
   color: grey;
-`;
+`
 
 const ShowDaysOptionsContainer = styled(OptionsContainer)`
   grid-template-columns: 1fr 50px 1fr 50px;
 `
 
-export default UserConfigsPanel;
+export default UserConfigsPanel

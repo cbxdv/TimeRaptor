@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
-import { inputBack } from '../styles/styleUtils';
+import { inputBack } from '../styles/styleUtils'
 
 const TextInput: React.FC<TextInputProps> = ({
   name,
@@ -26,15 +26,15 @@ const TextInput: React.FC<TextInputProps> = ({
       {title}
     </label>
   </Input>
-);
+)
 
 type TextInputProps = {
-  name: string;
-  title: string;
-  onChangeHandler: (event: React.ChangeEvent) => void;
-  inputValue: string;
-  error: boolean;
-};
+  name: string
+  title: string
+  onChangeHandler: (event: React.ChangeEvent) => void
+  inputValue: string
+  error: boolean
+}
 
 const Input = styled.div<{ error: boolean }>`
   position: relative;
@@ -66,6 +66,6 @@ const Input = styled.div<{ error: boolean }>`
       font-weight: normal;
     }
   }
-`;
+`
 
-export default TextInput;
+export default TextInput

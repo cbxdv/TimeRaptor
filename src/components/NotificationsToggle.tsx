@@ -1,38 +1,38 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import styled from 'styled-components'
 
 import {
   notificationsToggled,
   selectNotificationState
-} from '../redux/slices/userConfigsSlice';
+} from '../redux/slices/userConfigsSlice'
 
-import NotificationsActiveIcon from '../assets/icons/NotificationsActive.svg';
-import NotificationsOffIcon from '../assets/icons/NotificationsOff.svg';
+import NotificationsActiveIcon from '../assets/icons/NotificationsActive.svg'
+import NotificationsOffIcon from '../assets/icons/NotificationsOff.svg'
 
-import { flexCenter, buttonStyles } from '../styles/styleUtils';
+import { flexCenter, buttonStyles } from '../styles/styleUtils'
 
 const NotificationsToggle = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const active = useSelector(selectNotificationState);
+  const active = useSelector(selectNotificationState)
 
   const toggleNotifications = () => {
-    dispatch(notificationsToggled());
-  };
+    dispatch(notificationsToggled())
+  }
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'n' || event.key === 'N') && event.ctrlKey) {
-      toggleNotifications();
+      toggleNotifications()
     }
-  };
+  }
 
   useEffect(() => {
-    document.addEventListener('keydown', keyBindHandler);
+    document.addEventListener('keydown', keyBindHandler)
     return () => {
-      document.removeEventListener('keydown', keyBindHandler);
-    };
-  });
+      document.removeEventListener('keydown', keyBindHandler)
+    }
+  })
 
   return (
     <NTContainer onClick={toggleNotifications}>
@@ -42,8 +42,8 @@ const NotificationsToggle = () => {
         <NotificationsActiveIcon />
       )}
     </NTContainer>
-  );
-};
+  )
+}
 
 const NTContainer = styled.button`
   ${flexCenter()};
@@ -51,6 +51,6 @@ const NTContainer = styled.button`
   height: 40px;
   width: 40px;
   border-radius: 8px;
-`;
+`
 
-export default NotificationsToggle;
+export default NotificationsToggle
