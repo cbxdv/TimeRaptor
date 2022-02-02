@@ -7,9 +7,11 @@ const Store = require('electron-store');
 const store = new Store();
 
 let mainWindow = null;
-let loadingWindow = null; 
+let loadingWindow = null;
 let tray = null;
 
+// Boolean to indicate whethter the app is launching
+let isAppLoading = true;
 // Boolean to indicate whether the app is quiting or just closing window
 let isAppQuitting = false;
 
@@ -26,20 +28,17 @@ const createMainWindow = () => {
       backgroundThrottling: false,
       devTools: false
     },
-    icon: path.join(__dirname, './assets/Logo.ico')
+    icon: path.join(__dirname, './assets/logos/Icon.ico')
   });
 
   const menu = new Menu.buildFromTemplate([
     {
       label: 'Time Raptor',
-      submenu: [
-        { role: 'close' },
-        { role: 'quit' }
-      ]
+      submenu: [{ role: 'close' }, { role: 'quit' }]
     }
   ]);
 
-  Menu.setApplicationMenu(menu)
+  Menu.setApplicationMenu(menu);
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
@@ -50,17 +49,17 @@ const createMainWindow = () => {
   mainWindow.setMenuBarVisibility(false);
 
   mainWindow.on('ready-to-show', async () => {
-    const minimized = await store.get('userConfigs.openMinimized');
-    if (minimized !== undefined && minimized === true) {
-      return;
+    const minimized = await store.get('userConfigs.openMinimized', false);
+    if (!minimized) {
+      mainWindow.show();
     }
     if (loadingWindow) {
       loadingWindow.close();
     }
-    mainWindow.show();
+    isAppLoading = false;
   });
 
-  mainWindow.on('close', async event => {
+  mainWindow.on('close', async (event) => {
     if (!isAppQuitting) {
       event.preventDefault();
     }
@@ -71,15 +70,16 @@ const createMainWindow = () => {
       mainWindow.hide();
     }
   });
-
 };
 
 const createLoadingWindow = () => {
+  isAppLoading = true;
   loadingWindow = new BrowserWindow({
     width: 300,
     height: 300,
     frame: false,
-    transparent: true
+    transparent: true,
+    icon: path.join(__dirname, './assets/logos/Icon.ico')
   });
   loadingWindow.setResizable(false);
   loadingWindow.loadURL('file://' + __dirname + '/pages/Loading.html');
@@ -90,10 +90,9 @@ const createLoadingWindow = () => {
 };
 
 const createTray = () => {
-
-  let iconPath = path.join(__dirname, './assets/trayIcons/Icon.ico');
+  let iconPath = path.join(__dirname, './assets/logos/Icon.ico');
   if (os.platform === 'darwin') {
-    iconPath = path.join(__dirname, './assets/trayIcons/Icon.png');
+    iconPath = path.join(__dirname, './assets/logos/Icon.png');
   }
 
   tray = new Tray(iconPath);
@@ -126,6 +125,9 @@ const onReadyHandler = () => {
 app.on('ready', onReadyHandler);
 
 const showWindow = () => {
+  if (isAppLoading) {
+    return;
+  }
   if (BrowserWindow.getAllWindows().length === 0) {
     createMainWindow();
   } else {
@@ -135,22 +137,22 @@ const showWindow = () => {
 
 app.on('activate', showWindow);
 
-app.on('before-quit', () => isAppQuitting = true )
+app.on('before-quit', () => (isAppQuitting = true));
 
-app.on('will-quit', () => isAppQuitting = true )
+app.on('will-quit', () => (isAppQuitting = true));
 
 app.on('quit', () => {
   if (BrowserWindow.getAllWindows().length !== 0) {
-    mainWindow.close()
+    mainWindow.close();
     tray = null;
     mainWindow = null;
   }
   tray = null;
   app.quit();
-})
+});
 
 if (process.platform === 'win32') {
-  app.setAppUserModelId(process.execPath)
+  app.setAppUserModelId(process.execPath);
 }
 
 require('update-electron-app')();

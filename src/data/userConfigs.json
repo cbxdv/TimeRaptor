@@ -1,7 +1,0 @@
-{
-  "platform": "darwin",
-  "notifications": true,
-  "closeOnExit": false,
-  "minimizeToSystemTray": true,
-  "notifyBefore": 1
-}

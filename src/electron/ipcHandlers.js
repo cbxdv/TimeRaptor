@@ -9,8 +9,6 @@ const {
 const os = require('os');
 const Store = require('electron-store');
 
-const path = require('path');
-
 const store = new Store();
 
 ipcMain.handle('app:version', async () => {
