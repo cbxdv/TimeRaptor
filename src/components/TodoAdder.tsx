@@ -68,7 +68,6 @@ TodoAdder.defaultProps = {
 
 const TodoAdderContainer = styled.div`
   width: 100%;
-  /* box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1); */
   border: 1px solid ${({ theme }) => theme.accent};
   border-radius: 8px;
 `

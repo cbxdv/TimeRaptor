@@ -7,7 +7,7 @@ const {
   BrowserWindow
 } = require('electron');
 const os = require('os');
-const path = require('path')
+const path = require('path');
 const Store = require('electron-store');
 
 const store = new Store();
@@ -57,7 +57,7 @@ ipcMain.on('app:notify', (_, { title, body }) => {
   new Notification({
     title: title || "Probably it's time",
     body: body || 'Have a good time!',
-    icon: path.join(__dirname, '../assets/Logo.png'),
+    icon: path.join(__dirname, '../assets/Logo.png')
   }).show();
 });
 
