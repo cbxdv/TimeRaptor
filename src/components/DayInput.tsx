@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect, useRef } from 'react'
+import styled from 'styled-components'
 
-import CalendarIcon from '../assets/icons/CalendarDayView.svg';
-import WithModal from '../hooks/WithModal';
-import TextButton from './TextButton';
-import { dayStrings } from '../utils/strings';
-import { flexCenter, inputBack } from '../styles/styleUtils';
-import { DayStringTypes } from '../@types/DayAndTimeInterfaces';
+import CalendarIcon from '../assets/icons/CalendarDayView.svg'
+import WithModal from '../wrappers/WithModal'
+import { dayStrings } from '../utils/strings'
+import { flexCenter, inputBack } from '../styles/styleUtils'
+import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 
 const DayInput: React.FC<DayInputProps> = ({
   title,
   value,
   valueSetHandler
 }) => {
-  const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false);
+  const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)
 
   return (
     <>
@@ -29,38 +28,38 @@ const DayInput: React.FC<DayInputProps> = ({
         <CalendarIcon onClick={() => setShowPickerPanel(true)} />
       </DayPickerTopBox>
     </>
-  );
-};
+  )
+}
 
 type DayInputProps = {
-  title: string;
-  value: DayStringTypes;
-  valueSetHandler: (day: DayStringTypes) => void;
-};
+  title: string
+  value: DayStringTypes
+  valueSetHandler: (day: DayStringTypes) => void
+}
 
 const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
   day,
   closeHandler,
   mainSubmitHandler
 }) => {
-  const [selectedDay, setSelectedDay] = useState<DayStringTypes>('monday');
+  const [selectedDay, setSelectedDay] = useState<DayStringTypes>('monday')
 
-  const dayRef = useRef<HTMLDivElement | null>(null);
+  const dayRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    setSelectedDay(day);
+    setSelectedDay(day)
 
     setTimeout(() => {
       if (dayRef && dayRef.current) {
-        dayRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        dayRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
-    }, 100);
-  }, []);
+    }, 100)
+  }, [])
 
-  const submitHandler = () => {
-    mainSubmitHandler(selectedDay);
-    closeHandler();
-  };
+  const submitHandler = (close = () => {}) => {
+    mainSubmitHandler(selectedDay)
+    close()
+  }
 
   const generateDayOptions = () => {
     const dayArr = Object.keys(dayStrings).map((d: DayStringTypes) => (
@@ -72,50 +71,50 @@ const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
       >
         {dayStrings[d]}
       </PickerOption>
-    ));
-    return dayArr;
-  };
+    ))
+    return dayArr
+  }
 
   return (
-    <WithModal modalTitle='Pick a day' closeHandler={closeHandler}>
+    <WithModal
+      modalTitle='Pick a day'
+      closeHandler={closeHandler}
+      mainButtonProps={{ onClick: submitHandler }}
+      bodyPadding='0 30px 30px 30px'
+      scrollLockDisabled
+    >
       <DayPickerPanelContainer>
         <OptionsContainer>{generateDayOptions()}</OptionsContainer>
       </DayPickerPanelContainer>
-      <ButtonsContainer>
-        <TextButton label='Discard' variant='danger' onClick={closeHandler} />
-        <TextButton
-          label='Submit'
-          variant='success'
-          onClick={() => submitHandler()}
-        />
-      </ButtonsContainer>
     </WithModal>
-  );
-};
+  )
+}
 
 type DayPickerPanelProps = {
-  day: DayStringTypes;
-  closeHandler: () => void;
-  mainSubmitHandler: (day: DayStringTypes) => void;
-};
+  day: DayStringTypes
+  closeHandler: () => void
+  mainSubmitHandler: (day: DayStringTypes) => void
+}
 
 const DayPickerTopBox = styled.div`
   ${inputBack()};
   ${flexCenter({ justifyContent: 'space-between' })};
-`;
+`
 
 const DayPickerPanelContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   background-color: ${({ theme }) => theme.shade1};
   border-radius: 8px;
-  margin: 30px;
-`;
+  padding: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`
 
 const OptionsContainer = styled.div`
   height: 200px;
   overflow: scroll;
   padding: 10px 0;
-`;
+`
 
 const PickerOption = styled.div<{ selected?: boolean }>`
   background-color: ${({ theme }) => theme.secondary};
@@ -135,12 +134,5 @@ const PickerOption = styled.div<{ selected?: boolean }>`
     background: ${({ theme }) => theme.shade2};
     color: ${({ theme }) => theme.text};
   }
-`;
-
-const ButtonsContainer = styled.div`
-  ${flexCenter({ justifyContent: 'space-between' })};
-  margin: 30px;
-  min-width: 250px;
-`;
-
-export default DayInput;
+`
+export default DayInput

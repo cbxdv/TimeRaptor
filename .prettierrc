@@ -1,6 +1,6 @@
 {
   "tabWidth": 2,
-  "arrowParens": "always",
+  "arrowParens": "avoid",
   "bracketSameLine": false,
   "bracketSpacing": true,
   "jsxSingleQuote": true,
@@ -9,7 +9,7 @@
   "endOfLine": "lf",
   "overrides": [
     {
-      "files": "*.jsx",
+      "files": ["*.tsx", "*.ts"],
       "options": {
         "semi": false
       }

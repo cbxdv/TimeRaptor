@@ -1,16 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { ChangeEvent } from 'react'
+import styled from 'styled-components'
 
-import { inputBack } from '../styles/styleUtils';
+import { inputBack } from '../styles/styleUtils'
 
 const TextInput: React.FC<TextInputProps> = ({
   name,
   title,
   onChangeHandler,
   inputValue,
-  error
+  error,
+  inputRef,
+  animatedLabel,
+  fullWidth
 }) => (
-  <Input error={error}>
+  <Input error={error} fullWidth={fullWidth}>
     <input
       type='text'
       name={name}
@@ -20,35 +23,52 @@ const TextInput: React.FC<TextInputProps> = ({
       autoCapitalize='false'
       className='input-box'
       spellCheck='false'
+      ref={inputRef}
+      placeholder={!animatedLabel ? title : null}
       required
     />
-    <label htmlFor={name} className='input-label'>
-      {title}
-    </label>
+    {animatedLabel && (
+      <label htmlFor={name} className='input-label'>
+        {title}
+      </label>
+    )}
   </Input>
-);
+)
 
 type TextInputProps = {
-  name: string;
-  title: string;
-  onChangeHandler: (event: React.ChangeEvent) => void;
-  inputValue: string;
-  error: boolean;
-};
+  name: string
+  title: string
+  onChangeHandler: (event: ChangeEvent<HTMLInputElement>) => void
+  inputValue: string
+  error: boolean
+  inputRef?: React.Ref<HTMLInputElement> | null
+  animatedLabel?: boolean
+  fullWidth?: boolean
+}
 
-const Input = styled.div<{ error: boolean }>`
+TextInput.defaultProps = {
+  inputRef: null,
+  animatedLabel: true,
+  fullWidth: false
+}
+
+const Input = styled.div<{
+  error: boolean
+  fullWidth: boolean
+}>`
   position: relative;
 
   .input-box {
     ${inputBack()};
     letter-spacing: 1px;
     border: 2px solid ${({ error }) => (error ? `#E24446` : `transparent`)};
+    ${({ fullWidth }) => fullWidth && `width: 100%`};
   }
 
   .input-label {
     font-family: Outfit;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     position: absolute;
     left: 10px;
     top: 15px;
@@ -66,6 +86,6 @@ const Input = styled.div<{ error: boolean }>`
       font-weight: normal;
     }
   }
-`;
+`
 
-export default TextInput;
+export default TextInput

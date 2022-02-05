@@ -1,61 +1,56 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 
-import { blockDeleted } from '../redux/slices/timetableSlice';
-import { getTimeString } from '../utils/timeUtils';
-import BlockTool, { PositionTypes } from './BlockTool';
-import TimeBlockEditor from './TimeBlockEditor';
-import { flexCenter } from '../styles/styleUtils';
-import { varietyColors } from '../styles/styleConstants';
+import { blockDeleted } from '../redux/slices/timetableSlice'
+import { getTimeString } from '../utils/timeUtils'
+import BlockTool, { PositionTypes } from './BlockTool'
+import TimeBlockEditor from './TimeBlockEditor'
+import { flexCenter } from '../styles/styleUtils'
+import { varietyColors } from '../styles/styleConstants'
 
-import { ITimeBlock } from '../@types/TimeBlockInterfaces';
+import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 
 const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const { day, title, startTime, endTime, duration, blockColor } = timeblock;
+  const { day, title, startTime, endTime, duration, blockColor } = timeblock
 
-  const [showBlockTool, setShowBlockTool] = useState<boolean>(false);
-  const [showBlockEditor, setShowBlockEditor] = useState<boolean>(false);
+  const [showBlockTool, setShowBlockTool] = useState<boolean>(false)
+  const [showBlockEditor, setShowBlockEditor] = useState<boolean>(false)
 
   const editHandler = () => {
-    setShowBlockTool(false);
-    setShowBlockEditor(true);
-  };
-
-  const deleteHandler = () => {
-    setShowBlockTool(false);
-    dispatch(blockDeleted(timeblock));
-  };
-
-  const bgColor = varietyColors[blockColor];
-  const startTimeString = getTimeString(startTime);
-  const endTimeString = getTimeString(endTime);
-  const blockHeight = (duration / 15) * 20;
-  let startPosition = startTime.hours * 80 + (startTime.minutes / 15) * 20 + 20;
-  if (startTime.pm === false && startTime.hours === 12) {
-    startPosition -= 12 * 80;
+    setShowBlockTool(false)
+    setShowBlockEditor(true)
   }
 
-  let tooltipPosition: PositionTypes = 'left';
+  const deleteHandler = () => {
+    setShowBlockTool(false)
+    dispatch(blockDeleted(timeblock))
+  }
+
+  const bgColor = varietyColors[blockColor]
+  const startTimeString = getTimeString(startTime)
+  const endTimeString = getTimeString(endTime)
+  const blockHeight = (duration / 15) * 20
+  let startPosition = startTime.hours * 80 + (startTime.minutes / 15) * 20 + 20
+  if (startTime.pm === false && startTime.hours === 12) {
+    startPosition -= 12 * 80
+  }
+
+  let tooltipPosition: PositionTypes = 'left'
   switch (day) {
     case 'monday':
     case 'tuesday':
     case 'wednesday':
-      tooltipPosition = 'right';
-      break;
+      tooltipPosition = 'right'
+      break
     default:
-      tooltipPosition = 'left';
+      tooltipPosition = 'left'
   }
 
   if (startTime.pm && startTime.hours !== 12) {
-    startPosition += 12 * 80;
-  }
-
-  let blockTitle = title;
-  if (title.length > 12) {
-    blockTitle = `${blockTitle.slice(0, 12)}...`;
+    startPosition += 12 * 80
   }
 
   return (
@@ -79,14 +74,14 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
           <StylingLineContainer>
             <TimeBlockStylingLine />
           </StylingLineContainer>
-          <div>
-            <BlockHeading>{blockTitle}</BlockHeading>
-            {duration > 30 && (
+          <TimeBlockDetailsContainer>
+            {duration > 15 && <BlockHeading>{title}</BlockHeading>}
+            {duration > 40 && (
               <BlockSubText>
                 {startTimeString} - {endTimeString}
               </BlockSubText>
             )}
-          </div>
+          </TimeBlockDetailsContainer>
           {showBlockTool && (
             <BlockTool
               timeBlock={timeblock}
@@ -99,12 +94,12 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
         </TimeBlockContainer>
       </ToolContainer>
     </>
-  );
-};
+  )
+}
 
 type TimeBlockProps = {
-  timeblock: ITimeBlock;
-};
+  timeblock: ITimeBlock
+}
 
 const TimeBlockContainer = styled.div<TimeBlockContainerProps>`
   width: 100%;
@@ -117,48 +112,62 @@ const TimeBlockContainer = styled.div<TimeBlockContainerProps>`
   border-radius: 8px;
   box-shadow: inset 0px 0px 10px rgba(255, 251, 251, 0.5);
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
-`;
+  padding: 10px;
+`
 
 type TimeBlockContainerProps = {
-  blockHeight: number;
-  bgColor: string;
-  startPosition: number;
-};
+  blockHeight: number
+  bgColor: string
+  startPosition: number
+}
 
 const StylingLineContainer = styled.div`
-  width: 20px;
   ${flexCenter()};
+  width: 10px;
   position: relative;
   height: 100%;
-`;
+  margin-right: 10px;
+`
 
 const TimeBlockStylingLine = styled.div`
   border-left: 4px solid black;
   height: 60%;
   opacity: 20%;
   border-radius: 8px;
-`;
+  position: absolute;
+  left: 5;
+`
 
-const BlockHeading = styled.h1`
-  font-family: 'Dongle';
+const TimeBlockDetailsContainer = styled.div`
+  ${flexCenter({ alignItems: 'flex-start', flexDirection: 'column' })};
+  display: block;
+  width: 100%;
+  overflow: hidden;
+`
+
+const BlockHeading = styled.p`
   font-weight: bold;
-  font-size: 25px;
-  height: 25px;
-  ${flexCenter({ justifyContent: 'flex-start' })}
-  margin-bottom: -4px;
-  flex-grow: 1;
-`;
+  font-size: 16px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
 
 const BlockSubText = styled.p`
   font-family: 'Dongle';
   font-weight: normal;
   font-size: 18px;
   height: 20px;
-`;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
 
 const ToolContainer = styled.div`
   position: relative;
   ${flexCenter()};
-`;
+`
 
-export default TimeBlock;
+export default TimeBlock

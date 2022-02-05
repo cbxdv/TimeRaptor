@@ -1,132 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 
-import {
-  currentBlockChanged,
-  selectBlocksByDay,
-  selectCurrentBlock
-} from '../redux/slices/timetableSlice';
-import { selectNotificationState } from '../redux/slices/userConfigsSlice';
-import { timeBlockNotification } from '../utils/timeBlockUtils';
-import { getCurrentTimeAndDay, milliToTimeObj } from '../utils/timeUtils';
-import CurrentTimeLine from './CurrentTimeLine';
-import { dayStrings } from '../utils/strings';
-import TimeBlock from './TimeBlock';
+import { selectBlocksByDay } from '../redux/slices/timetableSlice'
+import { getCurrentTimeAndDay } from '../utils/timeUtils'
+import CurrentTimeLine from './CurrentTimeLine'
+import { dayStrings } from '../utils/strings'
+import TimeBlock from './TimeBlock'
 
-import { DayStringTypes } from '../@types/DayAndTimeInterfaces';
-import { ICurrentBlock } from '../@types/TimetableInterfaces';
-import { ITimeBlock } from '../@types/TimeBlockInterfaces';
-import { IState } from '../@types/StateInterfaces';
+import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
+import { ITimeBlock } from '../@types/TimeBlockInterfaces'
+import { IState } from '../@types/StateInterfaces'
+import { updateTimeStamps } from '../redux/slices/appSlice'
+import { selectTTNotificationState } from '../redux/slices/configsSlice'
 
 const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
-  const dispatch = useDispatch();
-
+  const dispatch = useDispatch()
   const dayData = useSelector((state: IState) =>
     selectBlocksByDay(state, dayId)
-  );
-  const notificationStatus = useSelector(selectNotificationState);
-  const currentBlock = useSelector(selectCurrentBlock);
+  )
+  const notificationState = useSelector(selectTTNotificationState)
 
-  const [isToday, setIsToday] = useState<boolean>(false);
-
-  let timer: NodeJS.Timer;
-
-  const notifyChecker = () => {
-    let now: Date;
-    let selectedBlock: ICurrentBlock;
-    let startDateObj: Date;
-    let endDateObj: Date;
-
-    if (notificationStatus) {
-      timer = setInterval(() => {
-        dayData.forEach((block: ITimeBlock) => {
-          // Start Object
-          let startHours = block.startTime.hours;
-          if (block.startTime.pm && block.startTime.hours !== 12) {
-            startHours += 12;
-          }
-          if (block.startTime.pm === false && block.startTime.hours === 12) {
-            startHours = 0;
-          }
-          const startMinutes = block.startTime.minutes;
-          startDateObj = new Date();
-          startDateObj.setHours(startHours, startMinutes, 0, 0);
-
-          // End Object
-          let endHours = block.endTime.hours;
-          if (block.endTime.pm && block.endTime.hours !== 12) {
-            endHours += 12;
-          }
-          if (block.endTime.pm === false && block.endTime.hours === 12) {
-            endHours = 0;
-          }
-          const endMinutes = block.endTime.minutes;
-          endDateObj = new Date();
-          endDateObj.setHours(endHours, endMinutes, 0, 0);
-
-          // Now object
-          now = new Date();
-
-          if (endDateObj.valueOf() - now.valueOf() < 0) {
-            return;
-          }
-
-          // Comparing for notification
-          if (now.toTimeString() === startDateObj.toTimeString()) {
-            timeBlockNotification(block.title, block.description);
-          }
-
-          // Comparing for current block
-          if (now >= startDateObj && now <= endDateObj) {
-            selectedBlock = block;
-          }
-        });
-
-        selectedBlock = {
-          ...selectedBlock,
-          timeLeft: milliToTimeObj(endDateObj.valueOf() - now.valueOf(), false)
-        };
-
-        // Checking whether the current block id is same as the selected block id
-        // and deciding whether to update the state
-        if (!currentBlock) {
-          // If not current block found, then the selected block is stored
-          dispatch(currentBlockChanged(selectedBlock));
-        } else if (currentBlock && selectedBlock) {
-          if (currentBlock.id !== selectedBlock.id) {
-            // If current block exists and the current block's id is not equal to selected block's id
-            dispatch(currentBlockChanged(selectedBlock));
-          } else if (
-            currentBlock.timeLeft.hours !== selectedBlock.timeLeft.hours ||
-            currentBlock.timeLeft.minutes !== selectedBlock.timeLeft.minutes
-          ) {
-            dispatch(currentBlockChanged(selectedBlock));
-          }
-          // If current block exists but actuallly nothing is selected as current block
-        } else if (currentBlock && !selectedBlock) {
-          dispatch(currentBlockChanged(null));
-        }
-      }, 1000);
-    }
-  };
+  const [isToday, setIsToday] = useState<boolean>(false)
 
   useEffect(() => {
-    const now = getCurrentTimeAndDay();
+    const now = getCurrentTimeAndDay()
     if (now.day === dayId) {
-      setIsToday(true);
-      if (dayData.length === 0) {
-        dispatch(currentBlockChanged(null));
-      }
-      if (dayData && dayData.length !== 0) {
-        clearInterval(timer);
-        notifyChecker();
-      }
+      setIsToday(true)
+      dispatch(updateTimeStamps(notificationState))
     }
-    return () => {
-      clearInterval(timer);
-    };
-  });
+  }, [dayData])
 
   return (
     <DayColumnContainer>
@@ -142,18 +45,18 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
         </TimeBlockContainer>
       </DayColumnMain>
     </DayColumnContainer>
-  );
-};
+  )
+}
 
 type DayColumnProps = {
-  dayId: DayStringTypes;
-};
+  dayId: DayStringTypes
+}
 
 const DayColumnContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-`;
+`
 
 const DayColumnMain = styled.div`
   background-color: ${({ theme }) =>
@@ -162,7 +65,7 @@ const DayColumnMain = styled.div`
   height: 1960px;
   border-radius: 8px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
-`;
+`
 
 const DayIndicator = styled.div<{ isToday: boolean }>`
   font-family: Outfit;
@@ -170,12 +73,12 @@ const DayIndicator = styled.div<{ isToday: boolean }>`
   font-weight: bold;
   margin-bottom: 10px;
   color: ${({ isToday }) => isToday && `#FD2513`};
-`;
+`
 
 const TimeBlockContainer = styled.div`
   height: 100%;
   margin: 0 5px;
   position: relative;
-`;
+`
 
-export default React.memo(DayColumn);
+export default React.memo(DayColumn)

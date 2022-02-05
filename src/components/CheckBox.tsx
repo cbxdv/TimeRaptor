@@ -1,36 +1,37 @@
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useRef } from 'react'
+import styled from 'styled-components'
 
-import DoneIcon from '../assets/icons/Done.svg';
-import { flexCenter } from '../styles/styleUtils';
+import DoneIcon from '../assets/icons/Done.svg'
+import { flexCenter } from '../styles/styleUtils'
 
+/** A Checkbox component */
 const CheckBox: React.FC<CheckBoxProps> = ({ checked, onClick, animation }) => {
-  const markRef = useRef<HTMLDivElement | null>(null);
+  const markRef = useRef<HTMLDivElement | null>(null)
 
   const toggle = () => {
     if (animation) {
       if (checked) {
-        markRef.current.classList.add('hide');
+        markRef.current.classList.add('hide')
       } else {
-        markRef.current.classList.remove('hide');
+        markRef.current.classList.remove('hide')
       }
-      setTimeout(onClick, 150);
+      setTimeout(onClick, 150)
     } else {
-      onClick();
+      onClick()
     }
-  };
+  }
 
   useEffect(() => {
     if (animation) {
       if (markRef && markRef.current) {
         if (checked) {
-          markRef.current.classList.remove('hide');
+          markRef.current.classList.remove('hide')
         } else {
-          markRef.current.classList.add('hide');
+          markRef.current.classList.add('hide')
         }
       }
     }
-  });
+  })
 
   return (
     <CheckBoxContainer onClick={toggle}>
@@ -38,19 +39,20 @@ const CheckBox: React.FC<CheckBoxProps> = ({ checked, onClick, animation }) => {
         <DoneIcon />
       </CheckIconContainer>
     </CheckBoxContainer>
-  );
-};
+  )
+}
 
 type CheckBoxProps = {
-  checked?: boolean;
-  onClick: () => void;
-  animation?: boolean;
-};
+  checked?: boolean
+  onClick?: () => void
+  animation?: boolean
+}
 
 CheckBox.defaultProps = {
   checked: true,
+  onClick: () => {},
   animation: true
-};
+}
 
 const CheckBoxContainer = styled.div`
   ${flexCenter()};
@@ -68,7 +70,7 @@ const CheckBoxContainer = styled.div`
   &:active {
     transform: scale(0.9);
   }
-`;
+`
 
 const CheckIconContainer = styled.div`
   ${flexCenter()};
@@ -94,6 +96,6 @@ const CheckIconContainer = styled.div`
       width: 100%;
     }
   }
-`;
+`
 
-export default CheckBox;
+export default CheckBox

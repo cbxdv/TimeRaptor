@@ -26,7 +26,8 @@ const createMainWindow = () => {
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       backgroundThrottling: false,
-      devTools: false
+      contextIsolation: true
+      // devTools: false
     },
     icon: path.join(__dirname, './assets/logos/Icon.ico')
   });
@@ -43,13 +44,16 @@ const createMainWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Hiding menubar
   mainWindow.setMenuBarVisibility(false);
 
   mainWindow.on('ready-to-show', async () => {
-    const minimized = await store.get('userConfigs.openMinimized', false);
+    const minimized = await store.get(
+      'configs.appConfigs.openMinimized',
+      false
+    );
     if (!minimized) {
       mainWindow.show();
     }
@@ -59,11 +63,11 @@ const createMainWindow = () => {
     isAppLoading = false;
   });
 
-  mainWindow.on('close', async (event) => {
+  mainWindow.on('close', async event => {
     if (!isAppQuitting) {
       event.preventDefault();
     }
-    const close = await store.get('userConfigs.closeOnExit', false);
+    const close = await store.get('configs.appConfigs.closeOnExit', false);
     if (close) {
       app.quit();
     } else {
@@ -78,6 +82,7 @@ const createLoadingWindow = () => {
     width: 300,
     height: 300,
     frame: false,
+    show: false,
     transparent: true,
     icon: path.join(__dirname, './assets/logos/Icon.ico')
   });
@@ -154,8 +159,6 @@ app.on('quit', () => {
 if (process.platform === 'win32') {
   app.setAppUserModelId(process.execPath);
 }
-
-require('update-electron-app')();
 
 // Importing and starting all ipc handlers of the app
 require('./electron/ipcHandlers.js');

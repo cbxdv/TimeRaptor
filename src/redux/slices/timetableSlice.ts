@@ -5,18 +5,18 @@ import {
   createAsyncThunk,
   nanoid,
   PayloadAction
-} from '@reduxjs/toolkit';
+} from '@reduxjs/toolkit'
 import {
-  getElectronContext,
+  fetchTimetableData,
   saveBlocksToDisk
-} from '../../utils/ElectronContext';
+} from '../../utils/electronContext'
 
-import { IState, ITimetableState } from '../../@types/StateInterfaces';
+import { IState, ITimetableState } from '../../@types/StateInterfaces'
 import {
   TimeBlockPayloadAction,
   TimeBlockUpdatePayloadAction
-} from '../../@types/TimeBlockInterfaces';
-import { DayStringTypes } from '../../@types/DayAndTimeInterfaces';
+} from '../../@types/TimeBlockInterfaces'
+import { DayStringTypes } from '../../@types/DayAndTimeInterfaces'
 
 const initialState: ITimetableState = {
   dayData: {
@@ -28,108 +28,89 @@ const initialState: ITimetableState = {
     saturday: [],
     sunday: []
   },
-  currentBlock: null,
   status: 'loading',
   error: null
-};
+}
 
-export const fetchBlocks = createAsyncThunk('blocks/fetchBlocks', async () => {
-  const electron = getElectronContext();
-  const response = await electron.getAllTimeBlocks();
-  if (!response) {
-    return initialState.dayData;
+export const fetchBlocks = createAsyncThunk(
+  'timetable/fetchBlocks',
+  async () => {
+    const response = fetchTimetableData()
+    return response
   }
-  if (Object.keys(response).length !== 7) {
-    return {
-      ...initialState.dayData,
-      ...response
-    };
-  }
-  return response;
-});
+)
 
 const blocksSlice = createSlice({
   name: 'timetable',
   initialState,
   reducers: {
     blockAdded(state, action: PayloadAction<TimeBlockPayloadAction>) {
-      const { day } = action.payload;
-      const specificDay = state.dayData[day];
+      const { day } = action.payload
+      const specificDay = state.dayData[day]
       if (specificDay) {
-        action.payload.id = nanoid();
-        specificDay.push(action.payload);
-        state.dayData[day] = specificDay;
+        action.payload.id = nanoid()
+        specificDay.push(action.payload)
+        state.dayData[day] = specificDay
       }
-      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     },
 
     blockDeleted(state, action: PayloadAction<TimeBlockPayloadAction>) {
-      const { id, day } = action.payload;
-      let specificDay = state.dayData[day];
+      const { id, day } = action.payload
+      let specificDay = state.dayData[day]
       if (specificDay) {
-        specificDay = specificDay.filter(block => block.id !== id);
-        state.dayData[day] = specificDay;
+        specificDay = specificDay.filter(block => block.id !== id)
+        state.dayData[day] = specificDay
       }
-      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     },
 
     blockUpdated(state, action: PayloadAction<TimeBlockUpdatePayloadAction>) {
-      const { oldBlock, newBlock } = action.payload;
+      const { oldBlock, newBlock } = action.payload
 
       // Deleting existing block
-      let specificDay = state.dayData[oldBlock.day];
+      let specificDay = state.dayData[oldBlock.day]
       if (specificDay) {
-        specificDay = specificDay.filter(block => block.id !== oldBlock.id);
-        state.dayData[oldBlock.day] = specificDay;
+        specificDay = specificDay.filter(block => block.id !== oldBlock.id)
+        state.dayData[oldBlock.day] = specificDay
       }
 
       // Adding new block
-      specificDay = state.dayData[newBlock.day];
+      specificDay = state.dayData[newBlock.day]
       if (specificDay) {
-        specificDay.push(newBlock);
-        state.dayData[newBlock.day] = specificDay;
+        specificDay.push(newBlock)
+        state.dayData[newBlock.day] = specificDay
       }
-      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     },
 
     blocksCleared(state) {
-      state.dayData = initialState.dayData;
-      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)));
-    },
-
-    currentBlockChanged(state, action) {
-      state.currentBlock = action.payload;
+      state.dayData = initialState.dayData
+      saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     }
   },
   extraReducers(builder) {
     builder
       .addCase(fetchBlocks.pending, state => {
-        state.status = 'loading';
+        state.status = 'loading'
       })
       .addCase(fetchBlocks.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.dayData = action.payload;
+        state.status = 'succeeded'
+        state.dayData = action.payload
       })
       .addCase(fetchBlocks.rejected, state => {
-        state.status = 'failed';
+        state.status = 'failed'
         state.error =
-          'Error fetching data from the disk. Try restarting the app.';
-      });
+          'Error fetching data from the disk. Try restarting the app.'
+      })
   }
-});
+})
 
-export const {
-  blockAdded,
-  blockDeleted,
-  blockUpdated,
-  blocksCleared,
-  currentBlockChanged
-} = blocksSlice.actions;
+export const { blockAdded, blockDeleted, blockUpdated, blocksCleared } =
+  blocksSlice.actions
 
-export default blocksSlice.reducer;
+export default blocksSlice.reducer
 
 // Selectors
 export const selectBlocksByDay = (state: IState, day: DayStringTypes) =>
-  state.timetable.dayData[day];
-export const selectCurrentBlock = (state: IState) =>
-  state.timetable.currentBlock;
+  state.timetable.dayData[day]

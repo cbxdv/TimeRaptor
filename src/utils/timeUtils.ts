@@ -1,4 +1,4 @@
-import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces';
+import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
 
 /**
  *  Get current date as a string
@@ -7,39 +7,39 @@ import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces';
 export const getCurrentDate = (): string =>
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  new Date().toLocaleDateString().replaceAll('/', '-');
+  new Date().toLocaleDateString().replaceAll('/', '-')
 
 /**
  *  Get current time as a string
  *  @returns {string} The current time in the form of local string
  */
-export const getCurrentTime = (): string => new Date().toLocaleTimeString();
+export const getCurrentTime = (): string => new Date().toLocaleTimeString()
 
 /**
  * Get the current day in the form a string
  * @returns {string} A string indicating day name like `Sunday` `Saturday`
  */
-export const getCurrentDay = (): string => {
-  const dayNum = new Date().getDay();
+export const getCurrentDay = (): DayStringTypes => {
+  const dayNum = new Date().getDay()
   switch (dayNum) {
     case 1:
-      return 'Monday';
+      return 'monday'
     case 2:
-      return 'Tuesday';
+      return 'tuesday'
     case 3:
-      return 'Wednesday';
+      return 'wednesday'
     case 4:
-      return 'Thursday';
+      return 'thursday'
     case 5:
-      return 'Friday';
+      return 'friday'
     case 6:
-      return 'Saturday';
+      return 'saturday'
     case 0:
-      return 'Sunday';
+      return 'sunday'
     default:
-      return '';
+      return ''
   }
-};
+}
 
 /**
  *  Generate a time string with the provided time object
@@ -54,27 +54,27 @@ export const getTimeString = (
   hoursOnly = false
 ): string => {
   // Extracting data
-  const { hours } = timeObj;
-  const { minutes } = timeObj;
-  const ampm = timeObj.pm ? 'p.m.' : 'a.m.';
+  const { hours } = timeObj
+  const { minutes } = timeObj
+  const ampm = timeObj.pm ? 'p.m.' : 'a.m.'
 
-  let hoursString = String(hours);
-  let minutesString = String(minutes);
+  let hoursString = String(hours)
+  let minutesString = String(minutes)
 
   if (hours === 0 && !timeObj.pm) {
-    hoursString = '12';
+    hoursString = '12'
   }
 
   if (hoursOnly) {
-    return `${hours} ${ampm}`;
+    return `${hours} ${ampm}`
   }
 
   // String corrections
-  hoursString = hours < 10 ? `0${hours}` : `${hours}`;
-  minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`;
+  hoursString = hours < 10 ? `0${hours}` : `${hours}`
+  minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`
 
-  return `${hoursString}:${minutesString} ${ampm}`;
-};
+  return `${hoursString}:${minutesString} ${ampm}`
+}
 
 /*
     Index    <- ->  Time
@@ -91,19 +91,19 @@ export const getTimeString = (
  */
 export const convertIndexToStringHours = (timeIndex: number): string => {
   if (timeIndex === 0 || timeIndex === 24) {
-    return '12 a.m.';
+    return '12 a.m.'
   }
   if (timeIndex < 12) {
-    return `${timeIndex} a.m.`;
+    return `${timeIndex} a.m.`
   }
   if (timeIndex === 12) {
-    return '12 p.m.';
+    return '12 p.m.'
   }
   if (timeIndex > 12) {
-    return `${timeIndex - 12} p.m.`;
+    return `${timeIndex - 12} p.m.`
   }
-  return '';
-};
+  return ''
+}
 
 /**
  * Calculates the difference in a time interval. Note: Calculates only within day.
@@ -119,25 +119,25 @@ export const getDurationMinutes = (
   endTime: ITimeObject
 ): number => {
   const minutesFromDayStart = (timeObj: ITimeObject) => {
-    let totalMinutes = 0;
-    let { hours } = timeObj;
-    const { minutes } = timeObj;
+    let totalMinutes = 0
+    let { hours } = timeObj
+    const { minutes } = timeObj
     if (timeObj.pm) {
-      totalMinutes += 12 * 60;
+      totalMinutes += 12 * 60
     }
     if (timeObj.hours === 12) {
-      hours = 0;
+      hours = 0
     }
-    totalMinutes += hours * 60;
-    totalMinutes += minutes;
-    return totalMinutes;
-  };
+    totalMinutes += hours * 60
+    totalMinutes += minutes
+    return totalMinutes
+  }
 
-  const startDeMinutes = minutesFromDayStart(startTime);
-  const endDeMinutes = minutesFromDayStart(endTime);
+  const startDeMinutes = minutesFromDayStart(startTime)
+  const endDeMinutes = minutesFromDayStart(endTime)
 
-  return endDeMinutes - startDeMinutes;
-};
+  return endDeMinutes - startDeMinutes
+}
 
 /**
  * Get a object with all properties regarding current time and day
@@ -145,9 +145,9 @@ export const getDurationMinutes = (
  *    Am object with all details regarding current time and current day
  */
 export const getCurrentTimeAndDay = (): ITimeObject => {
-  const currentTime = getCurrentTime();
-  const arr1 = currentTime.split(' ');
-  const arr2 = arr1[0].split(':');
+  const currentTime = getCurrentTime()
+  const arr1 = currentTime.split(' ')
+  const arr2 = arr1[0].split(':')
 
   const timeObj = {
     hours: Number(arr2[0]),
@@ -155,10 +155,10 @@ export const getCurrentTimeAndDay = (): ITimeObject => {
     seconds: Number(arr2[2]),
     pm: arr1[1] === 'PM',
     day: getCurrentDay().toLowerCase() as DayStringTypes
-  };
+  }
 
-  return timeObj;
-};
+  return timeObj
+}
 
 /**
  * Converts milli seconds to its hours minutes and seconds components
@@ -170,15 +170,15 @@ export const milliToTimeObj = (
   time: number,
   includeSeconds: boolean
 ): ITimeObject => {
-  const hours = Math.floor(time / 1000 / 60 / 60);
-  let tempTime = time;
-  tempTime -= hours * 1000 * 60 * 60;
-  const minutes = Math.floor(tempTime / 1000 / 60);
-  tempTime -= minutes * 1000 * 60;
+  const hours = Math.floor(time / 1000 / 60 / 60)
+  let tempTime = time
+  tempTime -= hours * 1000 * 60 * 60
+  const minutes = Math.floor(tempTime / 1000 / 60)
+  tempTime -= minutes * 1000 * 60
   if (!includeSeconds) {
-    return { hours, minutes };
+    return { hours, minutes }
   }
-  const seconds = Math.floor(tempTime / 1000);
-  tempTime -= seconds * 1000;
-  return { hours, minutes, seconds };
-};
+  const seconds = Math.floor(tempTime / 1000)
+  tempTime -= seconds * 1000
+  return { hours, minutes, seconds }
+}

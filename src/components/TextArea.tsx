@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
-import { inputBack, flexCenter } from '../styles/styleUtils';
+import { inputBack, flexCenter } from '../styles/styleUtils'
 
 const TextArea: React.FC<TextAreaProps> = ({
   name,
@@ -23,14 +23,14 @@ const TextArea: React.FC<TextAreaProps> = ({
       {title}
     </label>
   </Textarea>
-);
+)
 
 type TextAreaProps = {
-  name: string;
-  title: string;
-  onChangeHandler: (event: React.ChangeEvent) => void;
-  inputValue: string;
-};
+  name: string
+  title: string
+  onChangeHandler: (event: React.ChangeEvent) => void
+  inputValue: string
+}
 
 const Textarea = styled.div`
   position: relative;
@@ -46,7 +46,7 @@ const Textarea = styled.div`
   .input-label {
     font-family: Outfit;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     position: absolute;
     left: 10px;
     top: 15px;
@@ -63,6 +63,6 @@ const Textarea = styled.div`
       font-size: 14px;
     }
   }
-`;
+`
 
-export default TextArea;
+export default TextArea
