@@ -4,6 +4,11 @@ const path = require('path');
 const os = require('os');
 const Store = require('electron-store');
 
+if (require('electron-squirrel-startup')) {
+  // eslint-disable-line global-require
+  app.quit();
+}
+
 const store = new Store();
 
 let mainWindow = null;
