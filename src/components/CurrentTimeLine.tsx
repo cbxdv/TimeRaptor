@@ -11,6 +11,9 @@ const CurrentTimeLine = () => {
 
   const currentTimeLineRef = useRef<HTMLHRElement | null>(null)
 
+  let timer: NodeJS.Timer
+  let scrollTimer: NodeJS.Timer
+
   const scrollToTime = () => {
     if (isScrolling) {
       return
@@ -20,7 +23,7 @@ const CurrentTimeLine = () => {
       behavior: 'smooth',
       block: 'center'
     })
-    setTimeout(() => {
+    scrollTimer = setTimeout(() => {
       setScrolling(false)
     }, 2000)
   }
@@ -31,7 +34,6 @@ const CurrentTimeLine = () => {
     }
   }
 
-  let timer: NodeJS.Timer
   let currentTime
   const moveLinePosition = () => {
     let tempStart = 0
@@ -61,7 +63,8 @@ const CurrentTimeLine = () => {
     document.addEventListener('keydown', keyBindHandler)
     return () => {
       document.removeEventListener('keydown', keyBindHandler)
-      clearInterval(timer)
+      clearTimeout(timer)
+      clearTimeout(scrollTimer)
     }
   }, [])
 

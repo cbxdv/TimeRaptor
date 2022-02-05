@@ -46,7 +46,7 @@ const Textarea = styled.div`
   .input-label {
     font-family: Outfit;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     position: absolute;
     left: 10px;
     top: 15px;

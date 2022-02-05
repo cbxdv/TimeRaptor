@@ -18,9 +18,11 @@ const WithModal: React.FC<WithModalProps> = ({
 
   const ref = useRef(null)
 
+  let timer: NodeJS.Timer
+
   const close = () => {
     ref.current.style.opacity = 0
-    setTimeout(() => {
+    timer = setTimeout(() => {
       closeHandler()
     }, 150)
   }
@@ -42,6 +44,7 @@ const WithModal: React.FC<WithModalProps> = ({
         document.body.style.overflow = 'unset'
       }
       document.removeEventListener('keydown', keyBindHandler)
+      clearTimeout(timer)
     }
   }, [])
 
@@ -68,8 +71,7 @@ const WithModal: React.FC<WithModalProps> = ({
                 label={mainButtonProps.label || 'Submit'}
                 variant='success'
                 onClick={() => {
-                  close()
-                  mainButtonProps.onClick()
+                  mainButtonProps.onClick(close)
                 }}
               />
             </ButtonsContainer>
@@ -86,7 +88,7 @@ type WithModalProps = {
   modalTitle: string
   mainButtonProps?: {
     label?: string
-    onClick: () => void | null
+    onClick: (close?: () => void) => void | null
   } | null
   secButtonProps?: {
     label: string

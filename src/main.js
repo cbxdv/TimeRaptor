@@ -25,7 +25,8 @@ const createMainWindow = () => {
     frame: os.platform() !== 'win32',
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      backgroundThrottling: false
+      backgroundThrottling: false,
+      contextIsolation: true
       // devTools: false
     },
     icon: path.join(__dirname, './assets/logos/Icon.ico')
@@ -49,7 +50,10 @@ const createMainWindow = () => {
   mainWindow.setMenuBarVisibility(false);
 
   mainWindow.on('ready-to-show', async () => {
-    const minimized = await store.get('userConfigs.openMinimized', false);
+    const minimized = await store.get(
+      'configs.appConfigs.openMinimized',
+      false
+    );
     if (!minimized) {
       mainWindow.show();
     }
@@ -59,11 +63,11 @@ const createMainWindow = () => {
     isAppLoading = false;
   });
 
-  mainWindow.on('close', async (event) => {
+  mainWindow.on('close', async event => {
     if (!isAppQuitting) {
       event.preventDefault();
     }
-    const close = await store.get('userConfigs.closeOnExit', false);
+    const close = await store.get('configs.appConfigs.closeOnExit', false);
     if (close) {
       app.quit();
     } else {

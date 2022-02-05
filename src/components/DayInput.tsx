@@ -56,8 +56,9 @@ const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
     }, 100)
   }, [])
 
-  const submitHandler = () => {
+  const submitHandler = (close = () => {}) => {
     mainSubmitHandler(selectedDay)
+    close()
   }
 
   const generateDayOptions = () => {

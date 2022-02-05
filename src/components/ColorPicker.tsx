@@ -58,8 +58,9 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
     setSelectedColor(color)
   }, [])
 
-  const submitHandler = () => {
+  const submitHandler = (close = () => {}) => {
     mainSubmitHandler(selectedColor)
+    close()
   }
 
   const generateColorBlock = () => {

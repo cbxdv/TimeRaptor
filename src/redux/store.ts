@@ -1,11 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit'
 
-import timetableReducer from './slices/timetableSlice';
-import userConfigsReducer from './slices/userConfigsSlice';
+import appReducer from './slices/appSlice'
+import configsReducer from './slices/configsSlice'
+import timetableReducer from './slices/timetableSlice'
+import todosReducer from './slices/todoSlice'
 
 export default configureStore({
   reducer: {
-    userConfigs: userConfigsReducer,
-    timetable: timetableReducer
+    app: appReducer,
+    configs: configsReducer,
+    timetable: timetableReducer,
+    todos: todosReducer
   }
-});
+})

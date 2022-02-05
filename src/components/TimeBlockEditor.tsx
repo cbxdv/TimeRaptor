@@ -66,11 +66,12 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
     return !error
   }
 
-  const submitHandler = () => {
+  const submitHandler = (close = () => {}) => {
     if (!checkData()) {
       inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
       return
     }
+    close()
     const newBlock = {
       ...currentBlock,
       title,
@@ -81,14 +82,15 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
       blockColor,
       description
     }
-    if (edit) {
-      // edit block
-      dispatch(blockUpdated({ oldBlock: currentBlock, newBlock }))
-    } else {
-      // add new block
-      dispatch(blockAdded(newBlock))
-    }
-    closeHandler()
+    setTimeout(() => {
+      if (edit) {
+        // edit block
+        dispatch(blockUpdated({ oldBlock: currentBlock, newBlock }))
+      } else {
+        // add new block
+        dispatch(blockAdded(newBlock))
+      }
+    }, 150)
   }
 
   const keyBindHandler = (event: KeyboardEvent) => {

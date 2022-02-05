@@ -76,8 +76,9 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
     })
   }, [])
 
-  const submitHandler = () => {
+  const submitHandler = (close = () => {}) => {
     mainSubmitHandler({ hours, minutes, pm })
+    close()
   }
 
   const generateHoursOptions = () => {

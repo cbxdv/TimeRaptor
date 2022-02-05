@@ -7,20 +7,21 @@ import Octocat from '../assets/icons/Octocat.png'
 import WaveEmoji from '../assets/icons/Wave.png'
 import PartyPopperEmoji from '../assets/icons/PartyPopper.png'
 import WithModal from '../wrappers/WithModal'
-import { getElectronContext } from '../utils/ElectronContext'
+import { getElectronContext } from '../utils/electronContext'
 import { daysArray, dayStrings } from '../utils/strings'
 import { blocksCleared } from '../redux/slices/timetableSlice'
 import {
+  selectConfigs,
   darkModeToggled,
-  notificationsToggled,
+  ttNotificationsToggled,
   closeOnExitToggled,
-  selectConfigurations,
-  showCurrentTimeToggled,
-  showCurrentBlockToggled,
   openMinimizedToggled,
-  selectDaysToShow,
-  dayToShowToggled
-} from '../redux/slices/userConfigsSlice'
+  ttShowCurrentTimeToggled,
+  ttShowCurrentBlockToggled,
+  selectTTDaysToShow,
+  ttDayToShowToggled
+} from '../redux/slices/configsSlice'
+import { selectVersion } from '../redux/slices/appSlice'
 import CheckBox from './CheckBox'
 import TextButton from './TextButton'
 import { flexCenter } from '../styles/styleUtils'
@@ -32,26 +33,8 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
 
   const [showDaysToShowPanel, setShowDaysToShowPanel] = useState<boolean>(false)
 
-  const configurations = useSelector(selectConfigurations)
-
-  const notificationsToggle = () => {
-    dispatch(notificationsToggled())
-  }
-  const darkModeToggle = () => {
-    dispatch(darkModeToggled())
-  }
-  const closeOnExitToggle = () => {
-    dispatch(closeOnExitToggled())
-  }
-  const showCurrentTimeToggle = () => {
-    dispatch(showCurrentTimeToggled())
-  }
-  const showCurrentBlockToggle = () => {
-    dispatch(showCurrentBlockToggled())
-  }
-  const openMinimizedToggle = () => {
-    dispatch(openMinimizedToggled())
-  }
+  const configs = useSelector(selectConfigs)
+  const appVersion = useSelector(selectVersion)
 
   const openRepo = () => {
     const electron = getElectronContext()
@@ -73,48 +56,48 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
             <div className='option-text'>Notifications</div>
             <div className='option-config'>
               <CheckBox
-                checked={configurations.notifications}
-                onClick={notificationsToggle}
+                checked={configs.timetable.notifications}
+                onClick={() => dispatch(ttNotificationsToggled())}
               />
             </div>
 
             <div className='option-text'>Dark Mode</div>
             <div className='option-config'>
               <CheckBox
-                checked={configurations.darkMode}
-                onClick={darkModeToggle}
+                checked={configs.app.darkMode}
+                onClick={() => dispatch(darkModeToggled())}
               />
             </div>
 
             <div className='option-text'>Close on exit</div>
             <div className='option-config'>
               <CheckBox
-                checked={configurations.closeOnExit}
-                onClick={closeOnExitToggle}
+                checked={configs.app.closeOnExit}
+                onClick={() => dispatch(closeOnExitToggled())}
               />
             </div>
 
             <div className='option-text'>Open minimized</div>
             <div className='option-config'>
               <CheckBox
-                checked={configurations.openMinimized}
-                onClick={openMinimizedToggle}
+                checked={configs.app.openMinimized}
+                onClick={() => dispatch(openMinimizedToggled())}
               />
             </div>
 
             <div className='option-text'>Show time on top</div>
             <div className='option-config'>
               <CheckBox
-                checked={configurations.showCurrentTime}
-                onClick={showCurrentTimeToggle}
+                checked={configs.timetable.showCurrentTime}
+                onClick={() => dispatch(ttShowCurrentTimeToggled())}
               />
             </div>
 
             <div className='option-text'>Show current block on top</div>
             <div className='option-config'>
               <CheckBox
-                checked={configurations.showCurrentBlock}
-                onClick={showCurrentBlockToggle}
+                checked={configs.timetable.showCurrentBlock}
+                onClick={() => dispatch(ttShowCurrentBlockToggled())}
               />
             </div>
           </OptionsContainer>
@@ -148,9 +131,7 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
             </div>
           </div>
         </BotText>
-        <AppVersionContainer>
-          App Version {configurations.appVersion}
-        </AppVersionContainer>
+        <AppVersionContainer>App Version {appVersion}</AppVersionContainer>
       </UserConfigsPanelContainer>
     </WithModal>
   )
@@ -162,22 +143,22 @@ type UserConfigsPanelProps = {
 
 const DaysToShowPanel: React.FC<DaysToShowPanelProps> = ({ closeHandler }) => {
   const dispatch = useDispatch()
-  const daysToShow = useSelector(selectDaysToShow)
+  const daysToShow = useSelector(selectTTDaysToShow)
 
   const toggleDayToShow = (day: DayStringTypes) => {
-    dispatch(dayToShowToggled(day))
+    dispatch(ttDayToShowToggled(day))
   }
 
   const toggleWeekendDaysToShow = () => {
     if ((daysToShow.saturday && daysToShow.sunday) === true) {
-      dispatch(dayToShowToggled('saturday'))
-      dispatch(dayToShowToggled('sunday'))
+      dispatch(ttDayToShowToggled('saturday'))
+      dispatch(ttDayToShowToggled('sunday'))
     } else {
       if (daysToShow.saturday === false) {
-        dispatch(dayToShowToggled('saturday'))
+        dispatch(ttDayToShowToggled('saturday'))
       }
       if (daysToShow.sunday === false) {
-        dispatch(dayToShowToggled('sunday'))
+        dispatch(ttDayToShowToggled('sunday'))
       }
     }
   }

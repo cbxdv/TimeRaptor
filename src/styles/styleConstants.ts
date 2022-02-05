@@ -1,4 +1,4 @@
-import { IColors } from '../@types/TimeBlockInterfaces';
+import { IColors } from '../@types/TimeBlockInterfaces'
 
 export const lightThemeColors = {
   name: 'light',
@@ -8,7 +8,7 @@ export const lightThemeColors = {
   shade2: '#EDF2FB',
   accent: '#323F4B',
   text: '#0D0D0D'
-};
+}
 
 export const darkThemeColors = {
   name: 'dark',
@@ -18,7 +18,7 @@ export const darkThemeColors = {
   shade2: '#333336',
   accent: '#2D2D2D',
   text: '#F5F5F7'
-};
+}
 
 export const varietyColors: IColors = {
   decoPeach: '#FFADAD',
@@ -31,4 +31,4 @@ export const varietyColors: IColors = {
   mauve: '#FFC6FF',
   linen: '#F5EBE0',
   beige: '#EAF2D7'
-};
+}

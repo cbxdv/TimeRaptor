@@ -75,7 +75,7 @@ type BlockToolProps = {
 
 const BlockToolContainer = styled.div<{ position: PositionTypes }>`
   ${flexCenter()};
-  padding: 10px;
+  padding: 14px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
   border-radius: 8px;
   position: absolute;
@@ -125,9 +125,7 @@ const TooltipTextContainer = styled.div`
 `
 
 const TooltipHeading = styled.h1`
-  height: 25px;
-  font-family: Dongle;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: bold;
 `
 

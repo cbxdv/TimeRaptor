@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import { selectDaysToShow } from '../redux/slices/userConfigsSlice'
+import { selectTTDaysToShow } from '../redux/slices/configsSlice'
 import DayColumn from './DayColumn'
 import { daysArray } from '../utils/strings'
 import { flexCenter } from '../styles/styleUtils'
@@ -12,7 +12,7 @@ import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 
 const DayContainer = () => {
   const blocksStatus = useSelector((state: IState) => state.timetable.status)
-  const daysToShow = useSelector(selectDaysToShow)
+  const daysToShow = useSelector(selectTTDaysToShow)
 
   if (blocksStatus === 'loading') {
     return <>Loading...</>

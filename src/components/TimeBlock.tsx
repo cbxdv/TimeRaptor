@@ -145,12 +145,9 @@ const TimeBlockDetailsContainer = styled.div`
   overflow: hidden;
 `
 
-const BlockHeading = styled.h1`
-  font-family: 'Dongle';
+const BlockHeading = styled.p`
   font-weight: bold;
-  font-size: 25px;
-  max-height: 25px;
-  margin-top: -5px;
+  font-size: 16px;
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;

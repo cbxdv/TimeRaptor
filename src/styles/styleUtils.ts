@@ -1,9 +1,9 @@
-import { css } from 'styled-components';
+import { css } from 'styled-components'
 
 interface FlexCenterInterface {
-  alignItems?: string;
-  justifyContent?: string;
-  flexDirection?: string;
+  alignItems?: string
+  justifyContent?: string
+  flexDirection?: string
 }
 
 /**
@@ -12,22 +12,22 @@ interface FlexCenterInterface {
  * Options for flex
  */
 export function flexCenter(options: FlexCenterInterface = {}) {
-  let { alignItems, justifyContent, flexDirection } = options;
+  let { alignItems, justifyContent, flexDirection } = options
   if (!alignItems) {
-    alignItems = 'center';
+    alignItems = 'center'
   }
   if (!justifyContent) {
-    justifyContent = 'center';
+    justifyContent = 'center'
   }
   if (!flexDirection) {
-    flexDirection = 'row';
+    flexDirection = 'row'
   }
   return css`
     display: flex;
     align-items: ${alignItems};
     justify-content: ${justifyContent};
     flex-direction: ${flexDirection};
-  `;
+  `
 }
 
 export const buttonStyles = () => css`
@@ -48,7 +48,7 @@ export const buttonStyles = () => css`
   &:active {
     transform: scale(0.95);
   }
-`;
+`
 
 export const inputBack = () => css`
   height: 50px;
@@ -61,7 +61,7 @@ export const inputBack = () => css`
   padding: 0 14px;
   font-family: Outfit;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
 
   & > svg {
     fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
@@ -72,4 +72,4 @@ export const inputBack = () => css`
     background: ${({ theme }) => theme.text};
     color: ${({ theme }) => theme.shade1};
   }
-`;
+`

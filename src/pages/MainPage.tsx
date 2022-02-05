@@ -1,48 +1,20 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import styled, { ThemeProvider } from 'styled-components'
-
-import DayContainer from '../components/DayContainer'
-import Header from '../components/Header'
-import TimeLine from '../components/TimeLine'
-import Loader from '../components/Loader'
-import { fetchBlocks } from '../redux/slices/timetableSlice'
-import {
-  fetchUserConfigs,
-  selectDarkMode,
-  darkModeToggled
-} from '../redux/slices/userConfigsSlice'
-import { darkThemeColors, lightThemeColors } from '../styles/styleConstants'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 import { IState } from '../@types/StateInterfaces'
+import Loader from '../components/Loader'
+
+import WeekIcon from '../assets/icons/Week.svg'
+import TaskIcon from '../assets/icons/Task.svg'
+import Logo from '../assets/Logo.svg'
+import { flexCenter } from '../styles/styleUtils'
 
 const MainPage = () => {
-  const dispatch = useDispatch()
+  const appStatus = useSelector((state: IState) => state.app.status)
 
-  const userConfigsStatus = useSelector(
-    (state: IState) => state.userConfigs.status
-  )
-  const darkMode = useSelector(selectDarkMode)
-
-  const keyBindHandler = (event: KeyboardEvent) => {
-    if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
-      dispatch(darkModeToggled())
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindHandler)
-    return () => {
-      document.removeEventListener('keydown', keyBindHandler)
-    }
-  })
-
-  useEffect(() => {
-    dispatch(fetchUserConfigs())
-    dispatch(fetchBlocks())
-  }, [])
-
-  if (userConfigsStatus === 'loading') {
+  if (appStatus === 'loading') {
     return (
       <div
         style={{
@@ -58,31 +30,100 @@ const MainPage = () => {
       </div>
     )
   }
+
+  const generatePageButton = (
+    link: string,
+    name: string,
+    Icon: React.ReactElement
+  ) => (
+    <PageButtonContainer>
+      <Link to={link}>
+        <PageButton>
+          <IconContainer>{Icon}</IconContainer>
+          <PageName>{name}</PageName>
+        </PageButton>
+      </Link>
+    </PageButtonContainer>
+  )
+
   return (
-    <ThemeProvider theme={darkMode ? darkThemeColors : lightThemeColors}>
-      <MainPageContainer>
-        <Header />
-        <MainContainer>
-          <TimeLine />
-          <DayContainer />
-        </MainContainer>
-      </MainPageContainer>
-    </ThemeProvider>
+    <MainPageContainer>
+      <AppDetails>
+        <Logo />
+        Time Raptor
+      </AppDetails>
+      <MainButtonContainer>
+        {generatePageButton('/timetable', 'Timetable', <WeekIcon />)}
+        {generatePageButton('/todo/today', 'Todos', <TaskIcon />)}
+      </MainButtonContainer>
+    </MainPageContainer>
   )
 }
 
 const MainPageContainer = styled.div`
-  background-color: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.text};
+  ${flexCenter({ flexDirection: 'column' })};
+  color: #ffffff;
+  background-size: 100% 100%;
   min-height: 100vh;
+
+  // Mesh Gradiant
+  background-image: #000000;
+  background-image: radial-gradient(
+      at 96% 95%,
+      hsla(352, 78%, 7%, 1) 0,
+      transparent 52%
+    ),
+    radial-gradient(at 4% 76%, hsla(263, 68%, 7%, 1) 0, transparent 63%),
+    radial-gradient(at 80% 10%, hsla(239, 92%, 10%, 1) 0, transparent 100%),
+    radial-gradient(at 15% 27%, hsla(340, 68%, 12%, 1) 0, transparent 50%);
 `
-const MainContainer = styled.main`
-  display: flex;
-  padding-top: 30px;
-  padding-right: 10px;
-  padding-left: 10px;
-  padding-bottom: 30px;
-  position: relative;
+
+const AppDetails = styled.div`
+  ${flexCenter()}
+  margin-bottom: 100px;
+  font-size: 32px;
+  font-weight: bold;
+
+  & > svg {
+    margin-right: 20px;
+    height: 80px;
+    width: 80px;
+  }
+`
+
+const MainButtonContainer = styled.div`
+  ${flexCenter()};
+`
+
+const PageButtonContainer = styled.div`
+  margin: 0 20px;
+`
+
+const PageButton = styled.div`
+  ${flexCenter({ flexDirection: 'column' })};
+  border: 0.1px solid #ffffff;
+  background: #1d1d1f;
+  height: 120px;
+  width: 120px;
+  border-radius: 8px;
+`
+
+const IconContainer = styled.div`
+  background: #ffffff;
+  border-radius: 100px;
+  padding: 10px;
+
+  & > svg {
+    height: 28px;
+    width: 28px;
+    ${flexCenter()};
+    fill: #1d1d1f;
+  }
+`
+
+const PageName = styled.p`
+  color: #ffffff;
+  margin-top: 14px;
 `
 
 export default MainPage
