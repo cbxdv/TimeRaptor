@@ -4,7 +4,7 @@ import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
  *  Get current date as a string
  *  @returns {string} The current date in form of local string
  */
-export const getCurrentDate = (): string =>
+export const getCurrentLocaleDateString = (): string =>
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   new Date().toLocaleDateString().replaceAll('/', '-')
@@ -13,13 +13,14 @@ export const getCurrentDate = (): string =>
  *  Get current time as a string
  *  @returns {string} The current time in the form of local string
  */
-export const getCurrentTime = (): string => new Date().toLocaleTimeString()
+export const getCurrentLocaleTimeString = (): string =>
+  new Date().toLocaleTimeString()
 
 /**
  * Get the current day in the form a string
  * @returns {string} A string indicating day name like `Sunday` `Saturday`
  */
-export const getCurrentDay = (): DayStringTypes => {
+export const getCurrentDayString = (): DayStringTypes => {
   const dayNum = new Date().getDay()
   switch (dayNum) {
     case 1:
@@ -49,7 +50,7 @@ export const getCurrentDay = (): DayStringTypes => {
  * with only hours and a.m./p.m. or string with all hours, minutes and a.m./p.m.
  *  @returns {string} A string with time properly formatted as `HH:MM _.m.`
  */
-export const getTimeString = (
+export const getTimeString12 = (
   timeObj: ITimeObject,
   hoursOnly = false
 ): string => {
@@ -144,41 +145,40 @@ export const getDurationMinutes = (
  * @returns {{ hours: Number, minutes: Number, seconds: Number, pm: boolean, day: String }}
  *    Am object with all details regarding current time and current day
  */
-export const getCurrentTimeAndDay = (): ITimeObject => {
-  const currentTime = getCurrentTime()
-  const arr1 = currentTime.split(' ')
-  const arr2 = arr1[0].split(':')
+export const getCurrentTimeAndDay = (hours24 = false): ITimeObject => {
+  const currentTime = new Date()
 
-  const timeObj = {
-    hours: Number(arr2[0]),
-    minutes: Number(arr2[1]),
-    seconds: Number(arr2[2]),
-    pm: arr1[1] === 'PM',
-    day: getCurrentDay().toLowerCase() as DayStringTypes
+  let hours = currentTime.getHours()
+  const minutes = currentTime.getMinutes()
+  const seconds = currentTime.getSeconds()
+  const day = getCurrentDayString()
+  let pm = false
+
+  if (hours >= 12) {
+    pm = true
+    if (!hours24 && hours !== 12) hours -= 12
+  }
+
+  let timeObj
+  if (hours24) {
+    timeObj = { hours, minutes, seconds, day }
+  } else {
+    timeObj = { hours, minutes, seconds, pm, day }
   }
 
   return timeObj
 }
 
 /**
- * Converts milli seconds to its hours minutes and seconds components
- * @param {number} time - The time to be converted (in milliseconds)
- * @param {boolean} includeSeconds - Boolean whether to include seconds
- * @returns {{ hours: number, minutes: number, seconds: number }} The hours, minutes and seconds
+ * Checks whether the given interval is happening now or not
+ * @param startTime Date Objct value for starting timr
+ * @param endTime Date object value for ending time
+ * @returns {boolean} - Returns true if the interval is now, or else false
  */
-export const milliToTimeObj = (
-  time: number,
-  includeSeconds: boolean
-): ITimeObject => {
-  const hours = Math.floor(time / 1000 / 60 / 60)
-  let tempTime = time
-  tempTime -= hours * 1000 * 60 * 60
-  const minutes = Math.floor(tempTime / 1000 / 60)
-  tempTime -= minutes * 1000 * 60
-  if (!includeSeconds) {
-    return { hours, minutes }
+export const checkCurrent = (startTime: number, endTime: number) => {
+  const currentTime = new Date().valueOf()
+  if (startTime <= currentTime && endTime >= currentTime) {
+    return true
   }
-  const seconds = Math.floor(tempTime / 1000)
-  tempTime -= seconds * 1000
-  return { hours, minutes, seconds }
+  return false
 }

@@ -213,15 +213,10 @@ TimeBlockEditor.defaultProps = {
 
 const AddForm = styled.div`
   width: 100%;
-  /* padding: 0 60px; */
 `
 
 const InputContainer = styled.div`
   margin: 40px 0;
 `
-
-// const ButtonsContainer = styled.div`
-//   ${flexCenter({ justifyContent: 'space-between' })};
-// `
 
 export default TimeBlockEditor

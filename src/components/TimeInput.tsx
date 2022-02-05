@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import ClockIcon from '../assets/icons/Time.svg'
 import WithModal from '../wrappers/WithModal'
-import { getTimeString } from '../utils/timeUtils'
+import { getTimeString12 } from '../utils/timeUtils'
 import { flexCenter, inputBack } from '../styles/styleUtils'
 
 import { ITimeObject } from '../@types/DayAndTimeInterfaces'
@@ -16,7 +16,7 @@ const TimeInput: React.FC<TimeInputProps> = ({
 }) => {
   const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)
 
-  const timeString = getTimeString(value)
+  const timeString = getTimeString12(value)
 
   return (
     <>

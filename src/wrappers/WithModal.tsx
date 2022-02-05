@@ -182,7 +182,6 @@ const ModalDrop = styled.div`
 
 const ButtonsContainer = styled.div`
   ${flexCenter({ justifyContent: 'space-between' })};
-  /* margin-bottom: 30px; */
   min-width: 250px;
 `
 

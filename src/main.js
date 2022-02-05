@@ -26,8 +26,8 @@ const createMainWindow = () => {
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       backgroundThrottling: false,
-      contextIsolation: true
-      // devTools: false
+      contextIsolation: true,
+      devTools: false
     },
     icon: path.join(__dirname, './assets/logos/Icon.ico')
   });
@@ -44,7 +44,7 @@ const createMainWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Hiding menubar
   mainWindow.setMenuBarVisibility(false);
@@ -157,7 +157,7 @@ app.on('quit', () => {
 });
 
 if (process.platform === 'win32') {
-  app.setAppUserModelId(process.execPath);
+  app.setAppUserModelId('Time Raptor');
 }
 
 // Importing and starting all ipc handlers of the app

@@ -36,15 +36,12 @@ export const generateTTTimeStamps = (
     }
     endTime.setHours(endHours, endMinutes, 0, 0)
 
-    const start = startTime.toLocaleTimeString()
-    const end = endTime.toLocaleTimeString()
-
     stamps.push({
       id,
       type,
       title,
-      startTime: start,
-      endTime: end,
+      startTime: startTime.valueOf(),
+      endTime: endTime.valueOf(),
       description
     })
   })

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { blockDeleted } from '../redux/slices/timetableSlice'
-import { getTimeString } from '../utils/timeUtils'
+import { getTimeString12 } from '../utils/timeUtils'
 import BlockTool, { PositionTypes } from './BlockTool'
 import TimeBlockEditor from './TimeBlockEditor'
 import { flexCenter } from '../styles/styleUtils'
@@ -30,8 +30,8 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
   }
 
   const bgColor = varietyColors[blockColor]
-  const startTimeString = getTimeString(startTime)
-  const endTimeString = getTimeString(endTime)
+  const startTimeString = getTimeString12(startTime)
+  const endTimeString = getTimeString12(endTime)
   const blockHeight = (duration / 15) * 20
   let startPosition = startTime.hours * 80 + (startTime.minutes / 15) * 20 + 20
   if (startTime.pm === false && startTime.hours === 12) {
@@ -147,7 +147,7 @@ const TimeBlockDetailsContainer = styled.div`
 
 const BlockHeading = styled.p`
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;

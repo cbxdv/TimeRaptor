@@ -7,27 +7,49 @@ import { getCurrentTimeAndDay } from '../utils/timeUtils'
 import CurrentTimeLine from './CurrentTimeLine'
 import { dayStrings } from '../utils/strings'
 import TimeBlock from './TimeBlock'
-
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { IState } from '../@types/StateInterfaces'
+import { currentBlockUpdater } from '../utils/currentBlockUtils'
 import { updateTimeStamps } from '../redux/slices/appSlice'
-import { selectTTNotificationState } from '../redux/slices/configsSlice'
+import {
+  selectTTNotificationState,
+  selectTTShowCurrentBlock
+} from '../redux/slices/configsSlice'
 
 const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
   const dispatch = useDispatch()
   const dayData = useSelector((state: IState) =>
     selectBlocksByDay(state, dayId)
   )
+
   const notificationState = useSelector(selectTTNotificationState)
+  const showCurrentBlock = useSelector(selectTTShowCurrentBlock)
 
   const [isToday, setIsToday] = useState<boolean>(false)
+
+  let timer: NodeJS.Timer
+
+  const currentBlockService = () => {
+    if (!showCurrentBlock) return
+    timer = setInterval(() => {
+      currentBlockUpdater(dayData, dispatch)
+    }, 60000)
+  }
 
   useEffect(() => {
     const now = getCurrentTimeAndDay()
     if (now.day === dayId) {
       setIsToday(true)
       dispatch(updateTimeStamps(notificationState))
+      currentBlockUpdater(dayData, dispatch)
+
+      if (showCurrentBlock) {
+        currentBlockService()
+      }
+    }
+    return () => {
+      clearInterval(timer)
     }
   }, [dayData])
 

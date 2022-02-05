@@ -10,9 +10,3 @@ export interface IDayData {
   saturday: ITimeBlock[]
   sunday: ITimeBlock[]
 }
-
-export interface ICurrentTimetableBlock {
-  id: string
-  title: string
-  timeLeft: ITimeBlock
-}

@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import {
+  selectTTShowCurrentBlock,
   selectTTShowCurrentTime
-  // selectShowCurrentBlock
 } from '../redux/slices/configsSlice'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import GearIcon from '../assets/icons/Gear.svg'
 import Logo from '../assets/Logo.png'
 import CurrentTime from './CurrentTime'
-// import CurrentBlock from './CurrentBlock'
+import CurrentBlock from './CurrentBlock'
 import IconButton from './IconButton'
 import NotificationsToggle from './NotificationsToggle'
 import TimeBlockEditor from './TimeBlockEditor'
@@ -23,7 +23,7 @@ import { selectPlatform } from '../redux/slices/appSlice'
 const TopPanel = () => {
   const platform = useSelector(selectPlatform)
   const showCurrentTime = useSelector(selectTTShowCurrentTime)
-  // const showCurrentBlock = useSelector(selectShowCurrentBlock)
+  const showCurrentBlock = useSelector(selectTTShowCurrentBlock)
 
   const [showAddPanel, setShowAddPanel] = useState<boolean>(false)
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
@@ -65,7 +65,7 @@ const TopPanel = () => {
       </div>
       <div className='header-section'>
         <div className='hb-cont'>{showCurrentTime && <CurrentTime />}</div>
-        {/* <div className='hb-cont'>{showCurrentBlock && <CurrentBlock />}</div> */}
+        <div className='hb-cont'>{showCurrentBlock && <CurrentBlock />}</div>
       </div>
       <div className='header-section'>
         <div>
