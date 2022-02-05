@@ -22,21 +22,36 @@ const BlockTool: React.FC<BlockToolProps> = ({
 
   const ref = useRef<HTMLDivElement | null>(null)
 
+  const closeTool = () => {
+    if (ref && ref.current) {
+      ref.current.style.opacity = '0'
+    }
+    setTimeout(() => {
+      closeHandler()
+    }, 150)
+  }
+
   const handleClickOutside = (event: Event) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
-      if (closeHandler) {
-        closeHandler()
+      if (closeTool) {
+        closeTool()
       }
     }
   }
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      closeHandler()
+      closeTool()
     }
   }
 
   useEffect(() => {
+    if (ref && ref.current) {
+      ref.current.style.opacity = '1'
+      setTimeout(() => {
+        ref.current.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      })
+    }
     document.addEventListener('click', handleClickOutside, true)
     document.addEventListener('keydown', keyBindHandler)
     return () => {
@@ -77,6 +92,8 @@ type BlockToolProps = {
 
 const BlockToolContainer = styled.div<{ position: PositionTypes }>`
   ${flexCenter()};
+  opacity: 0;
+  transition: 0.1s opacity ease-in;
   padding: 14px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
   border-radius: 8px;
