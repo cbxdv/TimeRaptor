@@ -5,7 +5,6 @@ const os = require('os');
 const Store = require('electron-store');
 
 if (require('electron-squirrel-startup')) {
-  // eslint-disable-line global-require
   app.quit();
 }
 
@@ -59,6 +58,11 @@ const createMainWindow = () => {
       'configs.appConfigs.openMinimized',
       false
     );
+    if (minimized) {
+      if (os.platform() === 'darwin') {
+        app.dock.hide();
+      }
+    }
     if (!minimized) {
       mainWindow.show();
     }
@@ -72,7 +76,9 @@ const createMainWindow = () => {
     if (!isAppQuitting) {
       event.preventDefault();
     }
-    app.dock.hide();
+    if (os.platform() === 'darwin') {
+      app.dock.hide();
+    }
     const close = await store.get('configs.appConfigs.closeOnExit', false);
     if (close) {
       app.quit();
@@ -139,11 +145,13 @@ const showWindow = () => {
   if (isAppLoading) {
     return;
   }
-  app.dock.show();
+  if (os.platform() === 'darwin') {
+    app.dock.show();
+  }
   if (BrowserWindow.getAllWindows().length === 0) {
     createMainWindow();
   } else {
-    mainWindow.show();
+    mainWindow.show()
   }
 };
 
