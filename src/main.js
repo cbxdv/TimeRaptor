@@ -67,6 +67,7 @@ const createMainWindow = () => {
     if (!isAppQuitting) {
       event.preventDefault();
     }
+    app.dock.hide();
     const close = await store.get('configs.appConfigs.closeOnExit', false);
     if (close) {
       app.quit();
@@ -133,6 +134,7 @@ const showWindow = () => {
   if (isAppLoading) {
     return;
   }
+  app.dock.show();
   if (BrowserWindow.getAllWindows().length === 0) {
     createMainWindow();
   } else {
