@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import BinIcon from '../assets/icons/Bin.svg'
 import EditIcon from '../assets/icons/Edit.svg'
 import { buttonStyles, flexCenter } from '../styles/styleUtils'
-import { getTimeString } from '../utils/timeUtils'
+import { getTimeString12 } from '../utils/timeUtils'
 
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 
@@ -16,7 +16,9 @@ const BlockTool: React.FC<BlockToolProps> = ({
   deleteHandler
 }) => {
   const { title, startTime, endTime, description } = timeBlock
-  const timeString = `${getTimeString(startTime)} - ${getTimeString(endTime)}`
+  const timeString = `${getTimeString12(startTime)} - ${getTimeString12(
+    endTime
+  )}`
 
   const ref = useRef<HTMLDivElement | null>(null)
 

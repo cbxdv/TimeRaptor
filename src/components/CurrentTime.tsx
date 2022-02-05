@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react'
 
-import { getCurrentDate, getCurrentDay } from '../utils/timeUtils'
+import {
+  getCurrentLocaleDateString,
+  getCurrentDayString
+} from '../utils/timeUtils'
 import HeaderBubble from './HeaderBubble'
 
 const getCurrentTime = () => new Date().toLocaleTimeString()
 
 const CurrentTime = () => {
   const [currentTime, setCurrentTime] = useState<string>(getCurrentTime())
-  const [currentDate, setCurrentDate] = useState<string>(getCurrentDate())
-  const [currentDay, setCurrentDay] = useState<string>(getCurrentDay())
+  const [currentDate, setCurrentDate] = useState<string>(
+    getCurrentLocaleDateString()
+  )
+  const [currentDay, setCurrentDay] = useState<string>(getCurrentDayString())
 
   let timer: NodeJS.Timer
   useEffect(() => {
@@ -23,8 +28,8 @@ const CurrentTime = () => {
 
   useEffect(() => {
     if (currentTime === '12:00:00 AM' || currentTime === '00:00:00 AM') {
-      setCurrentDate(getCurrentDate())
-      setCurrentDay(getCurrentDay())
+      setCurrentDate(getCurrentLocaleDateString())
+      setCurrentDay(getCurrentDayString())
 
       // eslint-disable-next-line
       location.reload()

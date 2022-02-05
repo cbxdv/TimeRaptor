@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { fetchBlocks } from './timetableSlice'
 
 import { IAppState, IState } from '../../@types/StateInterfaces'
-import { getCurrentDay } from '../../utils/timeUtils'
+import { getCurrentDayString } from '../../utils/timeUtils'
 import {
   fetchTimetableData,
   getElectronContext
@@ -46,7 +46,7 @@ export const updateTimeStamps = createAsyncThunk(
   async (notificationState?: boolean) => {
     let stamps: ITimeStamp[] = []
     const response = await fetchTimetableData()
-    const day = getCurrentDay()
+    const day = getCurrentDayString()
     const dayData = response[day]
     stamps = generateTTTimeStamps(dayData, stamps)
 
@@ -67,7 +67,7 @@ const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    currentTimetableBlockChanged(state, action) {
+    currentTimetableBlockChanged(state, action: PayloadAction<ITimeStamp>) {
       state.timetableCurrentBlock = action.payload
     },
     appLoadingStarted(state) {
@@ -119,7 +119,7 @@ const appSlice = createSlice({
         state.error = 'Error initializing app. Try restarting app.'
       })
       .addCase(fetchBlocks.fulfilled, (state, action) => {
-        const currentDay = getCurrentDay()
+        const currentDay = getCurrentDayString()
         const dayData = action.payload[currentDay]
         const oldStamps = JSON.parse(JSON.stringify(state.timeStamps))
         state.timeStamps = generateTTTimeStamps(dayData, oldStamps)

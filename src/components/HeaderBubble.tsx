@@ -21,19 +21,27 @@ HeaderBubble.defaultProps = {
 }
 
 const HeaderBubbleContainer = styled.div`
+  ${flexCenter({ flexDirection: 'column' })}
   background: ${({ theme }) => theme.shade1};
   width: 150px;
-  ${flexCenter({ flexDirection: 'column' })}
   padding: 10px;
   border-radius: 8px;
   min-height: 60px;
+  overflow: hidden;
 `
 
-const MainText = styled.p`
+const MainText = styled.div`
   font-family: Outfit;
   font-size: larger;
   font-weight: bold;
   font-size: 16px;
+  text-align: center;
+
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 const SecText = styled.p`

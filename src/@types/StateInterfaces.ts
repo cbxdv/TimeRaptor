@@ -1,5 +1,5 @@
 import { ITimeStamp, PlatformStringTypes } from './AppInterfaces'
-import { ICurrentTimetableBlock, IDayData } from './TimetableInterfaces'
+import { IDayData } from './TimetableInterfaces'
 import { ITodo } from './TodoInterfaces'
 import { IAppConfigs, ITimetableConfigs } from './UserConfigInterfaces'
 
@@ -24,7 +24,7 @@ export interface ITodosState {
 
 export interface IAppState {
   timeStamps: ITimeStamp[]
-  timetableCurrentBlock: ICurrentTimetableBlock | null
+  timetableCurrentBlock: ITimeStamp | null
   platform: PlatformStringTypes
   appVersion: string
   maximized: boolean
