@@ -63,7 +63,7 @@ const MainComponent = () => {
 
   return (
     <ThemeProvider theme={darkMode ? darkThemeColors : lightThemeColors}>
-      {platform && <Win32Controls />}
+      {platform === 'win32' && <Win32Controls />}
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/timetable' element={<TimetablePage />} />
