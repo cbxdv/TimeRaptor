@@ -16,7 +16,7 @@ import IconButton from './IconButton'
 import NotificationsToggle from './NotificationsToggle'
 import TimeBlockEditor from './TimeBlockEditor'
 import ConfigsPanel from './ConfigsPanel'
-import { closeWindow, reloadWindow } from '../utils/electronContext'
+import { closeWindow, reloadWindow } from '../utils/electronUtils'
 import { flexCenter } from '../styles/styleUtils'
 import { selectPlatform } from '../redux/slices/appSlice'
 

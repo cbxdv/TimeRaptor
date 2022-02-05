@@ -1,10 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import {
-  getElectronContext,
-  saveConfigToDisk
-} from '../../utils/electronContext'
+import { getElectronContext, saveConfigToDisk } from '../../utils/electronUtils'
 
 import { IState, IConfigsState } from '../../@types/StateInterfaces'
 import { DayStringTypes } from '../../@types/DayAndTimeInterfaces'

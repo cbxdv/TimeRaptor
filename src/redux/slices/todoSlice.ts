@@ -9,7 +9,7 @@ import {
 
 import { ITodoPayloadAction, ITodo } from '../../@types/TodoInterfaces'
 import { ITodosState, IState } from '../../@types/StateInterfaces'
-import { fetchTodoData, saveTodosToDisk } from '../../utils/electronContext'
+import { fetchTodoData, saveTodosToDisk } from '../../utils/electronUtils'
 
 const initialState: ITodosState = {
   todosData: [],

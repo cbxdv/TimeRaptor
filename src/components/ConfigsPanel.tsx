@@ -7,7 +7,7 @@ import Octocat from '../assets/icons/Octocat.png'
 import WaveEmoji from '../assets/icons/Wave.png'
 import PartyPopperEmoji from '../assets/icons/PartyPopper.png'
 import WithModal from '../wrappers/WithModal'
-import { getElectronContext } from '../utils/electronContext'
+import { getElectronContext } from '../utils/electronUtils'
 import { daysArray, dayStrings } from '../utils/strings'
 import { blocksCleared } from '../redux/slices/timetableSlice'
 import {

@@ -1,6 +1,6 @@
 import { ITimeStamp } from '../@types/AppInterfaces'
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
-import { getElectronContext } from './electronContext'
+import { getElectronContext } from './electronUtils'
 
 export const generateTTTimeStamps = (
   dayData: ITimeBlock[],

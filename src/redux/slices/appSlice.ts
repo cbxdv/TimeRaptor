@@ -8,7 +8,7 @@ import { getCurrentDayString } from '../../utils/timeUtils'
 import {
   fetchTimetableData,
   getElectronContext
-} from '../../utils/electronContext'
+} from '../../utils/electronUtils'
 import { generateTTTimeStamps } from '../../utils/notificationUtils'
 import { ITimeStamp } from '../../@types/AppInterfaces'
 import {

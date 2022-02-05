@@ -6,10 +6,7 @@ import {
   nanoid,
   PayloadAction
 } from '@reduxjs/toolkit'
-import {
-  fetchTimetableData,
-  saveBlocksToDisk
-} from '../../utils/electronContext'
+import { fetchTimetableData, saveBlocksToDisk } from '../../utils/electronUtils'
 
 import { IState, ITimetableState } from '../../@types/StateInterfaces'
 import {

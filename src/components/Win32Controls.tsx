@@ -12,7 +12,7 @@ import {
   maximizeWindow,
   minimizeWindow,
   restoreWindow
-} from '../utils/electronContext'
+} from '../utils/electronUtils'
 
 const Win32Controls = () => {
   const dispatch = useDispatch()
