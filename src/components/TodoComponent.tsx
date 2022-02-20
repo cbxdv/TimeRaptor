@@ -46,7 +46,7 @@ const TodoComponentContainer = styled.div`
   background: ${({ theme }) => theme.shade1};
   border-radius: 8px;
   padding: 14px 40px;
-  margin: 14px;
+  margin: 4px 14px;
   margin-left: 0;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
 
