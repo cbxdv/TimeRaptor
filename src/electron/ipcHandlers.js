@@ -62,7 +62,7 @@ ipcMain.on('app:notify', (_, { title, body }) => {
 });
 
 ipcMain.on('app:openRepoLink', () => {
-  shell.openExternal('https://github.com/codeph0/TimeRaptor');
+  shell.openExternal('https://github.com/codecibi/TimeRaptor');
 });
 
 ipcMain.handle('configs:get', async () => {
