@@ -6,7 +6,7 @@
   "main": ".webpack/main",
   "repository": {
     "type": "git",
-    "url": "https://github.com/codeph0/TimeRaptor.git"
+    "url": "https://github.com/codecibi/TimeRaptor"
   },
   "scripts": {
     "start": "electron-forge start",
@@ -20,7 +20,7 @@
   "keywords": [],
   "author": {
     "name": "Cibi",
-    "email": "94194323+codeph0@users.noreply.github.com"
+    "email": "94194323+codecibi@users.noreply.github.com"
   },
   "license": "MIT",
   "config": {
@@ -36,7 +36,7 @@
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "TimeRaptor",
-            "iconUrl": "https://raw.githubusercontent.com/codeph0/TimeRaptor/master/build/icon.ico",
+            "iconUrl": "https://raw.githubusercontent.com/codecibi/TimeRaptor/master/build/icon.ico",
             "loadingGif": "./build/loading.gif",
             "setupIcon": "./build/icon.ico"
           }
@@ -81,7 +81,7 @@
           "name": "@electron-forge/publisher-github",
           "config": {
             "repository": {
-              "owner": "codeph0",
+              "owner": "codecibi",
               "name": "TimeRaptor"
             },
             "prerelease": false
