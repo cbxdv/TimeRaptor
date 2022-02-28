@@ -24,10 +24,10 @@ import {
 import Win32Controls from './components/Win32Controls'
 import { darkThemeColors, lightThemeColors } from './styles/styleConstants'
 
-import MainPage from './pages/MainPage'
+// import MainPage from './pages/MainPage'
 import TimetablePage from './pages/TimetablePage'
-import TodoPage from './pages/TodoPage'
-import { fetchTodos } from './redux/slices/todoSlice'
+// import TodoPage from './pages/TodoPage'
+// import { fetchTodos } from './redux/slices/todoSlice'
 
 const MainComponent = () => {
   const dispatch = useDispatch()
@@ -56,7 +56,7 @@ const MainComponent = () => {
     dispatch(appLoadingStarted())
     dispatch(fetchConfigs())
     dispatch(fetchBlocks())
-    dispatch(fetchTodos())
+    // dispatch(fetchTodos())
     dispatch(fetchAppProps())
     dispatch(appLoadingStopped())
   }, [])
@@ -65,9 +65,9 @@ const MainComponent = () => {
     <ThemeProvider theme={darkMode ? darkThemeColors : lightThemeColors}>
       {platform === 'win32' && <Win32Controls />}
       <Routes>
-        <Route path='/' element={<MainPage />} />
-        <Route path='/timetable' element={<TimetablePage />} />
-        <Route path='/todo/:listId' element={<TodoPage />} />
+        {/* <Route path='/' element={<MainPage />} /> */}
+        <Route path='/' element={<TimetablePage />} />
+        {/* <Route path='/todo/:listId' element={<TodoPage />} /> */}
       </Routes>
     </ThemeProvider>
   )

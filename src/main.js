@@ -14,6 +14,20 @@ let mainWindow = null;
 let loadingWindow = null;
 let tray = null;
 
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Focussing the initiallly created instance window
+    showWindow();
+  });
+
+  // Create myWindow, load the rest of the app, etc...
+  // app.on('ready', onReadyHandler);
+}
+
 // Boolean to indicate whethter the app is launching
 let isAppLoading = true;
 // Boolean to indicate whether the app is quiting or just closing window
@@ -151,7 +165,7 @@ const showWindow = () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createMainWindow();
   } else {
-    mainWindow.show()
+    mainWindow.show();
   }
 };
 
