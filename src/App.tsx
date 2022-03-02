@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, useSelector, useDispatch } from 'react-redux'
 import { ThemeProvider } from 'styled-components'
-import { HashRouter, Routes, Route } from 'react-router-dom'
 
 import store from './redux/store'
 
@@ -10,7 +9,7 @@ import {
   fetchConfigs,
   selectDarkMode,
   darkModeToggled,
-  selectTTNotificationState
+  selectNotificationState
 } from './redux/slices/configsSlice'
 import { fetchBlocks } from './redux/slices/timetableSlice'
 import {
@@ -24,16 +23,13 @@ import {
 import Win32Controls from './components/Win32Controls'
 import { darkThemeColors, lightThemeColors } from './styles/styleConstants'
 
-// import MainPage from './pages/MainPage'
 import TimetablePage from './pages/TimetablePage'
-// import TodoPage from './pages/TodoPage'
-// import { fetchTodos } from './redux/slices/todoSlice'
 
 const MainComponent = () => {
   const dispatch = useDispatch()
   const platform = useSelector(selectPlatform)
   const darkMode = useSelector(selectDarkMode)
-  const notificationState = useSelector(selectTTNotificationState)
+  const notificationState = useSelector(selectNotificationState)
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
@@ -56,7 +52,6 @@ const MainComponent = () => {
     dispatch(appLoadingStarted())
     dispatch(fetchConfigs())
     dispatch(fetchBlocks())
-    // dispatch(fetchTodos())
     dispatch(fetchAppProps())
     dispatch(appLoadingStopped())
   }, [])
@@ -64,20 +59,14 @@ const MainComponent = () => {
   return (
     <ThemeProvider theme={darkMode ? darkThemeColors : lightThemeColors}>
       {platform === 'win32' && <Win32Controls />}
-      <Routes>
-        {/* <Route path='/' element={<MainPage />} /> */}
-        <Route path='/' element={<TimetablePage />} />
-        {/* <Route path='/todo/:listId' element={<TodoPage />} /> */}
-      </Routes>
+      <TimetablePage />
     </ThemeProvider>
   )
 }
 
 const App = () => (
   <Provider store={store}>
-    <HashRouter>
-      <MainComponent />
-    </HashRouter>
+    <MainComponent />
   </Provider>
 )
 

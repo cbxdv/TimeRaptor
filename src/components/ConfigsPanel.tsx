@@ -13,13 +13,13 @@ import { blocksCleared } from '../redux/slices/timetableSlice'
 import {
   selectConfigs,
   darkModeToggled,
-  ttNotificationsToggled,
+  notificationsToggled,
   closeOnExitToggled,
   openMinimizedToggled,
-  ttShowCurrentTimeToggled,
-  ttShowCurrentBlockToggled,
-  selectTTDaysToShow,
-  ttDayToShowToggled
+  showCurrentTimeToggled,
+  showCurrentBlockToggled,
+  selectDaysToShow,
+  dayToShowToggled
 } from '../redux/slices/configsSlice'
 import { selectVersion } from '../redux/slices/appSlice'
 import CheckBox from './CheckBox'
@@ -57,7 +57,7 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
             <div className='option-config'>
               <CheckBox
                 checked={configs.timetable.notifications}
-                onClick={() => dispatch(ttNotificationsToggled())}
+                onClick={() => dispatch(notificationsToggled())}
               />
             </div>
 
@@ -89,7 +89,7 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
             <div className='option-config'>
               <CheckBox
                 checked={configs.timetable.showCurrentTime}
-                onClick={() => dispatch(ttShowCurrentTimeToggled())}
+                onClick={() => dispatch(showCurrentTimeToggled())}
               />
             </div>
 
@@ -97,7 +97,7 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
             <div className='option-config'>
               <CheckBox
                 checked={configs.timetable.showCurrentBlock}
-                onClick={() => dispatch(ttShowCurrentBlockToggled())}
+                onClick={() => dispatch(showCurrentBlockToggled())}
               />
             </div>
           </OptionsContainer>
@@ -143,22 +143,22 @@ type UserConfigsPanelProps = {
 
 const DaysToShowPanel: React.FC<DaysToShowPanelProps> = ({ closeHandler }) => {
   const dispatch = useDispatch()
-  const daysToShow = useSelector(selectTTDaysToShow)
+  const daysToShow = useSelector(selectDaysToShow)
 
   const toggleDayToShow = (day: DayStringTypes) => {
-    dispatch(ttDayToShowToggled(day))
+    dispatch(dayToShowToggled(day))
   }
 
   const toggleWeekendDaysToShow = () => {
     if ((daysToShow.saturday && daysToShow.sunday) === true) {
-      dispatch(ttDayToShowToggled('saturday'))
-      dispatch(ttDayToShowToggled('sunday'))
+      dispatch(dayToShowToggled('saturday'))
+      dispatch(dayToShowToggled('sunday'))
     } else {
       if (daysToShow.saturday === false) {
-        dispatch(ttDayToShowToggled('saturday'))
+        dispatch(dayToShowToggled('saturday'))
       }
       if (daysToShow.sunday === false) {
-        dispatch(ttDayToShowToggled('sunday'))
+        dispatch(dayToShowToggled('sunday'))
       }
     }
   }
@@ -169,7 +169,7 @@ const DaysToShowPanel: React.FC<DaysToShowPanelProps> = ({ closeHandler }) => {
     daysArray.forEach((day: DayStringTypes) => {
       dayOptions.push(
         <React.Fragment key={`ShowDayOption-${day}`}>
-          <div className='option-text'>{dayStrings[day]}</div>
+          <div className='option-text'>{dayStrings(day)}</div>
           <div className='option-config'>
             <CheckBox
               checked={daysToShow[day]}

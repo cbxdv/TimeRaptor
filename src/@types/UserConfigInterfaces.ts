@@ -20,5 +20,4 @@ export interface ITimetableConfigs {
   showCurrentTime?: boolean
   showCurrentBlock?: boolean
   daysToShow: DaysToShow
-  notifyBefore: number
 }

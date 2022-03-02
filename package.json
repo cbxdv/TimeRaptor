@@ -1,12 +1,12 @@
 {
   "name": "timeraptor",
   "productName": "Time Raptor",
-  "version": "1.5.8",
+  "version": "1.6.0",
   "description": "An app to manage time",
   "main": ".webpack/main",
   "repository": {
     "type": "git",
-    "url": "https://github.com/codecibi/TimeRaptor"
+    "url": "https://github.com/cbxdv/TimeRaptor"
   },
   "scripts": {
     "start": "electron-forge start",
@@ -20,7 +20,7 @@
   "keywords": [],
   "author": {
     "name": "Cibi",
-    "email": "94194323+codecibi@users.noreply.github.com"
+    "email": "94194323+cbxdv@users.noreply.github.com"
   },
   "license": "MIT",
   "config": {
@@ -36,7 +36,7 @@
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "TimeRaptor",
-            "iconUrl": "https://raw.githubusercontent.com/codecibi/TimeRaptor/master/build/icon.ico",
+            "iconUrl": "https://raw.githubusercontent.com/cbxdv/TimeRaptor/master/build/icon.ico",
             "loadingGif": "./build/loading.gif",
             "setupIcon": "./build/icon.ico"
           }
@@ -81,7 +81,7 @@
           "name": "@electron-forge/publisher-github",
           "config": {
             "repository": {
-              "owner": "codecibi",
+              "owner": "cbxdv",
               "name": "TimeRaptor"
             },
             "prerelease": false
@@ -128,7 +128,6 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
-    "react-router-dom": "^6.2.1",
     "styled-components": "^5.3.3"
   }
 }

@@ -17,7 +17,6 @@ const initialState: IConfigsState = {
       friday: true,
       saturday: true
     },
-    notifyBefore: 0,
     notifications: true,
     showCurrentTime: true,
     showCurrentBlock: true
@@ -69,7 +68,7 @@ const userConfigsSlice = createSlice({
         state.appConfigs.openMinimized
       )
     },
-    ttShowCurrentTimeToggled(state) {
+    showCurrentTimeToggled(state) {
       state.timetableConfigs.showCurrentTime =
         !state.timetableConfigs.showCurrentTime
       saveConfigToDisk(
@@ -77,7 +76,7 @@ const userConfigsSlice = createSlice({
         state.timetableConfigs.showCurrentTime
       )
     },
-    ttShowCurrentBlockToggled(state) {
+    showCurrentBlockToggled(state) {
       state.timetableConfigs.showCurrentBlock =
         !state.timetableConfigs.showCurrentBlock
       saveConfigToDisk(
@@ -85,7 +84,7 @@ const userConfigsSlice = createSlice({
         state.timetableConfigs.showCurrentBlock
       )
     },
-    ttNotificationsToggled(state) {
+    notificationsToggled(state) {
       state.timetableConfigs.notifications =
         !state.timetableConfigs.notifications
       saveConfigToDisk(
@@ -93,7 +92,7 @@ const userConfigsSlice = createSlice({
         state.timetableConfigs.notifications
       )
     },
-    ttDayToShowToggled(state, action: PayloadAction<DayStringTypes>) {
+    dayToShowToggled(state, action: PayloadAction<DayStringTypes>) {
       state.timetableConfigs.daysToShow[action.payload] =
         !state.timetableConfigs.daysToShow[action.payload]
       saveConfigToDisk(
@@ -121,13 +120,13 @@ const userConfigsSlice = createSlice({
 })
 
 export const {
-  ttNotificationsToggled,
+  notificationsToggled,
   darkModeToggled,
   closeOnExitToggled,
-  ttShowCurrentTimeToggled,
-  ttShowCurrentBlockToggled,
+  showCurrentTimeToggled,
+  showCurrentBlockToggled,
   openMinimizedToggled,
-  ttDayToShowToggled
+  dayToShowToggled
 } = userConfigsSlice.actions
 
 export default userConfigsSlice.reducer
@@ -137,15 +136,15 @@ export const selectConfigs = (state: IState) => ({
   app: state.configs.appConfigs,
   timetable: state.configs.timetableConfigs
 })
-export const selectTTNotificationState = (state: IState) =>
+export const selectNotificationState = (state: IState) =>
   state.configs.timetableConfigs.notifications
 export const selectDarkMode = (state: IState) =>
   state.configs.appConfigs.darkMode
 export const selectCloseOnExit = (state: IState) =>
   state.configs.appConfigs.closeOnExit
-export const selectTTShowCurrentTime = (state: IState) =>
+export const selectShowCurrentTime = (state: IState) =>
   state.configs.timetableConfigs.showCurrentTime
-export const selectTTShowCurrentBlock = (state: IState) =>
+export const selectShowCurrentBlock = (state: IState) =>
   state.configs.timetableConfigs.showCurrentBlock
-export const selectTTDaysToShow = (state: IState) =>
+export const selectDaysToShow = (state: IState) =>
   state.configs.timetableConfigs.daysToShow

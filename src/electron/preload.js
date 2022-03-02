@@ -21,8 +21,5 @@ contextBridge.exposeInMainWorld('electron', {
 
   getAllTimeBlocks: () => ipcRenderer.invoke('timetable:get'),
   updateTimeBlocks: data => ipcRenderer.send('timetable:update', data),
-  clearAllTimeBlocks: () => ipcRenderer.send('timetable:clear'),
-
-  getAllTodos: () => ipcRenderer.invoke('todos:get'),
-  updateTodos: data => ipcRenderer.send('todos:update', data)
+  clearAllTimeBlocks: () => ipcRenderer.send('timetable:clear')
 });

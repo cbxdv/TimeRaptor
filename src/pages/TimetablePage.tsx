@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import DayContainer from '../components/DayContainer'
-import Header from '../components/TimetableHeader'
+import Header from '../components/Header'
 import TimeLine from '../components/TimeLine'
 
 const MainPage = () => (

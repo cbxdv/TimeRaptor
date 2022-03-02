@@ -1,4 +1,3 @@
-import { ITodo } from '../@types/TodoInterfaces'
 import { IDayData } from '../@types/TimetableInterfaces'
 
 /**
@@ -46,16 +45,6 @@ export const fetchTimetableData = async () => {
   return response
 }
 
-export const fetchTodoData = async () => {
-  const data: ITodo[] = []
-  const electron = getElectronContext()
-  const response = await electron.getAllTodos()
-  if (!response) {
-    return data
-  }
-  return response
-}
-
 export const saveBlocksToDisk = (dayData: IDayData) => {
   const electronContext = getElectronContext()
   electronContext.updateTimeBlocks(dayData)
@@ -64,11 +53,6 @@ export const saveBlocksToDisk = (dayData: IDayData) => {
 export const saveConfigToDisk = (configName: string, configValue: unknown) => {
   const electronContext = getElectronContext()
   electronContext.setUserConfig({ configName, configValue })
-}
-
-export const saveTodosToDisk = (todos: ITodo[]) => {
-  const electronContext = getElectronContext()
-  electronContext.updateTodos(todos)
 }
 
 export const closeWindow = () => {

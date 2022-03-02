@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import CalendarIcon from '../assets/icons/CalendarDayView.svg'
 import WithModal from '../wrappers/WithModal'
-import { dayStrings } from '../utils/strings'
+import { daysArray, dayStrings } from '../utils/strings'
 import { flexCenter, inputBack } from '../styles/styleUtils'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 
@@ -24,7 +24,7 @@ const DayInput: React.FC<DayInputProps> = ({
         />
       )}
       <DayPickerTopBox>
-        {dayStrings[value] || title}
+        {dayStrings(value) || title}
         <CalendarIcon onClick={() => setShowPickerPanel(true)} />
       </DayPickerTopBox>
     </>
@@ -62,14 +62,14 @@ const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
   }
 
   const generateDayOptions = () => {
-    const dayArr = Object.keys(dayStrings).map((d: DayStringTypes) => (
+    const dayArr = daysArray.map((d: DayStringTypes) => (
       <PickerOption
         selected={selectedDay === d}
         onClick={() => setSelectedDay(d)}
         key={`${d}-option`}
         ref={selectedDay === d ? dayRef : null}
       >
-        {dayStrings[d]}
+        {dayStrings(d)}
       </PickerOption>
     ))
     return dayArr

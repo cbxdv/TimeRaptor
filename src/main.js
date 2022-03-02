@@ -23,9 +23,6 @@ if (!gotTheLock) {
     // Focussing the initiallly created instance window
     showWindow();
   });
-
-  // Create myWindow, load the rest of the app, etc...
-  // app.on('ready', onReadyHandler);
 }
 
 // Boolean to indicate whethter the app is launching
