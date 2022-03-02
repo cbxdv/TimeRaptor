@@ -62,7 +62,7 @@ ipcMain.on('app:notify', (_, { title, body }) => {
 });
 
 ipcMain.on('app:openRepoLink', () => {
-  shell.openExternal('https://github.com/codecibi/TimeRaptor');
+  shell.openExternal('https://github.com/cbxdv/TimeRaptor');
 });
 
 ipcMain.handle('configs:get', async () => {
@@ -85,13 +85,4 @@ ipcMain.on('timetable:update', async (_, dayData) => {
 
 ipcMain.on('timetable:clear', () => {
   store.delete('timetable');
-});
-
-ipcMain.handle('todos:get', async () => {
-  const todos = await store.get('todos');
-  return todos;
-});
-
-ipcMain.on('todos:update', async (_, todoData) => {
-  store.set('todos', todoData);
 });

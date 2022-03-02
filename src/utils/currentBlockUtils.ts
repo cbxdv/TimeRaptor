@@ -2,7 +2,7 @@ import { Dispatch, PayloadAction } from '@reduxjs/toolkit'
 import { currentTimetableBlockChanged } from '../redux/slices/appSlice'
 import { ITimeStamp } from '../@types/AppInterfaces'
 import { checkCurrent } from './timeUtils'
-import { generateTTTimeStamps } from './notificationUtils'
+import { generateTimeStamps } from './notificationUtils'
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 
 export const getCurrentBlock = (timeStamps: ITimeStamp[]): ITimeStamp => {
@@ -20,7 +20,7 @@ export const currentBlockUpdater = (
   dayData: ITimeBlock[],
   dispatch: Dispatch<PayloadAction<ITimeStamp>>
 ) => {
-  const timeStamps = generateTTTimeStamps(dayData)
+  const timeStamps = generateTimeStamps(dayData)
   const newCurrent = getCurrentBlock(timeStamps)
   dispatch(currentTimetableBlockChanged(newCurrent))
 }

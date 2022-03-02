@@ -13,8 +13,8 @@ import { IState } from '../@types/StateInterfaces'
 import { currentBlockUpdater } from '../utils/currentBlockUtils'
 import { updateTimeStamps } from '../redux/slices/appSlice'
 import {
-  selectTTNotificationState,
-  selectTTShowCurrentBlock
+  selectNotificationState,
+  selectShowCurrentBlock
 } from '../redux/slices/configsSlice'
 
 const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
@@ -23,8 +23,8 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
     selectBlocksByDay(state, dayId)
   )
 
-  const notificationState = useSelector(selectTTNotificationState)
-  const showCurrentBlock = useSelector(selectTTShowCurrentBlock)
+  const notificationState = useSelector(selectNotificationState)
+  const showCurrentBlock = useSelector(selectShowCurrentBlock)
 
   const [isToday, setIsToday] = useState<boolean>(false)
 
@@ -56,7 +56,7 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
   return (
     <DayColumnContainer>
       <div style={{ height: 20, marginBottom: 10, paddingLeft: 5 }}>
-        <DayIndicator isToday={isToday}>{dayStrings[dayId]}</DayIndicator>
+        <DayIndicator isToday={isToday}>{dayStrings(dayId)}</DayIndicator>
       </div>
       <DayColumnMain>
         <TimeBlockContainer>

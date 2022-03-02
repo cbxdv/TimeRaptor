@@ -28,7 +28,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       <ColorPickerTopBox>
         <div className='box-info'>
           <ColorsIndicator color={color} />
-          {varietyColorStrings[color] || title}
+          {varietyColorStrings(color) || title}
         </div>
         <PaletteIcon onClick={() => setShowPickerPanel(true)} />
       </ColorPickerTopBox>
@@ -64,7 +64,7 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
   }
 
   const generateColorBlock = () => {
-    const colors = Object.keys(varietyColorStrings)
+    const colors = Object.keys(varietyColors)
     const colorsElements = colors.map((colorOption: ColorStringTypes) => (
       <ColorOptions
         key={colorOption}
@@ -84,7 +84,7 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
       bodyPadding='0 30px 30px 30px'
       scrollLockDisabled
     >
-      <ColorText>{varietyColorStrings[selectedColor] || ''}</ColorText>
+      <ColorText>{varietyColorStrings(selectedColor) || ''}</ColorText>
       <ColorPickerPanelContainer>
         <PickerContainer>{generateColorBlock()}</PickerContainer>
       </ColorPickerPanelContainer>

@@ -1,6 +1,5 @@
 import { ITimeStamp, PlatformStringTypes } from './AppInterfaces'
 import { IDayData } from './TimetableInterfaces'
-import { ITodo } from './TodoInterfaces'
 import { IAppConfigs, ITimetableConfigs } from './UserConfigInterfaces'
 
 export interface IConfigsState {
@@ -12,12 +11,6 @@ export interface IConfigsState {
 
 export interface ITimetableState {
   dayData: IDayData
-  status: string
-  error: string | null
-}
-
-export interface ITodosState {
-  todosData: ITodo[]
   status: string
   error: string | null
 }
@@ -37,5 +30,4 @@ export interface IState {
   app: IAppState
   configs: IConfigsState
   timetable: ITimetableState
-  todos: ITodosState
 }

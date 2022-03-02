@@ -39,7 +39,9 @@ const CurrentTime = () => {
   return (
     <HeaderBubble
       mainText={currentTime}
-      secText={`${currentDate} - ${currentDay}`}
+      secText={`${currentDate} - ${
+        currentDay[0].toUpperCase() + currentDay.substring(1)
+      }`}
     />
   )
 }

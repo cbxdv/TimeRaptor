@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import {
-  selectTTNotificationState,
-  ttNotificationsToggled
+  selectNotificationState,
+  notificationsToggled
 } from '../redux/slices/configsSlice'
 
 import NotificationsActiveIcon from '../assets/icons/NotificationsActive.svg'
@@ -15,10 +15,10 @@ import { flexCenter, buttonStyles } from '../styles/styleUtils'
 const NotificationsToggle = () => {
   const dispatch = useDispatch()
 
-  const active = useSelector(selectTTNotificationState)
+  const active = useSelector(selectNotificationState)
 
   const toggleNotifications = () => {
-    dispatch(ttNotificationsToggled())
+    dispatch(notificationsToggled())
   }
 
   const keyBindHandler = (event: KeyboardEvent) => {

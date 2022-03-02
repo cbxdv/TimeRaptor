@@ -9,7 +9,7 @@ import {
   fetchTimetableData,
   getElectronContext
 } from '../../utils/electronUtils'
-import { generateTTTimeStamps } from '../../utils/notificationUtils'
+import { generateTimeStamps } from '../../utils/notificationUtils'
 import { ITimeStamp } from '../../@types/AppInterfaces'
 import {
   startNotificationService,
@@ -48,7 +48,7 @@ export const updateTimeStamps = createAsyncThunk(
     const response = await fetchTimetableData()
     const day = getCurrentDayString()
     const dayData = response[day]
-    stamps = generateTTTimeStamps(dayData, stamps)
+    stamps = generateTimeStamps(dayData, stamps)
 
     if (
       notificationState === null ||
@@ -122,7 +122,7 @@ const appSlice = createSlice({
         const currentDay = getCurrentDayString()
         const dayData = action.payload[currentDay]
         const oldStamps = JSON.parse(JSON.stringify(state.timeStamps))
-        state.timeStamps = generateTTTimeStamps(dayData, oldStamps)
+        state.timeStamps = generateTimeStamps(dayData, oldStamps)
       })
       .addCase(updateTimeStamps.fulfilled, (state, action) => {
         state.timeStamps = action.payload

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import {
-  selectTTShowCurrentBlock,
-  selectTTShowCurrentTime
+  selectShowCurrentBlock,
+  selectShowCurrentTime
 } from '../redux/slices/configsSlice'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import GearIcon from '../assets/icons/Gear.svg'
@@ -22,8 +21,8 @@ import { selectPlatform } from '../redux/slices/appSlice'
 
 const TopPanel = () => {
   const platform = useSelector(selectPlatform)
-  const showCurrentTime = useSelector(selectTTShowCurrentTime)
-  const showCurrentBlock = useSelector(selectTTShowCurrentBlock)
+  const showCurrentTime = useSelector(selectShowCurrentTime)
+  const showCurrentBlock = useSelector(selectShowCurrentBlock)
 
   const [showAddPanel, setShowAddPanel] = useState<boolean>(false)
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
@@ -58,9 +57,7 @@ const TopPanel = () => {
         <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
       )}
       <div className='header-section'>
-        <Link to='/'>
-          <img src={Logo} className='header-logo' alt='Time Raptor' />
-        </Link>
+        <img src={Logo} className='header-logo' alt='Time Raptor' />
         <h3>Timetable</h3>
       </div>
       <div className='header-section'>

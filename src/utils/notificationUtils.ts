@@ -2,12 +2,11 @@ import { ITimeStamp } from '../@types/AppInterfaces'
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { getElectronContext } from './electronUtils'
 
-export const generateTTTimeStamps = (
+export const generateTimeStamps = (
   dayData: ITimeBlock[],
   oldStamps: ITimeStamp[] = []
 ) => {
   const stamps: ITimeStamp[] = oldStamps
-  const type = 'timetable'
 
   dayData.forEach((tb: ITimeBlock) => {
     const { id, title, description } = tb
@@ -38,7 +37,6 @@ export const generateTTTimeStamps = (
 
     stamps.push({
       id,
-      type,
       title,
       startTime: startTime.valueOf(),
       endTime: endTime.valueOf(),
