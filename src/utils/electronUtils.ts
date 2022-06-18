@@ -79,3 +79,13 @@ export const reloadWindow = () => {
   const electronContext = getElectronContext()
   electronContext.reloadWindow()
 }
+
+export const openRepo = () => {
+  const electron = getElectronContext()
+  electron.appOpenRepoLink()
+}
+
+export const quitApp = () => {
+  const electron = getElectronContext()
+  electron.quitApp()
+}

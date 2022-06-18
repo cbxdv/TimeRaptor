@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('electron', {
   appNotify: data => ipcRenderer.send('app:notify', data),
   appOpenRepoLink: data => ipcRenderer.send('app:openRepoLink', data),
 
+  quitApp: () => ipcRenderer.send('app:quit'),
   closeWindow: () => ipcRenderer.send('window:close'),
   maximizeWindow: () => ipcRenderer.send('window:maximize'),
   minimizeWindow: () => ipcRenderer.send('window:minimize'),

@@ -22,6 +22,10 @@ ipcMain.handle('app:platform', async () => {
   return platform;
 });
 
+ipcMain.on('app:quit', async () => {
+  app.quit()
+});
+
 ipcMain.on('window:minimize', () => {
   const win = BrowserWindow.getFocusedWindow();
   win.minimize();

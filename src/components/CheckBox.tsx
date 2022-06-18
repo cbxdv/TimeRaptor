@@ -56,11 +56,11 @@ CheckBox.defaultProps = {
 
 const CheckBoxContainer = styled.div`
   ${flexCenter()};
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
   border: 2px solid
     ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
