@@ -1,9 +1,14 @@
+import { NotificationStartPayloadAction } from '../@types/TimeBlockInterfaces'
 import { ITimeStamp, ITimeStampWithStrings } from '../@types/AppInterfaces'
 import { sendNotification } from './notificationUtils'
 
 let notificationTimer: NodeJS.Timer
 
-const notificationService = (timeStamps: ITimeStamp[]) => {
+const notificationService = (
+  timeStamps: ITimeStamp[],
+  startNotification: boolean,
+  endNotification: boolean
+) => {
   let now: Date
   let nowValue = ''
 
@@ -21,14 +26,26 @@ const notificationService = (timeStamps: ITimeStamp[]) => {
     nowValue = now.toLocaleTimeString()
     stamps.forEach(stamp => {
       if (nowValue === stamp.time) {
-        sendNotification(stamp.title, stamp.secText)
+        if (
+          (stamp.secText === 'Starts now' && startNotification) ||
+          (stamp.secText === 'Ends now' && endNotification)
+        ) {
+          sendNotification(stamp.title, stamp.secText)
+        }
       }
     })
   }, 1000)
 }
 
-export const startNotificationService = (timeStamps: ITimeStamp[]) => {
-  notificationService(timeStamps)
+export const startNotificationService = (
+  timeStamps: ITimeStamp[],
+  notificationState: NotificationStartPayloadAction
+) => {
+  notificationService(
+    timeStamps,
+    notificationState.startNotification,
+    notificationState.endNotification
+  )
 }
 
 export const stopNotificationService = () => {

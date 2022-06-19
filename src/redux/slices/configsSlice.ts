@@ -17,7 +17,8 @@ const initialState: IConfigsState = {
       friday: true,
       saturday: true
     },
-    notifications: true,
+    startNotifications: true,
+    endNotifications: true,
     showCurrentTime: true,
     showCurrentBlock: true
   },
@@ -57,10 +58,12 @@ const userConfigsSlice = createSlice({
       state.appConfigs.darkMode = !state.appConfigs.darkMode
       saveConfigToDisk('appConfigs.darkMode', state.appConfigs.darkMode)
     },
+
     closeOnExitToggled(state) {
       state.appConfigs.closeOnExit = !state.appConfigs.closeOnExit
       saveConfigToDisk('appConfigs.closeOnExit', state.appConfigs.closeOnExit)
     },
+
     openMinimizedToggled(state) {
       state.appConfigs.openMinimized = !state.appConfigs.openMinimized
       saveConfigToDisk(
@@ -68,6 +71,7 @@ const userConfigsSlice = createSlice({
         state.appConfigs.openMinimized
       )
     },
+
     showCurrentTimeToggled(state) {
       state.timetableConfigs.showCurrentTime =
         !state.timetableConfigs.showCurrentTime
@@ -76,6 +80,7 @@ const userConfigsSlice = createSlice({
         state.timetableConfigs.showCurrentTime
       )
     },
+
     showCurrentBlockToggled(state) {
       state.timetableConfigs.showCurrentBlock =
         !state.timetableConfigs.showCurrentBlock
@@ -84,14 +89,47 @@ const userConfigsSlice = createSlice({
         state.timetableConfigs.showCurrentBlock
       )
     },
-    notificationsToggled(state) {
-      state.timetableConfigs.notifications =
-        !state.timetableConfigs.notifications
+
+    startNotificationsToggled(state) {
+      state.timetableConfigs.startNotifications =
+        !state.timetableConfigs.startNotifications
       saveConfigToDisk(
-        'timetableConfigs.notifications',
-        state.timetableConfigs.notifications
+        'timetableConfigs.startNotifications',
+        state.timetableConfigs.startNotifications
       )
     },
+
+    endNotificationsToggled(state) {
+      state.timetableConfigs.endNotifications =
+        !state.timetableConfigs.endNotifications
+      saveConfigToDisk(
+        'timetableConfigs.endNotifications',
+        state.timetableConfigs.endNotifications
+      )
+    },
+
+    notificationsToggled(state) {
+      if (
+        state.timetableConfigs.startNotifications ||
+        state.timetableConfigs.endNotifications
+      ) {
+        state.timetableConfigs.startNotifications = false
+        state.timetableConfigs.endNotifications = false
+      } else {
+        state.timetableConfigs.startNotifications = true
+        state.timetableConfigs.endNotifications = true
+      }
+
+      saveConfigToDisk(
+        'timetableConfigs.startNotifications',
+        state.timetableConfigs.startNotifications
+      )
+      saveConfigToDisk(
+        'timetableConfigs.endNotifications',
+        state.timetableConfigs.endNotifications
+      )
+    },
+
     dayToShowToggled(state, action: PayloadAction<DayStringTypes>) {
       state.timetableConfigs.daysToShow[action.payload] =
         !state.timetableConfigs.daysToShow[action.payload]
@@ -120,13 +158,15 @@ const userConfigsSlice = createSlice({
 })
 
 export const {
-  notificationsToggled,
+  startNotificationsToggled,
+  endNotificationsToggled,
   darkModeToggled,
   closeOnExitToggled,
   showCurrentTimeToggled,
   showCurrentBlockToggled,
   openMinimizedToggled,
-  dayToShowToggled
+  dayToShowToggled,
+  notificationsToggled
 } = userConfigsSlice.actions
 
 export default userConfigsSlice.reducer
@@ -136,8 +176,13 @@ export const selectConfigs = (state: IState) => ({
   app: state.configs.appConfigs,
   timetable: state.configs.timetableConfigs
 })
-export const selectNotificationState = (state: IState) =>
-  state.configs.timetableConfigs.notifications
+export const selectNotificationStateCombined = (state: IState) =>
+  state.configs.timetableConfigs.startNotifications ||
+  state.configs.timetableConfigs.endNotifications
+export const selectStartNotification = (state: IState) =>
+  state.configs.timetableConfigs.startNotifications
+export const selectEndNotification = (state: IState) =>
+  state.configs.timetableConfigs.endNotifications
 export const selectDarkMode = (state: IState) =>
   state.configs.appConfigs.darkMode
 export const selectCloseOnExit = (state: IState) =>

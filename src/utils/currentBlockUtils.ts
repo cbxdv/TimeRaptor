@@ -25,12 +25,12 @@ export const currentBlockUpdater = (
 
 export const getCurrentBlockTimeLeftString = (currentBlock: ITimeBlock) => {
   const endTime = new Date()
-  endTime.setHours(
-    currentBlock.endTime.hours,
-    currentBlock.endTime.minutes,
-    0,
-    0
-  )
+  let endHours = currentBlock.endTime.hours
+  const endMinutes = currentBlock.endTime.minutes
+  if (currentBlock.endTime.pm) {
+    endHours += 12
+  }
+  endTime.setHours(endHours, endMinutes, 0, 0)
   const ms = endTime.valueOf() - new Date().valueOf()
   let minutes = Math.round(ms / 1000 / 60)
   if (minutes === 0) minutes = 1

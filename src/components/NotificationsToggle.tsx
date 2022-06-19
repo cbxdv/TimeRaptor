@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import {
-  selectNotificationState,
+  selectNotificationStateCombined,
   notificationsToggled
 } from '../redux/slices/configsSlice'
 
@@ -15,7 +15,7 @@ import { flexCenter, buttonStyles } from '../styles/styleUtils'
 const NotificationsToggle = () => {
   const dispatch = useDispatch()
 
-  const active = useSelector(selectNotificationState)
+  const active = useSelector(selectNotificationStateCombined)
 
   const toggleNotifications = () => {
     dispatch(notificationsToggled())

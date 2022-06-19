@@ -14,7 +14,8 @@ import CheckBox from './CheckBox'
 import {
   selectConfigs,
   darkModeToggled,
-  notificationsToggled,
+  startNotificationsToggled,
+  endNotificationsToggled,
   closeOnExitToggled,
   openMinimizedToggled,
   showCurrentTimeToggled,
@@ -39,14 +40,14 @@ export const AboutTab = () => {
         className='bot-text-sec'
         role='link'
         onClick={openRepo}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', margin: '10px 0' }}
       >
         <EmojiImage src={Octocat} alt='GitHub' />
         <div style={{ position: 'relative' }}>
           <span className='text-link'>GitHub</span>
         </div>
       </EmojiTextContainer>
-      <EmojiTextContainer>
+      <EmojiTextContainer style={{ marginTop: '1px' }}>
         <EmojiImage src={WaveEmoji} alt='Hi!' />
         <span>Made by Cibi</span>
       </EmojiTextContainer>
@@ -111,13 +112,6 @@ export const TimetableConfigsTab = () => {
     <ComponentContainer>
       <OptionsContainer>
         <Option>
-          <OptionText>Notifications</OptionText>
-          <CheckBox
-            checked={configs.timetable.notifications}
-            onClick={() => dispatch(notificationsToggled())}
-          />
-        </Option>
-        <Option>
           <OptionText>Show time on top</OptionText>
           <CheckBox
             checked={configs.timetable.showCurrentTime}
@@ -132,9 +126,32 @@ export const TimetableConfigsTab = () => {
           />
         </Option>
       </OptionsContainer>
-      <div style={{ margin: '20px 0' }}>
+      <div style={{ margin: '20px 0', width: '100%' }}>
+        <h3>Configure Notifications</h3>
+        <div>
+          <OptionsContainer>
+            <Option>
+              <OptionText>Start Notifications</OptionText>
+              <CheckBox
+                checked={configs.timetable.startNotifications}
+                onClick={() => dispatch(startNotificationsToggled())}
+              />
+            </Option>
+            <Option>
+              <OptionText>End Notifications</OptionText>
+              <CheckBox
+                checked={configs.timetable.endNotifications}
+                onClick={() => dispatch(endNotificationsToggled())}
+              />
+            </Option>
+          </OptionsContainer>
+        </div>
+      </div>
+      <div>
         <h3>Configure Days</h3>
-        <DaysToShowComponent />
+        <div style={{ marginBottom: '20px' }}>
+          <DaysToShowComponent />
+        </div>
       </div>
       <div>
         <Option>
@@ -208,6 +225,7 @@ const DaysToShowComponent = () => {
 
 const ComponentContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
+  width: 100%;
   line-height: 2;
 `
 
@@ -218,7 +236,7 @@ const AppLogo = styled.img`
 
 const EmojiTextContainer = styled.div`
   ${flexCenter()};
-  margin: 10px 0;
+  /* margin: 10px 0; */
 
   .text-link {
     &::after {

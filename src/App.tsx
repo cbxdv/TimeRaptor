@@ -9,7 +9,9 @@ import {
   fetchConfigs,
   selectDarkMode,
   darkModeToggled,
-  selectNotificationState
+  selectNotificationStateCombined,
+  selectStartNotification,
+  selectEndNotification
 } from './redux/slices/configsSlice'
 import { fetchBlocks } from './redux/slices/timetableSlice'
 import {
@@ -29,7 +31,9 @@ const MainComponent = () => {
   const dispatch = useDispatch()
   const platform = useSelector(selectPlatform)
   const darkMode = useSelector(selectDarkMode)
-  const notificationState = useSelector(selectNotificationState)
+  const notificationState = useSelector(selectNotificationStateCombined)
+  const startNotificationState = useSelector(selectStartNotification)
+  const endNotificationState = useSelector(selectEndNotification)
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
@@ -40,7 +44,12 @@ const MainComponent = () => {
   useEffect(() => {
     document.addEventListener('keydown', keyBindHandler)
     if (notificationState) {
-      dispatch(notificationServiceStarted())
+      dispatch(
+        notificationServiceStarted({
+          startNotification: startNotificationState,
+          endNotification: endNotificationState
+        })
+      )
     }
     return () => {
       document.removeEventListener('keydown', keyBindHandler)

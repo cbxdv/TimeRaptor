@@ -15,6 +15,7 @@ import {
   startNotificationService,
   stopNotificationService
 } from '../../utils/notificationService'
+import { NotificationStartPayloadAction } from '../../@types/TimeBlockInterfaces'
 
 const initialState: IAppState = {
   timeStamps: [],
@@ -42,7 +43,7 @@ export const fetchAppProps = createAsyncThunk('app/fetch', async () => {
 
 export const updateTimeStamps = createAsyncThunk(
   'app/update',
-  async (notificationState?: boolean) => {
+  async (notificationStates?: NotificationStartPayloadAction) => {
     let stamps: ITimeStamp[] = []
     const response = await fetchTimetableData()
     const day = getCurrentDayString()
@@ -50,12 +51,11 @@ export const updateTimeStamps = createAsyncThunk(
     stamps = generateTimetableTimeStamps(dayData, stamps)
 
     if (
-      notificationState === null ||
-      notificationState === undefined ||
-      notificationState === true
+      notificationStates.startNotification &&
+      notificationStates.endNotification
     ) {
       stopNotificationService()
-      startNotificationService(stamps)
+      startNotificationService(stamps, notificationStates)
     }
 
     return stamps
@@ -75,23 +75,16 @@ const appSlice = createSlice({
     maximizedToggled(state) {
       state.maximized = !state.maximized
     },
-    notificationServiceToggled(
+    notificationServiceStarted(
       state,
-      action?: PayloadAction<{ restart: boolean }>
+      action: PayloadAction<NotificationStartPayloadAction>
     ) {
-      const restart = action.payload ? action.payload.restart : false
-      state.isNotificationServiceRunning = !state.isNotificationServiceRunning
-      if (state.isNotificationServiceRunning || restart) {
-        stopNotificationService()
-        startNotificationService(JSON.parse(JSON.stringify(state.timeStamps)))
-      } else {
-        stopNotificationService()
-      }
-    },
-    notificationServiceStarted(state) {
       state.isNotificationServiceRunning = true
       stopNotificationService()
-      startNotificationService(JSON.parse(JSON.stringify(state.timeStamps)))
+      startNotificationService(
+        JSON.parse(JSON.stringify(state.timeStamps)),
+        action.payload
+      )
     },
     notificationServiceStopped(state) {
       state.isNotificationServiceRunning = false
@@ -136,7 +129,6 @@ export const {
   appLoadingStarted,
   appLoadingStopped,
   maximizedToggled,
-  notificationServiceToggled,
   notificationServiceStarted,
   notificationServiceStopped
 } = appSlice.actions
