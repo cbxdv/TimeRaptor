@@ -40,6 +40,7 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
 
   let tooltipPosition: PositionTypes = 'left'
   switch (day) {
+    case 'sunday':
     case 'monday':
     case 'tuesday':
     case 'wednesday':
