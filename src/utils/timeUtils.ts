@@ -1,3 +1,4 @@
+import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
 
 /**
@@ -171,13 +172,33 @@ export const getCurrentTimeAndDay = (hours24 = false): ITimeObject => {
 
 /**
  * Checks whether the given interval is happening now or not
- * @param startTime Date Objct value for starting timr
- * @param endTime Date object value for ending time
+ * @param timeblock The Time BLock object whose interval has to checked
  * @returns {boolean} - Returns true if the interval is now, or else false
  */
-export const checkCurrent = (startTime: number, endTime: number) => {
-  const currentTime = new Date().valueOf()
-  if (startTime <= currentTime && endTime >= currentTime) {
+export const checkCurrent = (timeblock: ITimeBlock) => {
+  const currentTime = new Date()
+
+  const startTime = new Date()
+  let startHours = timeblock.startTime.hours
+  const startMinutes = timeblock.startTime.minutes
+  if (timeblock.startTime.pm) {
+    startHours = +12
+  }
+  startTime.setHours(startHours, startMinutes, 0, 0)
+
+  const endTime = new Date()
+  let endHours = timeblock.endTime.hours
+  const endMinutes = timeblock.endTime.minutes
+  if (timeblock.endTime.pm) {
+    endHours += 12
+  }
+  endTime.setHours(endHours, endMinutes, 0, 0)
+
+  const currenTimeValue = currentTime.valueOf()
+  const startTimeValue = startTime.valueOf()
+  const endTimeValue = endTime.valueOf()
+
+  if (startTimeValue <= currenTimeValue && endTimeValue >= currenTimeValue) {
     return true
   }
   return false

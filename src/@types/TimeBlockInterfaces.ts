@@ -23,6 +23,8 @@ export interface TimeBlockUpdatePayloadAction {
   newBlock: TimeBlockPayloadAction
 }
 
+export type CurrentTimeBlockUpdatePayloadAction = ITimeBlock | null
+
 export type ColorStringTypes =
   | 'decoPeach'
   | 'deepChampagne'

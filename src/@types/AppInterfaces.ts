@@ -2,16 +2,14 @@ export type PlatformStringTypes = 'darwin' | 'win32' | ''
 
 export interface ITimeStamp {
   id: string
+  time: number
   title: string
-  startTime: number
-  endTime?: number
-  description: string
+  secText: string
 }
 
 export interface ITimeStampWithStrings {
   id: string
   title: string
-  startTime: string
-  endTime?: string
-  description: string
+  time: string
+  secText: string
 }

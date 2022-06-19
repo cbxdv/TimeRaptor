@@ -10,7 +10,6 @@ import TimeBlock from './TimeBlock'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { IState } from '../@types/StateInterfaces'
-import { currentBlockUpdater } from '../utils/currentBlockUtils'
 import { updateTimeStamps } from '../redux/slices/appSlice'
 import {
   selectNotificationState,
@@ -33,7 +32,7 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
   const currentBlockService = () => {
     if (!showCurrentBlock) return
     timer = setInterval(() => {
-      currentBlockUpdater(dayData, dispatch)
+      // currentBlockUpdater(dayData, dispatch)
     }, 60000)
   }
 
@@ -42,7 +41,7 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
     if (now.day === dayId) {
       setIsToday(true)
       dispatch(updateTimeStamps(notificationState))
-      currentBlockUpdater(dayData, dispatch)
+      // currentBlockUpdater(dayData, dispatch)
 
       if (showCurrentBlock) {
         currentBlockService()

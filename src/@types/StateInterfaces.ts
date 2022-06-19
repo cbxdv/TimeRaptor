@@ -1,4 +1,5 @@
 import { ITimeStamp, PlatformStringTypes } from './AppInterfaces'
+import { ITimeBlock } from './TimeBlockInterfaces'
 import { IDayData } from './TimetableInterfaces'
 import { IAppConfigs, ITimetableConfigs } from './UserConfigInterfaces'
 
@@ -11,13 +12,13 @@ export interface IConfigsState {
 
 export interface ITimetableState {
   dayData: IDayData
+  currentTimeBlock: ITimeBlock | null
   status: string
   error: string | null
 }
 
 export interface IAppState {
   timeStamps: ITimeStamp[]
-  timetableCurrentBlock: ITimeStamp | null
   platform: PlatformStringTypes
   appVersion: string
   maximized: boolean

@@ -12,8 +12,7 @@ const notificationService = (timeStamps: ITimeStamp[]) => {
   timeStamps.forEach(ts => {
     stamps.push({
       ...ts,
-      startTime: new Date(ts.startTime).toLocaleTimeString(),
-      endTime: new Date(ts.endTime).toLocaleTimeString()
+      time: new Date(ts.time).toLocaleTimeString()
     })
   })
 
@@ -21,8 +20,8 @@ const notificationService = (timeStamps: ITimeStamp[]) => {
     now = new Date()
     nowValue = now.toLocaleTimeString()
     stamps.forEach(stamp => {
-      if (nowValue === stamp.startTime) {
-        sendNotification(stamp.title, stamp.description)
+      if (nowValue === stamp.time) {
+        sendNotification(stamp.title, stamp.secText)
       }
     })
   }, 1000)

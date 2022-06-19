@@ -9,7 +9,7 @@ import {
   fetchTimetableData,
   getElectronContext
 } from '../../utils/electronUtils'
-import { generateTimeStamps } from '../../utils/notificationUtils'
+import { generateTimetableTimeStamps } from '../../utils/notificationUtils'
 import { ITimeStamp } from '../../@types/AppInterfaces'
 import {
   startNotificationService,
@@ -18,7 +18,6 @@ import {
 
 const initialState: IAppState = {
   timeStamps: [],
-  timetableCurrentBlock: null,
   platform: 'darwin',
   appVersion: '',
   maximized: false,
@@ -48,7 +47,7 @@ export const updateTimeStamps = createAsyncThunk(
     const response = await fetchTimetableData()
     const day = getCurrentDayString()
     const dayData = response[day]
-    stamps = generateTimeStamps(dayData, stamps)
+    stamps = generateTimetableTimeStamps(dayData, stamps)
 
     if (
       notificationState === null ||
@@ -67,9 +66,6 @@ const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    currentTimetableBlockChanged(state, action: PayloadAction<ITimeStamp>) {
-      state.timetableCurrentBlock = action.payload
-    },
     appLoadingStarted(state) {
       state.status = 'loading'
     },
@@ -122,7 +118,7 @@ const appSlice = createSlice({
         const currentDay = getCurrentDayString()
         const dayData = action.payload[currentDay]
         const oldStamps = JSON.parse(JSON.stringify(state.timeStamps))
-        state.timeStamps = generateTimeStamps(dayData, oldStamps)
+        state.timeStamps = generateTimetableTimeStamps(dayData, oldStamps)
       })
       .addCase(updateTimeStamps.fulfilled, (state, action) => {
         state.timeStamps = action.payload
@@ -137,7 +133,6 @@ const appSlice = createSlice({
 export default appSlice.reducer
 
 export const {
-  currentTimetableBlockChanged,
   appLoadingStarted,
   appLoadingStopped,
   maximizedToggled,
@@ -150,8 +145,6 @@ export const {
 export const selectIsNotificationServiceRunning = (state: IState) =>
   state.app.isNotificationServiceRunning
 export const selectTimeStamps = (state: IState) => state.app.timeStamps
-export const selectTTCurrentBlock = (state: IState) =>
-  state.app.timetableCurrentBlock
 export const selectPlatform = (state: IState) => state.app.platform
 export const selectVersion = (state: IState) => state.app.appVersion
 export const selectAppMaximized = (state: IState) => state.app.maximized

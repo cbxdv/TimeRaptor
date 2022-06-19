@@ -1,32 +1,37 @@
-import { Dispatch, PayloadAction } from '@reduxjs/toolkit'
-import { currentTimetableBlockChanged } from '../redux/slices/appSlice'
-import { ITimeStamp } from '../@types/AppInterfaces'
+import { Dispatch } from 'react'
+import { PayloadAction } from '@reduxjs/toolkit'
 import { checkCurrent } from './timeUtils'
-import { generateTimeStamps } from './notificationUtils'
-import { ITimeBlock } from '../@types/TimeBlockInterfaces'
-
-export const getCurrentBlock = (timeStamps: ITimeStamp[]): ITimeStamp => {
-  let newCurrentBlock = null
-
-  timeStamps.forEach(ts => {
-    if (checkCurrent(ts.startTime, ts.endTime)) {
-      newCurrentBlock = ts
-    }
-  })
-  return newCurrentBlock
-}
+import {
+  CurrentTimeBlockUpdatePayloadAction,
+  ITimeBlock
+} from '../@types/TimeBlockInterfaces'
+import { currentBlockUpdated } from '../redux/slices/timetableSlice'
 
 export const currentBlockUpdater = (
   dayData: ITimeBlock[],
-  dispatch: Dispatch<PayloadAction<ITimeStamp>>
+  dispatch: Dispatch<PayloadAction<CurrentTimeBlockUpdatePayloadAction>>
 ) => {
-  const timeStamps = generateTimeStamps(dayData)
-  const newCurrent = getCurrentBlock(timeStamps)
-  dispatch(currentTimetableBlockChanged(newCurrent))
+  if (dayData.length === 0) {
+    dispatch(currentBlockUpdated(null))
+  }
+  let newCurrentBlock = null
+  dayData.forEach((timeblock: ITimeBlock) => {
+    if (checkCurrent(timeblock)) {
+      newCurrentBlock = timeblock
+    }
+  })
+  dispatch(currentBlockUpdated(newCurrentBlock))
 }
 
-export const getCurrentBlockTimeLeft = (currentBlock: ITimeStamp) => {
-  const ms = currentBlock.endTime - new Date().valueOf()
+export const getCurrentBlockTimeLeftString = (currentBlock: ITimeBlock) => {
+  const endTime = new Date()
+  endTime.setHours(
+    currentBlock.endTime.hours,
+    currentBlock.endTime.minutes,
+    0,
+    0
+  )
+  const ms = endTime.valueOf() - new Date().valueOf()
   let minutes = Math.round(ms / 1000 / 60)
   if (minutes === 0) minutes = 1
   return `${minutes} minutes remaining`

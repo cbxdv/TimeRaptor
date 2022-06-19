@@ -10,10 +10,12 @@ import { fetchTimetableData, saveBlocksToDisk } from '../../utils/electronUtils'
 
 import { IState, ITimetableState } from '../../@types/StateInterfaces'
 import {
+  CurrentTimeBlockUpdatePayloadAction,
   TimeBlockPayloadAction,
   TimeBlockUpdatePayloadAction
 } from '../../@types/TimeBlockInterfaces'
 import { DayStringTypes } from '../../@types/DayAndTimeInterfaces'
+import { getCurrentDayString } from '../../utils/timeUtils'
 
 const initialState: ITimetableState = {
   dayData: {
@@ -25,6 +27,7 @@ const initialState: ITimetableState = {
     saturday: [],
     sunday: []
   },
+  currentTimeBlock: null,
   status: 'loading',
   error: null
 }
@@ -84,6 +87,13 @@ const blocksSlice = createSlice({
     blocksCleared(state) {
       state.dayData = initialState.dayData
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
+    },
+
+    currentBlockUpdated(
+      state,
+      action: PayloadAction<CurrentTimeBlockUpdatePayloadAction>
+    ) {
+      state.currentTimeBlock = action.payload
     }
   },
   extraReducers(builder) {
@@ -103,11 +113,24 @@ const blocksSlice = createSlice({
   }
 })
 
-export const { blockAdded, blockDeleted, blockUpdated, blocksCleared } =
-  blocksSlice.actions
+export const {
+  blockAdded,
+  blockDeleted,
+  blockUpdated,
+  blocksCleared,
+  currentBlockUpdated
+} = blocksSlice.actions
 
 export default blocksSlice.reducer
 
 // Selectors
 export const selectBlocksByDay = (state: IState, day: DayStringTypes) =>
   state.timetable.dayData[day]
+
+export const selectBlocksByCurrentDay = (state: IState) => {
+  const currentDay = getCurrentDayString()
+  return state.timetable.dayData[currentDay]
+}
+
+export const selectCurrentBlock = (state: IState) =>
+  state.timetable.currentTimeBlock

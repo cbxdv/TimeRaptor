@@ -49,10 +49,14 @@ const MainComponent = () => {
   })
 
   useEffect(() => {
+    // app loading
     dispatch(appLoadingStarted())
+
     dispatch(fetchConfigs())
     dispatch(fetchBlocks())
     dispatch(fetchAppProps())
+
+    // app loading
     dispatch(appLoadingStopped())
   }, [])
 

@@ -23,7 +23,7 @@ ipcMain.handle('app:platform', async () => {
 });
 
 ipcMain.on('app:quit', async () => {
-  app.quit()
+  app.quit();
 });
 
 ipcMain.on('window:minimize', () => {
