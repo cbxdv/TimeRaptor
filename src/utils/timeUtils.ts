@@ -189,16 +189,16 @@ export const checkCurrent = (timeblock: ITimeBlock) => {
   const endTime = new Date()
   let endHours = timeblock.endTime.hours
   const endMinutes = timeblock.endTime.minutes
-  if (timeblock.endTime.pm) {
+  if (timeblock.endTime.pm && timeblock.endTime.hours !== 12) {
     endHours += 12
   }
   endTime.setHours(endHours, endMinutes, 0, 0)
 
-  const currenTimeValue = currentTime.valueOf()
+  const currentTimeValue = currentTime.valueOf()
   const startTimeValue = startTime.valueOf()
   const endTimeValue = endTime.valueOf()
 
-  if (startTimeValue <= currenTimeValue && endTimeValue >= currenTimeValue) {
+  if (startTimeValue <= currentTimeValue && endTimeValue >= currentTimeValue) {
     return true
   }
   return false

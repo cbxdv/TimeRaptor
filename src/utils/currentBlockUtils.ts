@@ -27,7 +27,7 @@ export const getCurrentBlockTimeLeftString = (currentBlock: ITimeBlock) => {
   const endTime = new Date()
   let endHours = currentBlock.endTime.hours
   const endMinutes = currentBlock.endTime.minutes
-  if (currentBlock.endTime.pm) {
+  if (currentBlock.endTime.pm && currentBlock.endTime.hours !== 12) {
     endHours += 12
   }
   endTime.setHours(endHours, endMinutes, 0, 0)

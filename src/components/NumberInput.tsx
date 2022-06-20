@@ -27,12 +27,12 @@ const NumberInput: React.FC<NumberInputProps> = ({
 
   return (
     <NumberInputContainer>
-      <ButtonContainer role='button' onClick={increment}>
-        <AddIcon />
-      </ButtonContainer>
-      <NumberContainer>{value}</NumberContainer>
       <ButtonContainer role='button' onClick={decrement}>
         <MinusIcon />
+      </ButtonContainer>
+      <NumberContainer>{value}</NumberContainer>
+      <ButtonContainer role='button' onClick={increment}>
+        <AddIcon />
       </ButtonContainer>
     </NumberInputContainer>
   )

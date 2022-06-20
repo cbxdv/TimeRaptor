@@ -10,11 +10,11 @@ import {
   fetchConfigs,
   selectDarkMode,
   darkModeToggled,
-  selectNotificationStateCombined,
-  selectStartNotification,
-  selectEndNotification,
-  selectStartNotificationBefore,
-  selectEndNotificationBefore
+  selectTimetableNotificationStateCombined,
+  selectTimetableStartNotifications,
+  selectTimetableEndNotifications,
+  selectTimetableStartNotificationsBefore,
+  selectTimetableEndNotificationsBefore
 } from './redux/slices/configsSlice'
 import { fetchBlocks } from './redux/slices/timetableSlice'
 import {
@@ -35,11 +35,17 @@ const MainComponent = () => {
   const dispatch = useDispatch()
   const platform = useSelector(selectPlatform)
   const darkMode = useSelector(selectDarkMode)
-  const notificationState = useSelector(selectNotificationStateCombined)
-  const startNotificationState = useSelector(selectStartNotification)
-  const endNotificationState = useSelector(selectEndNotification)
-  const startNotificationBefore = useSelector(selectStartNotificationBefore)
-  const endNotificationBefore = useSelector(selectEndNotificationBefore)
+  const notificationState = useSelector(
+    selectTimetableNotificationStateCombined
+  )
+  const startNotificationsState = useSelector(selectTimetableStartNotifications)
+  const endNotificationsState = useSelector(selectTimetableEndNotifications)
+  const startNotificationsBefore = useSelector(
+    selectTimetableStartNotificationsBefore
+  )
+  const endNotificationsBefore = useSelector(
+    selectTimetableEndNotificationsBefore
+  )
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
@@ -52,10 +58,10 @@ const MainComponent = () => {
     if (notificationState) {
       dispatch(
         notificationServiceStarted({
-          startNotification: startNotificationState,
-          endNotification: endNotificationState,
-          startNotificationBefore,
-          endNotificationBefore
+          startNotifications: startNotificationsState,
+          endNotifications: endNotificationsState,
+          startNotificationsBefore,
+          endNotificationsBefore
         })
       )
     }

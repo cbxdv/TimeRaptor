@@ -12,7 +12,7 @@ import {
 import { generateTimetableTimeStamps } from '../../utils/notificationUtils'
 import { ITimeStamp } from '../../@types/AppInterfaces'
 import {
-  startNotificationService,
+  startNotificationsService,
   stopNotificationService
 } from '../../utils/notificationService'
 import { NotificationStartPayloadAction } from '../../@types/TimeBlockInterfaces'
@@ -51,11 +51,11 @@ export const updateTimeStamps = createAsyncThunk(
     stamps = generateTimetableTimeStamps(dayData, stamps)
 
     if (
-      notificationStates.startNotification &&
-      notificationStates.endNotification
+      notificationStates.startNotifications &&
+      notificationStates.endNotifications
     ) {
       stopNotificationService()
-      startNotificationService(stamps, notificationStates)
+      startNotificationsService(stamps, notificationStates)
     }
 
     return stamps
@@ -81,7 +81,7 @@ const appSlice = createSlice({
     ) {
       state.isNotificationServiceRunning = true
       stopNotificationService()
-      startNotificationService(
+      startNotificationsService(
         JSON.parse(JSON.stringify(state.timeStamps)),
         action.payload
       )

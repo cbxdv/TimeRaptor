@@ -74,7 +74,7 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    showCurrentTimeToggled(state) {
+    timetableShowCurrentTimeToggled(state) {
       state.timetableConfigs.showCurrentTime =
         !state.timetableConfigs.showCurrentTime
       saveConfigToDisk(
@@ -83,7 +83,7 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    showCurrentBlockToggled(state) {
+    timetableShowCurrentBlockToggled(state) {
       state.timetableConfigs.showCurrentBlock =
         !state.timetableConfigs.showCurrentBlock
       saveConfigToDisk(
@@ -92,7 +92,7 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    startNotificationsToggled(state) {
+    timetableStartNotificationsToggled(state) {
       state.timetableConfigs.startNotifications =
         !state.timetableConfigs.startNotifications
       saveConfigToDisk(
@@ -101,7 +101,7 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    endNotificationsToggled(state) {
+    timetableEndNotificationsToggled(state) {
       state.timetableConfigs.endNotifications =
         !state.timetableConfigs.endNotifications
       saveConfigToDisk(
@@ -110,7 +110,7 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    notificationsToggled(state) {
+    timetableNotificationsToggled(state) {
       if (
         state.timetableConfigs.startNotifications ||
         state.timetableConfigs.endNotifications
@@ -132,7 +132,7 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    dayToShowToggled(state, action: PayloadAction<DayStringTypes>) {
+    timetableDaysToShowToggled(state, action: PayloadAction<DayStringTypes>) {
       state.timetableConfigs.daysToShow[action.payload] =
         !state.timetableConfigs.daysToShow[action.payload]
       saveConfigToDisk(
@@ -141,7 +141,10 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    startNotificationsBeforeChanged(state, action: PayloadAction<number>) {
+    timetableStartNotificationsBeforeChanged(
+      state,
+      action: PayloadAction<number>
+    ) {
       state.timetableConfigs.startNotificationsBefore = action.payload
       saveConfigToDisk(
         'timetableConfigs.startNotificationsBefore',
@@ -149,7 +152,10 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    endNotificationsBeforeChanged(state, action: PayloadAction<number>) {
+    timetableEndNotificationsBeforeChanged(
+      state,
+      action: PayloadAction<number>
+    ) {
       state.timetableConfigs.endNotificationsBefore = action.payload
       saveConfigToDisk(
         'timetableConfigs.endNotificationsBefore',
@@ -176,17 +182,17 @@ const userConfigsSlice = createSlice({
 })
 
 export const {
-  startNotificationsToggled,
-  endNotificationsToggled,
+  timetableStartNotificationsToggled,
+  timetableEndNotificationsToggled,
   darkModeToggled,
   closeOnExitToggled,
-  showCurrentTimeToggled,
-  showCurrentBlockToggled,
+  timetableShowCurrentTimeToggled,
+  timetableShowCurrentBlockToggled,
   openMinimizedToggled,
-  dayToShowToggled,
-  notificationsToggled,
-  startNotificationsBeforeChanged,
-  endNotificationsBeforeChanged
+  timetableDaysToShowToggled,
+  timetableNotificationsToggled,
+  timetableStartNotificationsBeforeChanged,
+  timetableEndNotificationsBeforeChanged
 } = userConfigsSlice.actions
 
 export default userConfigsSlice.reducer
@@ -196,24 +202,24 @@ export const selectConfigs = (state: IState) => ({
   app: state.configs.appConfigs,
   timetable: state.configs.timetableConfigs
 })
-export const selectNotificationStateCombined = (state: IState) =>
+export const selectTimetableNotificationStateCombined = (state: IState) =>
   state.configs.timetableConfigs.startNotifications ||
   state.configs.timetableConfigs.endNotifications
-export const selectStartNotification = (state: IState) =>
+export const selectTimetableStartNotifications = (state: IState) =>
   state.configs.timetableConfigs.startNotifications
-export const selectEndNotification = (state: IState) =>
+export const selectTimetableEndNotifications = (state: IState) =>
   state.configs.timetableConfigs.endNotifications
 export const selectDarkMode = (state: IState) =>
   state.configs.appConfigs.darkMode
 export const selectCloseOnExit = (state: IState) =>
   state.configs.appConfigs.closeOnExit
-export const selectShowCurrentTime = (state: IState) =>
+export const selectTimetableShowCurrentTime = (state: IState) =>
   state.configs.timetableConfigs.showCurrentTime
-export const selectShowCurrentBlock = (state: IState) =>
+export const selectTimetableShowCurrentBlock = (state: IState) =>
   state.configs.timetableConfigs.showCurrentBlock
-export const selectDaysToShow = (state: IState) =>
+export const selectTimetableDaysToShow = (state: IState) =>
   state.configs.timetableConfigs.daysToShow
-export const selectStartNotificationBefore = (state: IState) =>
+export const selectTimetableStartNotificationsBefore = (state: IState) =>
   state.configs.timetableConfigs.startNotificationsBefore
-export const selectEndNotificationBefore = (state: IState) =>
+export const selectTimetableEndNotificationsBefore = (state: IState) =>
   state.configs.timetableConfigs.endNotificationsBefore

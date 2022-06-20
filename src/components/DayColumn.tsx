@@ -12,11 +12,11 @@ import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { IState } from '../@types/StateInterfaces'
 import { updateTimeStamps } from '../redux/slices/appSlice'
 import {
-  selectEndNotification,
-  selectEndNotificationBefore,
-  selectShowCurrentBlock,
-  selectStartNotification,
-  selectStartNotificationBefore
+  selectTimetableEndNotifications,
+  selectTimetableEndNotificationsBefore,
+  selectTimetableShowCurrentBlock,
+  selectTimetableStartNotifications,
+  selectTimetableStartNotificationsBefore
 } from '../redux/slices/configsSlice'
 
 const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
@@ -25,11 +25,15 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
     selectBlocksByDay(state, dayId)
   )
 
-  const showCurrentBlock = useSelector(selectShowCurrentBlock)
-  const startNotificationState = useSelector(selectStartNotification)
-  const endNotificationState = useSelector(selectEndNotification)
-  const startNotificationBefore = useSelector(selectStartNotificationBefore)
-  const endNotificationBefore = useSelector(selectEndNotificationBefore)
+  const showCurrentBlock = useSelector(selectTimetableShowCurrentBlock)
+  const startNotificationsState = useSelector(selectTimetableStartNotifications)
+  const endNotificationsState = useSelector(selectTimetableEndNotifications)
+  const startNotificationsBefore = useSelector(
+    selectTimetableStartNotificationsBefore
+  )
+  const endNotificationsBefore = useSelector(
+    selectTimetableEndNotificationsBefore
+  )
 
   const [isToday, setIsToday] = useState<boolean>(false)
 
@@ -48,10 +52,10 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
       setIsToday(true)
       dispatch(
         updateTimeStamps({
-          startNotification: startNotificationState,
-          endNotification: endNotificationState,
-          startNotificationBefore,
-          endNotificationBefore
+          startNotifications: startNotificationsState,
+          endNotifications: endNotificationsState,
+          startNotificationsBefore,
+          endNotificationsBefore
         })
       )
 

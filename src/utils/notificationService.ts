@@ -6,10 +6,10 @@ let notificationTimer: NodeJS.Timer
 
 const notificationService = (
   timeStamps: ITimeStamp[],
-  startNotification: boolean,
-  endNotification: boolean,
-  startNotificationBefore: number,
-  endNotificationBefore: number
+  startNotifications: boolean,
+  endNotifications: boolean,
+  startNotificationsBefore: number,
+  endNotificationsBefore: number
 ) => {
   let now: Date
   let nowValue = ''
@@ -20,14 +20,14 @@ const notificationService = (
     let { secText, time } = ts
 
     if (ts.secText.startsWith('Starts')) {
-      time = ts.time - 60000 * startNotificationBefore
-      if (startNotificationBefore !== 0) {
-        secText = `Starts in ${startNotificationBefore} minutes`
+      time = ts.time - 60000 * startNotificationsBefore
+      if (startNotificationsBefore !== 0) {
+        secText = `Starts in ${startNotificationsBefore} minutes`
       }
     } else {
-      time = ts.time - 60000 * endNotificationBefore
-      if (endNotificationBefore !== 0) {
-        secText = `Ends in ${endNotificationBefore} minutes`
+      time = ts.time - 60000 * endNotificationsBefore
+      if (endNotificationsBefore !== 0) {
+        secText = `Ends in ${endNotificationsBefore} minutes`
       }
     }
 
@@ -44,8 +44,8 @@ const notificationService = (
     stamps.forEach(stamp => {
       if (nowValue === stamp.time) {
         if (
-          (stamp.secText.startsWith('Starts') && startNotification) ||
-          (stamp.secText.endsWith('Ends') && endNotification)
+          (stamp.secText.startsWith('Starts') && startNotifications) ||
+          (stamp.secText.endsWith('Ends') && endNotifications)
         ) {
           sendNotification(stamp.title, stamp.secText)
         }
@@ -54,16 +54,16 @@ const notificationService = (
   }, 1000)
 }
 
-export const startNotificationService = (
+export const startNotificationsService = (
   timeStamps: ITimeStamp[],
   notificationState: NotificationStartPayloadAction
 ) => {
   notificationService(
     timeStamps,
-    notificationState.startNotification,
-    notificationState.endNotification,
-    notificationState.startNotificationBefore,
-    notificationState.endNotificationBefore
+    notificationState.startNotifications,
+    notificationState.endNotifications,
+    notificationState.startNotificationsBefore,
+    notificationState.endNotificationsBefore
   )
 }
 

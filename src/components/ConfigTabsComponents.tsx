@@ -14,16 +14,16 @@ import CheckBox from './CheckBox'
 import {
   selectConfigs,
   darkModeToggled,
-  startNotificationsToggled,
-  endNotificationsToggled,
+  timetableStartNotificationsToggled,
+  timetableEndNotificationsToggled,
   closeOnExitToggled,
   openMinimizedToggled,
-  showCurrentTimeToggled,
-  showCurrentBlockToggled,
-  selectDaysToShow,
-  dayToShowToggled,
-  startNotificationsBeforeChanged,
-  endNotificationsBeforeChanged
+  timetableShowCurrentTimeToggled,
+  timetableShowCurrentBlockToggled,
+  selectTimetableDaysToShow,
+  timetableDaysToShowToggled,
+  timetableStartNotificationsBeforeChanged,
+  timetableEndNotificationsBeforeChanged
 } from '../redux/slices/configsSlice'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { daysArray, dayStrings } from '../utils/strings'
@@ -124,7 +124,7 @@ export const TimetableConfigsTab = () => {
           <OptionConfig>
             <CheckBox
               checked={configs.timetable.showCurrentTime}
-              onClick={() => dispatch(showCurrentTimeToggled())}
+              onClick={() => dispatch(timetableShowCurrentTimeToggled())}
             />
           </OptionConfig>
         </Option>
@@ -133,7 +133,7 @@ export const TimetableConfigsTab = () => {
           <OptionConfig>
             <CheckBox
               checked={configs.timetable.showCurrentBlock}
-              onClick={() => dispatch(showCurrentBlockToggled())}
+              onClick={() => dispatch(timetableShowCurrentBlockToggled())}
             />
           </OptionConfig>
         </Option>
@@ -147,7 +147,7 @@ export const TimetableConfigsTab = () => {
               <OptionConfig>
                 <CheckBox
                   checked={configs.timetable.startNotifications}
-                  onClick={() => dispatch(startNotificationsToggled())}
+                  onClick={() => dispatch(timetableStartNotificationsToggled())}
                 />
               </OptionConfig>
             </Option>
@@ -156,7 +156,7 @@ export const TimetableConfigsTab = () => {
               <OptionConfig>
                 <CheckBox
                   checked={configs.timetable.endNotifications}
-                  onClick={() => dispatch(endNotificationsToggled())}
+                  onClick={() => dispatch(timetableEndNotificationsToggled())}
                 />
               </OptionConfig>
             </Option>
@@ -171,14 +171,14 @@ export const TimetableConfigsTab = () => {
                     value={configs.timetable.startNotificationsBefore}
                     incrementHandler={() => {
                       dispatch(
-                        startNotificationsBeforeChanged(
+                        timetableStartNotificationsBeforeChanged(
                           configs.timetable.startNotificationsBefore + 1
                         )
                       )
                     }}
                     decrementHandler={() => {
                       dispatch(
-                        startNotificationsBeforeChanged(
+                        timetableStartNotificationsBeforeChanged(
                           configs.timetable.startNotificationsBefore - 1
                         )
                       )
@@ -199,14 +199,14 @@ export const TimetableConfigsTab = () => {
                     value={configs.timetable.endNotificationsBefore}
                     incrementHandler={() => {
                       dispatch(
-                        endNotificationsBeforeChanged(
+                        timetableEndNotificationsBeforeChanged(
                           configs.timetable.endNotificationsBefore + 1
                         )
                       )
                     }}
                     decrementHandler={() => {
                       dispatch(
-                        endNotificationsBeforeChanged(
+                        timetableEndNotificationsBeforeChanged(
                           configs.timetable.endNotificationsBefore - 1
                         )
                       )
@@ -240,22 +240,22 @@ export const TimetableConfigsTab = () => {
 
 const DaysToShowComponent = () => {
   const dispatch = useDispatch()
-  const daysToShow = useSelector(selectDaysToShow)
+  const daysToShow = useSelector(selectTimetableDaysToShow)
 
   const toggleDayToShow = (day: DayStringTypes) => {
-    dispatch(dayToShowToggled(day))
+    dispatch(timetableDaysToShowToggled(day))
   }
 
   const toggleWeekendDaysToShow = () => {
     if ((daysToShow.saturday && daysToShow.sunday) === true) {
-      dispatch(dayToShowToggled('saturday'))
-      dispatch(dayToShowToggled('sunday'))
+      dispatch(timetableDaysToShowToggled('saturday'))
+      dispatch(timetableDaysToShowToggled('sunday'))
     } else {
       if (daysToShow.saturday === false) {
-        dispatch(dayToShowToggled('saturday'))
+        dispatch(timetableDaysToShowToggled('saturday'))
       }
       if (daysToShow.sunday === false) {
-        dispatch(dayToShowToggled('sunday'))
+        dispatch(timetableDaysToShowToggled('sunday'))
       }
     }
   }

@@ -1,42 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
-import {
-  selectShowCurrentBlock,
-  selectShowCurrentTime
-} from '../redux/slices/configsSlice'
-import AddBlockIcon from '../assets/icons/AddBlock.svg'
-import GearIcon from '../assets/icons/Gear.svg'
 import Logo from '../assets/Logo.png'
-import CurrentTime from './CurrentTime'
-import CurrentBlock from './CurrentBlock'
-import IconButton from './IconButton'
-import NotificationsToggle from './NotificationsToggle'
-import TimeBlockEditor from './TimeBlockEditor'
-import ConfigsPanel from './ConfigsPanel'
 import { closeWindow, reloadWindow } from '../utils/electronUtils'
 import { flexCenter } from '../styles/styleUtils'
 import { selectPlatform } from '../redux/slices/appSlice'
 
-const TopPanel = () => {
+const Header: React.FC<HeaderProps> = ({
+  title,
+  headerBubble1,
+  headerBubble2,
+  actions
+}) => {
   const navigate = useNavigate()
 
   const platform = useSelector(selectPlatform)
-  const showCurrentTime = useSelector(selectShowCurrentTime)
-  const showCurrentBlock = useSelector(selectShowCurrentBlock)
-
-  const [showAddPanel, setShowAddPanel] = useState<boolean>(false)
-  const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
 
   const keyBindHandler = (event: KeyboardEvent) => {
-    if ((event.key === 'a' || event.key === 'A') && event.ctrlKey) {
-      setShowAddPanel(true)
-    }
-    if (event.key === ',' && event.ctrlKey) {
-      setShowUConfigPanel(true)
-    }
     if ((event.key === 'q' || event.key === 'Q') && event.ctrlKey) {
       closeWindow()
     }
@@ -51,14 +33,9 @@ const TopPanel = () => {
       document.removeEventListener('keydown', keyBindHandler)
     }
   })
+
   return (
-    <Header platform={platform}>
-      {showAddPanel && (
-        <TimeBlockEditor closeHandler={() => setShowAddPanel(false)} />
-      )}
-      {showUConfigPanel && (
-        <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
-      )}
+    <HeaderContainer platform={platform}>
       <div className='header-section'>
         <div
           onClick={() => navigate(-1)}
@@ -67,35 +44,32 @@ const TopPanel = () => {
         >
           <img src={Logo} className='header-logo' alt='Time Raptor' />
         </div>
-        <h3>Timetable</h3>
+        <h3>{title}</h3>
       </div>
       <div className='header-section'>
-        <div className='hb-cont'>{showCurrentTime && <CurrentTime />}</div>
-        <div className='hb-cont'>{showCurrentBlock && <CurrentBlock />}</div>
+        <div className='hb-cont'>{headerBubble1}</div>
+        <div className='hb-cont'>{headerBubble2}</div>
       </div>
-      <div className='header-section'>
-        <div>
-          <IconButton
-            label='Add'
-            Icon={AddBlockIcon}
-            onClick={() => setShowAddPanel(!showAddPanel)}
-          />
-        </div>
-        <div className='hb-cont'>
-          <NotificationsToggle />
-        </div>
-        <div className='hb-cont'>
-          <IconButton
-            Icon={GearIcon}
-            onClick={() => setShowUConfigPanel(!showUConfigPanel)}
-          />
-        </div>
-      </div>
-    </Header>
+      <div className='header-section'>{actions}</div>
+    </HeaderContainer>
   )
 }
 
-const Header = styled.div<{ platform: string }>`
+type HeaderProps = {
+  title?: string
+  headerBubble1?: React.ReactElement
+  headerBubble2?: React.ReactElement
+  actions?: React.ReactElement
+}
+
+Header.defaultProps = {
+  title: 'Time Raptor',
+  headerBubble1: null,
+  headerBubble2: null,
+  actions: null
+}
+
+const HeaderContainer = styled.div<{ platform: string }>`
   background-color: ${({ theme }) => theme.secondary};
   ${flexCenter({ justifyContent: 'space-between' })};
   padding: 20px 30px;
@@ -121,4 +95,4 @@ const Header = styled.div<{ platform: string }>`
   }
 `
 
-export default TopPanel
+export default Header

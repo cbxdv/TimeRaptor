@@ -1,48 +1,27 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
 import styled from 'styled-components'
-
-import {
-  selectNotificationStateCombined,
-  notificationsToggled
-} from '../redux/slices/configsSlice'
 
 import NotificationsActiveIcon from '../assets/icons/NotificationsActive.svg'
 import NotificationsOffIcon from '../assets/icons/NotificationsOff.svg'
 
 import { flexCenter, buttonStyles } from '../styles/styleUtils'
 
-const NotificationsToggle = () => {
-  const dispatch = useDispatch()
+const NotificationsToggle: React.FC<NotificationToggleProps> = ({
+  active,
+  toggleNotifications
+}) => (
+  <NTContainer onClick={toggleNotifications}>
+    {!active ? (
+      <NotificationsOffIcon fill='red' />
+    ) : (
+      <NotificationsActiveIcon />
+    )}
+  </NTContainer>
+)
 
-  const active = useSelector(selectNotificationStateCombined)
-
-  const toggleNotifications = () => {
-    dispatch(notificationsToggled())
-  }
-
-  const keyBindHandler = (event: KeyboardEvent) => {
-    if ((event.key === 'n' || event.key === 'N') && event.ctrlKey) {
-      toggleNotifications()
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindHandler)
-    return () => {
-      document.removeEventListener('keydown', keyBindHandler)
-    }
-  })
-
-  return (
-    <NTContainer onClick={toggleNotifications}>
-      {!active ? (
-        <NotificationsOffIcon fill='red' />
-      ) : (
-        <NotificationsActiveIcon />
-      )}
-    </NTContainer>
-  )
+type NotificationToggleProps = {
+  active: boolean
+  toggleNotifications: () => void
 }
 
 const NTContainer = styled.button`
