@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import { flexCenter } from '../styles/styleUtils'
+import { emojiTextStyles, flexCenter } from '../styles/styleUtils'
 import Logo from '../assets/Logo.png'
 import { selectVersion } from '../redux/slices/appSlice'
 import Octocat from '../assets/icons/Octocat.png'
@@ -40,18 +40,17 @@ export const AboutTab = () => {
       <h2>Time Raptor</h2>
       App Version {appVersion}
       <EmojiTextContainer
-        className='bot-text-sec'
         role='link'
         onClick={openRepo}
         style={{ cursor: 'pointer', margin: '10px 0' }}
       >
-        <EmojiImage src={Octocat} alt='GitHub' />
+        <img className='text-image' src={Octocat} alt='GitHub' />
         <div style={{ position: 'relative' }}>
           <span className='text-link'>GitHub</span>
         </div>
       </EmojiTextContainer>
       <EmojiTextContainer style={{ marginTop: '1px' }}>
-        <EmojiImage src={WaveEmoji} alt='Hi!' />
+        <img className='text-image' src={WaveEmoji} alt='Hi!' />
         <span>Made by Cibi</span>
       </EmojiTextContainer>
     </ComponentContainer>
@@ -100,7 +99,7 @@ export const AppConfigsTab = () => {
               onClick={quitApp}
               style={{ cursor: 'pointer' }}
             >
-              <EmojiImage src={CrossEmoji} alt='Quit' />
+              <img className='text-image' src={CrossEmoji} alt='Quit' />
               <div style={{ position: 'relative' }}>
                 <span className='text-link'>Quit app</span>
               </div>
@@ -281,9 +280,19 @@ const DaysToShowComponent = () => {
     dayOptions.push(
       <Option key='ShowDayOption-weekend'>
         <OptionText style={{ color: '#fd2513' }}>
-          <EmojiImage src={PartyPopperEmoji} alt='Party Popper' />
-          Weekend
-          <EmojiImage src={PartyPopperEmoji} alt='Party Popper' />
+          <EmojiTextContainer style={{ justifyContent: 'flex-start' }}>
+            <img
+              className='text-image'
+              src={PartyPopperEmoji}
+              alt='Party Popper'
+            />
+            Weekend
+            <img
+              className='text-image'
+              src={PartyPopperEmoji}
+              alt='Party Popper'
+            />
+          </EmojiTextContainer>
         </OptionText>
         <OptionConfig>
           <CheckBox
@@ -312,24 +321,7 @@ const AppLogo = styled.img`
 `
 
 const EmojiTextContainer = styled.div`
-  ${flexCenter()};
-  /* margin: 10px 0; */
-
-  .text-link {
-    &::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      bottom: 2px;
-      left: 0;
-      border: 1px solid ${({ theme }) => theme.text};
-    }
-  }
-`
-
-const EmojiImage = styled.img`
-  height: 20px;
-  margin: 0 10px;
+  ${emojiTextStyles()};
 `
 
 const OptionsContainer = styled.div`

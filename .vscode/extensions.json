@@ -2,7 +2,8 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "styled-components.vscode-styled-components",
-    "EditorConfig.EditorConfig",
-    "dbaeumer.vscode-eslint"
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    "cssho.vscode-svgviewer"
   ]
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 import {
@@ -20,6 +21,8 @@ import { flexCenter } from '../styles/styleUtils'
 import { selectPlatform } from '../redux/slices/appSlice'
 
 const TopPanel = () => {
+  const navigate = useNavigate()
+
   const platform = useSelector(selectPlatform)
   const showCurrentTime = useSelector(selectShowCurrentTime)
   const showCurrentBlock = useSelector(selectShowCurrentBlock)
@@ -57,7 +60,13 @@ const TopPanel = () => {
         <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
       )}
       <div className='header-section'>
-        <img src={Logo} className='header-logo' alt='Time Raptor' />
+        <div
+          onClick={() => navigate(-1)}
+          role='button'
+          style={{ cursor: 'pointer' }}
+        >
+          <img src={Logo} className='header-logo' alt='Time Raptor' />
+        </div>
         <h3>Timetable</h3>
       </div>
       <div className='header-section'>

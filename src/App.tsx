@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider, useSelector, useDispatch } from 'react-redux'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import store from './redux/store'
@@ -28,6 +29,7 @@ import Win32Controls from './components/Win32Controls'
 import { darkThemeColors, lightThemeColors } from './styles/styleConstants'
 
 import TimetablePage from './pages/TimetablePage'
+import MainPage from './pages/HomePage'
 
 const MainComponent = () => {
   const dispatch = useDispatch()
@@ -78,14 +80,20 @@ const MainComponent = () => {
   return (
     <ThemeProvider theme={darkMode ? darkThemeColors : lightThemeColors}>
       {platform === 'win32' && <Win32Controls />}
-      <TimetablePage />
+      <Routes>
+        {/* <TimetablePage /> */}
+        <Route path='/' element={<MainPage />} />
+        <Route path='/timetable' element={<TimetablePage />} />
+      </Routes>
     </ThemeProvider>
   )
 }
 
 const App = () => (
   <Provider store={store}>
-    <MainComponent />
+    <HashRouter>
+      <MainComponent />
+    </HashRouter>
   </Provider>
 )
 

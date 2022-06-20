@@ -73,3 +73,24 @@ export const inputBack = () => css`
     color: ${({ theme }) => theme.shade1};
   }
 `
+
+export const emojiTextStyles = () => css`
+  ${flexCenter()};
+  line-height: 2;
+
+  .text-link {
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      bottom: 4px;
+      left: 0;
+      border: 1px solid ${({ theme }) => theme.text};
+    }
+  }
+
+  .text-image {
+    height: 20px;
+    margin: 0 10px;
+  }
+`
