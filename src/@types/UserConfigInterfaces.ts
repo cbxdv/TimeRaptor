@@ -18,6 +18,8 @@ export interface IAppConfigs {
 export interface ITimetableConfigs {
   startNotifications?: boolean
   endNotifications?: boolean
+  startNotificationsBefore?: number
+  endNotificationsBefore?: number
   showCurrentTime?: boolean
   showCurrentBlock?: boolean
   daysToShow: DaysToShow

@@ -7,7 +7,9 @@ let notificationTimer: NodeJS.Timer
 const notificationService = (
   timeStamps: ITimeStamp[],
   startNotification: boolean,
-  endNotification: boolean
+  endNotification: boolean,
+  startNotificationBefore: number,
+  endNotificationBefore: number
 ) => {
   let now: Date
   let nowValue = ''
@@ -15,9 +17,24 @@ const notificationService = (
   const stamps: ITimeStampWithStrings[] = []
 
   timeStamps.forEach(ts => {
+    let { secText, time } = ts
+
+    if (ts.secText.startsWith('Starts')) {
+      time = ts.time - 60000 * startNotificationBefore
+      if (startNotificationBefore !== 0) {
+        secText = `Starts in ${startNotificationBefore} minutes`
+      }
+    } else {
+      time = ts.time - 60000 * endNotificationBefore
+      if (endNotificationBefore !== 0) {
+        secText = `Ends in ${endNotificationBefore} minutes`
+      }
+    }
+
     stamps.push({
       ...ts,
-      time: new Date(ts.time).toLocaleTimeString()
+      time: new Date(time).toLocaleTimeString(),
+      secText
     })
   })
 
@@ -27,8 +44,8 @@ const notificationService = (
     stamps.forEach(stamp => {
       if (nowValue === stamp.time) {
         if (
-          (stamp.secText === 'Starts now' && startNotification) ||
-          (stamp.secText === 'Ends now' && endNotification)
+          (stamp.secText.startsWith('Starts') && startNotification) ||
+          (stamp.secText.endsWith('Ends') && endNotification)
         ) {
           sendNotification(stamp.title, stamp.secText)
         }
@@ -44,7 +61,9 @@ export const startNotificationService = (
   notificationService(
     timeStamps,
     notificationState.startNotification,
-    notificationState.endNotification
+    notificationState.endNotification,
+    notificationState.startNotificationBefore,
+    notificationState.endNotificationBefore
   )
 }
 

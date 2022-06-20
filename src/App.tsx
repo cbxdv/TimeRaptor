@@ -11,7 +11,9 @@ import {
   darkModeToggled,
   selectNotificationStateCombined,
   selectStartNotification,
-  selectEndNotification
+  selectEndNotification,
+  selectStartNotificationBefore,
+  selectEndNotificationBefore
 } from './redux/slices/configsSlice'
 import { fetchBlocks } from './redux/slices/timetableSlice'
 import {
@@ -34,6 +36,8 @@ const MainComponent = () => {
   const notificationState = useSelector(selectNotificationStateCombined)
   const startNotificationState = useSelector(selectStartNotification)
   const endNotificationState = useSelector(selectEndNotification)
+  const startNotificationBefore = useSelector(selectStartNotificationBefore)
+  const endNotificationBefore = useSelector(selectEndNotificationBefore)
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
@@ -47,7 +51,9 @@ const MainComponent = () => {
       dispatch(
         notificationServiceStarted({
           startNotification: startNotificationState,
-          endNotification: endNotificationState
+          endNotification: endNotificationState,
+          startNotificationBefore,
+          endNotificationBefore
         })
       )
     }

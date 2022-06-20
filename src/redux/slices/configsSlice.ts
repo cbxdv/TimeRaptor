@@ -19,6 +19,8 @@ const initialState: IConfigsState = {
     },
     startNotifications: true,
     endNotifications: true,
+    startNotificationsBefore: 0,
+    endNotificationsBefore: 0,
     showCurrentTime: true,
     showCurrentBlock: true
   },
@@ -137,6 +139,22 @@ const userConfigsSlice = createSlice({
         'timetableConfigs.daysToShow',
         JSON.parse(JSON.stringify(state.timetableConfigs.daysToShow))
       )
+    },
+
+    startNotificationsBeforeChanged(state, action: PayloadAction<number>) {
+      state.timetableConfigs.startNotificationsBefore = action.payload
+      saveConfigToDisk(
+        'timetableConfigs.startNotificationsBefore',
+        action.payload
+      )
+    },
+
+    endNotificationsBeforeChanged(state, action: PayloadAction<number>) {
+      state.timetableConfigs.endNotificationsBefore = action.payload
+      saveConfigToDisk(
+        'timetableConfigs.endNotificationsBefore',
+        action.payload
+      )
     }
   },
   extraReducers(builder) {
@@ -166,7 +184,9 @@ export const {
   showCurrentBlockToggled,
   openMinimizedToggled,
   dayToShowToggled,
-  notificationsToggled
+  notificationsToggled,
+  startNotificationsBeforeChanged,
+  endNotificationsBeforeChanged
 } = userConfigsSlice.actions
 
 export default userConfigsSlice.reducer
@@ -193,3 +213,7 @@ export const selectShowCurrentBlock = (state: IState) =>
   state.configs.timetableConfigs.showCurrentBlock
 export const selectDaysToShow = (state: IState) =>
   state.configs.timetableConfigs.daysToShow
+export const selectStartNotificationBefore = (state: IState) =>
+  state.configs.timetableConfigs.startNotificationsBefore
+export const selectEndNotificationBefore = (state: IState) =>
+  state.configs.timetableConfigs.endNotificationsBefore

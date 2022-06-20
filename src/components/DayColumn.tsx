@@ -13,8 +13,10 @@ import { IState } from '../@types/StateInterfaces'
 import { updateTimeStamps } from '../redux/slices/appSlice'
 import {
   selectEndNotification,
+  selectEndNotificationBefore,
   selectShowCurrentBlock,
-  selectStartNotification
+  selectStartNotification,
+  selectStartNotificationBefore
 } from '../redux/slices/configsSlice'
 
 const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
@@ -26,6 +28,8 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
   const showCurrentBlock = useSelector(selectShowCurrentBlock)
   const startNotificationState = useSelector(selectStartNotification)
   const endNotificationState = useSelector(selectEndNotification)
+  const startNotificationBefore = useSelector(selectStartNotificationBefore)
+  const endNotificationBefore = useSelector(selectEndNotificationBefore)
 
   const [isToday, setIsToday] = useState<boolean>(false)
 
@@ -45,7 +49,9 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
       dispatch(
         updateTimeStamps({
           startNotification: startNotificationState,
-          endNotification: endNotificationState
+          endNotification: endNotificationState,
+          startNotificationBefore,
+          endNotificationBefore
         })
       )
 

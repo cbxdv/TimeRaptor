@@ -21,12 +21,15 @@ import {
   showCurrentTimeToggled,
   showCurrentBlockToggled,
   selectDaysToShow,
-  dayToShowToggled
+  dayToShowToggled,
+  startNotificationsBeforeChanged,
+  endNotificationsBeforeChanged
 } from '../redux/slices/configsSlice'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { daysArray, dayStrings } from '../utils/strings'
 import TextButton from './TextButton'
 import { blocksCleared } from '../redux/slices/timetableSlice'
+import NumberInput from './NumberInput'
 
 export const AboutTab = () => {
   const appVersion = useSelector(selectVersion)
@@ -65,24 +68,30 @@ export const AppConfigsTab = () => {
       <OptionsContainer>
         <Option>
           <OptionText>Dark Mode</OptionText>
-          <CheckBox
-            checked={configs.app.darkMode}
-            onClick={() => dispatch(darkModeToggled())}
-          />
+          <OptionConfig>
+            <CheckBox
+              checked={configs.app.darkMode}
+              onClick={() => dispatch(darkModeToggled())}
+            />
+          </OptionConfig>
         </Option>
         <Option>
           <OptionText>Close on exit</OptionText>
-          <CheckBox
-            checked={configs.app.closeOnExit}
-            onClick={() => dispatch(closeOnExitToggled())}
-          />
+          <OptionConfig>
+            <CheckBox
+              checked={configs.app.closeOnExit}
+              onClick={() => dispatch(closeOnExitToggled())}
+            />
+          </OptionConfig>
         </Option>
         <Option>
           <OptionText>Open minimized</OptionText>
-          <CheckBox
-            checked={configs.app.openMinimized}
-            onClick={() => dispatch(openMinimizedToggled())}
-          />
+          <OptionConfig>
+            <CheckBox
+              checked={configs.app.openMinimized}
+              onClick={() => dispatch(openMinimizedToggled())}
+            />
+          </OptionConfig>
         </Option>
         <Option>
           <OptionText>
@@ -113,17 +122,21 @@ export const TimetableConfigsTab = () => {
       <OptionsContainer>
         <Option>
           <OptionText>Show time on top</OptionText>
-          <CheckBox
-            checked={configs.timetable.showCurrentTime}
-            onClick={() => dispatch(showCurrentTimeToggled())}
-          />
+          <OptionConfig>
+            <CheckBox
+              checked={configs.timetable.showCurrentTime}
+              onClick={() => dispatch(showCurrentTimeToggled())}
+            />
+          </OptionConfig>
         </Option>
         <Option>
           <OptionText>Show current block on top</OptionText>
-          <CheckBox
-            checked={configs.timetable.showCurrentBlock}
-            onClick={() => dispatch(showCurrentBlockToggled())}
-          />
+          <OptionConfig>
+            <CheckBox
+              checked={configs.timetable.showCurrentBlock}
+              onClick={() => dispatch(showCurrentBlockToggled())}
+            />
+          </OptionConfig>
         </Option>
       </OptionsContainer>
       <div style={{ margin: '20px 0', width: '100%' }}>
@@ -132,18 +145,78 @@ export const TimetableConfigsTab = () => {
           <OptionsContainer>
             <Option>
               <OptionText>Start Notifications</OptionText>
-              <CheckBox
-                checked={configs.timetable.startNotifications}
-                onClick={() => dispatch(startNotificationsToggled())}
-              />
+              <OptionConfig>
+                <CheckBox
+                  checked={configs.timetable.startNotifications}
+                  onClick={() => dispatch(startNotificationsToggled())}
+                />
+              </OptionConfig>
             </Option>
             <Option>
               <OptionText>End Notifications</OptionText>
-              <CheckBox
-                checked={configs.timetable.endNotifications}
-                onClick={() => dispatch(endNotificationsToggled())}
-              />
+              <OptionConfig>
+                <CheckBox
+                  checked={configs.timetable.endNotifications}
+                  onClick={() => dispatch(endNotificationsToggled())}
+                />
+              </OptionConfig>
             </Option>
+            <OptionSingle>
+              <OptionConfig style={{ justifyContent: 'flex-start' }}>
+                Start before
+                <div style={{ margin: '0 10px' }}>
+                  <NumberInput
+                    start={0}
+                    end={55}
+                    step={1}
+                    value={configs.timetable.startNotificationsBefore}
+                    incrementHandler={() => {
+                      dispatch(
+                        startNotificationsBeforeChanged(
+                          configs.timetable.startNotificationsBefore + 1
+                        )
+                      )
+                    }}
+                    decrementHandler={() => {
+                      dispatch(
+                        startNotificationsBeforeChanged(
+                          configs.timetable.startNotificationsBefore - 1
+                        )
+                      )
+                    }}
+                  />
+                </div>
+                minutes
+              </OptionConfig>
+            </OptionSingle>
+            <OptionSingle>
+              <OptionConfig style={{ justifyContent: 'flex-start' }}>
+                End before
+                <div style={{ margin: '0 10px' }}>
+                  <NumberInput
+                    start={0}
+                    end={55}
+                    step={1}
+                    value={configs.timetable.endNotificationsBefore}
+                    incrementHandler={() => {
+                      dispatch(
+                        endNotificationsBeforeChanged(
+                          configs.timetable.endNotificationsBefore + 1
+                        )
+                      )
+                    }}
+                    decrementHandler={() => {
+                      dispatch(
+                        endNotificationsBeforeChanged(
+                          configs.timetable.endNotificationsBefore - 1
+                        )
+                      )
+                    }}
+                  />
+                </div>
+                minutes
+              </OptionConfig>
+            </OptionSingle>
           </OptionsContainer>
         </div>
       </div>
@@ -195,10 +268,12 @@ const DaysToShowComponent = () => {
       dayOptions.push(
         <Option key={`ShowDayOption-${day}`}>
           <OptionText>{dayStrings(day)}</OptionText>
-          <CheckBox
-            checked={daysToShow[day]}
-            onClick={() => toggleDayToShow(day)}
-          />
+          <OptionConfig>
+            <CheckBox
+              checked={daysToShow[day]}
+              onClick={() => toggleDayToShow(day)}
+            />
+          </OptionConfig>
         </Option>
       )
     })
@@ -210,10 +285,12 @@ const DaysToShowComponent = () => {
           Weekend
           <EmojiImage src={PartyPopperEmoji} alt='Party Popper' />
         </OptionText>
-        <CheckBox
-          checked={daysToShow.saturday && daysToShow.sunday}
-          onClick={toggleWeekendDaysToShow}
-        />
+        <OptionConfig>
+          <CheckBox
+            checked={daysToShow.saturday && daysToShow.sunday}
+            onClick={toggleWeekendDaysToShow}
+          />
+        </OptionConfig>
       </Option>
     )
 
@@ -258,13 +335,24 @@ const EmojiImage = styled.img`
 const OptionsContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 5px 20px;
+  grid-gap: 5px 30px;
 `
 
 const Option = styled.div`
-  ${flexCenter({ flexDirection: 'row' })};
+  /* ${flexCenter({ flexDirection: 'row' })}; */
+  display: grid;
+  grid-template-columns: 250px 30px;
 `
 
 const OptionText = styled.div`
   width: 250px;
+`
+
+const OptionConfig = styled.div`
+  ${flexCenter()};
+  width: 100%;
+`
+
+const OptionSingle = styled.div`
+  ${flexCenter()};
 `
