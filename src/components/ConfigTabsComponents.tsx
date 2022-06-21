@@ -309,6 +309,8 @@ const DaysToShowComponent = () => {
   return <OptionsContainer>{generateOptions()}</OptionsContainer>
 }
 
+export const TodosConfigsTab = () => <div>Todos Config</div>
+
 const ComponentContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   width: 100%;

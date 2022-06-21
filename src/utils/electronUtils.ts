@@ -1,4 +1,5 @@
-import { IDayData } from '../@types/TimetableInterfaces'
+import { ITodoDayData } from '../@types/TodoInterface'
+import { ITimetableDayData } from '../@types/TimetableInterfaces'
 
 /**
  * Extracts and returns the electron context object defined at window.
@@ -19,35 +20,6 @@ export const getElectronContext = () => {
     console.log('Error connecting to context. Try restarting app.')
   }
   return null
-}
-
-export const fetchTimetableData = async () => {
-  const initialData: IDayData = {
-    monday: [],
-    tuesday: [],
-    wednesday: [],
-    thursday: [],
-    friday: [],
-    saturday: [],
-    sunday: []
-  }
-  const electron = getElectronContext()
-  const response = await electron.getAllTimeBlocks()
-  if (!response) {
-    return initialData
-  }
-  if (Object.keys(response).length !== 7) {
-    return {
-      ...initialData,
-      ...response
-    }
-  }
-  return response
-}
-
-export const saveBlocksToDisk = (dayData: IDayData) => {
-  const electronContext = getElectronContext()
-  electronContext.updateTimeBlocks(dayData)
 }
 
 export const saveConfigToDisk = (configName: string, configValue: unknown) => {
@@ -88,4 +60,58 @@ export const openRepo = () => {
 export const quitApp = () => {
   const electron = getElectronContext()
   electron.quitApp()
+}
+
+export const fetchTimetableData = async () => {
+  const initialData: ITimetableDayData = {
+    monday: [],
+    tuesday: [],
+    wednesday: [],
+    thursday: [],
+    friday: [],
+    saturday: [],
+    sunday: []
+  }
+  const electron = getElectronContext()
+  const response = await electron.getAllTimeBlocks()
+  if (!response) {
+    return initialData
+  }
+  if (Object.keys(response).length !== 7) {
+    return {
+      ...initialData,
+      ...response
+    }
+  }
+  return response
+}
+
+export const saveBlocksToDisk = (dayData: ITimetableDayData) => {
+  const electronContext = getElectronContext()
+  electronContext.updateTimeBlocks(dayData)
+}
+
+export const fetchTodosData = async () => {
+  const initialData: ITodoDayData = {
+    today: [],
+    tomorrow: [],
+    later: []
+  }
+  const electron = getElectronContext()
+  const response = await electron.getAllTodos()
+  if (!response) {
+    return response
+  }
+  if (Object.keys(response).length !== 3) {
+    return {
+      ...initialData,
+      ...response
+    }
+  }
+  return response
+}
+
+export const updateTodosToDisk = (dayData: ITodoDayData) => {
+  const electronContext = getElectronContext()
+  electronContext.updateTodos(dayData)
 }

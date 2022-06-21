@@ -6,7 +6,8 @@ import { flexCenter } from '../styles/styleUtils'
 import {
   AboutTab,
   AppConfigsTab,
-  TimetableConfigsTab
+  TimetableConfigsTab,
+  TodosConfigsTab
 } from './ConfigTabsComponents'
 
 const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
@@ -26,6 +27,8 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
         return <AppConfigsTab />
       case 'timetable':
         return <TimetableConfigsTab />
+      case 'todos':
+        return <TodosConfigsTab />
       default:
         return <div />
     }
@@ -49,6 +52,12 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
               Timetable
             </TabOptionContainer>
             <TabOptionContainer
+              selected={currentTab === 'todos'}
+              onClick={() => tabSwitch('todos')}
+            >
+              Todos
+            </TabOptionContainer>
+            <TabOptionContainer
               selected={currentTab === 'about'}
               onClick={() => tabSwitch('about')}
             >
@@ -66,7 +75,7 @@ type UserConfigsPanelProps = {
   closeHandler: () => void
 }
 
-type TabStringTypes = 'app' | 'timetable' | 'about'
+type TabStringTypes = 'app' | 'timetable' | 'todos' | 'about'
 
 const UserConfigsPanelContainer = styled.div`
   padding: 30px;

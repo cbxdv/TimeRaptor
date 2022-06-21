@@ -90,3 +90,16 @@ ipcMain.on('timetable:update', async (_, dayData) => {
 ipcMain.on('timetable:clear', () => {
   store.delete('timetable');
 });
+
+ipcMain.handle('todos:get', async () => {
+  const todos = await store.get('todos');
+  return todos;
+});
+
+ipcMain.on('todos:update', async (_, todos) => {
+  store.set('todos', todos);
+});
+
+ipcMain.on('todos:clear', () => {
+  store.delete('todos');
+});

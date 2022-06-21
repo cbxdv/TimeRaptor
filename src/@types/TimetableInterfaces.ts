@@ -1,6 +1,6 @@
 import { ITimeBlock } from './TimeBlockInterfaces'
 
-export interface IDayData {
+export interface ITimetableDayData {
   [key: string]: ITimeBlock[]
   monday: ITimeBlock[]
   tuesday: ITimeBlock[]
