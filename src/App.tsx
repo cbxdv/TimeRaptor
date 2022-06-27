@@ -14,7 +14,8 @@ import {
   selectTimetableStartNotifications,
   selectTimetableEndNotifications,
   selectTimetableStartNotificationsBefore,
-  selectTimetableEndNotificationsBefore
+  selectTimetableEndNotificationsBefore,
+  selectTodoNotifications
 } from './redux/slices/configsSlice'
 import { fetchBlocks } from './redux/slices/timetableSlice'
 import {
@@ -30,6 +31,8 @@ import { darkThemeColors, lightThemeColors } from './styles/styleConstants'
 
 import TimetablePage from './pages/TimetablePage'
 import MainPage from './pages/HomePage'
+import TodosPage from './pages/TodosPage'
+import { fetchTodos } from './redux/slices/todosSlice'
 
 const MainComponent = () => {
   const dispatch = useDispatch()
@@ -38,14 +41,17 @@ const MainComponent = () => {
   const notificationState = useSelector(
     selectTimetableNotificationStateCombined
   )
-  const startNotificationsState = useSelector(selectTimetableStartNotifications)
-  const endNotificationsState = useSelector(selectTimetableEndNotifications)
-  const startNotificationsBefore = useSelector(
+  const startTimetableNotifications = useSelector(
+    selectTimetableStartNotifications
+  )
+  const endTimetableNotifications = useSelector(selectTimetableEndNotifications)
+  const startTimetableNotificationsBefore = useSelector(
     selectTimetableStartNotificationsBefore
   )
-  const endNotificationsBefore = useSelector(
+  const endTimetableNotificationsBefore = useSelector(
     selectTimetableEndNotificationsBefore
   )
+  const todoNotifications = useSelector(selectTodoNotifications)
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
@@ -58,10 +64,11 @@ const MainComponent = () => {
     if (notificationState) {
       dispatch(
         notificationServiceStarted({
-          startNotifications: startNotificationsState,
-          endNotifications: endNotificationsState,
-          startNotificationsBefore,
-          endNotificationsBefore
+          startTimetableNotifications,
+          endTimetableNotifications,
+          startTimetableNotificationsBefore,
+          endTimetableNotificationsBefore,
+          todoNotifications
         })
       )
     }
@@ -77,6 +84,7 @@ const MainComponent = () => {
 
     dispatch(fetchConfigs())
     dispatch(fetchBlocks())
+    dispatch(fetchTodos())
     dispatch(fetchAppProps())
 
     // app loading
@@ -87,9 +95,9 @@ const MainComponent = () => {
     <ThemeProvider theme={darkMode ? darkThemeColors : lightThemeColors}>
       {platform === 'win32' && <Win32Controls />}
       <Routes>
-        {/* <TimetablePage /> */}
         <Route path='/' element={<MainPage />} />
         <Route path='/timetable' element={<TimetablePage />} />
+        <Route path='/todos/:todoListId' element={<TodosPage />} />
       </Routes>
     </ThemeProvider>
   )

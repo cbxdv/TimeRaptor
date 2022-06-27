@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
@@ -23,13 +24,16 @@ import {
   selectTimetableDaysToShow,
   timetableDaysToShowToggled,
   timetableStartNotificationsBeforeChanged,
-  timetableEndNotificationsBeforeChanged
+  timetableEndNotificationsBeforeChanged,
+  todoNotificationToggled,
+  todoDayProceduresToggled
 } from '../redux/slices/configsSlice'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { daysArray, dayStrings } from '../utils/strings'
 import TextButton from './TextButton'
 import { blocksCleared } from '../redux/slices/timetableSlice'
 import NumberInput from './NumberInput'
+import { todosCleared } from '../redux/slices/todosSlice'
 
 export const AboutTab = () => {
   const appVersion = useSelector(selectVersion)
@@ -113,6 +117,7 @@ export const AppConfigsTab = () => {
 
 export const TimetableConfigsTab = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const configs = useSelector(selectConfigs)
 
@@ -230,7 +235,10 @@ export const TimetableConfigsTab = () => {
           <TextButton
             label='Clear Blocks'
             variant='danger'
-            onClick={() => dispatch(blocksCleared())}
+            onClick={() => {
+              dispatch(blocksCleared())
+              navigate('/', { replace: true })
+            }}
           />
         </Option>
       </div>
@@ -307,6 +315,50 @@ const DaysToShowComponent = () => {
   }
 
   return <OptionsContainer>{generateOptions()}</OptionsContainer>
+}
+
+export const TodosConfigsTab = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const configs = useSelector(selectConfigs)
+  return (
+    <ComponentContainer>
+      <OptionsContainer>
+        <Option>
+          <OptionText>Notifications</OptionText>
+          <OptionConfig>
+            <CheckBox
+              checked={configs.todo.notifications}
+              onClick={() => dispatch(todoNotificationToggled())}
+            />
+          </OptionConfig>
+        </Option>
+
+        <Option>
+          <OptionText>Day Procedures</OptionText>
+          <OptionConfig>
+            <CheckBox
+              checked={configs.todo.dayProcedures}
+              onClick={() => dispatch(todoDayProceduresToggled())}
+            />
+          </OptionConfig>
+        </Option>
+      </OptionsContainer>
+      <div style={{ marginTop: '20px' }}>
+        <Option>
+          <TextButton
+            label='Clear Todos'
+            variant='danger'
+            onClick={() => {
+              dispatch(todosCleared())
+              navigate('/', { replace: true })
+            }}
+          />
+        </Option>
+      </div>
+    </ComponentContainer>
+  )
 }
 
 const ComponentContainer = styled.div`

@@ -203,3 +203,74 @@ export const checkCurrent = (timeblock: ITimeBlock) => {
   }
   return false
 }
+
+/**
+ * Checks whether the provided date value is the value of the previous day
+ * @param checkValue The value of time
+ * @returns {boolean} - Returns true if the the value of the day is the previous day
+ */
+export const checkWhetherYesterday = (checkValue: number) => {
+  const now = new Date()
+  const check = new Date(checkValue)
+  now.setDate(now.getDate() - 1)
+  if (now.toDateString() === check.toDateString()) return true
+  return false
+}
+
+/**
+ * Checks whether the provided year is a leap year.
+ *
+ * A year is leap if it is divisible by 4 but not by 100
+ * If a year is divisible by 100 then it should be divisible by 400.
+ * @param year The year to be checked in number
+ * @returns {boolean} - True if a leap year else false
+ */
+const checkLeapYear = (year: number) => {
+  if (year % 400 === 0) return true
+  if (year % 100 === 0) return false
+  if (year % 4 === 0) return true
+  return false
+}
+
+/**
+ * Checks whether the date provided as seperate components form a valid day
+ * @param day Number for day starting in the range 1 to 28/29/30/31 depending on the month and year
+ * @param month Number for month starting fin the range 1 to 12
+ * @param year Number for year
+ * @returns {booelan} Returns true if it is a valid date else false
+ */
+export const checkValidDate = (day: number, month: number, year: number) => {
+  if (day <= 0 || month <= 0 || year <= 0 || day > 31 || month > 12)
+    return false
+  const isLeapYear = checkLeapYear(year)
+  switch (month) {
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+      if (day > 31) return false
+      break
+    case 2:
+      if (isLeapYear) {
+        if (day > 29) return false
+      } else if (day > 28) return false
+      break
+    default:
+      if (day > 30) return false
+  }
+  return true
+}
+
+/**
+ * Checks whether the the provided time is valid
+ * @param hours Number for hours
+ * @param minutes Number for minutes
+ * @returns {boolean}
+ */
+export const checkValidTime12 = (hours: number, minutes: number) => {
+  if (hours <= 0 || minutes < 0 || hours > 12 || minutes > 59) return false
+  return true
+}

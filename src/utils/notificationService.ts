@@ -1,15 +1,19 @@
-import { NotificationStartPayloadAction } from '../@types/TimeBlockInterfaces'
-import { ITimeStamp, ITimeStampWithStrings } from '../@types/AppInterfaces'
+import {
+  ITimeStamp,
+  ITimeStampWithStrings,
+  NotificationStartPayloadAction
+} from '../@types/AppInterfaces'
 import { sendNotification } from './notificationUtils'
 
 let notificationTimer: NodeJS.Timer
 
 const notificationService = (
   timeStamps: ITimeStamp[],
-  startNotifications: boolean,
-  endNotifications: boolean,
-  startNotificationsBefore: number,
-  endNotificationsBefore: number
+  startTimetableNotifications: boolean,
+  endTimetableNotifications: boolean,
+  startTimetableNotificationsBefore: number,
+  endTimetableNotificationsBefore: number,
+  todoNotifications: boolean
 ) => {
   let now: Date
   let nowValue = ''
@@ -20,14 +24,14 @@ const notificationService = (
     let { secText, time } = ts
 
     if (ts.secText.startsWith('Starts')) {
-      time = ts.time - 60000 * startNotificationsBefore
-      if (startNotificationsBefore !== 0) {
-        secText = `Starts in ${startNotificationsBefore} minutes`
+      time = ts.time - 60000 * startTimetableNotificationsBefore
+      if (startTimetableNotificationsBefore !== 0) {
+        secText = `Starts in ${startTimetableNotificationsBefore} minutes`
       }
     } else {
-      time = ts.time - 60000 * endNotificationsBefore
-      if (endNotificationsBefore !== 0) {
-        secText = `Ends in ${endNotificationsBefore} minutes`
+      time = ts.time - 60000 * endTimetableNotificationsBefore
+      if (endTimetableNotificationsBefore !== 0) {
+        secText = `Ends in ${endTimetableNotificationsBefore} minutes`
       }
     }
 
@@ -43,11 +47,18 @@ const notificationService = (
     nowValue = now.toLocaleTimeString()
     stamps.forEach(stamp => {
       if (nowValue === stamp.time) {
-        if (
-          (stamp.secText.startsWith('Starts') && startNotifications) ||
-          (stamp.secText.endsWith('Ends') && endNotifications)
-        ) {
-          sendNotification(stamp.title, stamp.secText)
+        if (stamp.type === 'timetable') {
+          if (
+            (stamp.secText.startsWith('Starts') &&
+              startTimetableNotifications) ||
+            (stamp.secText.endsWith('Ends') && endTimetableNotifications)
+          ) {
+            sendNotification(stamp.title, stamp.secText)
+          }
+        } else if (stamp.type === 'todo') {
+          if (todoNotifications) {
+            sendNotification(stamp.title, stamp.secText)
+          }
         }
       }
     })
@@ -60,10 +71,11 @@ export const startNotificationsService = (
 ) => {
   notificationService(
     timeStamps,
-    notificationState.startNotifications,
-    notificationState.endNotifications,
-    notificationState.startNotificationsBefore,
-    notificationState.endNotificationsBefore
+    notificationState.startTimetableNotifications,
+    notificationState.endTimetableNotifications,
+    notificationState.startTimetableNotificationsBefore,
+    notificationState.endTimetableNotificationsBefore,
+    notificationState.todoNotifications
   )
 }
 

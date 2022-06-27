@@ -1,3 +1,4 @@
+import { ITodo } from '../@types/TodoInterface'
 import { ITimeStamp } from '../@types/AppInterfaces'
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { getElectronContext } from './electronUtils'
@@ -44,21 +45,52 @@ export const generateTimetableTimeStamps = (
       title = `${title} - ${description}`
     }
 
-    stamps.push({
-      id,
-      title,
-      time: startTime.valueOf(),
-      secText: 'Starts now'
-    })
+    const now = new Date()
 
-    stamps.push({
-      id,
-      title,
-      time: endTime.valueOf(),
-      secText: 'Ends now'
-    })
+    // Starting todo
+    if (startTime.valueOf() > now.valueOf()) {
+      stamps.push({
+        id,
+        title,
+        time: startTime.valueOf(),
+        secText: 'Starts now',
+        type: 'timetable'
+      })
+    }
+
+    // Ending todo
+    if (endTime.valueOf() > now.valueOf()) {
+      stamps.push({
+        id,
+        title,
+        time: endTime.valueOf(),
+        secText: 'Ends now',
+        type: 'timetable'
+      })
+    }
   })
 
+  return stamps
+}
+
+export const generateTodoTimeStamps = (
+  todos: { [key: string]: ITodo },
+  oldStamps: ITimeStamp[] = []
+) => {
+  const stamps: ITimeStamp[] = oldStamps
+  const now = new Date()
+  Object.keys(todos).forEach(todoId => {
+    const todo: ITodo = todos[todoId]
+    if (todo.remainder && !todo.isCompleted && todo.remainder > now.valueOf()) {
+      stamps.push({
+        id: todo.id,
+        title: todo.title,
+        secText: todo.description || "Time's up",
+        time: todo.remainder,
+        type: 'todo'
+      })
+    }
+  })
   return stamps
 }
 

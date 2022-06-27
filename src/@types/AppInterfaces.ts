@@ -5,6 +5,7 @@ export interface ITimeStamp {
   time: number
   title: string
   secText: string
+  type: 'timetable' | 'todo'
 }
 
 export interface ITimeStampWithStrings {
@@ -12,4 +13,13 @@ export interface ITimeStampWithStrings {
   title: string
   time: string
   secText: string
+  type: 'timetable' | 'todo'
+}
+
+export interface NotificationStartPayloadAction {
+  startTimetableNotifications: boolean
+  endTimetableNotifications: boolean
+  startTimetableNotificationsBefore: number
+  endTimetableNotificationsBefore: number
+  todoNotifications: boolean
 }

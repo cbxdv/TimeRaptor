@@ -25,13 +25,6 @@ export interface TimeBlockUpdatePayloadAction {
 
 export type CurrentTimeBlockUpdatePayloadAction = ITimeBlock | null
 
-export interface NotificationStartPayloadAction {
-  startNotifications: boolean
-  endNotifications: boolean
-  startNotificationsBefore: number
-  endNotificationsBefore: number
-}
-
 export type ColorStringTypes =
   | 'decoPeach'
   | 'deepChampagne'

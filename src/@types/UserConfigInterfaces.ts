@@ -24,3 +24,8 @@ export interface ITimetableConfigs {
   showCurrentBlock?: boolean
   daysToShow: DaysToShow
 }
+
+export interface ITodoConfigs {
+  notifications?: boolean
+  dayProcedures?: boolean
+}

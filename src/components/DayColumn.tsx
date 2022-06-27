@@ -16,7 +16,8 @@ import {
   selectTimetableEndNotificationsBefore,
   selectTimetableShowCurrentBlock,
   selectTimetableStartNotifications,
-  selectTimetableStartNotificationsBefore
+  selectTimetableStartNotificationsBefore,
+  selectTodoNotifications
 } from '../redux/slices/configsSlice'
 
 const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
@@ -34,6 +35,7 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
   const endNotificationsBefore = useSelector(
     selectTimetableEndNotificationsBefore
   )
+  const todoNotifications = useSelector(selectTodoNotifications)
 
   const [isToday, setIsToday] = useState<boolean>(false)
 
@@ -52,10 +54,11 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
       setIsToday(true)
       dispatch(
         updateTimeStamps({
-          startNotifications: startNotificationsState,
-          endNotifications: endNotificationsState,
-          startNotificationsBefore,
-          endNotificationsBefore
+          startTimetableNotifications: startNotificationsState,
+          endTimetableNotifications: endNotificationsState,
+          startTimetableNotificationsBefore: startNotificationsBefore,
+          endTimetableNotificationsBefore: endNotificationsBefore,
+          todoNotifications
         })
       )
 

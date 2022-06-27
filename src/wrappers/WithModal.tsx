@@ -65,7 +65,13 @@ const WithModal: React.FC<WithModalProps> = ({
               <TextButton
                 label={(secButtonProps && secButtonProps.label) || 'Close'}
                 variant='danger'
-                onClick={(secButtonProps && secButtonProps.onClick) || close}
+                onClick={() => {
+                  if (secButtonProps && secButtonProps.onClick) {
+                    secButtonProps.onClick(close)
+                  } else {
+                    close()
+                  }
+                }}
               />
               <TextButton
                 label={mainButtonProps.label || 'Submit'}
@@ -92,7 +98,7 @@ type WithModalProps = {
   } | null
   secButtonProps?: {
     label: string
-    onClick: () => void | null
+    onClick: (close?: () => void) => void | null
   } | null
   bodyPadding?: string
   scrollLockDisabled?: boolean

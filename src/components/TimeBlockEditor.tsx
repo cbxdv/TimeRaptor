@@ -93,19 +93,6 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
     }, 150)
   }
 
-  const keyBindHandler = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      submitHandler()
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', keyBindHandler)
-    return () => {
-      document.removeEventListener('keydown', keyBindHandler)
-    }
-  })
-
   useEffect(() => {
     if (!currentBlock || Object.keys(currentBlock).length === 0) {
       return

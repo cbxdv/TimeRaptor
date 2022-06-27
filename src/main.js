@@ -42,7 +42,7 @@ const createMainWindow = () => {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       backgroundThrottling: false,
       contextIsolation: true,
-      devTools: false
+      devTools: true
     },
     icon: path.join(__dirname, './assets/logos/Icon.ico')
   });
@@ -59,7 +59,7 @@ const createMainWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Hiding menubar
   mainWindow.setMenuBarVisibility(false);

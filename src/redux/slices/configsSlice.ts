@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
-import { getElectronContext, saveConfigToDisk } from '../../utils/electronUtils'
+import { fetchConfigsData, saveConfigToDisk } from '../../utils/electronUtils'
 
 import { IState, IConfigsState } from '../../@types/StateInterfaces'
 import { DayStringTypes } from '../../@types/DayAndTimeInterfaces'
@@ -24,6 +24,10 @@ const initialState: IConfigsState = {
     showCurrentTime: true,
     showCurrentBlock: true
   },
+  todoConfigs: {
+    notifications: true,
+    dayProcedures: true
+  },
   appConfigs: {
     closeOnExit: false,
     darkMode: true,
@@ -34,21 +38,7 @@ const initialState: IConfigsState = {
 }
 
 export const fetchConfigs = createAsyncThunk('userConfigs/fetch', async () => {
-  const electron = getElectronContext()
-  const response = await electron.getUserConfigs()
-  let data = {
-    timetableConfigs: initialState.timetableConfigs,
-    appConfigs: initialState.appConfigs
-  }
-  if (response) {
-    data = {
-      timetableConfigs: {
-        ...data.timetableConfigs,
-        ...response.timetableConfigs
-      },
-      appConfigs: { ...data.appConfigs, ...response.appConfigs }
-    }
-  }
+  const data = await fetchConfigsData()
   return data
 })
 
@@ -161,6 +151,22 @@ const userConfigsSlice = createSlice({
         'timetableConfigs.endNotificationsBefore',
         action.payload
       )
+    },
+
+    todoNotificationToggled(state) {
+      state.todoConfigs.notifications = !state.todoConfigs.notifications
+      saveConfigToDisk(
+        'todoConfigs.notifications',
+        state.todoConfigs.notifications
+      )
+    },
+
+    todoDayProceduresToggled(state) {
+      state.todoConfigs.dayProcedures = !state.todoConfigs.dayProcedures
+      saveConfigToDisk(
+        'todoConfigs.dayProcedures',
+        state.todoConfigs.dayProcedures
+      )
     }
   },
   extraReducers(builder) {
@@ -192,7 +198,9 @@ export const {
   timetableDaysToShowToggled,
   timetableNotificationsToggled,
   timetableStartNotificationsBeforeChanged,
-  timetableEndNotificationsBeforeChanged
+  timetableEndNotificationsBeforeChanged,
+  todoNotificationToggled,
+  todoDayProceduresToggled
 } = userConfigsSlice.actions
 
 export default userConfigsSlice.reducer
@@ -200,7 +208,8 @@ export default userConfigsSlice.reducer
 // Selectors
 export const selectConfigs = (state: IState) => ({
   app: state.configs.appConfigs,
-  timetable: state.configs.timetableConfigs
+  timetable: state.configs.timetableConfigs,
+  todo: state.configs.todoConfigs
 })
 export const selectTimetableNotificationStateCombined = (state: IState) =>
   state.configs.timetableConfigs.startNotifications ||
@@ -223,3 +232,5 @@ export const selectTimetableStartNotificationsBefore = (state: IState) =>
   state.configs.timetableConfigs.startNotificationsBefore
 export const selectTimetableEndNotificationsBefore = (state: IState) =>
   state.configs.timetableConfigs.endNotificationsBefore
+export const selectTodoNotifications = (state: IState) =>
+  state.configs.todoConfigs.notifications

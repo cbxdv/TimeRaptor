@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { IState } from '../@types/StateInterfaces'
 import AppLogo from '../assets/Logo.svg'
 import WeekIcon from '../assets/icons/Week.svg'
+import TaskIcon from '../assets/icons/Task.svg'
 import { buttonStyles, flexCenter, emojiTextStyles } from '../styles/styleUtils'
 import Loader from '../components/Loader'
 import ConfigsPanel from '../components/ConfigsPanel'
@@ -27,7 +28,7 @@ const HomePage = () => {
     name: string,
     Icon: React.ReactElement
   ) => (
-    <Link to={link}>
+    <Link to={link} style={{ margin: '0 10px' }}>
       <MainButtonContainer>
         <IconContainer>{Icon}</IconContainer>
         <div>{name}</div>
@@ -48,6 +49,7 @@ const HomePage = () => {
       </AppInfoContainer>
       <ButtonsContainer>
         {generatePageContainer('/timetable', 'Timetable', <WeekIcon />)}
+        {generatePageContainer('/todos/today', 'Todos', <TaskIcon />)}
       </ButtonsContainer>
       <div>
         <EmojiTextContainer
@@ -88,6 +90,7 @@ const AppHeading = styled.div`
 `
 
 const ButtonsContainer = styled.div`
+  ${flexCenter({ flexDirection: 'row' })};
   margin: 60px 0;
 `
 

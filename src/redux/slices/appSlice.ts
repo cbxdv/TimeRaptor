@@ -7,15 +7,22 @@ import { IAppState, IState } from '../../@types/StateInterfaces'
 import { getCurrentDayString } from '../../utils/timeUtils'
 import {
   fetchTimetableData,
+  fetchTodosData,
   getElectronContext
 } from '../../utils/electronUtils'
-import { generateTimetableTimeStamps } from '../../utils/notificationUtils'
-import { ITimeStamp } from '../../@types/AppInterfaces'
+import {
+  generateTimetableTimeStamps,
+  generateTodoTimeStamps
+} from '../../utils/notificationUtils'
+import {
+  ITimeStamp,
+  NotificationStartPayloadAction
+} from '../../@types/AppInterfaces'
 import {
   startNotificationsService,
   stopNotificationService
 } from '../../utils/notificationService'
-import { NotificationStartPayloadAction } from '../../@types/TimeBlockInterfaces'
+import { fetchTodos } from './todosSlice'
 
 const initialState: IAppState = {
   timeStamps: [],
@@ -47,12 +54,15 @@ export const updateTimeStamps = createAsyncThunk(
     let stamps: ITimeStamp[] = []
     const response = await fetchTimetableData()
     const day = getCurrentDayString()
-    const dayData = response[day]
-    stamps = generateTimetableTimeStamps(dayData, stamps)
+    const timetableDayData = response[day]
+    stamps = generateTimetableTimeStamps(timetableDayData, stamps)
+    const todosDayData = await fetchTodosData()
+    stamps = generateTodoTimeStamps(todosDayData.todos, stamps)
 
     if (
-      notificationStates.startNotifications &&
-      notificationStates.endNotifications
+      notificationStates.startTimetableNotifications ||
+      notificationStates.endTimetableNotifications ||
+      notificationStates.todoNotifications
     ) {
       stopNotificationService()
       startNotificationsService(stamps, notificationStates)
@@ -112,6 +122,11 @@ const appSlice = createSlice({
         const dayData = action.payload[currentDay]
         const oldStamps = JSON.parse(JSON.stringify(state.timeStamps))
         state.timeStamps = generateTimetableTimeStamps(dayData, oldStamps)
+      })
+      .addCase(fetchTodos.fulfilled, (state, action) => {
+        const todosData = action.payload
+        const oldStamps = JSON.parse(JSON.stringify(state.timeStamps))
+        state.timeStamps = generateTodoTimeStamps(todosData.todos, oldStamps)
       })
       .addCase(updateTimeStamps.fulfilled, (state, action) => {
         state.timeStamps = action.payload

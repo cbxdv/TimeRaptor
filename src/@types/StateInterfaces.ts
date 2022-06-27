@@ -1,18 +1,29 @@
 import { ITimeStamp, PlatformStringTypes } from './AppInterfaces'
 import { ITimeBlock } from './TimeBlockInterfaces'
-import { IDayData } from './TimetableInterfaces'
-import { IAppConfigs, ITimetableConfigs } from './UserConfigInterfaces'
+import { ITimetableDayData } from './TimetableInterfaces'
+import { ITodosData } from './TodoInterface'
+import {
+  IAppConfigs,
+  ITimetableConfigs,
+  ITodoConfigs
+} from './UserConfigInterfaces'
 
 export interface IConfigsState {
   timetableConfigs: ITimetableConfigs
+  todoConfigs: ITodoConfigs
   appConfigs: IAppConfigs
   error: string | null
   status: string
 }
 
 export interface ITimetableState {
-  dayData: IDayData
+  dayData: ITimetableDayData
   currentTimeBlock: ITimeBlock | null
+  status: string
+  error: string | null
+}
+
+export interface ITodosState extends ITodosData {
   status: string
   error: string | null
 }
@@ -31,4 +42,5 @@ export interface IState {
   app: IAppState
   configs: IConfigsState
   timetable: ITimetableState
+  todos: ITodosState
 }

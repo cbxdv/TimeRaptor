@@ -1,4 +1,7 @@
 {
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "compilerOptions": {
     "allowJs": true,
     "module": "commonjs",
