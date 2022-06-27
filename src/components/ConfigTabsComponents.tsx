@@ -5,7 +5,13 @@ import styled from 'styled-components'
 
 import { emojiTextStyles, flexCenter } from '../styles/styleUtils'
 import Logo from '../assets/Logo.png'
-import { selectVersion } from '../redux/slices/appSlice'
+import {
+  notificationServiceStarted,
+  notificationServiceStopped,
+  selectIsNotificationServiceRunning,
+  selectVersion,
+  updateTimeStamps
+} from '../redux/slices/appSlice'
 import Octocat from '../assets/icons/Octocat.png'
 import WaveEmoji from '../assets/icons/Wave.png'
 import CrossEmoji from '../assets/icons/Cross.png'
@@ -34,6 +40,7 @@ import TextButton from './TextButton'
 import { blocksCleared } from '../redux/slices/timetableSlice'
 import NumberInput from './NumberInput'
 import { todosCleared } from '../redux/slices/todosSlice'
+import LED from './LED'
 
 export const AboutTab = () => {
   const appVersion = useSelector(selectVersion)
@@ -65,6 +72,18 @@ export const AppConfigsTab = () => {
   const dispatch = useDispatch()
 
   const configs = useSelector(selectConfigs)
+  const isNotificationServiceRunning = useSelector(
+    selectIsNotificationServiceRunning
+  )
+
+  const toggleNotificationService = () => {
+    if (isNotificationServiceRunning) {
+      dispatch(notificationServiceStopped())
+    } else {
+      dispatch(updateTimeStamps())
+      dispatch(notificationServiceStarted())
+    }
+  }
 
   return (
     <ComponentContainer>
@@ -96,6 +115,27 @@ export const AppConfigsTab = () => {
             />
           </OptionConfig>
         </Option>
+        <Option
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          Notification Service
+          <div
+            role='button'
+            style={{ cursor: 'pointer', margin: '0 15px' }}
+            onClick={toggleNotificationService}
+          >
+            {isNotificationServiceRunning ? <LED green /> : <LED red />}
+          </div>
+          <SubText>
+            {isNotificationServiceRunning ? 'Running' : 'Not running'}
+          </SubText>
+        </Option>
+      </OptionsContainer>
+      <div style={{ marginTop: '20px' }}>
         <Option>
           <OptionText>
             <EmojiTextContainer
@@ -110,7 +150,7 @@ export const AppConfigsTab = () => {
             </EmojiTextContainer>
           </OptionText>
         </Option>
-      </OptionsContainer>
+      </div>
     </ComponentContainer>
   )
 }
@@ -152,7 +192,10 @@ export const TimetableConfigsTab = () => {
               <OptionConfig>
                 <CheckBox
                   checked={configs.timetable.startNotifications}
-                  onClick={() => dispatch(timetableStartNotificationsToggled())}
+                  onClick={() => {
+                    dispatch(timetableStartNotificationsToggled())
+                    dispatch(updateTimeStamps())
+                  }}
                 />
               </OptionConfig>
             </Option>
@@ -161,7 +204,10 @@ export const TimetableConfigsTab = () => {
               <OptionConfig>
                 <CheckBox
                   checked={configs.timetable.endNotifications}
-                  onClick={() => dispatch(timetableEndNotificationsToggled())}
+                  onClick={() => {
+                    dispatch(timetableEndNotificationsToggled())
+                    dispatch(updateTimeStamps())
+                  }}
                 />
               </OptionConfig>
             </Option>
@@ -180,6 +226,7 @@ export const TimetableConfigsTab = () => {
                           configs.timetable.startNotificationsBefore + 1
                         )
                       )
+                      dispatch(updateTimeStamps())
                     }}
                     decrementHandler={() => {
                       dispatch(
@@ -187,6 +234,7 @@ export const TimetableConfigsTab = () => {
                           configs.timetable.startNotificationsBefore - 1
                         )
                       )
+                      dispatch(updateTimeStamps())
                     }}
                   />
                 </div>
@@ -208,6 +256,7 @@ export const TimetableConfigsTab = () => {
                           configs.timetable.endNotificationsBefore + 1
                         )
                       )
+                      dispatch(updateTimeStamps())
                     }}
                     decrementHandler={() => {
                       dispatch(
@@ -215,6 +264,7 @@ export const TimetableConfigsTab = () => {
                           configs.timetable.endNotificationsBefore - 1
                         )
                       )
+                      dispatch(updateTimeStamps())
                     }}
                   />
                 </div>
@@ -322,6 +372,7 @@ export const TodosConfigsTab = () => {
   const navigate = useNavigate()
 
   const configs = useSelector(selectConfigs)
+
   return (
     <ComponentContainer>
       <OptionsContainer>
@@ -330,7 +381,10 @@ export const TodosConfigsTab = () => {
           <OptionConfig>
             <CheckBox
               checked={configs.todo.notifications}
-              onClick={() => dispatch(todoNotificationToggled())}
+              onClick={() => {
+                dispatch(todoNotificationToggled())
+                dispatch(updateTimeStamps())
+              }}
             />
           </OptionConfig>
         </Option>
@@ -365,6 +419,13 @@ const ComponentContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
   width: 100%;
   line-height: 2;
+`
+
+const SubText = styled.div`
+  color: ${({ theme }) => (theme.name === 'dark' ? theme.accent : 'lightGrey')};
+  font-size: 13px;
+  width: 70px;
+  text-align: right;
 `
 
 const AppLogo = styled.img`

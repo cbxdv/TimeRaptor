@@ -11,6 +11,7 @@ import TextInput from './TextInput'
 import { todoDeleted, todoUpdated } from '../redux/slices/todosSlice'
 import DayWithTimeInput from './DayWithTimeInput'
 import { checkValidDate, checkValidTime12 } from '../utils/timeUtils'
+import { updateTimeStamps } from '../redux/slices/appSlice'
 
 const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
   const dispatch = useDispatch()
@@ -119,6 +120,7 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
           newTodo
         })
       )
+      dispatch(updateTimeStamps())
     }, 150)
   }
 
@@ -126,6 +128,7 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
     close()
     setTimeout(() => {
       dispatch(todoDeleted(todo.id))
+      dispatch(updateTimeStamps())
     }, 150)
   }
 

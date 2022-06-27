@@ -16,7 +16,7 @@ export interface ITimeStampWithStrings {
   type: 'timetable' | 'todo'
 }
 
-export interface NotificationStartPayloadAction {
+export interface INotificationStates {
   startTimetableNotifications: boolean
   endTimetableNotifications: boolean
   startTimetableNotificationsBefore: number

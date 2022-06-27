@@ -10,6 +10,7 @@ import { flexCenter } from '../styles/styleUtils'
 import { varietyColors } from '../styles/styleConstants'
 
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
+import { updateTimeStamps } from '../redux/slices/appSlice'
 
 const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
   const dispatch = useDispatch()
@@ -27,6 +28,7 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
   const deleteHandler = () => {
     setShowBlockTool(false)
     dispatch(blockDeleted(timeblock))
+    dispatch(updateTimeStamps())
   }
 
   const bgColor = varietyColors[blockColor]

@@ -1,17 +1,14 @@
-import { ITimeStamp, PlatformStringTypes } from './AppInterfaces'
+import {
+  INotificationStates,
+  ITimeStamp,
+  PlatformStringTypes
+} from './AppInterfaces'
 import { ITimeBlock } from './TimeBlockInterfaces'
 import { ITimetableDayData } from './TimetableInterfaces'
 import { ITodosData } from './TodoInterface'
-import {
-  IAppConfigs,
-  ITimetableConfigs,
-  ITodoConfigs
-} from './UserConfigInterfaces'
+import { IConfigs } from './UserConfigInterfaces'
 
-export interface IConfigsState {
-  timetableConfigs: ITimetableConfigs
-  todoConfigs: ITodoConfigs
-  appConfigs: IAppConfigs
+export interface IConfigsState extends IConfigs {
   error: string | null
   status: string
 }
@@ -34,6 +31,7 @@ export interface IAppState {
   appVersion: string
   maximized: boolean
   isNotificationServiceRunning: boolean
+  notificationStates: INotificationStates
   status: string
   error: string | null
 }

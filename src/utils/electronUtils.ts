@@ -1,5 +1,7 @@
 import { ITodosData } from '../@types/TodoInterface'
 import { ITimetableDayData } from '../@types/TimetableInterfaces'
+import { INotificationStates } from '../@types/AppInterfaces'
+import { IConfigs } from '../@types/UserConfigInterfaces'
 
 /**
  * Extracts and returns the electron context object defined at window.
@@ -139,8 +141,8 @@ export const updateTodosToDisk = (todosData: ITodosData) => {
 
 export const fetchConfigsData = async () => {
   const electron = getElectronContext()
-  const response = await electron.getUserConfigs()
-  const initialState = {
+  const response: IConfigs = await electron.getUserConfigs()
+  const initialState: IConfigs = {
     timetableConfigs: {
       daysToShow: {
         sunday: true,
@@ -168,9 +170,36 @@ export const fetchConfigsData = async () => {
       openMinimized: false
     }
   }
-  const data = {
+  const data: IConfigs = {
     ...initialState,
-    ...response
+    ...response,
+    timetableConfigs: {
+      ...initialState.timetableConfigs,
+      ...response.timetableConfigs
+    },
+    todoConfigs: {
+      ...initialState.todoConfigs,
+      ...response.todoConfigs
+    },
+    appConfigs: {
+      ...initialState.appConfigs,
+      ...response.appConfigs
+    }
   }
   return data
+}
+
+export const fetchNotificationStates = async () => {
+  const configsData = await fetchConfigsData()
+  const notificationStates: INotificationStates = {
+    startTimetableNotifications:
+      configsData.timetableConfigs.startNotifications,
+    endTimetableNotifications: configsData.timetableConfigs.endNotifications,
+    startTimetableNotificationsBefore:
+      configsData.timetableConfigs.startNotificationsBefore,
+    endTimetableNotificationsBefore:
+      configsData.timetableConfigs.endNotificationsBefore,
+    todoNotifications: configsData.todoConfigs.notifications
+  }
+  return notificationStates
 }

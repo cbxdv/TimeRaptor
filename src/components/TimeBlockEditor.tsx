@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import WithModal from '../wrappers/WithModal'
 import { blockAdded, blockUpdated } from '../redux/slices/timetableSlice'
-import { getDurationMinutes } from '../utils/timeUtils'
+import { getCurrentTimeAndDay, getDurationMinutes } from '../utils/timeUtils'
 import ColorPicker from './ColorPicker'
 import DayInput from './DayInput'
 import TextArea from './TextArea'
@@ -13,6 +13,7 @@ import TimeInput from './TimeInput'
 
 import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
 import { ColorStringTypes, ITimeBlock } from '../@types/TimeBlockInterfaces'
+import { updateTimeStamps } from '../redux/slices/appSlice'
 
 const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
   closeHandler,
@@ -89,6 +90,13 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
       } else {
         // add new block
         dispatch(blockAdded(newBlock))
+      }
+      const currentDay = getCurrentTimeAndDay().day
+      if (
+        day === currentDay ||
+        (currentBlock && currentBlock.day === currentDay)
+      ) {
+        dispatch(updateTimeStamps())
       }
     }, 150)
   }

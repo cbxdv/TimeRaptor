@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { selectBlocksByDay } from '../redux/slices/timetableSlice'
@@ -10,32 +10,14 @@ import TimeBlock from './TimeBlock'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { IState } from '../@types/StateInterfaces'
-import { updateTimeStamps } from '../redux/slices/appSlice'
-import {
-  selectTimetableEndNotifications,
-  selectTimetableEndNotificationsBefore,
-  selectTimetableShowCurrentBlock,
-  selectTimetableStartNotifications,
-  selectTimetableStartNotificationsBefore,
-  selectTodoNotifications
-} from '../redux/slices/configsSlice'
+import { selectTimetableShowCurrentBlock } from '../redux/slices/configsSlice'
 
 const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
-  const dispatch = useDispatch()
   const dayData = useSelector((state: IState) =>
     selectBlocksByDay(state, dayId)
   )
 
   const showCurrentBlock = useSelector(selectTimetableShowCurrentBlock)
-  const startNotificationsState = useSelector(selectTimetableStartNotifications)
-  const endNotificationsState = useSelector(selectTimetableEndNotifications)
-  const startNotificationsBefore = useSelector(
-    selectTimetableStartNotificationsBefore
-  )
-  const endNotificationsBefore = useSelector(
-    selectTimetableEndNotificationsBefore
-  )
-  const todoNotifications = useSelector(selectTodoNotifications)
 
   const [isToday, setIsToday] = useState<boolean>(false)
 
@@ -43,24 +25,13 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
 
   const currentBlockService = () => {
     if (!showCurrentBlock) return
-    timer = setInterval(() => {
-      // currentBlockUpdater(dayData, dispatch)
-    }, 60000)
+    timer = setInterval(() => {}, 60000)
   }
 
   useEffect(() => {
     const now = getCurrentTimeAndDay()
     if (now.day === dayId) {
       setIsToday(true)
-      dispatch(
-        updateTimeStamps({
-          startTimetableNotifications: startNotificationsState,
-          endTimetableNotifications: endNotificationsState,
-          startTimetableNotificationsBefore: startNotificationsBefore,
-          endTimetableNotificationsBefore: endNotificationsBefore,
-          todoNotifications
-        })
-      )
 
       if (showCurrentBlock) {
         currentBlockService()

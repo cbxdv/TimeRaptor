@@ -29,3 +29,9 @@ export interface ITodoConfigs {
   notifications?: boolean
   dayProcedures?: boolean
 }
+
+export interface IConfigs {
+  timetableConfigs: ITimetableConfigs
+  todoConfigs: ITodoConfigs
+  appConfigs: IAppConfigs
+}

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { fetchBlocks } from './timetableSlice'
 
 import { IAppState, IState } from '../../@types/StateInterfaces'
@@ -8,21 +8,20 @@ import { getCurrentDayString } from '../../utils/timeUtils'
 import {
   fetchTimetableData,
   fetchTodosData,
-  getElectronContext
+  getElectronContext,
+  fetchNotificationStates
 } from '../../utils/electronUtils'
 import {
   generateTimetableTimeStamps,
   generateTodoTimeStamps
 } from '../../utils/notificationUtils'
-import {
-  ITimeStamp,
-  NotificationStartPayloadAction
-} from '../../@types/AppInterfaces'
+import { ITimeStamp } from '../../@types/AppInterfaces'
 import {
   startNotificationsService,
   stopNotificationService
 } from '../../utils/notificationService'
 import { fetchTodos } from './todosSlice'
+import { fetchConfigs } from './configsSlice'
 
 const initialState: IAppState = {
   timeStamps: [],
@@ -30,6 +29,13 @@ const initialState: IAppState = {
   appVersion: '',
   maximized: false,
   isNotificationServiceRunning: false,
+  notificationStates: {
+    startTimetableNotifications: true,
+    endTimetableNotifications: true,
+    startTimetableNotificationsBefore: 0,
+    endTimetableNotificationsBefore: 0,
+    todoNotifications: true
+  },
   status: 'loading',
   error: null
 }
@@ -48,29 +54,23 @@ export const fetchAppProps = createAsyncThunk('app/fetch', async () => {
   return data
 })
 
-export const updateTimeStamps = createAsyncThunk(
-  'app/update',
-  async (notificationStates?: NotificationStartPayloadAction) => {
-    let stamps: ITimeStamp[] = []
-    const response = await fetchTimetableData()
-    const day = getCurrentDayString()
-    const timetableDayData = response[day]
-    stamps = generateTimetableTimeStamps(timetableDayData, stamps)
-    const todosDayData = await fetchTodosData()
-    stamps = generateTodoTimeStamps(todosDayData.todos, stamps)
+export const updateTimeStamps = createAsyncThunk('app/update', async () => {
+  let stamps: ITimeStamp[] = []
 
-    if (
-      notificationStates.startTimetableNotifications ||
-      notificationStates.endTimetableNotifications ||
-      notificationStates.todoNotifications
-    ) {
-      stopNotificationService()
-      startNotificationsService(stamps, notificationStates)
-    }
+  const notificationStates = await fetchNotificationStates()
 
-    return stamps
-  }
-)
+  const response = await fetchTimetableData()
+  const day = getCurrentDayString()
+  const timetableDayData = response[day]
+  stamps = generateTimetableTimeStamps(timetableDayData, stamps)
+
+  const todosData = await fetchTodosData()
+  stamps = generateTodoTimeStamps(todosData.todos, stamps)
+
+  stopNotificationService()
+  startNotificationsService(stamps, notificationStates)
+  return { stamps, notificationStates }
+})
 
 const appSlice = createSlice({
   name: 'app',
@@ -85,15 +85,12 @@ const appSlice = createSlice({
     maximizedToggled(state) {
       state.maximized = !state.maximized
     },
-    notificationServiceStarted(
-      state,
-      action: PayloadAction<NotificationStartPayloadAction>
-    ) {
+    notificationServiceStarted(state) {
       state.isNotificationServiceRunning = true
       stopNotificationService()
       startNotificationsService(
         JSON.parse(JSON.stringify(state.timeStamps)),
-        action.payload
+        JSON.parse(JSON.stringify(state.notificationStates))
       )
     },
     notificationServiceStopped(state) {
@@ -117,6 +114,20 @@ const appSlice = createSlice({
         state.status = 'error'
         state.error = 'Error initializing app. Try restarting app.'
       })
+      .addCase(fetchConfigs.fulfilled, (state, action) => {
+        const configsData = action.payload
+        state.notificationStates = {
+          startTimetableNotifications:
+            configsData.timetableConfigs.startNotifications,
+          endTimetableNotifications:
+            configsData.timetableConfigs.endNotifications,
+          startTimetableNotificationsBefore:
+            configsData.timetableConfigs.startNotificationsBefore,
+          endTimetableNotificationsBefore:
+            configsData.timetableConfigs.endNotificationsBefore,
+          todoNotifications: configsData.todoConfigs.notifications
+        }
+      })
       .addCase(fetchBlocks.fulfilled, (state, action) => {
         const currentDay = getCurrentDayString()
         const dayData = action.payload[currentDay]
@@ -129,7 +140,8 @@ const appSlice = createSlice({
         state.timeStamps = generateTodoTimeStamps(todosData.todos, oldStamps)
       })
       .addCase(updateTimeStamps.fulfilled, (state, action) => {
-        state.timeStamps = action.payload
+        state.timeStamps = action.payload.stamps
+        state.notificationStates = action.payload.notificationStates
       })
       .addCase(updateTimeStamps.rejected, state => {
         state.status = 'error'

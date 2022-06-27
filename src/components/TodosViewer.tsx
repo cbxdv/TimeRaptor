@@ -12,14 +12,6 @@ import {
 } from '../redux/slices/todosSlice'
 import { IState } from '../@types/StateInterfaces'
 import Todo from './Todo'
-import {
-  selectTimetableEndNotifications,
-  selectTimetableEndNotificationsBefore,
-  selectTimetableStartNotifications,
-  selectTimetableStartNotificationsBefore,
-  selectTodoNotifications
-} from '../redux/slices/configsSlice'
-import { updateTimeStamps } from '../redux/slices/appSlice'
 
 const TodosViewer: React.FC<TodosViewerProps> = ({ listId }) => {
   const dispatch = useDispatch()
@@ -29,28 +21,6 @@ const TodosViewer: React.FC<TodosViewerProps> = ({ listId }) => {
   )
 
   if (!todosList) return <>Error</>
-
-  const startNotificationsState = useSelector(selectTimetableStartNotifications)
-  const endNotificationsState = useSelector(selectTimetableEndNotifications)
-  const startNotificationsBefore = useSelector(
-    selectTimetableStartNotificationsBefore
-  )
-  const endNotificationsBefore = useSelector(
-    selectTimetableEndNotificationsBefore
-  )
-  const todoNotifications = useSelector(selectTodoNotifications)
-
-  useEffect(() => {
-    dispatch(
-      updateTimeStamps({
-        startTimetableNotifications: startNotificationsState,
-        endTimetableNotifications: endNotificationsState,
-        startTimetableNotificationsBefore: startNotificationsBefore,
-        endTimetableNotificationsBefore: endNotificationsBefore,
-        todoNotifications
-      })
-    )
-  }, [todosList.tasks])
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result

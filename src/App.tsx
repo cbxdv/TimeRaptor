@@ -9,13 +9,7 @@ import store from './redux/store'
 import {
   fetchConfigs,
   selectDarkMode,
-  darkModeToggled,
-  selectTimetableNotificationStateCombined,
-  selectTimetableStartNotifications,
-  selectTimetableEndNotifications,
-  selectTimetableStartNotificationsBefore,
-  selectTimetableEndNotificationsBefore,
-  selectTodoNotifications
+  darkModeToggled
 } from './redux/slices/configsSlice'
 import { fetchBlocks } from './redux/slices/timetableSlice'
 import {
@@ -38,20 +32,6 @@ const MainComponent = () => {
   const dispatch = useDispatch()
   const platform = useSelector(selectPlatform)
   const darkMode = useSelector(selectDarkMode)
-  const notificationState = useSelector(
-    selectTimetableNotificationStateCombined
-  )
-  const startTimetableNotifications = useSelector(
-    selectTimetableStartNotifications
-  )
-  const endTimetableNotifications = useSelector(selectTimetableEndNotifications)
-  const startTimetableNotificationsBefore = useSelector(
-    selectTimetableStartNotificationsBefore
-  )
-  const endTimetableNotificationsBefore = useSelector(
-    selectTimetableEndNotificationsBefore
-  )
-  const todoNotifications = useSelector(selectTodoNotifications)
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
@@ -61,17 +41,7 @@ const MainComponent = () => {
 
   useEffect(() => {
     document.addEventListener('keydown', keyBindHandler)
-    if (notificationState) {
-      dispatch(
-        notificationServiceStarted({
-          startTimetableNotifications,
-          endTimetableNotifications,
-          startTimetableNotificationsBefore,
-          endTimetableNotificationsBefore,
-          todoNotifications
-        })
-      )
-    }
+    dispatch(notificationServiceStarted())
     return () => {
       document.removeEventListener('keydown', keyBindHandler)
       dispatch(notificationServiceStopped())

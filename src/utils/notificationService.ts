@@ -1,7 +1,7 @@
 import {
   ITimeStamp,
   ITimeStampWithStrings,
-  NotificationStartPayloadAction
+  INotificationStates
 } from '../@types/AppInterfaces'
 import { sendNotification } from './notificationUtils'
 
@@ -9,14 +9,18 @@ let notificationTimer: NodeJS.Timer
 
 const notificationService = (
   timeStamps: ITimeStamp[],
-  startTimetableNotifications: boolean,
-  endTimetableNotifications: boolean,
-  startTimetableNotificationsBefore: number,
-  endTimetableNotificationsBefore: number,
-  todoNotifications: boolean
+  notificationStates: INotificationStates
 ) => {
   let now: Date
   let nowValue = ''
+
+  const {
+    startTimetableNotifications,
+    endTimetableNotifications,
+    startTimetableNotificationsBefore,
+    endTimetableNotificationsBefore,
+    todoNotifications
+  } = notificationStates
 
   const stamps: ITimeStampWithStrings[] = []
 
@@ -46,6 +50,7 @@ const notificationService = (
     now = new Date()
     nowValue = now.toLocaleTimeString()
     stamps.forEach(stamp => {
+      console.log(stamp.time, nowValue, stamp.time === nowValue)
       if (nowValue === stamp.time) {
         if (stamp.type === 'timetable') {
           if (
@@ -56,6 +61,8 @@ const notificationService = (
             sendNotification(stamp.title, stamp.secText)
           }
         } else if (stamp.type === 'todo') {
+          console.log(stamp)
+          console.log(todoNotifications)
           if (todoNotifications) {
             sendNotification(stamp.title, stamp.secText)
           }
@@ -67,16 +74,9 @@ const notificationService = (
 
 export const startNotificationsService = (
   timeStamps: ITimeStamp[],
-  notificationState: NotificationStartPayloadAction
+  notificationState: INotificationStates
 ) => {
-  notificationService(
-    timeStamps,
-    notificationState.startTimetableNotifications,
-    notificationState.endTimetableNotifications,
-    notificationState.startTimetableNotificationsBefore,
-    notificationState.endTimetableNotificationsBefore,
-    notificationState.todoNotifications
-  )
+  notificationService(timeStamps, notificationState)
 }
 
 export const stopNotificationService = () => {
