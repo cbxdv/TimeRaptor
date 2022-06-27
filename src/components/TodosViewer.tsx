@@ -168,7 +168,6 @@ const TodoInputComponent: React.FC<TodoInputComponentProps> = ({ listId }) => {
         onChange={action => setInputText(action.target.value)}
         placeholder='Enter a todo'
       />
-
       <AddContainer onClick={() => addHandler()}>
         <AddCircleIcon />
       </AddContainer>
