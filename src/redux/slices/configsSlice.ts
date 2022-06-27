@@ -33,6 +33,14 @@ const initialState: IConfigsState = {
     darkMode: true,
     openMinimized: false
   },
+  dayPlannerConfigs: {
+    dayProcedures: true,
+    showCurrentTime: true,
+    startNotifications: true,
+    endNotifications: true,
+    startNotificationsBefore: 0,
+    endNotificationsBefore: 0
+  },
   error: '',
   status: ''
 }
@@ -167,6 +175,86 @@ const userConfigsSlice = createSlice({
         'todoConfigs.dayProcedures',
         state.todoConfigs.dayProcedures
       )
+    },
+
+    dayPlannerShowCurrentTimeToggled(state) {
+      state.dayPlannerConfigs.showCurrentTime =
+        !state.dayPlannerConfigs.showCurrentTime
+      saveConfigToDisk(
+        'dayPlannerConfigs.showCurrentTime',
+        state.dayPlannerConfigs.showCurrentTime
+      )
+    },
+
+    dayPlannerDayProceduresToggled(state) {
+      state.dayPlannerConfigs.dayProcedures =
+        !state.dayPlannerConfigs.dayProcedures
+      saveConfigToDisk(
+        'dayPlannerConfigs.showCurrentBlock',
+        state.dayPlannerConfigs.dayProcedures
+      )
+    },
+
+    dayPlannerStartNotificationsToggled(state) {
+      state.dayPlannerConfigs.startNotifications =
+        !state.dayPlannerConfigs.startNotifications
+      saveConfigToDisk(
+        'dayPlannerConfigs.startNotifications',
+        state.dayPlannerConfigs.startNotifications
+      )
+    },
+
+    dayPlannerEndNotificationsToggled(state) {
+      state.dayPlannerConfigs.endNotifications =
+        !state.dayPlannerConfigs.endNotifications
+      saveConfigToDisk(
+        'dayPlannerConfigs.endNotifications',
+        state.dayPlannerConfigs.endNotifications
+      )
+    },
+
+    dayPlannerNotificationsToggled(state) {
+      if (
+        state.dayPlannerConfigs.startNotifications ||
+        state.dayPlannerConfigs.endNotifications
+      ) {
+        state.dayPlannerConfigs.startNotifications = false
+        state.dayPlannerConfigs.endNotifications = false
+      } else {
+        state.dayPlannerConfigs.startNotifications = true
+        state.dayPlannerConfigs.endNotifications = true
+      }
+
+      saveConfigToDisk(
+        'dayPlannerConfigs.startNotifications',
+        state.dayPlannerConfigs.startNotifications
+      )
+      saveConfigToDisk(
+        'dayPlannerConfigs.endNotifications',
+        state.dayPlannerConfigs.endNotifications
+      )
+    },
+
+    dayPlannerStartNotificationsBeforeChanged(
+      state,
+      action: PayloadAction<number>
+    ) {
+      state.dayPlannerConfigs.startNotificationsBefore = action.payload
+      saveConfigToDisk(
+        'dayPlannerConfigs.startNotificationsBefore',
+        action.payload
+      )
+    },
+
+    dayPlannerEndNotificationsBeforeChanged(
+      state,
+      action: PayloadAction<number>
+    ) {
+      state.dayPlannerConfigs.endNotificationsBefore = action.payload
+      saveConfigToDisk(
+        'dayPlannerConfigs.endNotificationsBefore',
+        action.payload
+      )
     }
   },
   extraReducers(builder) {
@@ -176,7 +264,7 @@ const userConfigsSlice = createSlice({
       })
       .addCase(fetchConfigs.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        state.timetableConfigs = action.payload.timetableConfigs
+        state.dayPlannerConfigs = action.payload.dayPlannerConfigs
         state.appConfigs = action.payload.appConfigs
       })
       .addCase(fetchConfigs.rejected, state => {
@@ -200,7 +288,14 @@ export const {
   timetableStartNotificationsBeforeChanged,
   timetableEndNotificationsBeforeChanged,
   todoNotificationToggled,
-  todoDayProceduresToggled
+  todoDayProceduresToggled,
+  dayPlannerShowCurrentTimeToggled,
+  dayPlannerNotificationsToggled,
+  dayPlannerStartNotificationsToggled,
+  dayPlannerEndNotificationsToggled,
+  dayPlannerStartNotificationsBeforeChanged,
+  dayPlannerEndNotificationsBeforeChanged,
+  dayPlannerDayProceduresToggled
 } = userConfigsSlice.actions
 
 export default userConfigsSlice.reducer
@@ -209,7 +304,8 @@ export default userConfigsSlice.reducer
 export const selectConfigs = (state: IState) => ({
   app: state.configs.appConfigs,
   timetable: state.configs.timetableConfigs,
-  todo: state.configs.todoConfigs
+  todo: state.configs.todoConfigs,
+  dayPlanner: state.configs.dayPlannerConfigs
 })
 export const selectTimetableNotificationStateCombined = (state: IState) =>
   state.configs.timetableConfigs.startNotifications ||
@@ -234,3 +330,8 @@ export const selectTimetableEndNotificationsBefore = (state: IState) =>
   state.configs.timetableConfigs.endNotificationsBefore
 export const selectTodoNotifications = (state: IState) =>
   state.configs.todoConfigs.notifications
+export const selectDayPlannerNotificaionStateCombined = (state: IState) =>
+  state.configs.dayPlannerConfigs.startNotifications ||
+  state.configs.dayPlannerConfigs.endNotifications
+export const selectDayPlannerShowCurrentTime = (state: IState) =>
+  state.configs.dayPlannerConfigs.showCurrentTime

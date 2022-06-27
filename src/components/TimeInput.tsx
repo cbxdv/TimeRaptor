@@ -91,7 +91,7 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
           key={`hour${index}`}
           ref={hours === index ? hoursRef : null}
         >
-          {index}
+          {index.toString().padStart(2, '0')}
         </PickerOption>
       )
     }
@@ -100,7 +100,7 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
 
   const generateMinutesOptions = () => {
     const mintuesArr = []
-    for (let index = 0; index < 60; index += 5) {
+    for (let index = 0; index < 60; index += 1) {
       mintuesArr.push(
         <PickerOption
           selected={minutes === index}
@@ -108,7 +108,7 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
           key={`minute${index}`}
           ref={minutes === index ? minutesRef : null}
         >
-          {index}
+          {index.toString().padStart(2, '0')}
         </PickerOption>
       )
     }

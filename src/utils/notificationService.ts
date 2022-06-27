@@ -19,7 +19,11 @@ const notificationService = (
     endTimetableNotifications,
     startTimetableNotificationsBefore,
     endTimetableNotificationsBefore,
-    todoNotifications
+    todoNotifications,
+    startDayPlannerNotifications,
+    endDayPlannerNotifications,
+    startDayPlannerNotificationsBefore,
+    endDayPlannerNotificationsBefore
   } = notificationStates
 
   const stamps: ITimeStampWithStrings[] = []
@@ -27,15 +31,29 @@ const notificationService = (
   timeStamps.forEach(ts => {
     let { secText, time } = ts
 
-    if (ts.secText.startsWith('Starts')) {
-      time = ts.time - 60000 * startTimetableNotificationsBefore
-      if (startTimetableNotificationsBefore !== 0) {
-        secText = `Starts in ${startTimetableNotificationsBefore} minutes`
+    if (ts.type === 'timetable') {
+      if (ts.secText.startsWith('Starts')) {
+        time = ts.time - 60000 * startTimetableNotificationsBefore
+        if (startTimetableNotificationsBefore !== 0) {
+          secText = `Starts in ${startTimetableNotificationsBefore} minutes`
+        }
+      } else {
+        time = ts.time - 60000 * endTimetableNotificationsBefore
+        if (endTimetableNotificationsBefore !== 0) {
+          secText = `Ends in ${endTimetableNotificationsBefore} minutes`
+        }
       }
-    } else {
-      time = ts.time - 60000 * endTimetableNotificationsBefore
-      if (endTimetableNotificationsBefore !== 0) {
-        secText = `Ends in ${endTimetableNotificationsBefore} minutes`
+    } else if (ts.type === 'dayPlanner') {
+      if (ts.secText.startsWith('Starts')) {
+        time = ts.time - 60000 * startDayPlannerNotificationsBefore
+        if (startDayPlannerNotificationsBefore !== 0) {
+          secText = `Starts in ${startDayPlannerNotificationsBefore} minutes`
+        }
+      } else {
+        time = ts.time - 60000 * endDayPlannerNotificationsBefore
+        if (endDayPlannerNotificationsBefore !== 0) {
+          secText = `Ends in ${endDayPlannerNotificationsBefore} minutes`
+        }
       }
     }
 
@@ -50,7 +68,6 @@ const notificationService = (
     now = new Date()
     nowValue = now.toLocaleTimeString()
     stamps.forEach(stamp => {
-      console.log(stamp.time, nowValue, stamp.time === nowValue)
       if (nowValue === stamp.time) {
         if (stamp.type === 'timetable') {
           if (
@@ -61,9 +78,15 @@ const notificationService = (
             sendNotification(stamp.title, stamp.secText)
           }
         } else if (stamp.type === 'todo') {
-          console.log(stamp)
-          console.log(todoNotifications)
           if (todoNotifications) {
+            sendNotification(stamp.title, stamp.secText)
+          }
+        } else if (stamp.type === 'dayPlanner') {
+          if (
+            (stamp.secText.startsWith('Starts') &&
+              startDayPlannerNotifications) ||
+            (stamp.secText.startsWith('Ends') && endDayPlannerNotifications)
+          ) {
             sendNotification(stamp.title, stamp.secText)
           }
         }

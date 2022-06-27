@@ -2,7 +2,6 @@ import { ITodosData } from '../@types/TodoInterface'
 import { fetchConfigsData, updateTodosToDisk } from './electronUtils'
 import { checkWhetherYesterday } from './timeUtils'
 
-// eslint-disable-next-line import/prefer-default-export
 export const todoDayProcedures = async (todosData: ITodosData) => {
   const configs = await fetchConfigsData()
   if (configs && configs.todoConfigs) {

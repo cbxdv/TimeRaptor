@@ -19,6 +19,7 @@ import IconButton from '../components/IconButton'
 import NotificationsToggle from '../components/NotificationsToggle'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import GearIcon from '../assets/icons/Gear.svg'
+import { updateTimeStamps } from '../redux/slices/appSlice'
 
 const TimetablePage = () => (
   <TimetablePageContainer>
@@ -44,6 +45,7 @@ const TimetableHeader = () => {
 
   const toggleNotifications = () => {
     dispatch(timetableNotificationsToggled())
+    dispatch(updateTimeStamps())
   }
 
   const keyBindHandler = (event: KeyboardEvent) => {

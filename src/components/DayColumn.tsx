@@ -12,7 +12,11 @@ import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { IState } from '../@types/StateInterfaces'
 import { selectTimetableShowCurrentBlock } from '../redux/slices/configsSlice'
 
-const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
+const DayColumn: React.FC<DayColumnProps> = ({
+  dayId,
+  showIndicator,
+  dayPlanner
+}) => {
   const dayData = useSelector((state: IState) =>
     selectBlocksByDay(state, dayId)
   )
@@ -45,14 +49,21 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
   return (
     <DayColumnContainer>
       <div style={{ height: 20, marginBottom: 10, paddingLeft: 5 }}>
-        <DayIndicator isToday={isToday}>{dayStrings(dayId)}</DayIndicator>
+        <DayIndicator isToday={isToday && showIndicator}>
+          {dayStrings(dayId)}
+        </DayIndicator>
       </div>
       <DayColumnMain>
         <TimeBlockContainer>
           {dayData.map((timeblock: ITimeBlock) => (
-            <TimeBlock key={timeblock.id} timeblock={timeblock} />
+            <TimeBlock
+              key={timeblock.id}
+              timeblock={timeblock}
+              dayPlanner={dayPlanner}
+              disableTool={dayPlanner}
+            />
           ))}
-          {isToday && <CurrentTimeLine />}
+          {isToday && showIndicator && <CurrentTimeLine />}
         </TimeBlockContainer>
       </DayColumnMain>
     </DayColumnContainer>
@@ -61,6 +72,13 @@ const DayColumn: React.FC<DayColumnProps> = ({ dayId }) => {
 
 type DayColumnProps = {
   dayId: DayStringTypes
+  showIndicator?: boolean
+  dayPlanner?: boolean
+}
+
+DayColumn.defaultProps = {
+  showIndicator: true,
+  dayPlanner: false
 }
 
 const DayColumnContainer = styled.div`

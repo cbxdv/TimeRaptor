@@ -1,5 +1,6 @@
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { ColorStringTypes } from '../@types/TimeBlockInterfaces'
+import { DayPlannerDayTypes } from '../@types/DayPlannerInterfaces'
 
 export const dayStrings = (day: DayStringTypes) => {
   switch (day) {
@@ -58,3 +59,19 @@ export const daysArray: DayStringTypes[] = [
   'friday',
   'saturday'
 ]
+
+export const dayPlannerDaysArray: DayPlannerDayTypes[] = [
+  'currentDay',
+  'nextDay'
+]
+
+export const dayPlannerDayString = (dayPlannerDay: DayPlannerDayTypes) => {
+  switch (dayPlannerDay) {
+    case 'currentDay':
+      return 'Current Day'
+    case 'nextDay':
+      return 'Next Day'
+    default:
+      return ''
+  }
+}

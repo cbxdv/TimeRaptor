@@ -11,8 +11,14 @@ import { varietyColors } from '../styles/styleConstants'
 
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { updateTimeStamps } from '../redux/slices/appSlice'
+import { IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
+import { blockDeleted as dayPlannerBlockDeleted } from '../redux/slices/dayPlannerSlice'
 
-const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
+const TimeBlock: React.FC<TimeBlockProps> = ({
+  timeblock,
+  dayPlanner,
+  disableTool
+}) => {
   const dispatch = useDispatch()
 
   const { day, title, startTime, endTime, duration, blockColor } = timeblock
@@ -27,7 +33,11 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
 
   const deleteHandler = () => {
     setShowBlockTool(false)
-    dispatch(blockDeleted(timeblock))
+    if (dayPlanner) {
+      dispatch(dayPlannerBlockDeleted(timeblock as IDayPlannerBlock))
+    } else {
+      dispatch(blockDeleted(timeblock as ITimeBlock))
+    }
     dispatch(updateTimeStamps())
   }
 
@@ -48,6 +58,10 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
     case 'wednesday':
       tooltipPosition = 'right'
       break
+    case 'currentDay':
+    case 'nextDay':
+      tooltipPosition = 'top'
+      break
     default:
       tooltipPosition = 'left'
   }
@@ -58,11 +72,19 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
 
   return (
     <>
-      {showBlockEditor && (
+      {showBlockEditor && !dayPlanner && (
         <TimeBlockEditor
           closeHandler={() => setShowBlockEditor(false)}
-          currentBlock={timeblock}
+          currentBlock={timeblock as ITimeBlock}
           edit
+        />
+      )}
+      {dayPlanner && showBlockEditor && (
+        <TimeBlockEditor
+          closeHandler={() => setShowBlockEditor(false)}
+          edit
+          dayPlanner
+          currentDayPlannerBlock={timeblock as IDayPlannerBlock}
         />
       )}
       <ToolContainer
@@ -85,7 +107,7 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
               </BlockSubText>
             )}
           </TimeBlockDetailsContainer>
-          {showBlockTool && (
+          {!disableTool && showBlockTool && (
             <BlockTool
               timeBlock={timeblock}
               position={tooltipPosition}
@@ -101,7 +123,14 @@ const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock }) => {
 }
 
 type TimeBlockProps = {
-  timeblock: ITimeBlock
+  timeblock: ITimeBlock | IDayPlannerBlock
+  dayPlanner?: boolean
+  disableTool?: boolean
+}
+
+TimeBlock.defaultProps = {
+  dayPlanner: false,
+  disableTool: false
 }
 
 const TimeBlockContainer = styled.div<TimeBlockContainerProps>`

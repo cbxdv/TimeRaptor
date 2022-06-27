@@ -3,14 +3,22 @@ import styled from 'styled-components'
 
 import CalendarIcon from '../assets/icons/CalendarDayView.svg'
 import WithModal from '../wrappers/WithModal'
-import { daysArray, dayStrings } from '../utils/strings'
+import {
+  dayPlannerDaysArray,
+  dayPlannerDayString,
+  daysArray,
+  dayStrings
+} from '../utils/strings'
 import { flexCenter, inputBack } from '../styles/styleUtils'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
+import { DayPlannerDayTypes } from '../@types/DayPlannerInterfaces'
 
 const DayInput: React.FC<DayInputProps> = ({
   title,
   value,
-  valueSetHandler
+  valueSetHandler,
+  dayPlanner,
+  dayPlannerValueSetHandler
 }) => {
   const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)
 
@@ -21,10 +29,14 @@ const DayInput: React.FC<DayInputProps> = ({
           day={value}
           mainSubmitHandler={valueSetHandler}
           closeHandler={() => setShowPickerPanel(false)}
+          dayPlanner={dayPlanner}
+          dayPlannerValueSetHandler={dayPlannerValueSetHandler}
         />
       )}
       <DayPickerTopBox>
-        {dayStrings(value) || title}
+        {dayPlanner
+          ? dayPlannerDayString(value as DayPlannerDayTypes) || title
+          : dayStrings(value as DayStringTypes) || title}
         <CalendarIcon onClick={() => setShowPickerPanel(true)} />
       </DayPickerTopBox>
     </>
@@ -33,21 +45,37 @@ const DayInput: React.FC<DayInputProps> = ({
 
 type DayInputProps = {
   title: string
-  value: DayStringTypes
-  valueSetHandler: (day: DayStringTypes) => void
+  value: DayStringTypes | DayPlannerDayTypes
+  valueSetHandler?: (day: DayStringTypes) => void
+  dayPlanner?: boolean
+  dayPlannerValueSetHandler?: (day: DayPlannerDayTypes) => void
+}
+
+DayInput.defaultProps = {
+  valueSetHandler: () => {},
+  dayPlanner: false,
+  dayPlannerValueSetHandler: () => {}
 }
 
 const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
   day,
   closeHandler,
-  mainSubmitHandler
+  mainSubmitHandler,
+  dayPlanner,
+  dayPlannerValueSetHandler
 }) => {
   const [selectedDay, setSelectedDay] = useState<DayStringTypes>('monday')
+  const [dayPlannerSelectedDay, setDayPlannerSelectedDay] =
+    useState<DayPlannerDayTypes>('currentDay')
 
   const dayRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    setSelectedDay(day)
+    if (dayPlanner) {
+      setDayPlannerSelectedDay(day as DayPlannerDayTypes)
+    } else {
+      setSelectedDay(day as DayStringTypes)
+    }
 
     setTimeout(() => {
       if (dayRef && dayRef.current) {
@@ -57,21 +85,39 @@ const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
   }, [])
 
   const submitHandler = (close = () => {}) => {
-    mainSubmitHandler(selectedDay)
+    if (dayPlanner) {
+      dayPlannerValueSetHandler(dayPlannerSelectedDay)
+    } else {
+      mainSubmitHandler(selectedDay)
+    }
     close()
   }
 
   const generateDayOptions = () => {
-    const dayArr = daysArray.map((d: DayStringTypes) => (
-      <PickerOption
-        selected={selectedDay === d}
-        onClick={() => setSelectedDay(d)}
-        key={`${d}-option`}
-        ref={selectedDay === d ? dayRef : null}
-      >
-        {dayStrings(d)}
-      </PickerOption>
-    ))
+    let dayArr = []
+    if (!dayPlanner) {
+      dayArr = daysArray.map((d: DayStringTypes) => (
+        <PickerOption
+          selected={selectedDay === d}
+          onClick={() => setSelectedDay(d)}
+          key={`${d}-option`}
+          ref={selectedDay === d ? dayRef : null}
+        >
+          {dayStrings(d)}
+        </PickerOption>
+      ))
+    } else {
+      dayArr = dayPlannerDaysArray.map((d: DayPlannerDayTypes) => (
+        <PickerOption
+          selected={dayPlannerSelectedDay === d}
+          onClick={() => setDayPlannerSelectedDay(d)}
+          key={`${d}-option`}
+          ref={dayPlannerSelectedDay === d ? dayRef : null}
+        >
+          {dayPlannerDayString(d as DayPlannerDayTypes)}
+        </PickerOption>
+      ))
+    }
     return dayArr
   }
 
@@ -84,16 +130,20 @@ const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
       scrollLockDisabled
     >
       <DayPickerPanelContainer>
-        <OptionsContainer>{generateDayOptions()}</OptionsContainer>
+        <OptionsContainer dayPlanner={dayPlanner}>
+          {generateDayOptions()}
+        </OptionsContainer>
       </DayPickerPanelContainer>
     </WithModal>
   )
 }
 
 type DayPickerPanelProps = {
-  day: DayStringTypes
+  day: DayStringTypes | DayPlannerDayTypes
   closeHandler: () => void
   mainSubmitHandler: (day: DayStringTypes) => void
+  dayPlanner: boolean
+  dayPlannerValueSetHandler: (day: DayPlannerDayTypes) => void
 }
 
 const DayPickerTopBox = styled.div`
@@ -110,8 +160,8 @@ const DayPickerPanelContainer = styled.div`
   margin-bottom: 20px;
 `
 
-const OptionsContainer = styled.div`
-  height: 200px;
+const OptionsContainer = styled.div<{ dayPlanner: boolean }>`
+  height: ${({ dayPlanner }) => (dayPlanner ? `100%` : `200px`)};
   overflow: scroll;
   padding: 10px 0;
 `

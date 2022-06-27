@@ -26,5 +26,9 @@ contextBridge.exposeInMainWorld('electron', {
 
   getAllTodos: () => ipcRenderer.invoke('todos:get'),
   updateTodos: data => ipcRenderer.send('todos:update', data),
-  clearAllTodos: () => ipcRenderer.send('todos:clear')
+  clearAllTodos: () => ipcRenderer.send('todos:clear'),
+
+  getAllDayPlannerBlocks: () => ipcRenderer.invoke('dayPlanner:get'),
+  updateDayPlannerBlocks: data => ipcRenderer.send('dayPlanner:update', data),
+  clearAllDayPlannerBlocks: () => ipcRenderer.send('dayPlanner:clear')
 });

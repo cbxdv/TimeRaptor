@@ -1,11 +1,13 @@
 export type PlatformStringTypes = 'darwin' | 'win32' | ''
 
+export type AppModeTyes = 'timetable' | 'todo' | 'dayPlanner'
+
 export interface ITimeStamp {
   id: string
   time: number
   title: string
   secText: string
-  type: 'timetable' | 'todo'
+  type: AppModeTyes
 }
 
 export interface ITimeStampWithStrings {
@@ -13,7 +15,7 @@ export interface ITimeStampWithStrings {
   title: string
   time: string
   secText: string
-  type: 'timetable' | 'todo'
+  type: AppModeTyes
 }
 
 export interface INotificationStates {
@@ -22,4 +24,8 @@ export interface INotificationStates {
   startTimetableNotificationsBefore: number
   endTimetableNotificationsBefore: number
   todoNotifications: boolean
+  startDayPlannerNotifications: boolean
+  endDayPlannerNotifications: boolean
+  startDayPlannerNotificationsBefore: number
+  endDayPlannerNotificationsBefore: number
 }

@@ -11,6 +11,7 @@ import { buttonStyles, flexCenter, emojiTextStyles } from '../styles/styleUtils'
 import Loader from '../components/Loader'
 import ConfigsPanel from '../components/ConfigsPanel'
 import GearEmoji from '../assets/icons/Gear.png'
+import DayIcon from '../assets/icons/Day.svg'
 
 const HomePage = () => {
   const appStatus = useSelector((state: IState) => state.app.status)
@@ -50,6 +51,7 @@ const HomePage = () => {
       <ButtonsContainer>
         {generatePageContainer('/timetable', 'Timetable', <WeekIcon />)}
         {generatePageContainer('/todos/today', 'Todos', <TaskIcon />)}
+        {generatePageContainer('/dayPlanner', 'Day Planner', <DayIcon />)}
       </ButtonsContainer>
       <div>
         <EmojiTextContainer

@@ -32,7 +32,13 @@ import {
   timetableStartNotificationsBeforeChanged,
   timetableEndNotificationsBeforeChanged,
   todoNotificationToggled,
-  todoDayProceduresToggled
+  todoDayProceduresToggled,
+  dayPlannerShowCurrentTimeToggled,
+  dayPlannerDayProceduresToggled,
+  dayPlannerStartNotificationsToggled,
+  dayPlannerEndNotificationsToggled,
+  dayPlannerStartNotificationsBeforeChanged,
+  dayPlannerEndNotificationsBeforeChanged
 } from '../redux/slices/configsSlice'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { daysArray, dayStrings } from '../utils/strings'
@@ -40,6 +46,7 @@ import TextButton from './TextButton'
 import { blocksCleared } from '../redux/slices/timetableSlice'
 import NumberInput from './NumberInput'
 import { todosCleared } from '../redux/slices/todosSlice'
+import { blocksCleared as dayPlannerBlocksCleared } from '../redux/slices/dayPlannerSlice'
 import LED from './LED'
 
 export const AboutTab = () => {
@@ -406,6 +413,141 @@ export const TodosConfigsTab = () => {
             variant='danger'
             onClick={() => {
               dispatch(todosCleared())
+              navigate('/', { replace: true })
+            }}
+          />
+        </Option>
+      </div>
+    </ComponentContainer>
+  )
+}
+
+export const DayPlannerConfigsTab = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const configs = useSelector(selectConfigs)
+
+  return (
+    <ComponentContainer>
+      <OptionsContainer>
+        <Option>
+          <OptionText>Show time on top</OptionText>
+          <OptionConfig>
+            <CheckBox
+              checked={configs.dayPlanner.showCurrentTime}
+              onClick={() => dispatch(dayPlannerShowCurrentTimeToggled())}
+            />
+          </OptionConfig>
+        </Option>
+        <Option>
+          <OptionText>Day Procedures</OptionText>
+          <OptionConfig>
+            <CheckBox
+              checked={configs.dayPlanner.dayProcedures}
+              onClick={() => dispatch(dayPlannerDayProceduresToggled())}
+            />
+          </OptionConfig>
+        </Option>
+      </OptionsContainer>
+      <div style={{ margin: '20px 0', width: '100%' }}>
+        <h3>Configure Notifications</h3>
+        <div>
+          <OptionsContainer>
+            <Option>
+              <OptionText>Start Notifications</OptionText>
+              <OptionConfig>
+                <CheckBox
+                  checked={configs.dayPlanner.startNotifications}
+                  onClick={() => {
+                    dispatch(dayPlannerStartNotificationsToggled())
+                    dispatch(updateTimeStamps())
+                  }}
+                />
+              </OptionConfig>
+            </Option>
+            <Option>
+              <OptionText>End Notifications</OptionText>
+              <OptionConfig>
+                <CheckBox
+                  checked={configs.dayPlanner.endNotifications}
+                  onClick={() => {
+                    dispatch(dayPlannerEndNotificationsToggled())
+                    dispatch(updateTimeStamps())
+                  }}
+                />
+              </OptionConfig>
+            </Option>
+            <OptionSingle>
+              <OptionConfig style={{ justifyContent: 'flex-start' }}>
+                Start before
+                <div style={{ margin: '0 10px' }}>
+                  <NumberInput
+                    start={0}
+                    end={55}
+                    step={1}
+                    value={configs.dayPlanner.startNotificationsBefore}
+                    incrementHandler={() => {
+                      dispatch(
+                        dayPlannerStartNotificationsBeforeChanged(
+                          configs.dayPlanner.startNotificationsBefore + 1
+                        )
+                      )
+                      dispatch(updateTimeStamps())
+                    }}
+                    decrementHandler={() => {
+                      dispatch(
+                        dayPlannerStartNotificationsBeforeChanged(
+                          configs.dayPlanner.startNotificationsBefore - 1
+                        )
+                      )
+                      dispatch(updateTimeStamps())
+                    }}
+                  />
+                </div>
+                minutes
+              </OptionConfig>
+            </OptionSingle>
+            <OptionSingle>
+              <OptionConfig style={{ justifyContent: 'flex-start' }}>
+                End before
+                <div style={{ margin: '0 10px' }}>
+                  <NumberInput
+                    start={0}
+                    end={55}
+                    step={1}
+                    value={configs.dayPlanner.endNotificationsBefore}
+                    incrementHandler={() => {
+                      dispatch(
+                        dayPlannerEndNotificationsBeforeChanged(
+                          configs.dayPlanner.endNotificationsBefore + 1
+                        )
+                      )
+                      dispatch(updateTimeStamps())
+                    }}
+                    decrementHandler={() => {
+                      dispatch(
+                        dayPlannerEndNotificationsBeforeChanged(
+                          configs.dayPlanner.endNotificationsBefore - 1
+                        )
+                      )
+                      dispatch(updateTimeStamps())
+                    }}
+                  />
+                </div>
+                minutes
+              </OptionConfig>
+            </OptionSingle>
+          </OptionsContainer>
+        </div>
+      </div>
+      <div>
+        <Option>
+          <TextButton
+            label='Clear Blocks'
+            variant='danger'
+            onClick={() => {
+              dispatch(dayPlannerBlocksCleared())
               navigate('/', { replace: true })
             }}
           />

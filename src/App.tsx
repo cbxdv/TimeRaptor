@@ -27,6 +27,8 @@ import TimetablePage from './pages/TimetablePage'
 import MainPage from './pages/HomePage'
 import TodosPage from './pages/TodosPage'
 import { fetchTodos } from './redux/slices/todosSlice'
+import DayPlannerPage from './pages/DayPlannerPage'
+import { fetchDayPlannerBlocks } from './redux/slices/dayPlannerSlice'
 
 const MainComponent = () => {
   const dispatch = useDispatch()
@@ -55,6 +57,7 @@ const MainComponent = () => {
     dispatch(fetchConfigs())
     dispatch(fetchBlocks())
     dispatch(fetchTodos())
+    dispatch(fetchDayPlannerBlocks())
     dispatch(fetchAppProps())
 
     // app loading
@@ -68,6 +71,7 @@ const MainComponent = () => {
         <Route path='/' element={<MainPage />} />
         <Route path='/timetable' element={<TimetablePage />} />
         <Route path='/todos/:todoListId' element={<TodosPage />} />
+        <Route path='/dayPlanner' element={<DayPlannerPage />} />
       </Routes>
     </ThemeProvider>
   )
@@ -81,4 +85,9 @@ const App = () => (
   </Provider>
 )
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+)

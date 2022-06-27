@@ -3,6 +3,7 @@ import {
   ITimeStamp,
   PlatformStringTypes
 } from './AppInterfaces'
+import { IDayPlannerData } from './DayPlannerInterfaces'
 import { ITimeBlock } from './TimeBlockInterfaces'
 import { ITimetableDayData } from './TimetableInterfaces'
 import { ITodosData } from './TodoInterface'
@@ -25,6 +26,11 @@ export interface ITodosState extends ITodosData {
   error: string | null
 }
 
+export interface IDayPlannerState extends IDayPlannerData {
+  status: string
+  error: string | null
+}
+
 export interface IAppState {
   timeStamps: ITimeStamp[]
   platform: PlatformStringTypes
@@ -41,4 +47,5 @@ export interface IState {
   configs: IConfigsState
   timetable: ITimetableState
   todos: ITodosState
+  dayPlanner: IDayPlannerState
 }

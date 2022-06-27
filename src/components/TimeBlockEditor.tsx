@@ -4,6 +4,10 @@ import styled from 'styled-components'
 
 import WithModal from '../wrappers/WithModal'
 import { blockAdded, blockUpdated } from '../redux/slices/timetableSlice'
+import {
+  blockAdded as dayPlannerBlockAdded,
+  blockUpdated as dayPlannerBlockUpdated
+} from '../redux/slices/dayPlannerSlice'
 import { getCurrentTimeAndDay, getDurationMinutes } from '../utils/timeUtils'
 import ColorPicker from './ColorPicker'
 import DayInput from './DayInput'
@@ -14,16 +18,25 @@ import TimeInput from './TimeInput'
 import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
 import { ColorStringTypes, ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { updateTimeStamps } from '../redux/slices/appSlice'
+import {
+  DayPlannerDayTypes,
+  IDayPlannerBlock
+} from '../@types/DayPlannerInterfaces'
 
 const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
   closeHandler,
   edit = false,
-  currentBlock = null
+  currentBlock = null,
+  dayPlanner,
+  dpDay,
+  currentDayPlannerBlock
 }) => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState<string>('')
   const [day, setDay] = useState<DayStringTypes>('monday')
+  const [dayPlannerDay, setDayPlannerDay] =
+    useState<DayPlannerDayTypes>('currentDay')
   const [startTime, setStartTime] = useState<ITimeObject>({
     hours: 1,
     minutes: 0,
@@ -73,49 +86,94 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
       return
     }
     close()
-    const newBlock = {
-      ...currentBlock,
-      title,
-      day,
-      startTime,
-      endTime,
-      duration: getDurationMinutes(startTime, endTime),
-      blockColor,
-      description
-    }
-    setTimeout(() => {
-      if (edit) {
-        // edit block
-        dispatch(blockUpdated({ oldBlock: currentBlock, newBlock }))
-      } else {
-        // add new block
-        dispatch(blockAdded(newBlock))
+
+    if (dayPlanner) {
+      const newBlock: IDayPlannerBlock = {
+        ...currentDayPlannerBlock,
+        title,
+        day: dayPlannerDay,
+        startTime,
+        endTime,
+        duration: getDurationMinutes(startTime, endTime),
+        blockColor,
+        description
       }
-      const currentDay = getCurrentTimeAndDay().day
-      if (
-        day === currentDay ||
-        (currentBlock && currentBlock.day === currentDay)
-      ) {
+      setTimeout(() => {
+        if (edit) {
+          // update day planner block
+          dispatch(
+            dayPlannerBlockUpdated({
+              oldBlock: currentDayPlannerBlock,
+              newBlock
+            })
+          )
+        } else {
+          // add day planner block
+          dispatch(dayPlannerBlockAdded(newBlock))
+        }
         dispatch(updateTimeStamps())
+      }, 150)
+    } else {
+      const newBlock: ITimeBlock = {
+        ...currentBlock,
+        title,
+        day,
+        startTime,
+        endTime,
+        duration: getDurationMinutes(startTime, endTime),
+        blockColor,
+        description
       }
-    }, 150)
+      setTimeout(() => {
+        if (edit) {
+          // edit block
+          dispatch(blockUpdated({ oldBlock: currentBlock, newBlock }))
+        } else {
+          // add new block
+          dispatch(blockAdded(newBlock))
+        }
+        const currentDay = getCurrentTimeAndDay().day
+        if (
+          day === currentDay ||
+          (currentBlock && currentBlock.day === currentDay)
+        ) {
+          dispatch(updateTimeStamps())
+        }
+      }, 150)
+    }
   }
 
   useEffect(() => {
-    if (!currentBlock || Object.keys(currentBlock).length === 0) {
-      return
+    if (dayPlanner) {
+      if (
+        !currentDayPlannerBlock ||
+        Object.keys(currentDayPlannerBlock).length === 0
+      ) {
+        return
+      }
+      setTitle(currentDayPlannerBlock.title)
+      setDayPlannerDay(dpDay)
+      setStartTime(currentDayPlannerBlock.startTime)
+      setEndTime(currentDayPlannerBlock.endTime)
+      setBlockColor(currentDayPlannerBlock.blockColor)
+      setDescription(currentDayPlannerBlock.description)
+    } else {
+      if (!currentBlock || Object.keys(currentBlock).length === 0) {
+        return
+      }
+      setTitle(currentBlock.title)
+      setDay(currentBlock.day)
+      setStartTime(currentBlock.startTime)
+      setEndTime(currentBlock.endTime)
+      setBlockColor(currentBlock.blockColor)
+      setDescription(currentBlock.description)
     }
-    setTitle(currentBlock.title)
-    setDay(currentBlock.day)
-    setStartTime(currentBlock.startTime)
-    setEndTime(currentBlock.endTime)
-    setBlockColor(currentBlock.blockColor)
-    setDescription(currentBlock.description)
   }, [])
 
   const clearState = () => {
     setTitle('')
     setDay('monday')
+    setDayPlannerDay('currentDay')
     setStartTime({ hours: 1, minutes: 0, pm: false })
     setEndTime({ hours: 1, minutes: 0, pm: false })
     setBlockColor('decoPeach')
@@ -145,13 +203,24 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
         </InputContainer>
 
         <InputContainer ref={inputRef}>
-          <DayInput
-            title='Day'
-            value={day}
-            valueSetHandler={(selectedDay: DayStringTypes) =>
-              setDay(selectedDay)
-            }
-          />
+          {dayPlanner ? (
+            <DayInput
+              title='Day'
+              value={dayPlannerDay}
+              dayPlanner
+              dayPlannerValueSetHandler={(selectedDay: DayPlannerDayTypes) =>
+                setDayPlannerDay(selectedDay)
+              }
+            />
+          ) : (
+            <DayInput
+              title='Day'
+              value={day}
+              valueSetHandler={(selectedDay: DayStringTypes) =>
+                setDay(selectedDay)
+              }
+            />
+          )}
         </InputContainer>
 
         <InputContainer>
@@ -199,11 +268,17 @@ type TimeBlockEditorProps = {
   closeHandler: () => void
   edit?: boolean
   currentBlock?: ITimeBlock | null
+  dayPlanner?: boolean
+  dpDay?: DayPlannerDayTypes
+  currentDayPlannerBlock?: IDayPlannerBlock | null
 }
 
 TimeBlockEditor.defaultProps = {
   edit: false,
-  currentBlock: null
+  currentBlock: null,
+  dayPlanner: false,
+  dpDay: 'currentDay',
+  currentDayPlannerBlock: null
 }
 
 const AddForm = styled.div`

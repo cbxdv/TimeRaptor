@@ -9,9 +9,11 @@ import {
   fetchTimetableData,
   fetchTodosData,
   getElectronContext,
-  fetchNotificationStates
+  fetchNotificationStates,
+  fetchDayPlannerDataFromDisk
 } from '../../utils/electronUtils'
 import {
+  generateDayPlannerTimeStamps,
   generateTimetableTimeStamps,
   generateTodoTimeStamps
 } from '../../utils/notificationUtils'
@@ -22,6 +24,7 @@ import {
 } from '../../utils/notificationService'
 import { fetchTodos } from './todosSlice'
 import { fetchConfigs } from './configsSlice'
+import { fetchDayPlannerBlocks } from './dayPlannerSlice'
 
 const initialState: IAppState = {
   timeStamps: [],
@@ -34,7 +37,11 @@ const initialState: IAppState = {
     endTimetableNotifications: true,
     startTimetableNotificationsBefore: 0,
     endTimetableNotificationsBefore: 0,
-    todoNotifications: true
+    todoNotifications: true,
+    startDayPlannerNotifications: true,
+    endDayPlannerNotifications: true,
+    startDayPlannerNotificationsBefore: 0,
+    endDayPlannerNotificationsBefore: 0
   },
   status: 'loading',
   error: null
@@ -59,13 +66,17 @@ export const updateTimeStamps = createAsyncThunk('app/update', async () => {
 
   const notificationStates = await fetchNotificationStates()
 
-  const response = await fetchTimetableData()
+  const timetableResponse = await fetchTimetableData()
   const day = getCurrentDayString()
-  const timetableDayData = response[day]
+  const timetableDayData = timetableResponse[day]
   stamps = generateTimetableTimeStamps(timetableDayData, stamps)
 
   const todosData = await fetchTodosData()
   stamps = generateTodoTimeStamps(todosData.todos, stamps)
+
+  const dayPlannerResponse = await fetchDayPlannerDataFromDisk()
+  const dayPlannerDayData = dayPlannerResponse.dayData.currentDay
+  stamps = generateDayPlannerTimeStamps(dayPlannerDayData, stamps)
 
   stopNotificationService()
   startNotificationsService(stamps, notificationStates)
@@ -125,7 +136,15 @@ const appSlice = createSlice({
             configsData.timetableConfigs.startNotificationsBefore,
           endTimetableNotificationsBefore:
             configsData.timetableConfigs.endNotificationsBefore,
-          todoNotifications: configsData.todoConfigs.notifications
+          todoNotifications: configsData.todoConfigs.notifications,
+          startDayPlannerNotifications:
+            configsData.dayPlannerConfigs.startNotifications,
+          endDayPlannerNotifications:
+            configsData.dayPlannerConfigs.endNotifications,
+          startDayPlannerNotificationsBefore:
+            configsData.dayPlannerConfigs.startNotificationsBefore,
+          endDayPlannerNotificationsBefore:
+            configsData.dayPlannerConfigs.endNotificationsBefore
         }
       })
       .addCase(fetchBlocks.fulfilled, (state, action) => {
@@ -138,6 +157,12 @@ const appSlice = createSlice({
         const todosData = action.payload
         const oldStamps = JSON.parse(JSON.stringify(state.timeStamps))
         state.timeStamps = generateTodoTimeStamps(todosData.todos, oldStamps)
+      })
+      .addCase(fetchDayPlannerBlocks.fulfilled, (state, action) => {
+        const dayData = action.payload
+        const data = dayData.dayData.currentDay
+        const oldStamps = JSON.parse(JSON.stringify(state.timeStamps))
+        state.timeStamps = generateDayPlannerTimeStamps(data, oldStamps)
       })
       .addCase(updateTimeStamps.fulfilled, (state, action) => {
         state.timeStamps = action.payload.stamps

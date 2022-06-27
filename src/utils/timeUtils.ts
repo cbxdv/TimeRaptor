@@ -44,6 +44,35 @@ export const getCurrentDayString = (): DayStringTypes => {
 }
 
 /**
+ * Returns day string that is ofsetted from the provided number.
+ *
+ * Example: `-1` from a `sunday` gives `saturday`
+ * @param offset : The offset that is required from the current day;
+ * @returns {string} A string the day with offset
+ */
+export const getCurrentOffsetDayString = (offset: number): DayStringTypes => {
+  const dayNum = (new Date().getDay() + offset) % 7
+  switch (dayNum) {
+    case 1:
+      return 'monday'
+    case 2:
+      return 'tuesday'
+    case 3:
+      return 'wednesday'
+    case 4:
+      return 'thursday'
+    case 5:
+      return 'friday'
+    case 6:
+      return 'saturday'
+    case 0:
+      return 'sunday'
+    default:
+      return ''
+  }
+}
+
+/**
  *  Generate a time string with the provided time object
  *  @param {{hours : Number, minutes : Number, pm : boolean}} timeObj
  *    An object with hours, minutes and a number `0` for a.m. or `1` for p.m.

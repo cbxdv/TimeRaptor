@@ -30,8 +30,18 @@ export interface ITodoConfigs {
   dayProcedures?: boolean
 }
 
+export interface IDayPlannerConfigs {
+  startNotifications?: boolean
+  endNotifications?: boolean
+  startNotificationsBefore?: number
+  endNotificationsBefore?: number
+  showCurrentTime?: boolean
+  dayProcedures?: boolean
+}
+
 export interface IConfigs {
   timetableConfigs: ITimetableConfigs
   todoConfigs: ITodoConfigs
+  dayPlannerConfigs: IDayPlannerConfigs
   appConfigs: IAppConfigs
 }

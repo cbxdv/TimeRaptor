@@ -103,3 +103,16 @@ ipcMain.on('todos:update', async (_, todosData) => {
 ipcMain.on('todos:clear', () => {
   store.delete('todos');
 });
+
+ipcMain.handle('dayPlanner:get', async () => {
+  const dayPlanner = await store.get('dayPlanner');
+  return dayPlanner;
+});
+
+ipcMain.on('dayPlanner:update', async (_, dayData) => {
+  store.set('dayPlanner', dayData);
+});
+
+ipcMain.on('dayPlanner:clear', () => {
+  store.delete('dayPlaner');
+});

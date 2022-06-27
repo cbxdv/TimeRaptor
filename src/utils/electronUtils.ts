@@ -2,6 +2,7 @@ import { ITodosData } from '../@types/TodoInterface'
 import { ITimetableDayData } from '../@types/TimetableInterfaces'
 import { INotificationStates } from '../@types/AppInterfaces'
 import { IConfigs } from '../@types/UserConfigInterfaces'
+import { IDayPlannerData } from '../@types/DayPlannerInterfaces'
 
 /**
  * Extracts and returns the electron context object defined at window.
@@ -164,6 +165,14 @@ export const fetchConfigsData = async () => {
       notifications: true,
       dayProcedures: true
     },
+    dayPlannerConfigs: {
+      showCurrentTime: true,
+      dayProcedures: true,
+      startNotifications: true,
+      endNotifications: true,
+      startNotificationsBefore: 0,
+      endNotificationsBefore: 0
+    },
     appConfigs: {
       closeOnExit: false,
       darkMode: true,
@@ -181,12 +190,38 @@ export const fetchConfigsData = async () => {
       ...initialState.todoConfigs,
       ...response.todoConfigs
     },
+    dayPlannerConfigs: {
+      ...initialState.dayPlannerConfigs,
+      ...response.dayPlannerConfigs
+    },
     appConfigs: {
       ...initialState.appConfigs,
       ...response.appConfigs
     }
   }
   return data
+}
+
+export const fetchDayPlannerDataFromDisk = async () => {
+  const electron = getElectronContext()
+  const response: IDayPlannerData = await electron.getAllDayPlannerBlocks()
+  const initialState: IDayPlannerData = {
+    lastUpdated: 0,
+    dayData: {
+      currentDay: [],
+      nextDay: []
+    }
+  }
+  const data: IDayPlannerData = {
+    ...initialState,
+    ...response
+  }
+  return data
+}
+
+export const updateDayPlannerDataToDisk = (dayPlannerData: IDayPlannerData) => {
+  const electron = getElectronContext()
+  electron.updateDayPlannerBlocks(dayPlannerData)
 }
 
 export const fetchNotificationStates = async () => {
@@ -199,7 +234,14 @@ export const fetchNotificationStates = async () => {
       configsData.timetableConfigs.startNotificationsBefore,
     endTimetableNotificationsBefore:
       configsData.timetableConfigs.endNotificationsBefore,
-    todoNotifications: configsData.todoConfigs.notifications
+    todoNotifications: configsData.todoConfigs.notifications,
+    startDayPlannerNotifications:
+      configsData.dayPlannerConfigs.startNotifications,
+    endDayPlannerNotifications: configsData.dayPlannerConfigs.endNotifications,
+    startDayPlannerNotificationsBefore:
+      configsData.dayPlannerConfigs.startNotificationsBefore,
+    endDayPlannerNotificationsBefore:
+      configsData.dayPlannerConfigs.endNotificationsBefore
   }
   return notificationStates
 }
