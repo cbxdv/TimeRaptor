@@ -4,6 +4,12 @@ const path = require('path');
 const os = require('os');
 const Store = require('electron-store');
 
+const {
+  default: installExtension,
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS
+} = require('electron-devtools-installer');
+
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
@@ -19,11 +25,24 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on('second-instance', (event, commandLine, workingDirectory) => {
+  app.on('second-instance', () => {
     // Focussing the initiallly created instance window
     showWindow();
   });
 }
+
+const isPackaged = app.isPackaged;
+
+if (!isPackaged)
+  app.whenReady().then(() => {
+    installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
+      .then(name => console.log(`Added Extension:  ${name}`))
+      .catch(err => console.log('An error occurred: ', err));
+    // Open the DevTools
+    if (!isPackaged) {
+      mainWindow.webContents.openDevTools();
+    }
+  });
 
 // Boolean to indicate whethter the app is launching
 let isAppLoading = true;
@@ -42,7 +61,7 @@ const createMainWindow = () => {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       backgroundThrottling: false,
       contextIsolation: true,
-      devTools: true
+      devTools: !isPackaged
     },
     icon: path.join(__dirname, './assets/logos/Icon.ico')
   });
@@ -57,9 +76,6 @@ const createMainWindow = () => {
   Menu.setApplicationMenu(menu);
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  // Open the DevTools
-  mainWindow.webContents.openDevTools();
 
   // Hiding menubar
   mainWindow.setMenuBarVisibility(false);

@@ -11,5 +11,6 @@ export default configureStore({
     configs: configsReducer,
     timetable: timetableReducer,
     todos: todosReducer
-  }
+  },
+  devTools: true
 })
