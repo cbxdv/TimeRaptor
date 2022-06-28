@@ -8,12 +8,7 @@ import { flexCenter, inputBack } from '../styles/styleUtils'
 
 import { ITimeObject } from '../@types/DayAndTimeInterfaces'
 
-const TimeInput: React.FC<TimeInputProps> = ({
-  title = '',
-  value,
-  valueSetHandler,
-  error
-}) => {
+const TimeInput: React.FC<TimeInputProps> = ({ title = '', value, valueSetHandler, error }) => {
   const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)
 
   const timeString = getTimeString12(value)
@@ -138,18 +133,10 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
           </PickerSecsContainer>
           <PickerSecsContainer>
             <div>
-              <PickerOption
-                selected={!pm}
-                onClick={() => setPm(false)}
-                key='ampm0'
-              >
+              <PickerOption selected={!pm} onClick={() => setPm(false)} key='ampm0'>
                 a.m.
               </PickerOption>
-              <PickerOption
-                selected={pm}
-                onClick={() => setPm(true)}
-                key='ampm1'
-              >
+              <PickerOption selected={pm} onClick={() => setPm(true)} key='ampm1'>
                 p.m.
               </PickerOption>
             </div>

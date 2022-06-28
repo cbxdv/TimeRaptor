@@ -3,12 +3,7 @@ import styled from 'styled-components'
 
 import { inputBack, flexCenter } from '../styles/styleUtils'
 
-const TextArea: React.FC<TextAreaProps> = ({
-  name,
-  title,
-  onChangeHandler,
-  inputValue
-}) => (
+const TextArea: React.FC<TextAreaProps> = ({ name, title, onChangeHandler, inputValue }) => (
   <Textarea>
     <textarea
       name={name}

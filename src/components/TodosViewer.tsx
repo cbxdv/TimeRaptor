@@ -5,20 +5,14 @@ import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd'
 
 import { flexCenter } from '../styles/styleUtils'
 import AddCircleIcon from '../assets/icons/AddCircle.svg'
-import {
-  todoAdded,
-  todoOrderUpdated,
-  selectTodoListById
-} from '../redux/slices/todosSlice'
+import { todoAdded, todoOrderUpdated, selectTodoListById } from '../redux/slices/todosSlice'
 import { IState } from '../@types/StateInterfaces'
 import Todo from './Todo'
 
 const TodosViewer: React.FC<TodosViewerProps> = ({ listId }) => {
   const dispatch = useDispatch()
 
-  const todosList = useSelector((state: IState) =>
-    selectTodoListById(state, listId)
-  )
+  const todosList = useSelector((state: IState) => selectTodoListById(state, listId))
 
   if (!todosList) return <>Error</>
 
@@ -27,10 +21,7 @@ const TodosViewer: React.FC<TodosViewerProps> = ({ listId }) => {
     if (!destination) {
       return
     }
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index !== destination.index
-    ) {
+    if (source.droppableId === destination.droppableId && source.index !== destination.index) {
       dispatch(
         todoOrderUpdated({
           sourceIndex: source.index,
@@ -50,10 +41,7 @@ const TodosViewer: React.FC<TodosViewerProps> = ({ listId }) => {
 
         <Droppable droppableId={todosList.id}>
           {provided => (
-            <TodosContainer
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
+            <TodosContainer ref={provided.innerRef} {...provided.droppableProps}>
               {todosList.tasks.length !== 0 ? (
                 todosList.tasks.map((todoId: string, index: number) => (
                   <Todo key={todoId} todoId={todoId} index={index} />

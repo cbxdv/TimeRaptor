@@ -60,10 +60,7 @@ export const daysArray: DayStringTypes[] = [
   'saturday'
 ]
 
-export const dayPlannerDaysArray: DayPlannerDayTypes[] = [
-  'currentDay',
-  'nextDay'
-]
+export const dayPlannerDaysArray: DayPlannerDayTypes[] = ['currentDay', 'nextDay']
 
 export const dayPlannerDayString = (dayPlannerDay: DayPlannerDayTypes) => {
   switch (dayPlannerDay) {

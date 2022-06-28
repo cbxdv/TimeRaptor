@@ -5,11 +5,7 @@ import { Draggable } from 'react-beautiful-dnd'
 
 import { flexCenter } from '../styles/styleUtils'
 import CheckBox from './CheckBox'
-import {
-  selectTodoById,
-  todoStarredToggled,
-  todoToggled
-} from '../redux/slices/todosSlice'
+import { selectTodoById, todoStarredToggled, todoToggled } from '../redux/slices/todosSlice'
 import TodoEditor from './TodoEditor'
 import { IState } from '../@types/StateInterfaces'
 import StarFilledIcon from '../assets/icons/StarFilled.svg'
@@ -41,9 +37,7 @@ const Todo: React.FC<TodoProps> = ({ todoId, index }) => {
 
   return (
     <>
-      {showTodoEditor && (
-        <TodoEditor todo={todo} closeHandler={() => setShowTodoEditor(false)} />
-      )}
+      {showTodoEditor && <TodoEditor todo={todo} closeHandler={() => setShowTodoEditor(false)} />}
       <Draggable draggableId={todo.id} index={index}>
         {provided => (
           <TodoContainer
@@ -59,11 +53,7 @@ const Todo: React.FC<TodoProps> = ({ todoId, index }) => {
             <TodoTitle>
               <span>{todo.title}</span>
             </TodoTitle>
-            <StarButton
-              starred={todo.isStarred}
-              onClick={toggleStarred}
-              ref={ref}
-            >
+            <StarButton starred={todo.isStarred} onClick={toggleStarred} ref={ref}>
               {todo.isStarred ? <StarFilledIcon /> : <StarOutlineIcon />}
             </StarButton>
           </TodoContainer>

@@ -20,9 +20,7 @@ const TimeLine = () => {
   const generateTimeLineSecs = () => {
     const secs = []
     for (let i = 0; i <= 24 * 4; i += 1) {
-      secs.push(
-        <OneBlockSecs key={`tls${i}`}>{i % 4 !== 0 && <TLine />}</OneBlockSecs>
-      )
+      secs.push(<OneBlockSecs key={`tls${i}`}>{i % 4 !== 0 && <TLine />}</OneBlockSecs>)
     }
     return secs
   }

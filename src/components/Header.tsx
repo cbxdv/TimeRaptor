@@ -8,12 +8,7 @@ import { closeWindow, reloadWindow } from '../utils/electronUtils'
 import { flexCenter } from '../styles/styleUtils'
 import { selectPlatform } from '../redux/slices/appSlice'
 
-const Header: React.FC<HeaderProps> = ({
-  title,
-  headerBubble1,
-  headerBubble2,
-  actions
-}) => {
+const Header: React.FC<HeaderProps> = ({ title, headerBubble1, headerBubble2, actions }) => {
   const navigate = useNavigate()
 
   const platform = useSelector(selectPlatform)
@@ -37,11 +32,7 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <HeaderContainer platform={platform}>
       <div className='header-section'>
-        <div
-          onClick={() => navigate(-1)}
-          role='button'
-          style={{ cursor: 'pointer' }}
-        >
+        <div onClick={() => navigate(-1)} role='button' style={{ cursor: 'pointer' }}>
           <img src={Logo} className='header-logo' alt='Time Raptor' />
         </div>
         <h3>{title}</h3>

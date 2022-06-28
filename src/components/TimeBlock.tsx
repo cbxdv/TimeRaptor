@@ -14,11 +14,7 @@ import { updateTimeStamps } from '../redux/slices/appSlice'
 import { IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
 import { blockDeleted as dayPlannerBlockDeleted } from '../redux/slices/dayPlannerSlice'
 
-const TimeBlock: React.FC<TimeBlockProps> = ({
-  timeblock,
-  dayPlanner,
-  disableTool
-}) => {
+const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock, dayPlanner, disableTool }) => {
   const dispatch = useDispatch()
 
   const { day, title, startTime, endTime, duration, blockColor } = timeblock

@@ -1,13 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectBlocksByCurrentDay,
-  selectCurrentBlock
-} from '../redux/slices/timetableSlice'
-import {
-  currentBlockUpdater,
-  getCurrentBlockTimeLeftString
-} from '../utils/currentBlockUtils'
+import { selectBlocksByCurrentDay, selectCurrentBlock } from '../redux/slices/timetableSlice'
+import { currentBlockUpdater, getCurrentBlockTimeLeftString } from '../utils/currentBlockUtils'
 
 import HeaderBubble from './HeaderBubble'
 

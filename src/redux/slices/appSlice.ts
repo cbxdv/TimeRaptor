@@ -18,10 +18,7 @@ import {
   generateTodoTimeStamps
 } from '../../utils/notificationUtils'
 import { ITimeStamp } from '../../@types/AppInterfaces'
-import {
-  startNotificationsService,
-  stopNotificationService
-} from '../../utils/notificationService'
+import { startNotificationsService, stopNotificationService } from '../../utils/notificationService'
 import { fetchTodos } from './todosSlice'
 import { fetchConfigs } from './configsSlice'
 import { fetchDayPlannerBlocks } from './dayPlannerSlice'
@@ -126,25 +123,17 @@ const appSlice = createSlice({
         state.error = 'Error initializing app. Try restarting app.'
       })
       .addCase(fetchConfigs.fulfilled, (state, action) => {
-        const configsData = action.payload
+        const configs = action.payload
         state.notificationStates = {
-          startTimetableNotifications:
-            configsData.timetableConfigs.startNotifications,
-          endTimetableNotifications:
-            configsData.timetableConfigs.endNotifications,
-          startTimetableNotificationsBefore:
-            configsData.timetableConfigs.startNotificationsBefore,
-          endTimetableNotificationsBefore:
-            configsData.timetableConfigs.endNotificationsBefore,
-          todoNotifications: configsData.todoConfigs.notifications,
-          startDayPlannerNotifications:
-            configsData.dayPlannerConfigs.startNotifications,
-          endDayPlannerNotifications:
-            configsData.dayPlannerConfigs.endNotifications,
-          startDayPlannerNotificationsBefore:
-            configsData.dayPlannerConfigs.startNotificationsBefore,
-          endDayPlannerNotificationsBefore:
-            configsData.dayPlannerConfigs.endNotificationsBefore
+          startTimetableNotifications: configs.timetableConfigs.startNotifications,
+          endTimetableNotifications: configs.timetableConfigs.endNotifications,
+          startTimetableNotificationsBefore: configs.timetableConfigs.startNotificationsBefore,
+          endTimetableNotificationsBefore: configs.timetableConfigs.endNotificationsBefore,
+          todoNotifications: configs.todoConfigs.notifications,
+          startDayPlannerNotifications: configs.dayPlannerConfigs.startNotifications,
+          endDayPlannerNotifications: configs.dayPlannerConfigs.endNotifications,
+          startDayPlannerNotificationsBefore: configs.dayPlannerConfigs.startNotificationsBefore,
+          endDayPlannerNotificationsBefore: configs.dayPlannerConfigs.endNotificationsBefore
         }
       })
       .addCase(fetchBlocks.fulfilled, (state, action) => {

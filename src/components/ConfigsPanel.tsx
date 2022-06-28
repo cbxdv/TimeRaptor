@@ -11,9 +11,7 @@ import {
   TodosConfigsTab
 } from './ConfigTabsComponents'
 
-const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
-  closeHandler
-}) => {
+const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({ closeHandler }) => {
   const [currentTab, setCurrentTab] = useState<string>('app')
 
   const tabSwitch = (tabString: TabStringTypes) => {
@@ -42,10 +40,7 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({
       <UserConfigsPanelContainer>
         <MainPanel>
           <TabsSwitcherContainer>
-            <TabOptionContainer
-              selected={currentTab === 'app'}
-              onClick={() => tabSwitch('app')}
-            >
+            <TabOptionContainer selected={currentTab === 'app'} onClick={() => tabSwitch('app')}>
               App
             </TabOptionContainer>
             <TabOptionContainer
@@ -105,8 +100,7 @@ const TabOptionContainer = styled.div<{ selected: boolean }>`
   ${flexCenter()};
   margin: 0 10px;
   cursor: pointer;
-  border-bottom: 2px solid
-    ${({ selected }) => (selected ? 'white' : 'transparent')};
+  border-bottom: 2px solid ${({ selected }) => (selected ? 'white' : 'transparent')};
   color: ${({ theme, selected }) => (selected ? theme.text : 'grey')};
   padding-bottom: 5px;
 

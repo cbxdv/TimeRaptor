@@ -1,11 +1,5 @@
 /* eslint-disable */
-const {
-  app,
-  ipcMain,
-  Notification,
-  shell,
-  BrowserWindow
-} = require('electron');
+const { app, ipcMain, Notification, shell, BrowserWindow } = require('electron');
 const os = require('os');
 const path = require('path');
 const Store = require('electron-store');

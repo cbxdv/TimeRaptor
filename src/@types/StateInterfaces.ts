@@ -1,8 +1,4 @@
-import {
-  INotificationStates,
-  ITimeStamp,
-  PlatformStringTypes
-} from './AppInterfaces'
+import { INotificationStates, ITimeStamp, PlatformStringTypes } from './AppInterfaces'
 import { IDayPlannerData } from './DayPlannerInterfaces'
 import { ITimeBlock } from './TimeBlockInterfaces'
 import { ITimetableDayData } from './TimetableInterfaces'

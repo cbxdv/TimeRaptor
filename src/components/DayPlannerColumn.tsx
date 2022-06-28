@@ -5,10 +5,7 @@ import styled from 'styled-components'
 import CurrentTimeLine from './CurrentTimeLine'
 import { dayPlannerDayString } from '../utils/strings'
 import TimeBlock from './TimeBlock'
-import {
-  DayPlannerDayTypes,
-  IDayPlannerBlock
-} from '../@types/DayPlannerInterfaces'
+import { DayPlannerDayTypes, IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
 import {
   selectCurrentDayPlannerBlocks,
   selectNextDayPlannerBlocks
@@ -35,10 +32,7 @@ const DayPlannerColumn: React.FC<DayPlannerColumnProps> = ({
         <DayIndicator isCurrent={day === 'currentDay'}>
           {dayPlannerDayString(day)}
           <DayContolsContainer>
-            <DayControl
-              onClick={beforeDayToggle}
-              disabled={day === 'currentDay'}
-            >
+            <DayControl onClick={beforeDayToggle} disabled={day === 'currentDay'}>
               <BeforeIcon />
             </DayControl>
             <DayControl onClick={nextDayToggle} disabled={day === 'nextDay'}>
@@ -72,8 +66,7 @@ const DayPlannerColumnContainer = styled.div`
 `
 
 const DayPlannerColumnMain = styled.div`
-  background-color: ${({ theme }) =>
-    theme.name === 'dark' ? theme.shade1 : theme.secondary};
+  background-color: ${({ theme }) => (theme.name === 'dark' ? theme.shade1 : theme.secondary)};
   width: 100%;
   height: 1960px;
   border-radius: 8px;

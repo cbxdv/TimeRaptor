@@ -7,12 +7,7 @@ import { flexCenter } from '../styles/styleUtils'
 import CloseIcon from '../assets/icons/Close.svg'
 import MinimizeIcon from '../assets/icons/Minimize.svg'
 import OpenFull from '../assets/icons/OpenFull.svg'
-import {
-  closeWindow,
-  maximizeWindow,
-  minimizeWindow,
-  restoreWindow
-} from '../utils/electronUtils'
+import { closeWindow, maximizeWindow, minimizeWindow, restoreWindow } from '../utils/electronUtils'
 
 const Win32Controls = () => {
   const dispatch = useDispatch()

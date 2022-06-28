@@ -25,12 +25,7 @@ export interface ITodoList extends ITodoListBase {
   readonly id: string
 }
 
-export type TodoDefinedListTypes =
-  | 'today'
-  | 'tomorrow'
-  | 'later'
-  | 'starred'
-  | 'all'
+export type TodoDefinedListTypes = 'today' | 'tomorrow' | 'later' | 'starred' | 'all'
 
 export type ITodoDefinedList = {
   [key in TodoDefinedListTypes]: ITodoList

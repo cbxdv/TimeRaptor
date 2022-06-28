@@ -70,18 +70,12 @@ const TodosSidebar: React.FC<TodosSidebarProps> = ({ listId }) => {
 
   return (
     <>
-      {showUConfigPanel && (
-        <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
-      )}
+      {showUConfigPanel && <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />}
       {showListEditorPanel && editingList.length === 0 && (
         <TodoListEditorPanel closeHandler={closeEditor} />
       )}
       {showListEditorPanel && editingList.length !== 0 && (
-        <TodoListEditorPanel
-          closeHandler={closeEditor}
-          edit
-          listId={editingList}
-        />
+        <TodoListEditorPanel closeHandler={closeEditor} edit listId={editingList} />
       )}
       <SidebarContainer>
         <AppHeader>
@@ -118,19 +112,14 @@ const TodosSidebar: React.FC<TodosSidebarProps> = ({ listId }) => {
                 to={`/todos/${todoList.id}`}
                 onAuxClick={() => openListEditor(todoList.id)}
               >
-                <TabLink selected={listId === todoList.id}>
-                  {todoList.title}
-                </TabLink>
+                <TabLink selected={listId === todoList.id}>{todoList.title}</TabLink>
               </Link>
             )
           })}
         </div>
         <SidebarFooter>
           <IconButton label='Add' Icon={AddBlockIcon} onClick={openListAdder} />
-          <IconButton
-            Icon={GearIcon}
-            onClick={() => setShowUConfigPanel(!showUConfigPanel)}
-          />
+          <IconButton Icon={GearIcon} onClick={() => setShowUConfigPanel(!showUConfigPanel)} />
         </SidebarFooter>
       </SidebarContainer>
     </>
@@ -278,8 +267,7 @@ const MainContainer = styled.main`
 
 const SidebarContainer = styled.div`
   ${flexCenter({ flexDirection: 'column', justifyContent: 'flex-start' })};
-  background: ${({ theme }) =>
-    theme.name === 'dark' ? theme.shade1 : theme.shade2};
+  background: ${({ theme }) => (theme.name === 'dark' ? theme.shade1 : theme.shade2)};
   height: 100%;
   overflow-y: scroll;
 `
@@ -288,8 +276,7 @@ const AppHeader = styled.div`
   ${flexCenter()};
   position: sticky;
   top: 0;
-  background: ${({ theme }) =>
-    theme.name === 'dark' ? theme.shade1 : theme.shade2};
+  background: ${({ theme }) => (theme.name === 'dark' ? theme.shade1 : theme.shade2)};
   width: 100%;
   padding: 20px 0;
 `
@@ -320,8 +307,7 @@ const SidebarFooter = styled.div`
   margin-top: auto;
   position: sticky;
   bottom: 0;
-  background: ${({ theme }) =>
-    theme.name === 'dark' ? theme.shade1 : theme.shade2};
+  background: ${({ theme }) => (theme.name === 'dark' ? theme.shade1 : theme.shade2)};
   width: 100%;
 `
 

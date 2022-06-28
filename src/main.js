@@ -81,10 +81,7 @@ const createMainWindow = () => {
   mainWindow.setMenuBarVisibility(false);
 
   mainWindow.on('ready-to-show', async () => {
-    const minimized = await store.get(
-      'configs.appConfigs.openMinimized',
-      false
-    );
+    const minimized = await store.get('configs.appConfigs.openMinimized', false);
     if (minimized) {
       if (os.platform() === 'darwin') {
         app.dock.hide();

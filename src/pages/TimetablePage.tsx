@@ -36,9 +36,7 @@ const TimetableHeader = () => {
 
   const showCurrentTime = useSelector(selectTimetableShowCurrentTime)
   const showCurrentBlock = useSelector(selectTimetableShowCurrentBlock)
-  const notificationsActive = useSelector(
-    selectTimetableNotificationStateCombined
-  )
+  const notificationsActive = useSelector(selectTimetableNotificationStateCombined)
 
   const [showAddPanel, setShowAddPanel] = useState<boolean>(false)
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
@@ -69,12 +67,8 @@ const TimetableHeader = () => {
 
   return (
     <>
-      {showAddPanel && (
-        <TimeBlockEditor closeHandler={() => setShowAddPanel(false)} />
-      )}
-      {showUConfigPanel && (
-        <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
-      )}
+      {showAddPanel && <TimeBlockEditor closeHandler={() => setShowAddPanel(false)} />}
+      {showUConfigPanel && <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />}
       <Header
         title='Timetable'
         headerBubble1={showCurrentTime && <CurrentTime />}
@@ -95,10 +89,7 @@ const TimetableHeader = () => {
               />
             </div>
             <div className='hb-cont'>
-              <IconButton
-                Icon={GearIcon}
-                onClick={() => setShowUConfigPanel(!showUConfigPanel)}
-              />
+              <IconButton Icon={GearIcon} onClick={() => setShowUConfigPanel(!showUConfigPanel)} />
             </div>
           </>
         }

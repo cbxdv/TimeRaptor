@@ -142,10 +142,7 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
     >
       <TodoEditorContainer>
         <SecContainer>
-          <CheckBox
-            checked={isCompleted}
-            onClick={() => setIsCompleted(!isCompleted)}
-          />
+          <CheckBox checked={isCompleted} onClick={() => setIsCompleted(!isCompleted)} />
           <TodoTitle>
             <TextInput
               name='todoTitle'

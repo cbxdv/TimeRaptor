@@ -1,16 +1,9 @@
-import {
-  ITimeStamp,
-  ITimeStampWithStrings,
-  INotificationStates
-} from '../@types/AppInterfaces'
+import { ITimeStamp, ITimeStampWithStrings, INotificationStates } from '../@types/AppInterfaces'
 import { sendNotification } from './notificationUtils'
 
 let notificationTimer: NodeJS.Timer
 
-const notificationService = (
-  timeStamps: ITimeStamp[],
-  notificationStates: INotificationStates
-) => {
+const notificationService = (timeStamps: ITimeStamp[], notificationStates: INotificationStates) => {
   let now: Date
   let nowValue = ''
 
@@ -71,8 +64,7 @@ const notificationService = (
       if (nowValue === stamp.time) {
         if (stamp.type === 'timetable') {
           if (
-            (stamp.secText.startsWith('Starts') &&
-              startTimetableNotifications) ||
+            (stamp.secText.startsWith('Starts') && startTimetableNotifications) ||
             (stamp.secText.endsWith('Ends') && endTimetableNotifications)
           ) {
             sendNotification(stamp.title, stamp.secText)
@@ -83,8 +75,7 @@ const notificationService = (
           }
         } else if (stamp.type === 'dayPlanner') {
           if (
-            (stamp.secText.startsWith('Starts') &&
-              startDayPlannerNotifications) ||
+            (stamp.secText.startsWith('Starts') && startDayPlannerNotifications) ||
             (stamp.secText.startsWith('Ends') && endDayPlannerNotifications)
           ) {
             sendNotification(stamp.title, stamp.secText)

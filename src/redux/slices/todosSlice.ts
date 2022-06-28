@@ -1,11 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import {
-  createAsyncThunk,
-  createSlice,
-  nanoid,
-  PayloadAction
-} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 import { fetchTodosData, updateTodosToDisk } from '../../utils/electronUtils'
 
 import { IState, ITodosState } from '../../@types/StateInterfaces'
@@ -80,11 +75,7 @@ const todosSlice = createSlice({
             addedOnTomorrow: new Date().valueOf()
           }
           state.definedLists.tomorrow.tasks.push(todo.id)
-        } else if (
-          listId === 'later' ||
-          listId === 'starred' ||
-          listId === 'all'
-        ) {
+        } else if (listId === 'later' || listId === 'starred' || listId === 'all') {
           state.definedLists[listId].tasks.push(todo.id)
         } else {
           state.lists[listId].tasks.push(todo.id)
@@ -121,8 +112,9 @@ const todosSlice = createSlice({
         state.definedLists.starred.tasks.push(todoId)
         state.todos[todoId].lists.push('starred')
       } else {
-        state.definedLists.starred.tasks =
-          state.definedLists.starred.tasks.filter(tid => tid !== todoId)
+        state.definedLists.starred.tasks = state.definedLists.starred.tasks.filter(
+          tid => tid !== todoId
+        )
         state.todos[todoId].lists.filter(tlid => tlid !== 'starred')
       }
 
@@ -191,10 +183,7 @@ const todosSlice = createSlice({
       })
     },
 
-    todoOrderUpdated(
-      state,
-      action: PayloadAction<TodoOrderUpdatePayloadAction>
-    ) {
+    todoOrderUpdated(state, action: PayloadAction<TodoOrderUpdatePayloadAction>) {
       const { sourceIndex, destinationIndex, listId, todoId } = action.payload
       if (
         listId === 'today' ||
@@ -203,15 +192,8 @@ const todosSlice = createSlice({
         listId === 'starred' ||
         listId === 'all'
       ) {
-        state.definedLists[listId as TodoDefinedListTypes].tasks.splice(
-          sourceIndex,
-          1
-        )
-        state.definedLists[listId as TodoDefinedListTypes].tasks.splice(
-          destinationIndex,
-          0,
-          todoId
-        )
+        state.definedLists[listId as TodoDefinedListTypes].tasks.splice(sourceIndex, 1)
+        state.definedLists[listId as TodoDefinedListTypes].tasks.splice(destinationIndex, 0, todoId)
       } else {
         state.lists[listId].tasks.splice(sourceIndex, 1)
         state.lists[listId].tasks.splice(destinationIndex, 0, todoId)
@@ -261,13 +243,12 @@ const todosSlice = createSlice({
       const todos = state.lists[listId].tasks
       todos.forEach(tid => {
         const todo = state.todos[tid]
-        state.definedLists.starred.tasks =
-          state.definedLists.starred.tasks.filter(stid => stid !== tid)
+        state.definedLists.starred.tasks = state.definedLists.starred.tasks.filter(
+          stid => stid !== tid
+        )
         todo.lists.forEach(tlid => {
           if (checkIsDefinedListId(tlid)) {
-            state.definedLists[tlid as TodoDefinedListTypes].tasks.filter(
-              t => t !== todo.id
-            )
+            state.definedLists[tlid as TodoDefinedListTypes].tasks.filter(t => t !== todo.id)
           } else {
             state.lists[tlid].tasks.filter(t => t !== todo.id)
           }
@@ -319,8 +300,7 @@ export const {
   todoListDeleted
 } = todosSlice.actions
 
-export const selectTodoById = (state: IState, todoId: string) =>
-  state.todos.todos[todoId]
+export const selectTodoById = (state: IState, todoId: string) => state.todos.todos[todoId]
 
 export const selectTodoListById = (state: IState, listId: string) => {
   switch (listId) {

@@ -24,11 +24,7 @@ const HomePage = () => {
     )
   }
 
-  const generatePageContainer = (
-    link: string,
-    name: string,
-    Icon: React.ReactElement
-  ) => (
+  const generatePageContainer = (link: string, name: string, Icon: React.ReactElement) => (
     <Link to={link} style={{ margin: '0 10px' }}>
       <MainButtonContainer>
         <IconContainer>{Icon}</IconContainer>
@@ -39,9 +35,7 @@ const HomePage = () => {
 
   return (
     <HomePageContainer>
-      {showUConfigPanel && (
-        <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
-      )}
+      {showUConfigPanel && <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />}
       <AppInfoContainer>
         <AppLogoContainer>
           <AppLogo />

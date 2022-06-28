@@ -37,9 +37,7 @@ const DayPlannerHeader = () => {
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
 
   const showCurrentTime = useSelector(selectDayPlannerShowCurrentTime)
-  const notificationsActive = useSelector(
-    selectDayPlannerNotificaionStateCombined
-  )
+  const notificationsActive = useSelector(selectDayPlannerNotificaionStateCombined)
   const toggleNotifications = () => {
     dispatch(dayPlannerNotificationsToggled())
     dispatch(updateTimeStamps())
@@ -47,9 +45,7 @@ const DayPlannerHeader = () => {
 
   return (
     <>
-      {showUConfigPanel && (
-        <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />
-      )}
+      {showUConfigPanel && <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />}
       {showAddPanel && (
         <TimeBlockEditor
           closeHandler={() => setShowAddPanel(false)}
@@ -76,10 +72,7 @@ const DayPlannerHeader = () => {
               />
             </div>
             <div className='hb-cont'>
-              <IconButton
-                Icon={GearIcon}
-                onClick={() => setShowUConfigPanel(!showUConfigPanel)}
-              />
+              <IconButton Icon={GearIcon} onClick={() => setShowUConfigPanel(!showUConfigPanel)} />
             </div>
           </>
         }

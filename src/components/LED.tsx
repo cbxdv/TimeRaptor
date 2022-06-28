@@ -35,8 +35,7 @@ const Light = styled.div`
 
 const GreenLight = styled(Light)`
   background-color: #abff00;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 5px,
-    #89ff00 0 2px 12px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 5px, #89ff00 0 2px 12px;
 `
 
 const RedLight = styled(Light)`

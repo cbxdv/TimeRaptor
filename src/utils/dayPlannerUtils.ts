@@ -1,9 +1,6 @@
 import { fetchConfigsData, updateDayPlannerDataToDisk } from './electronUtils'
 import { checkWhetherYesterday } from './timeUtils'
-import {
-  IDayPlannerBlock,
-  IDayPlannerData
-} from '../@types/DayPlannerInterfaces'
+import { IDayPlannerBlock, IDayPlannerData } from '../@types/DayPlannerInterfaces'
 
 // eslint-disable-next-line import/prefer-default-export
 export const dayPlannerDayProcedures = async (data: IDayPlannerData) => {

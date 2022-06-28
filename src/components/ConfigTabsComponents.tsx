@@ -79,9 +79,7 @@ export const AppConfigsTab = () => {
   const dispatch = useDispatch()
 
   const configs = useSelector(selectConfigs)
-  const isNotificationServiceRunning = useSelector(
-    selectIsNotificationServiceRunning
-  )
+  const isNotificationServiceRunning = useSelector(selectIsNotificationServiceRunning)
 
   const toggleNotificationService = () => {
     if (isNotificationServiceRunning) {
@@ -98,10 +96,7 @@ export const AppConfigsTab = () => {
         <Option>
           <OptionText>Dark Mode</OptionText>
           <OptionConfig>
-            <CheckBox
-              checked={configs.app.darkMode}
-              onClick={() => dispatch(darkModeToggled())}
-            />
+            <CheckBox checked={configs.app.darkMode} onClick={() => dispatch(darkModeToggled())} />
           </OptionConfig>
         </Option>
         <Option>
@@ -137,19 +132,13 @@ export const AppConfigsTab = () => {
           >
             {isNotificationServiceRunning ? <LED green /> : <LED red />}
           </div>
-          <SubText>
-            {isNotificationServiceRunning ? 'Running' : 'Not running'}
-          </SubText>
+          <SubText>{isNotificationServiceRunning ? 'Running' : 'Not running'}</SubText>
         </Option>
       </OptionsContainer>
       <div style={{ marginTop: '20px' }}>
         <Option>
           <OptionText>
-            <EmojiTextContainer
-              role='link'
-              onClick={quitApp}
-              style={{ cursor: 'pointer' }}
-            >
+            <EmojiTextContainer role='link' onClick={quitApp} style={{ cursor: 'pointer' }}>
               <img className='text-image' src={CrossEmoji} alt='Quit' />
               <div style={{ position: 'relative' }}>
                 <span className='text-link'>Quit app</span>
@@ -333,10 +322,7 @@ const DaysToShowComponent = () => {
         <Option key={`ShowDayOption-${day}`}>
           <OptionText>{dayStrings(day)}</OptionText>
           <OptionConfig>
-            <CheckBox
-              checked={daysToShow[day]}
-              onClick={() => toggleDayToShow(day)}
-            />
+            <CheckBox checked={daysToShow[day]} onClick={() => toggleDayToShow(day)} />
           </OptionConfig>
         </Option>
       )
@@ -346,17 +332,9 @@ const DaysToShowComponent = () => {
       <Option key='ShowDayOption-weekend'>
         <OptionText style={{ color: '#fd2513' }}>
           <EmojiTextContainer style={{ justifyContent: 'flex-start' }}>
-            <img
-              className='text-image'
-              src={PartyPopperEmoji}
-              alt='Party Popper'
-            />
+            <img className='text-image' src={PartyPopperEmoji} alt='Party Popper' />
             Weekend
-            <img
-              className='text-image'
-              src={PartyPopperEmoji}
-              alt='Party Popper'
-            />
+            <img className='text-image' src={PartyPopperEmoji} alt='Party Popper' />
           </EmojiTextContainer>
         </OptionText>
         <OptionConfig>

@@ -1,11 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import {
-  createSlice,
-  createAsyncThunk,
-  nanoid,
-  PayloadAction
-} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, nanoid, PayloadAction } from '@reduxjs/toolkit'
 import { fetchTimetableData, saveBlocksToDisk } from '../../utils/electronUtils'
 
 import { IState, ITimetableState } from '../../@types/StateInterfaces'
@@ -32,13 +27,10 @@ const initialState: ITimetableState = {
   error: null
 }
 
-export const fetchBlocks = createAsyncThunk(
-  'timetable/fetchBlocks',
-  async () => {
-    const response = fetchTimetableData()
-    return response
-  }
-)
+export const fetchBlocks = createAsyncThunk('timetable/fetchBlocks', async () => {
+  const response = fetchTimetableData()
+  return response
+})
 
 const blocksSlice = createSlice({
   name: 'timetable',
@@ -89,10 +81,7 @@ const blocksSlice = createSlice({
       saveBlocksToDisk(JSON.parse(JSON.stringify(state.dayData)))
     },
 
-    currentBlockUpdated(
-      state,
-      action: PayloadAction<CurrentTimeBlockUpdatePayloadAction>
-    ) {
+    currentBlockUpdated(state, action: PayloadAction<CurrentTimeBlockUpdatePayloadAction>) {
       state.currentTimeBlock = action.payload
     }
   },
@@ -107,19 +96,13 @@ const blocksSlice = createSlice({
       })
       .addCase(fetchBlocks.rejected, state => {
         state.status = 'failed'
-        state.error =
-          'Error fetching data from the disk. Try restarting the app.'
+        state.error = 'Error fetching data from the disk. Try restarting the app.'
       })
   }
 })
 
-export const {
-  blockAdded,
-  blockDeleted,
-  blockUpdated,
-  blocksCleared,
-  currentBlockUpdated
-} = blocksSlice.actions
+export const { blockAdded, blockDeleted, blockUpdated, blocksCleared, currentBlockUpdated } =
+  blocksSlice.actions
 
 export default blocksSlice.reducer
 
@@ -132,5 +115,4 @@ export const selectBlocksByCurrentDay = (state: IState) => {
   return state.timetable.dayData[currentDay]
 }
 
-export const selectCurrentBlock = (state: IState) =>
-  state.timetable.currentTimeBlock
+export const selectCurrentBlock = (state: IState) => state.timetable.currentTimeBlock

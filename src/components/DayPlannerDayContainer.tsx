@@ -32,10 +32,7 @@ const DayPlannerDayContainer = () => {
           beforeDayToggle={beforeDayToggle}
         />
       </div>
-      <div
-        style={{ width: '20%' }}
-        onDoubleClick={() => navigate('/timetable')}
-      >
+      <div style={{ width: '20%' }} onDoubleClick={() => navigate('/timetable')}>
         <DayColumn
           dayId={getCurrentOffsetDayString(Number(day === 'nextDay'))}
           showIndicator={day === 'currentDay'}

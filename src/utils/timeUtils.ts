@@ -14,8 +14,7 @@ export const getCurrentLocaleDateString = (): string =>
  *  Get current time as a string
  *  @returns {string} The current time in the form of local string
  */
-export const getCurrentLocaleTimeString = (): string =>
-  new Date().toLocaleTimeString()
+export const getCurrentLocaleTimeString = (): string => new Date().toLocaleTimeString()
 
 /**
  * Get the current day in the form a string
@@ -80,10 +79,7 @@ export const getCurrentOffsetDayString = (offset: number): DayStringTypes => {
  * with only hours and a.m./p.m. or string with all hours, minutes and a.m./p.m.
  *  @returns {string} A string with time properly formatted as `HH:MM _.m.`
  */
-export const getTimeString12 = (
-  timeObj: ITimeObject,
-  hoursOnly = false
-): string => {
+export const getTimeString12 = (timeObj: ITimeObject, hoursOnly = false): string => {
   // Extracting data
   const { hours } = timeObj
   const { minutes } = timeObj
@@ -145,10 +141,7 @@ export const convertIndexToStringHours = (timeIndex: number): string => {
  * @returns {number} Difference between the two time objects.
  *    A negative integer is returned when end time is before start time.
  */
-export const getDurationMinutes = (
-  startTime: ITimeObject,
-  endTime: ITimeObject
-): number => {
+export const getDurationMinutes = (startTime: ITimeObject, endTime: ITimeObject): number => {
   const minutesFromDayStart = (timeObj: ITimeObject) => {
     let totalMinutes = 0
     let { hours } = timeObj
@@ -269,8 +262,7 @@ const checkLeapYear = (year: number) => {
  * @returns {booelan} Returns true if it is a valid date else false
  */
 export const checkValidDate = (day: number, month: number, year: number) => {
-  if (day <= 0 || month <= 0 || year <= 0 || day > 31 || month > 12)
-    return false
+  if (day <= 0 || month <= 0 || year <= 0 || day > 31 || month > 12) return false
   const isLeapYear = checkLeapYear(year)
   switch (month) {
     case 1:

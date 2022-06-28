@@ -66,33 +66,21 @@ const userConfigsSlice = createSlice({
 
     openMinimizedToggled(state) {
       state.appConfigs.openMinimized = !state.appConfigs.openMinimized
-      saveConfigToDisk(
-        'appConfigs.openMinimized',
-        state.appConfigs.openMinimized
-      )
+      saveConfigToDisk('appConfigs.openMinimized', state.appConfigs.openMinimized)
     },
 
     timetableShowCurrentTimeToggled(state) {
-      state.timetableConfigs.showCurrentTime =
-        !state.timetableConfigs.showCurrentTime
-      saveConfigToDisk(
-        'timetableConfigs.showCurrentTime',
-        state.timetableConfigs.showCurrentTime
-      )
+      state.timetableConfigs.showCurrentTime = !state.timetableConfigs.showCurrentTime
+      saveConfigToDisk('timetableConfigs.showCurrentTime', state.timetableConfigs.showCurrentTime)
     },
 
     timetableShowCurrentBlockToggled(state) {
-      state.timetableConfigs.showCurrentBlock =
-        !state.timetableConfigs.showCurrentBlock
-      saveConfigToDisk(
-        'timetableConfigs.showCurrentBlock',
-        state.timetableConfigs.showCurrentBlock
-      )
+      state.timetableConfigs.showCurrentBlock = !state.timetableConfigs.showCurrentBlock
+      saveConfigToDisk('timetableConfigs.showCurrentBlock', state.timetableConfigs.showCurrentBlock)
     },
 
     timetableStartNotificationsToggled(state) {
-      state.timetableConfigs.startNotifications =
-        !state.timetableConfigs.startNotifications
+      state.timetableConfigs.startNotifications = !state.timetableConfigs.startNotifications
       saveConfigToDisk(
         'timetableConfigs.startNotifications',
         state.timetableConfigs.startNotifications
@@ -100,19 +88,12 @@ const userConfigsSlice = createSlice({
     },
 
     timetableEndNotificationsToggled(state) {
-      state.timetableConfigs.endNotifications =
-        !state.timetableConfigs.endNotifications
-      saveConfigToDisk(
-        'timetableConfigs.endNotifications',
-        state.timetableConfigs.endNotifications
-      )
+      state.timetableConfigs.endNotifications = !state.timetableConfigs.endNotifications
+      saveConfigToDisk('timetableConfigs.endNotifications', state.timetableConfigs.endNotifications)
     },
 
     timetableNotificationsToggled(state) {
-      if (
-        state.timetableConfigs.startNotifications ||
-        state.timetableConfigs.endNotifications
-      ) {
+      if (state.timetableConfigs.startNotifications || state.timetableConfigs.endNotifications) {
         state.timetableConfigs.startNotifications = false
         state.timetableConfigs.endNotifications = false
       } else {
@@ -124,10 +105,7 @@ const userConfigsSlice = createSlice({
         'timetableConfigs.startNotifications',
         state.timetableConfigs.startNotifications
       )
-      saveConfigToDisk(
-        'timetableConfigs.endNotifications',
-        state.timetableConfigs.endNotifications
-      )
+      saveConfigToDisk('timetableConfigs.endNotifications', state.timetableConfigs.endNotifications)
     },
 
     timetableDaysToShowToggled(state, action: PayloadAction<DayStringTypes>) {
@@ -139,65 +117,38 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    timetableStartNotificationsBeforeChanged(
-      state,
-      action: PayloadAction<number>
-    ) {
+    timetableStartNotificationsBeforeChanged(state, action: PayloadAction<number>) {
       state.timetableConfigs.startNotificationsBefore = action.payload
-      saveConfigToDisk(
-        'timetableConfigs.startNotificationsBefore',
-        action.payload
-      )
+      saveConfigToDisk('timetableConfigs.startNotificationsBefore', action.payload)
     },
 
-    timetableEndNotificationsBeforeChanged(
-      state,
-      action: PayloadAction<number>
-    ) {
+    timetableEndNotificationsBeforeChanged(state, action: PayloadAction<number>) {
       state.timetableConfigs.endNotificationsBefore = action.payload
-      saveConfigToDisk(
-        'timetableConfigs.endNotificationsBefore',
-        action.payload
-      )
+      saveConfigToDisk('timetableConfigs.endNotificationsBefore', action.payload)
     },
 
     todoNotificationToggled(state) {
       state.todoConfigs.notifications = !state.todoConfigs.notifications
-      saveConfigToDisk(
-        'todoConfigs.notifications',
-        state.todoConfigs.notifications
-      )
+      saveConfigToDisk('todoConfigs.notifications', state.todoConfigs.notifications)
     },
 
     todoDayProceduresToggled(state) {
       state.todoConfigs.dayProcedures = !state.todoConfigs.dayProcedures
-      saveConfigToDisk(
-        'todoConfigs.dayProcedures',
-        state.todoConfigs.dayProcedures
-      )
+      saveConfigToDisk('todoConfigs.dayProcedures', state.todoConfigs.dayProcedures)
     },
 
     dayPlannerShowCurrentTimeToggled(state) {
-      state.dayPlannerConfigs.showCurrentTime =
-        !state.dayPlannerConfigs.showCurrentTime
-      saveConfigToDisk(
-        'dayPlannerConfigs.showCurrentTime',
-        state.dayPlannerConfigs.showCurrentTime
-      )
+      state.dayPlannerConfigs.showCurrentTime = !state.dayPlannerConfigs.showCurrentTime
+      saveConfigToDisk('dayPlannerConfigs.showCurrentTime', state.dayPlannerConfigs.showCurrentTime)
     },
 
     dayPlannerDayProceduresToggled(state) {
-      state.dayPlannerConfigs.dayProcedures =
-        !state.dayPlannerConfigs.dayProcedures
-      saveConfigToDisk(
-        'dayPlannerConfigs.showCurrentBlock',
-        state.dayPlannerConfigs.dayProcedures
-      )
+      state.dayPlannerConfigs.dayProcedures = !state.dayPlannerConfigs.dayProcedures
+      saveConfigToDisk('dayPlannerConfigs.showCurrentBlock', state.dayPlannerConfigs.dayProcedures)
     },
 
     dayPlannerStartNotificationsToggled(state) {
-      state.dayPlannerConfigs.startNotifications =
-        !state.dayPlannerConfigs.startNotifications
+      state.dayPlannerConfigs.startNotifications = !state.dayPlannerConfigs.startNotifications
       saveConfigToDisk(
         'dayPlannerConfigs.startNotifications',
         state.dayPlannerConfigs.startNotifications
@@ -205,8 +156,7 @@ const userConfigsSlice = createSlice({
     },
 
     dayPlannerEndNotificationsToggled(state) {
-      state.dayPlannerConfigs.endNotifications =
-        !state.dayPlannerConfigs.endNotifications
+      state.dayPlannerConfigs.endNotifications = !state.dayPlannerConfigs.endNotifications
       saveConfigToDisk(
         'dayPlannerConfigs.endNotifications',
         state.dayPlannerConfigs.endNotifications
@@ -214,10 +164,7 @@ const userConfigsSlice = createSlice({
     },
 
     dayPlannerNotificationsToggled(state) {
-      if (
-        state.dayPlannerConfigs.startNotifications ||
-        state.dayPlannerConfigs.endNotifications
-      ) {
+      if (state.dayPlannerConfigs.startNotifications || state.dayPlannerConfigs.endNotifications) {
         state.dayPlannerConfigs.startNotifications = false
         state.dayPlannerConfigs.endNotifications = false
       } else {
@@ -235,26 +182,14 @@ const userConfigsSlice = createSlice({
       )
     },
 
-    dayPlannerStartNotificationsBeforeChanged(
-      state,
-      action: PayloadAction<number>
-    ) {
+    dayPlannerStartNotificationsBeforeChanged(state, action: PayloadAction<number>) {
       state.dayPlannerConfigs.startNotificationsBefore = action.payload
-      saveConfigToDisk(
-        'dayPlannerConfigs.startNotificationsBefore',
-        action.payload
-      )
+      saveConfigToDisk('dayPlannerConfigs.startNotificationsBefore', action.payload)
     },
 
-    dayPlannerEndNotificationsBeforeChanged(
-      state,
-      action: PayloadAction<number>
-    ) {
+    dayPlannerEndNotificationsBeforeChanged(state, action: PayloadAction<number>) {
       state.dayPlannerConfigs.endNotificationsBefore = action.payload
-      saveConfigToDisk(
-        'dayPlannerConfigs.endNotificationsBefore',
-        action.payload
-      )
+      saveConfigToDisk('dayPlannerConfigs.endNotificationsBefore', action.payload)
     }
   },
   extraReducers(builder) {
@@ -269,8 +204,7 @@ const userConfigsSlice = createSlice({
       })
       .addCase(fetchConfigs.rejected, state => {
         state.status = 'failed'
-        state.error =
-          'Error fetching data from the disk. Try restarting the app.'
+        state.error = 'Error fetching data from the disk. Try restarting the app.'
       })
   }
 })
@@ -314,10 +248,8 @@ export const selectTimetableStartNotifications = (state: IState) =>
   state.configs.timetableConfigs.startNotifications
 export const selectTimetableEndNotifications = (state: IState) =>
   state.configs.timetableConfigs.endNotifications
-export const selectDarkMode = (state: IState) =>
-  state.configs.appConfigs.darkMode
-export const selectCloseOnExit = (state: IState) =>
-  state.configs.appConfigs.closeOnExit
+export const selectDarkMode = (state: IState) => state.configs.appConfigs.darkMode
+export const selectCloseOnExit = (state: IState) => state.configs.appConfigs.closeOnExit
 export const selectTimetableShowCurrentTime = (state: IState) =>
   state.configs.timetableConfigs.showCurrentTime
 export const selectTimetableShowCurrentBlock = (state: IState) =>
@@ -328,8 +260,7 @@ export const selectTimetableStartNotificationsBefore = (state: IState) =>
   state.configs.timetableConfigs.startNotificationsBefore
 export const selectTimetableEndNotificationsBefore = (state: IState) =>
   state.configs.timetableConfigs.endNotificationsBefore
-export const selectTodoNotifications = (state: IState) =>
-  state.configs.todoConfigs.notifications
+export const selectTodoNotifications = (state: IState) => state.configs.todoConfigs.notifications
 export const selectDayPlannerNotificaionStateCombined = (state: IState) =>
   state.configs.dayPlannerConfigs.startNotifications ||
   state.configs.dayPlannerConfigs.endNotifications

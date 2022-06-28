@@ -227,21 +227,15 @@ export const updateDayPlannerDataToDisk = (dayPlannerData: IDayPlannerData) => {
 export const fetchNotificationStates = async () => {
   const configsData = await fetchConfigsData()
   const notificationStates: INotificationStates = {
-    startTimetableNotifications:
-      configsData.timetableConfigs.startNotifications,
+    startTimetableNotifications: configsData.timetableConfigs.startNotifications,
     endTimetableNotifications: configsData.timetableConfigs.endNotifications,
-    startTimetableNotificationsBefore:
-      configsData.timetableConfigs.startNotificationsBefore,
-    endTimetableNotificationsBefore:
-      configsData.timetableConfigs.endNotificationsBefore,
+    startTimetableNotificationsBefore: configsData.timetableConfigs.startNotificationsBefore,
+    endTimetableNotificationsBefore: configsData.timetableConfigs.endNotificationsBefore,
     todoNotifications: configsData.todoConfigs.notifications,
-    startDayPlannerNotifications:
-      configsData.dayPlannerConfigs.startNotifications,
+    startDayPlannerNotifications: configsData.dayPlannerConfigs.startNotifications,
     endDayPlannerNotifications: configsData.dayPlannerConfigs.endNotifications,
-    startDayPlannerNotificationsBefore:
-      configsData.dayPlannerConfigs.startNotificationsBefore,
-    endDayPlannerNotificationsBefore:
-      configsData.dayPlannerConfigs.endNotificationsBefore
+    startDayPlannerNotificationsBefore: configsData.dayPlannerConfigs.startNotificationsBefore,
+    endDayPlannerNotificationsBefore: configsData.dayPlannerConfigs.endNotificationsBefore
   }
   return notificationStates
 }

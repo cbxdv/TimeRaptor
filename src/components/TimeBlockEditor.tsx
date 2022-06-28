@@ -18,10 +18,7 @@ import TimeInput from './TimeInput'
 import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
 import { ColorStringTypes, ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { updateTimeStamps } from '../redux/slices/appSlice'
-import {
-  DayPlannerDayTypes,
-  IDayPlannerBlock
-} from '../@types/DayPlannerInterfaces'
+import { DayPlannerDayTypes, IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
 
 const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
   closeHandler,
@@ -35,8 +32,7 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
 
   const [title, setTitle] = useState<string>('')
   const [day, setDay] = useState<DayStringTypes>('monday')
-  const [dayPlannerDay, setDayPlannerDay] =
-    useState<DayPlannerDayTypes>('currentDay')
+  const [dayPlannerDay, setDayPlannerDay] = useState<DayPlannerDayTypes>('currentDay')
   const [startTime, setStartTime] = useState<ITimeObject>({
     hours: 1,
     minutes: 0,
@@ -133,10 +129,7 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
           dispatch(blockAdded(newBlock))
         }
         const currentDay = getCurrentTimeAndDay().day
-        if (
-          day === currentDay ||
-          (currentBlock && currentBlock.day === currentDay)
-        ) {
+        if (day === currentDay || (currentBlock && currentBlock.day === currentDay)) {
           dispatch(updateTimeStamps())
         }
       }, 150)
@@ -145,10 +138,7 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
 
   useEffect(() => {
     if (dayPlanner) {
-      if (
-        !currentDayPlannerBlock ||
-        Object.keys(currentDayPlannerBlock).length === 0
-      ) {
+      if (!currentDayPlannerBlock || Object.keys(currentDayPlannerBlock).length === 0) {
         return
       }
       setTitle(currentDayPlannerBlock.title)
@@ -196,9 +186,7 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
             name='title'
             inputValue={title}
             error={titleError}
-            onChangeHandler={(event: ChangeEvent<HTMLInputElement>) =>
-              setTitle(event.target.value)
-            }
+            onChangeHandler={(event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value)}
           />
         </InputContainer>
 
@@ -216,9 +204,7 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
             <DayInput
               title='Day'
               value={day}
-              valueSetHandler={(selectedDay: DayStringTypes) =>
-                setDay(selectedDay)
-              }
+              valueSetHandler={(selectedDay: DayStringTypes) => setDay(selectedDay)}
             />
           )}
         </InputContainer>

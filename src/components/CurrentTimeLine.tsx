@@ -71,10 +71,7 @@ const CurrentTimeLine = () => {
   return (
     <div style={{ position: 'relative' }}>
       <Indicator startPosition={startPosition} />
-      <CurrentTimeLineContainer
-        startPosition={startPosition}
-        ref={currentTimeLineRef}
-      />
+      <CurrentTimeLineContainer startPosition={startPosition} ref={currentTimeLineRef} />
     </div>
   )
 }

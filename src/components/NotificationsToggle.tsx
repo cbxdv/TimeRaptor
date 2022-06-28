@@ -11,11 +11,7 @@ const NotificationsToggle: React.FC<NotificationToggleProps> = ({
   toggleNotifications
 }) => (
   <NTContainer onClick={toggleNotifications}>
-    {!active ? (
-      <NotificationsOffIcon fill='red' />
-    ) : (
-      <NotificationsActiveIcon />
-    )}
+    {!active ? <NotificationsOffIcon fill='red' /> : <NotificationsActiveIcon />}
   </NTContainer>
 )
 

@@ -5,7 +5,6 @@ import BinIcon from '../assets/icons/Bin.svg'
 import EditIcon from '../assets/icons/Edit.svg'
 import { buttonStyles, flexCenter } from '../styles/styleUtils'
 import { getTimeString12 } from '../utils/timeUtils'
-
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
 
@@ -17,9 +16,7 @@ const BlockTool: React.FC<BlockToolProps> = ({
   deleteHandler
 }) => {
   const { title, startTime, endTime, description } = timeBlock
-  const timeString = `${getTimeString12(startTime)} - ${getTimeString12(
-    endTime
-  )}`
+  const timeString = `${getTimeString12(startTime)} - ${getTimeString12(endTime)}`
 
   const ref = useRef<HTMLDivElement | null>(null)
 
@@ -63,9 +60,7 @@ const BlockTool: React.FC<BlockToolProps> = ({
 
   return (
     <BlockToolContainer ref={ref} position={position}>
-      {(position === 'right' || position === 'top') && (
-        <PositionIndicator position={position} />
-      )}
+      {(position === 'right' || position === 'top') && <PositionIndicator position={position} />}
       <TooltipTextContainer>
         <TooltipHeading>{title}</TooltipHeading>
         <TooltipDescription>{description || timeString}</TooltipDescription>
@@ -78,9 +73,7 @@ const BlockTool: React.FC<BlockToolProps> = ({
           <BinIcon />
         </IconButton>
       </ButtonsContainer>
-      {(position === 'left' || position === 'bottom') && (
-        <PositionIndicator position={position} />
-      )}
+      {(position === 'left' || position === 'bottom') && <PositionIndicator position={position} />}
     </BlockToolContainer>
   )
 }
@@ -143,14 +136,10 @@ const PositionIndicator = styled.div<{ position: PositionTypes }>`
   border-bottom: 10px solid transparent;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  ${({ theme, position }) =>
-    position === 'right' && `border-right: 10px solid ${theme.accent}`};
-  ${({ theme, position }) =>
-    position === 'left' && `border-left: 10px solid ${theme.accent}`};
-  ${({ theme, position }) =>
-    position === 'bottom' && `border-bottom: 10px solid ${theme.accent}`};
-  ${({ theme, position }) =>
-    position === 'top' && `border-top: 10px solid ${theme.accent}`};
+  ${({ theme, position }) => position === 'right' && `border-right: 10px solid ${theme.accent}`};
+  ${({ theme, position }) => position === 'left' && `border-left: 10px solid ${theme.accent}`};
+  ${({ theme, position }) => position === 'bottom' && `border-bottom: 10px solid ${theme.accent}`};
+  ${({ theme, position }) => position === 'top' && `border-top: 10px solid ${theme.accent}`};
 `
 
 const TooltipTextContainer = styled.div`

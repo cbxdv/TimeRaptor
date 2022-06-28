@@ -9,11 +9,7 @@ import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils'
 
 import { ColorStringTypes } from '../@types/TimeBlockInterfaces'
 
-const ColorPicker: React.FC<ColorPickerProps> = ({
-  title,
-  color,
-  valueSetHandler
-}) => {
+const ColorPicker: React.FC<ColorPickerProps> = ({ title, color, valueSetHandler }) => {
   const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)
 
   return (
@@ -51,8 +47,7 @@ const ColoPickerPanel: React.FC<ColoPickerPanelProps> = ({
   closeHandler,
   mainSubmitHandler
 }) => {
-  const [selectedColor, setSelectedColor] =
-    useState<ColorStringTypes>('decoPeach')
+  const [selectedColor, setSelectedColor] = useState<ColorStringTypes>('decoPeach')
 
   useEffect(() => {
     setSelectedColor(color)
@@ -122,8 +117,7 @@ const ColorOptions = styled.div<ColorPropTypes>`
   border-radius: 8px;
   margin: 10px;
   cursor: pointer;
-  border: ${({ selected }) =>
-    selected ? `3px solid #60D394` : `0.5px solid rgba(0, 0, 0, 0.2)`};
+  border: ${({ selected }) => (selected ? `3px solid #60D394` : `0.5px solid rgba(0, 0, 0, 0.2)`)};
 `
 
 type ColorPropTypes = { selected: boolean; color: ColorStringTypes }

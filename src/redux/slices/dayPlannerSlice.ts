@@ -1,11 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import {
-  createAsyncThunk,
-  createSlice,
-  nanoid,
-  PayloadAction
-} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
 
 import { IDayPlannerState, IState } from '../../@types/StateInterfaces'
 import {
@@ -13,10 +8,7 @@ import {
   IDayPlannerBlocksUpdatePayloadAction,
   IDayPlannerData
 } from '../../@types/DayPlannerInterfaces'
-import {
-  fetchDayPlannerDataFromDisk,
-  updateDayPlannerDataToDisk
-} from '../../utils/electronUtils'
+import { fetchDayPlannerDataFromDisk, updateDayPlannerDataToDisk } from '../../utils/electronUtils'
 import { dayPlannerDayProcedures } from '../../utils/dayPlannerUtils'
 
 const initialState: IDayPlannerState = {
@@ -29,14 +21,11 @@ const initialState: IDayPlannerState = {
   error: null
 }
 
-export const fetchDayPlannerBlocks = createAsyncThunk(
-  'dayPlanner/fetchData',
-  async () => {
-    const response = await fetchDayPlannerDataFromDisk()
-    const data = await dayPlannerDayProcedures(response)
-    return data
-  }
-)
+export const fetchDayPlannerBlocks = createAsyncThunk('dayPlanner/fetchData', async () => {
+  const response = await fetchDayPlannerDataFromDisk()
+  const data = await dayPlannerDayProcedures(response)
+  return data
+})
 
 const dayPlannerSlice = createSlice({
   name: 'dayPlanner',
@@ -68,10 +57,7 @@ const dayPlannerSlice = createSlice({
       updateDayPlannerDataToDisk(data)
     },
 
-    blockUpdated(
-      state,
-      action: PayloadAction<IDayPlannerBlocksUpdatePayloadAction>
-    ) {
+    blockUpdated(state, action: PayloadAction<IDayPlannerBlocksUpdatePayloadAction>) {
       const { oldBlock, newBlock } = action.payload
 
       // Deleting existing block
@@ -114,19 +100,15 @@ const dayPlannerSlice = createSlice({
       })
       .addCase(fetchDayPlannerBlocks.rejected, state => {
         state.status = 'failed'
-        state.error =
-          'Error fetching data from the disk. Try restarting the app.'
+        state.error = 'Error fetching data from the disk. Try restarting the app.'
       })
   }
 })
 
-export const { blockAdded, blockUpdated, blockDeleted, blocksCleared } =
-  dayPlannerSlice.actions
+export const { blockAdded, blockUpdated, blockDeleted, blocksCleared } = dayPlannerSlice.actions
 
 export default dayPlannerSlice.reducer
 
 // Selector
-export const selectCurrentDayPlannerBlocks = (state: IState) =>
-  state.dayPlanner.dayData.currentDay
-export const selectNextDayPlannerBlocks = (state: IState) =>
-  state.dayPlanner.dayData.nextDay
+export const selectCurrentDayPlannerBlocks = (state: IState) => state.dayPlanner.dayData.currentDay
+export const selectNextDayPlannerBlocks = (state: IState) => state.dayPlanner.dayData.nextDay

@@ -6,11 +6,7 @@ import { ThemeProvider } from 'styled-components'
 
 import store from './redux/store'
 
-import {
-  fetchConfigs,
-  selectDarkMode,
-  darkModeToggled
-} from './redux/slices/configsSlice'
+import { fetchConfigs, selectDarkMode, darkModeToggled } from './redux/slices/configsSlice'
 import { fetchBlocks } from './redux/slices/timetableSlice'
 import {
   appLoadingStarted,

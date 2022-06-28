@@ -162,8 +162,7 @@ const ModalHeader = styled.div`
     }
 
     & > svg {
-      fill: ${({ theme }) =>
-        theme.name === 'dark' ? theme.text : theme.shade1};
+      fill: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.shade1)};
     }
   }
 `

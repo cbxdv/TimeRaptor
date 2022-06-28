@@ -12,14 +12,8 @@ import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { IState } from '../@types/StateInterfaces'
 import { selectTimetableShowCurrentBlock } from '../redux/slices/configsSlice'
 
-const DayColumn: React.FC<DayColumnProps> = ({
-  dayId,
-  showIndicator,
-  dayPlanner
-}) => {
-  const dayData = useSelector((state: IState) =>
-    selectBlocksByDay(state, dayId)
-  )
+const DayColumn: React.FC<DayColumnProps> = ({ dayId, showIndicator, dayPlanner }) => {
+  const dayData = useSelector((state: IState) => selectBlocksByDay(state, dayId))
 
   const showCurrentBlock = useSelector(selectTimetableShowCurrentBlock)
 
@@ -49,9 +43,7 @@ const DayColumn: React.FC<DayColumnProps> = ({
   return (
     <DayColumnContainer>
       <div style={{ height: 20, marginBottom: 10, paddingLeft: 5 }}>
-        <DayIndicator isToday={isToday && showIndicator}>
-          {dayStrings(dayId)}
-        </DayIndicator>
+        <DayIndicator isToday={isToday && showIndicator}>{dayStrings(dayId)}</DayIndicator>
       </div>
       <DayColumnMain>
         <TimeBlockContainer>
@@ -88,8 +80,7 @@ const DayColumnContainer = styled.div`
 `
 
 const DayColumnMain = styled.div`
-  background-color: ${({ theme }) =>
-    theme.name === 'dark' ? theme.shade1 : theme.secondary};
+  background-color: ${({ theme }) => (theme.name === 'dark' ? theme.shade1 : theme.secondary)};
   width: 100%;
   height: 1960px;
   border-radius: 8px;

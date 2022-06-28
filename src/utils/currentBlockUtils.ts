@@ -1,10 +1,7 @@
 import { Dispatch } from 'react'
 import { PayloadAction } from '@reduxjs/toolkit'
 import { checkCurrent } from './timeUtils'
-import {
-  CurrentTimeBlockUpdatePayloadAction,
-  ITimeBlock
-} from '../@types/TimeBlockInterfaces'
+import { CurrentTimeBlockUpdatePayloadAction, ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { currentBlockUpdated } from '../redux/slices/timetableSlice'
 
 export const currentBlockUpdater = (

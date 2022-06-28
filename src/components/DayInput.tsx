@@ -3,12 +3,7 @@ import styled from 'styled-components'
 
 import CalendarIcon from '../assets/icons/CalendarDayView.svg'
 import WithModal from '../wrappers/WithModal'
-import {
-  dayPlannerDaysArray,
-  dayPlannerDayString,
-  daysArray,
-  dayStrings
-} from '../utils/strings'
+import { dayPlannerDaysArray, dayPlannerDayString, daysArray, dayStrings } from '../utils/strings'
 import { flexCenter, inputBack } from '../styles/styleUtils'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { DayPlannerDayTypes } from '../@types/DayPlannerInterfaces'
@@ -130,9 +125,7 @@ const DayPickerPanel: React.FC<DayPickerPanelProps> = ({
       scrollLockDisabled
     >
       <DayPickerPanelContainer>
-        <OptionsContainer dayPlanner={dayPlanner}>
-          {generateDayOptions()}
-        </OptionsContainer>
+        <OptionsContainer dayPlanner={dayPlanner}>{generateDayOptions()}</OptionsContainer>
       </DayPickerPanelContainer>
     </WithModal>
   )

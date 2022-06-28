@@ -33,8 +33,7 @@ export function flexCenter(options: FlexCenterInterface = {}) {
 export const buttonStyles = () => css`
   ${flexCenter()};
   outline: none;
-  border: 1px solid
-    ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
+  border: 1px solid ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.accent)};
   border-radius: 8px;
   background: none;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
