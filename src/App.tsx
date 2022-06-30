@@ -25,6 +25,7 @@ import TodosPage from './pages/TodosPage'
 import { fetchTodos } from './redux/slices/todosSlice'
 import DayPlannerPage from './pages/DayPlannerPage'
 import { fetchDayPlannerBlocks } from './redux/slices/dayPlannerSlice'
+import WaterTrackerPage from './pages/WaterTrackerPage'
 
 const MainComponent = () => {
   const dispatch = useDispatch()
@@ -68,6 +69,7 @@ const MainComponent = () => {
         <Route path='/timetable' element={<TimetablePage />} />
         <Route path='/todos/:todoListId' element={<TodosPage />} />
         <Route path='/dayPlanner' element={<DayPlannerPage />} />
+        <Route path='/waterTracker' element={<WaterTrackerPage />} />
       </Routes>
     </ThemeProvider>
   )

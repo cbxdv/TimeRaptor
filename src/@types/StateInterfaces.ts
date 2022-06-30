@@ -27,6 +27,13 @@ export interface IDayPlannerState extends IDayPlannerData {
   error: string | null
 }
 
+export interface IWaterTrackerState {
+  isWaterTrackerRunning: boolean
+  notifications: boolean
+  waterInterval: number
+  lastStarted: number
+}
+
 export interface IAppState {
   timeStamps: ITimeStamp[]
   platform: PlatformStringTypes
@@ -44,4 +51,5 @@ export interface IState {
   timetable: ITimetableState
   todos: ITodosState
   dayPlanner: IDayPlannerState
+  waterTracker: IWaterTrackerState
 }

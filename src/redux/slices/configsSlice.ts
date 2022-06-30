@@ -41,6 +41,11 @@ const initialState: IConfigsState = {
     startNotificationsBefore: 0,
     endNotificationsBefore: 0
   },
+  waterTrackerConfigs: {
+    notifications: true,
+    showCurrentTime: true,
+    waterInterval: 30
+  },
   error: '',
   status: ''
 }
@@ -190,6 +195,24 @@ const userConfigsSlice = createSlice({
     dayPlannerEndNotificationsBeforeChanged(state, action: PayloadAction<number>) {
       state.dayPlannerConfigs.endNotificationsBefore = action.payload
       saveConfigToDisk('dayPlannerConfigs.endNotificationsBefore', action.payload)
+    },
+
+    waterTrackerNotificationsToggled(state) {
+      state.waterTrackerConfigs.notifications = !state.waterTrackerConfigs.notifications
+      saveConfigToDisk('waterTrackerConfigs.notifications', state.waterTrackerConfigs.notifications)
+    },
+
+    waterTrackerShowCurrentTimeToggled(state) {
+      state.waterTrackerConfigs.showCurrentTime = !state.waterTrackerConfigs.showCurrentTime
+      saveConfigToDisk(
+        'waterTrackerConfigs.showCurrentTime',
+        state.waterTrackerConfigs.showCurrentTime
+      )
+    },
+
+    waterTrackerWaterIntervalChanged(state, action: PayloadAction<number>) {
+      state.waterTrackerConfigs.waterInterval = action.payload
+      saveConfigToDisk('waterTrackerConfigs.waterInterval', action.payload)
     }
   },
   extraReducers(builder) {
@@ -199,8 +222,11 @@ const userConfigsSlice = createSlice({
       })
       .addCase(fetchConfigs.fulfilled, (state, action) => {
         state.status = 'succeeded'
-        state.dayPlannerConfigs = action.payload.dayPlannerConfigs
         state.appConfigs = action.payload.appConfigs
+        state.timetableConfigs = action.payload.timetableConfigs
+        state.todoConfigs = action.payload.todoConfigs
+        state.dayPlannerConfigs = action.payload.dayPlannerConfigs
+        state.waterTrackerConfigs = action.payload.waterTrackerConfigs
       })
       .addCase(fetchConfigs.rejected, state => {
         state.status = 'failed'
@@ -229,7 +255,10 @@ export const {
   dayPlannerEndNotificationsToggled,
   dayPlannerStartNotificationsBeforeChanged,
   dayPlannerEndNotificationsBeforeChanged,
-  dayPlannerDayProceduresToggled
+  dayPlannerDayProceduresToggled,
+  waterTrackerNotificationsToggled,
+  waterTrackerShowCurrentTimeToggled,
+  waterTrackerWaterIntervalChanged
 } = userConfigsSlice.actions
 
 export default userConfigsSlice.reducer
@@ -239,7 +268,8 @@ export const selectConfigs = (state: IState) => ({
   app: state.configs.appConfigs,
   timetable: state.configs.timetableConfigs,
   todo: state.configs.todoConfigs,
-  dayPlanner: state.configs.dayPlannerConfigs
+  dayPlanner: state.configs.dayPlannerConfigs,
+  waterTracker: state.configs.waterTrackerConfigs
 })
 export const selectTimetableNotificationStateCombined = (state: IState) =>
   state.configs.timetableConfigs.startNotifications ||
@@ -266,3 +296,9 @@ export const selectDayPlannerNotificaionStateCombined = (state: IState) =>
   state.configs.dayPlannerConfigs.endNotifications
 export const selectDayPlannerShowCurrentTime = (state: IState) =>
   state.configs.dayPlannerConfigs.showCurrentTime
+export const selectWaterTrackerNotifications = (state: IState) =>
+  state.configs.waterTrackerConfigs.notifications
+export const selectWaterTrackerShowCurrentTime = (state: IState) =>
+  state.configs.waterTrackerConfigs.showCurrentTime
+export const selectWaterTrackerWaterInterval = (state: IState) =>
+  state.configs.waterTrackerConfigs.waterInterval

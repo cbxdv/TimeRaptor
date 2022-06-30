@@ -39,9 +39,16 @@ export interface IDayPlannerConfigs {
   dayProcedures?: boolean
 }
 
+export interface IWaterTrackerConfigs {
+  notifications?: boolean
+  showCurrentTime?: boolean
+  waterInterval?: number
+}
+
 export interface IConfigs {
   timetableConfigs: ITimetableConfigs
   todoConfigs: ITodoConfigs
   dayPlannerConfigs: IDayPlannerConfigs
+  waterTrackerConfigs: IWaterTrackerConfigs
   appConfigs: IAppConfigs
 }

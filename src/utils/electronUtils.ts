@@ -173,6 +173,11 @@ export const fetchConfigsData = async () => {
       startNotificationsBefore: 0,
       endNotificationsBefore: 0
     },
+    waterTrackerConfigs: {
+      notifications: true,
+      showCurrentTime: true,
+      waterInterval: 30
+    },
     appConfigs: {
       closeOnExit: false,
       darkMode: true,
@@ -193,6 +198,10 @@ export const fetchConfigsData = async () => {
     dayPlannerConfigs: {
       ...initialState.dayPlannerConfigs,
       ...response.dayPlannerConfigs
+    },
+    waterTrackerConfigs: {
+      ...initialState.waterTrackerConfigs,
+      ...response.waterTrackerConfigs
     },
     appConfigs: {
       ...initialState.appConfigs,
@@ -238,4 +247,12 @@ export const fetchNotificationStates = async () => {
     endDayPlannerNotificationsBefore: configsData.dayPlannerConfigs.endNotificationsBefore
   }
   return notificationStates
+}
+
+export const fetchWaterTrackerData = async () => {
+  const configs = await fetchConfigsData()
+  return {
+    waterInterval: configs.waterTrackerConfigs.waterInterval,
+    notifications: configs.waterTrackerConfigs.notifications
+  }
 }

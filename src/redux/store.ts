@@ -5,6 +5,7 @@ import configsReducer from './slices/configsSlice'
 import timetableReducer from './slices/timetableSlice'
 import todosReducer from './slices/todosSlice'
 import dayPlannerReducer from './slices/dayPlannerSlice'
+import waterTrackerReducer from './slices/waterTrackerSlice'
 
 export default configureStore({
   reducer: {
@@ -12,7 +13,8 @@ export default configureStore({
     configs: configsReducer,
     timetable: timetableReducer,
     todos: todosReducer,
-    dayPlanner: dayPlannerReducer
+    dayPlanner: dayPlannerReducer,
+    waterTracker: waterTrackerReducer
   },
   devTools: true
 })

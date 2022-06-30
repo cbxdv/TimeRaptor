@@ -8,7 +8,8 @@ import {
   AppConfigsTab,
   DayPlannerConfigsTab,
   TimetableConfigsTab,
-  TodosConfigsTab
+  TodosConfigsTab,
+  WaterTrackerConfigsTab
 } from './ConfigTabsComponents'
 
 const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({ closeHandler }) => {
@@ -30,6 +31,8 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({ closeHandler }) => 
         return <TodosConfigsTab />
       case 'dayPlanner':
         return <DayPlannerConfigsTab />
+      case 'waterTracker':
+        return <WaterTrackerConfigsTab />
       default:
         return <div />
     }
@@ -62,6 +65,12 @@ const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({ closeHandler }) => 
               Day Planner
             </TabOptionContainer>
             <TabOptionContainer
+              selected={currentTab === 'waterTracker'}
+              onClick={() => tabSwitch('waterTracker')}
+            >
+              Water Tracker
+            </TabOptionContainer>
+            <TabOptionContainer
               selected={currentTab === 'about'}
               onClick={() => tabSwitch('about')}
             >
@@ -79,7 +88,7 @@ type UserConfigsPanelProps = {
   closeHandler: () => void
 }
 
-type TabStringTypes = 'app' | 'timetable' | 'todos' | 'dayPlanner' | 'about'
+type TabStringTypes = 'app' | 'timetable' | 'todos' | 'dayPlanner' | 'waterTracker' | 'about'
 
 const UserConfigsPanelContainer = styled.div`
   padding: 30px;

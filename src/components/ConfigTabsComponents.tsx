@@ -38,7 +38,10 @@ import {
   dayPlannerStartNotificationsToggled,
   dayPlannerEndNotificationsToggled,
   dayPlannerStartNotificationsBeforeChanged,
-  dayPlannerEndNotificationsBeforeChanged
+  dayPlannerEndNotificationsBeforeChanged,
+  waterTrackerNotificationsToggled,
+  waterTrackerShowCurrentTimeToggled,
+  waterTrackerWaterIntervalChanged
 } from '../redux/slices/configsSlice'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { daysArray, dayStrings } from '../utils/strings'
@@ -48,6 +51,12 @@ import NumberInput from './NumberInput'
 import { todosCleared } from '../redux/slices/todosSlice'
 import { blocksCleared as dayPlannerBlocksCleared } from '../redux/slices/dayPlannerSlice'
 import LED from './LED'
+import {
+  selectIsWaterTrackerServiceRunning,
+  updateWaterTrackerData,
+  waterTrackerStarted,
+  waterTrackerStopped
+} from '../redux/slices/waterTrackerSlice'
 
 export const AboutTab = () => {
   const appVersion = useSelector(selectVersion)
@@ -531,6 +540,90 @@ export const DayPlannerConfigsTab = () => {
           />
         </Option>
       </div>
+    </ComponentContainer>
+  )
+}
+
+export const WaterTrackerConfigsTab = () => {
+  const dispatch = useDispatch()
+
+  const configs = useSelector(selectConfigs)
+  const isServiceRunning = useSelector(selectIsWaterTrackerServiceRunning)
+
+  const toggleService = () => {
+    if (isServiceRunning) {
+      dispatch(waterTrackerStopped())
+    } else {
+      dispatch(waterTrackerStarted())
+    }
+  }
+
+  return (
+    <ComponentContainer>
+      <OptionsContainer>
+        <Option>
+          <OptionText>Notifications</OptionText>
+          <OptionConfig>
+            <CheckBox
+              checked={configs.waterTracker.notifications}
+              onClick={() => {
+                dispatch(waterTrackerNotificationsToggled())
+                dispatch(updateWaterTrackerData())
+              }}
+            />
+          </OptionConfig>
+        </Option>
+        <Option>
+          <OptionText>Show current time</OptionText>
+          <OptionConfig>
+            <CheckBox
+              checked={configs.waterTracker.showCurrentTime}
+              onClick={() => dispatch(waterTrackerShowCurrentTimeToggled())}
+            />
+          </OptionConfig>
+        </Option>
+
+        <Option>
+          <OptionConfig style={{ justifyContent: 'flex-start' }}>
+            Interval
+            <div style={{ margin: '0 10px' }}>
+              <NumberInput
+                start={30}
+                end={200}
+                step={5}
+                value={configs.waterTracker.waterInterval}
+                incrementHandler={() => {
+                  dispatch(waterTrackerWaterIntervalChanged(configs.waterTracker.waterInterval + 5))
+                  dispatch(updateWaterTrackerData())
+                }}
+                decrementHandler={() => {
+                  dispatch(waterTrackerWaterIntervalChanged(configs.waterTracker.waterInterval - 5))
+                  dispatch(updateWaterTrackerData())
+                }}
+              />
+            </div>
+            minutes
+          </OptionConfig>
+        </Option>
+
+        <Option
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          Tracker Service
+          <div
+            role='button'
+            style={{ cursor: 'pointer', margin: '0 15px' }}
+            onClick={toggleService}
+          >
+            {isServiceRunning ? <LED green /> : <LED red />}
+          </div>
+          <SubText>{isServiceRunning ? 'Running' : 'Not running'}</SubText>
+        </Option>
+      </OptionsContainer>
     </ComponentContainer>
   )
 }

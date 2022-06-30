@@ -12,6 +12,7 @@ import Loader from '../components/Loader'
 import ConfigsPanel from '../components/ConfigsPanel'
 import GearEmoji from '../assets/icons/Gear.png'
 import DayIcon from '../assets/icons/Day.svg'
+import DrinkIcon from '../assets/icons/Drink.svg'
 
 const HomePage = () => {
   const appStatus = useSelector((state: IState) => state.app.status)
@@ -46,6 +47,7 @@ const HomePage = () => {
         {generatePageContainer('/timetable', 'Timetable', <WeekIcon />)}
         {generatePageContainer('/todos/today', 'Todos', <TaskIcon />)}
         {generatePageContainer('/dayPlanner', 'Day Planner', <DayIcon />)}
+        {generatePageContainer('/waterTracker', 'Water Tracker', <DrinkIcon />)}
       </ButtonsContainer>
       <div>
         <EmojiTextContainer

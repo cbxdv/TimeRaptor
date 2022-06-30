@@ -23,7 +23,7 @@ HeaderBubble.defaultProps = {
 const HeaderBubbleContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })}
   background: ${({ theme }) => theme.shade1};
-  width: 150px;
+  min-width: 150px;
   padding: 10px;
   border-radius: 8px;
   min-height: 60px;
