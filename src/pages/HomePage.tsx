@@ -67,7 +67,7 @@ const HomePage = () => {
 
 const HomePageContainer = styled.div`
   ${flexCenter({ flexDirection: 'column' })};
-  background: ${({ theme }) => theme.shade1};
+  background: ${({ theme }) => (theme.name === 'dark' ? theme.shade1 : theme.background)};
   height: 100vh;
   color: ${({ theme }) => theme.text};
   font-family: Outfit;
@@ -95,6 +95,7 @@ const ButtonsContainer = styled.div`
 const MainButtonContainer = styled.div`
   ${buttonStyles()};
   ${flexCenter({ flexDirection: 'column' })};
+  background: ${({ theme }) => theme.shade1};
   height: 120px;
   width: 120px;
   color: ${({ theme }) => theme.text};
