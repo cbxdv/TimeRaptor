@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Logo from '../assets/Logo.png'
@@ -47,6 +47,11 @@ const TodoPage = () => {
 }
 
 const TodosSidebar: React.FC<TodosSidebarProps> = ({ listId }) => {
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+
+  const enableBack = searchParams.get('enableBack')
+
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
   const [showListEditorPanel, setShowListEditorPanel] = useState<boolean>(false)
   const [editingList, setEditingList] = useState<string>('')
@@ -68,6 +73,14 @@ const TodosSidebar: React.FC<TodosSidebarProps> = ({ listId }) => {
     setEditingList('')
   }
 
+  const logoClickHandler = () => {
+    if (enableBack === 'true') {
+      navigate(-1)
+    } else {
+      navigate('/')
+    }
+  }
+
   return (
     <>
       {showUConfigPanel && <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />}
@@ -79,11 +92,9 @@ const TodosSidebar: React.FC<TodosSidebarProps> = ({ listId }) => {
       )}
       <SidebarContainer>
         <AppHeader>
-          <Link to='/'>
-            <div role='button' style={{ cursor: 'pointer' }}>
-              <AppLogo src={Logo} className='header-logo' alt='Time Raptor' />
-            </div>
-          </Link>
+          <div onClick={logoClickHandler} role='button' style={{ cursor: 'pointer' }}>
+            <AppLogo src={Logo} className='header-logo' alt='Time Raptor' />
+          </div>
           <h3>Todos & Tasks</h3>
         </AppHeader>
         <div>
@@ -297,7 +308,7 @@ const TabLink = styled.div<{ selected?: boolean }>`
   margin: 10px 0;
 
   &:hover {
-    background: ${({ theme }) => theme.secondary};
+    background: ${({ theme, selected }) => !selected && theme.secondary};
   }
 `
 

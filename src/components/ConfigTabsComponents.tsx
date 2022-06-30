@@ -41,7 +41,9 @@ import {
   dayPlannerEndNotificationsBeforeChanged,
   waterTrackerNotificationsToggled,
   waterTrackerShowCurrentTimeToggled,
-  waterTrackerWaterIntervalChanged
+  waterTrackerWaterIntervalChanged,
+  dayPlannerShowTimetableToggled,
+  dayPlannerShowTodoToggled
 } from '../redux/slices/configsSlice'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { daysArray, dayStrings } from '../utils/strings'
@@ -433,6 +435,24 @@ export const DayPlannerConfigsTab = () => {
             <CheckBox
               checked={configs.dayPlanner.dayProcedures}
               onClick={() => dispatch(dayPlannerDayProceduresToggled())}
+            />
+          </OptionConfig>
+        </Option>
+        <Option>
+          <OptionText>Show Timetable</OptionText>
+          <OptionConfig>
+            <CheckBox
+              checked={configs.dayPlanner.showTimetable}
+              onClick={() => dispatch(dayPlannerShowTimetableToggled())}
+            />
+          </OptionConfig>
+        </Option>
+        <Option>
+          <OptionText>Show Todo</OptionText>
+          <OptionConfig>
+            <CheckBox
+              checked={configs.dayPlanner.showTodo}
+              onClick={() => dispatch(dayPlannerShowTodoToggled())}
             />
           </OptionConfig>
         </Option>

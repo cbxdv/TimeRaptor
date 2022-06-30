@@ -167,6 +167,8 @@ export const fetchConfigsData = async () => {
     },
     dayPlannerConfigs: {
       showCurrentTime: true,
+      showTimetable: true,
+      showTodo: true,
       dayProcedures: true,
       startNotifications: true,
       endNotifications: true,

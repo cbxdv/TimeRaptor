@@ -45,7 +45,7 @@ const HomePage = () => {
       </AppInfoContainer>
       <ButtonsContainer>
         {generatePageContainer('/timetable', 'Timetable', <WeekIcon />)}
-        {generatePageContainer('/todos/today', 'Todos', <TaskIcon />)}
+        {generatePageContainer('/todos/today?enableBack=true', 'Todos', <TaskIcon />)}
         {generatePageContainer('/dayPlanner', 'Day Planner', <DayIcon />)}
         {generatePageContainer('/waterTracker', 'Water Tracker', <DrinkIcon />)}
       </ButtonsContainer>

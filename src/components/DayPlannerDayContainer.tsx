@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -7,11 +8,19 @@ import DayPlannerColumn from './DayPlannerColumn'
 import { getCurrentOffsetDayString } from '../utils/timeUtils'
 import { flexCenter } from '../styles/styleUtils'
 import DayColumn from './DayColumn'
+import TodosColumn from './TodoColumn'
+import {
+  selectDayPlannerShowTimetable,
+  selectDayPlannerShowTodo
+} from '../redux/slices/configsSlice'
 
 const DayPlannerDayContainer = () => {
   const navigate = useNavigate()
 
   const [day, setDay] = useState<DayPlannerDayTypes>('currentDay')
+
+  const showTimetable = useSelector(selectDayPlannerShowTimetable)
+  const showTodo = useSelector(selectDayPlannerShowTodo)
 
   const nextDayToggle = () => {
     if (day === 'nextDay') return
@@ -25,29 +34,49 @@ const DayPlannerDayContainer = () => {
 
   return (
     <DayContainer>
-      <div style={{ width: '80%', marginRight: '5px' }}>
+      <div style={{ width: '100%', marginRight: '5px' }}>
         <DayPlannerColumn
           day={day}
           nextDayToggle={nextDayToggle}
           beforeDayToggle={beforeDayToggle}
         />
       </div>
-      <div style={{ width: '20%' }} onDoubleClick={() => navigate('/timetable')}>
-        <DayColumn
-          dayId={getCurrentOffsetDayString(Number(day === 'nextDay'))}
-          showIndicator={day === 'currentDay'}
-          dayPlanner
-        />
-      </div>
+      {showTimetable && (
+        <div style={{ width: '30%' }} onDoubleClick={() => navigate('/timetable')}>
+          <DayColumn
+            dayId={getCurrentOffsetDayString(Number(day === 'nextDay'))}
+            showIndicator={day === 'currentDay'}
+            dayPlanner
+          />
+        </div>
+      )}
+      {showTodo && (
+        <TodoContainer
+          onDoubleClick={() =>
+            navigate(`/todos/${day === 'currentDay' ? 'today' : 'tomorrow'}?enableBack=true`)
+          }
+        >
+          <TodosColumn listId={`${day === 'currentDay' ? 'today' : 'tomorrow'}`} />
+        </TodoContainer>
+      )}
     </DayContainer>
   )
 }
 
 const DayContainer = styled.div`
-  ${flexCenter()};
+  ${flexCenter({ alignItems: 'flex-start' })};
   height: 100%;
   width: 100%;
   border-radius: 8px;
+`
+
+const TodoContainer = styled.div`
+  width: 40%;
+  height: 100%;
+  position: sticky;
+  top: 120px;
+  left: 0;
+  margin-right: 5px;
 `
 
 export default DayPlannerDayContainer

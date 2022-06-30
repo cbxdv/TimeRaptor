@@ -36,6 +36,8 @@ const initialState: IConfigsState = {
   dayPlannerConfigs: {
     dayProcedures: true,
     showCurrentTime: true,
+    showTimetable: true,
+    showTodo: true,
     startNotifications: true,
     endNotifications: true,
     startNotificationsBefore: 0,
@@ -197,6 +199,16 @@ const userConfigsSlice = createSlice({
       saveConfigToDisk('dayPlannerConfigs.endNotificationsBefore', action.payload)
     },
 
+    dayPlannerShowTimetableToggled(state) {
+      state.dayPlannerConfigs.showTimetable = !state.dayPlannerConfigs.showTimetable
+      saveConfigToDisk('dayPlannerConfigs.showTimetable', state.dayPlannerConfigs.showTimetable)
+    },
+
+    dayPlannerShowTodoToggled(state) {
+      state.dayPlannerConfigs.showTodo = !state.dayPlannerConfigs.showTodo
+      saveConfigToDisk('dayPlannerConfigs.showTodo', state.dayPlannerConfigs.showTodo)
+    },
+
     waterTrackerNotificationsToggled(state) {
       state.waterTrackerConfigs.notifications = !state.waterTrackerConfigs.notifications
       saveConfigToDisk('waterTrackerConfigs.notifications', state.waterTrackerConfigs.notifications)
@@ -256,6 +268,8 @@ export const {
   dayPlannerStartNotificationsBeforeChanged,
   dayPlannerEndNotificationsBeforeChanged,
   dayPlannerDayProceduresToggled,
+  dayPlannerShowTimetableToggled,
+  dayPlannerShowTodoToggled,
   waterTrackerNotificationsToggled,
   waterTrackerShowCurrentTimeToggled,
   waterTrackerWaterIntervalChanged
@@ -296,6 +310,9 @@ export const selectDayPlannerNotificaionStateCombined = (state: IState) =>
   state.configs.dayPlannerConfigs.endNotifications
 export const selectDayPlannerShowCurrentTime = (state: IState) =>
   state.configs.dayPlannerConfigs.showCurrentTime
+export const selectDayPlannerShowTimetable = (state: IState) =>
+  state.configs.dayPlannerConfigs.showTimetable
+export const selectDayPlannerShowTodo = (state: IState) => state.configs.dayPlannerConfigs.showTodo
 export const selectWaterTrackerNotifications = (state: IState) =>
   state.configs.waterTrackerConfigs.notifications
 export const selectWaterTrackerShowCurrentTime = (state: IState) =>

@@ -36,6 +36,8 @@ export interface IDayPlannerConfigs {
   startNotificationsBefore?: number
   endNotificationsBefore?: number
   showCurrentTime?: boolean
+  showTimetable?: boolean
+  showTodo?: boolean
   dayProcedures?: boolean
 }
 
