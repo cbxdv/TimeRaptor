@@ -14,10 +14,10 @@ export const todoDayProcedures = async (todosData: ITodosData) => {
   let starredTodos = [...todosData.definedLists.starred.tasks]
   let allListTodos = [...todosData.definedLists.all.tasks]
 
-  let newTodayTodos: string[] = []
-  let newTomorrowTodos: string[] = []
+  const newTodayTodos: string[] = []
+  const newTomorrowTodos: string[] = []
 
-  todayTodos.forEach((todoId, index) => {
+  todayTodos.forEach(todoId => {
     const todo = todosData.todos[todoId]
     if (
       todo.extraProps &&
@@ -45,7 +45,7 @@ export const todoDayProcedures = async (todosData: ITodosData) => {
       newTodayTodos.push(todo.id)
     }
   })
-  tomorrowTodos.forEach((todoId, index: number) => {
+  tomorrowTodos.forEach(todoId => {
     const todo = todosData.todos[todoId]
     if (
       todo.extraProps &&
