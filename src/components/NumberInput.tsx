@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { flexCenter, buttonStyles } from '../styles/styleUtils'
 import AddIcon from '../assets/icons/Add.svg'
 import MinusIcon from '../assets/icons/Minus.svg'
+import { flexCenter, buttonStyles } from '../styles/styleUtils'
 
 const NumberInput: React.FC<NumberInputProps> = ({
   start,

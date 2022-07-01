@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
 import { fetchWaterTrackerData } from '../../utils/electronUtils'
 import { IState, IWaterTrackerState } from '../../@types/StateInterfaces'
 import { startWaterTrackerService, stopWaterTrackerService } from '../../utils/waterTrackerService'

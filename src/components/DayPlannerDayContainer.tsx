@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -13,14 +12,15 @@ import {
   selectDayPlannerShowTimetable,
   selectDayPlannerShowTodo
 } from '../redux/slices/configsSlice'
+import { useAppSelector } from '../redux/hook'
 
 const DayPlannerDayContainer = () => {
   const navigate = useNavigate()
 
   const [day, setDay] = useState<DayPlannerDayTypes>('currentDay')
 
-  const showTimetable = useSelector(selectDayPlannerShowTimetable)
-  const showTodo = useSelector(selectDayPlannerShowTodo)
+  const showTimetable = useAppSelector(selectDayPlannerShowTimetable)
+  const showTodo = useAppSelector(selectDayPlannerShowTodo)
 
   const nextDayToggle = () => {
     if (day === 'nextDay') return

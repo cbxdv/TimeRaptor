@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
-import CalendarIcon from '../assets/icons/CalendarDayView.svg'
 import WithModal from '../wrappers/WithModal'
 import { dayPlannerDaysArray, dayPlannerDayString, daysArray, dayStrings } from '../utils/strings'
 import { flexCenter, inputBack } from '../styles/styleUtils'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { DayPlannerDayTypes } from '../@types/DayPlannerInterfaces'
+import CalendarIcon from '../assets/icons/CalendarDayView.svg'
 
 const DayInput: React.FC<DayInputProps> = ({
   title,

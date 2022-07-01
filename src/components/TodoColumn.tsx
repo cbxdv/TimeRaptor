@@ -1,17 +1,17 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { DragDropContext, DropResult, Droppable, Draggable } from 'react-beautiful-dnd'
 
-import { flexCenter } from '../styles/styleUtils'
 import { IState } from '../@types/StateInterfaces'
 import { selectTodosByListId, todoOrderUpdated, todoToggled } from '../redux/slices/todosSlice'
 import { ITodo } from '../@types/TodoInterface'
 import CheckBox from './CheckBox'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
+import { flexCenter } from '../styles/styleUtils'
 
 const TodoColumn: React.FC<TodosColumnProps> = ({ listId }) => {
-  const todos = useSelector((state: IState) => selectTodosByListId(state, listId))
-  const dispatch = useDispatch()
+  const todos = useAppSelector((state: IState) => selectTodosByListId(state, listId))
+  const dispatch = useAppDispatch()
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result
@@ -60,7 +60,7 @@ interface TodosColumnProps {
 }
 
 const Todo: React.FC<TodoProps> = ({ todo, index }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const toggle = () => {
     dispatch(todoToggled(todo.id))

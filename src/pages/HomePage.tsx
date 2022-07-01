@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { IState } from '../@types/StateInterfaces'
+import Loader from '../components/Loader'
+import ConfigsPanel from '../components/ConfigsPanel'
+import { useAppSelector } from '../redux/hook'
 import AppLogo from '../assets/Logo.svg'
 import WeekIcon from '../assets/icons/Week.svg'
 import TaskIcon from '../assets/icons/Task.svg'
-import { buttonStyles, flexCenter, emojiTextStyles } from '../styles/styleUtils'
-import Loader from '../components/Loader'
-import ConfigsPanel from '../components/ConfigsPanel'
 import GearEmoji from '../assets/icons/Gear.png'
 import DayIcon from '../assets/icons/Day.svg'
 import DrinkIcon from '../assets/icons/Drink.svg'
+import { buttonStyles, flexCenter, emojiTextStyles } from '../styles/styleUtils'
 
 const HomePage = () => {
-  const appStatus = useSelector((state: IState) => state.app.status)
+  const appStatus = useAppSelector((state: IState) => state.app.status)
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
   if (appStatus === 'loading') {
     return (

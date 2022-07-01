@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import ReactDOM from 'react-dom'
-import { Provider, useSelector, useDispatch } from 'react-redux'
+import { createRoot } from 'react-dom/client'
+import { Provider } from 'react-redux'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import store from './redux/store'
-
 import { fetchConfigs, selectDarkMode, darkModeToggled } from './redux/slices/configsSlice'
 import { fetchBlocks } from './redux/slices/timetableSlice'
 import {
@@ -18,7 +17,6 @@ import {
 } from './redux/slices/appSlice'
 import Win32Controls from './components/Win32Controls'
 import { darkThemeColors, lightThemeColors } from './styles/styleConstants'
-
 import TimetablePage from './pages/TimetablePage'
 import MainPage from './pages/HomePage'
 import TodosPage from './pages/TodosPage'
@@ -26,11 +24,12 @@ import { fetchTodos } from './redux/slices/todosSlice'
 import DayPlannerPage from './pages/DayPlannerPage'
 import { fetchDayPlannerBlocks } from './redux/slices/dayPlannerSlice'
 import WaterTrackerPage from './pages/WaterTrackerPage'
+import { useAppDispatch, useAppSelector } from './redux/hook'
 
 const MainComponent = () => {
-  const dispatch = useDispatch()
-  const platform = useSelector(selectPlatform)
-  const darkMode = useSelector(selectDarkMode)
+  const dispatch = useAppDispatch()
+  const platform = useAppSelector(selectPlatform)
+  const darkMode = useAppSelector(selectDarkMode)
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'l' || event.key === 'L') && event.ctrlKey) {
@@ -83,9 +82,6 @@ const App = () => (
   </Provider>
 )
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+const container = document.getElementById('root')
+const root = createRoot(container)
+root.render(<App />)

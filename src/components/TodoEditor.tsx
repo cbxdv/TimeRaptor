@@ -1,8 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import { flexCenter } from '../styles/styleUtils'
 import { ITodo } from '../@types/TodoInterface'
 import WithModal from '../wrappers/WithModal'
 import CheckBox from './CheckBox'
@@ -13,9 +11,11 @@ import DayWithTimeInput from './DayWithTimeInput'
 import { checkValidDate, checkValidTime12 } from '../utils/timeUtils'
 import { updateTimeStamps } from '../redux/slices/appSlice'
 import { checkIsDefinedListId } from '../utils/todoUtils'
+import { useAppDispatch } from '../redux/hook'
+import { flexCenter } from '../styles/styleUtils'
 
 const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [isCompleted, setIsCompleted] = useState(false)
   const [title, setTitle] = useState<string>('')

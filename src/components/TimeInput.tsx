@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
-import ClockIcon from '../assets/icons/Time.svg'
 import WithModal from '../wrappers/WithModal'
 import { getTimeString12 } from '../utils/timeUtils'
-import { flexCenter, inputBack } from '../styles/styleUtils'
-
 import { ITimeObject } from '../@types/DayAndTimeInterfaces'
+import ClockIcon from '../assets/icons/Time.svg'
+import { flexCenter, inputBack } from '../styles/styleUtils'
 
 const TimeInput: React.FC<TimeInputProps> = ({ title = '', value, valueSetHandler, error }) => {
   const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)

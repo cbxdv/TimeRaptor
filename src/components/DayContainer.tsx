@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { selectTimetableDaysToShow } from '../redux/slices/configsSlice'
@@ -9,10 +8,11 @@ import { flexCenter } from '../styles/styleUtils'
 
 import { IState } from '../@types/StateInterfaces'
 import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
+import { useAppSelector } from '../redux/hook'
 
 const DayContainer = () => {
-  const blocksStatus = useSelector((state: IState) => state.timetable.status)
-  const daysToShow = useSelector(selectTimetableDaysToShow)
+  const blocksStatus = useAppSelector((state: IState) => state.timetable.status)
+  const daysToShow = useAppSelector(selectTimetableDaysToShow)
 
   if (blocksStatus === 'loading') {
     return <>Loading...</>

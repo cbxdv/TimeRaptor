@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { fetchBlocks } from './timetableSlice'
 
+import { fetchBlocks } from './timetableSlice'
 import { IAppState, IState } from '../../@types/StateInterfaces'
 import { getCurrentDayString } from '../../utils/timeUtils'
 import {

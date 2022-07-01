@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import Logo from '../assets/Logo.png'
-import { flexCenter } from '../styles/styleUtils'
 import TodosViewer from '../components/TodosViewer'
 import ConfigsPanel from '../components/ConfigsPanel'
 import IconButton from '../components/IconButton'
-import GearIcon from '../assets/icons/Gear.svg'
-import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import WithModal from '../wrappers/WithModal'
 import TextInput from '../components/TextInput'
 import TextArea from '../components/TextArea'
@@ -24,11 +19,16 @@ import {
 import Loader from '../components/Loader'
 import { IState } from '../@types/StateInterfaces'
 import { ITodoList } from '../@types/TodoInterface'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
+import GearIcon from '../assets/icons/Gear.svg'
+import AddBlockIcon from '../assets/icons/AddBlock.svg'
+import Logo from '../assets/Logo.png'
+import { flexCenter } from '../styles/styleUtils'
 
 const TodoPage = () => {
   const location = useLocation().pathname.split('/')[2]
 
-  const todosStateStatus = useSelector(selectTodoStateStatus)
+  const todosStateStatus = useAppSelector(selectTodoStateStatus)
 
   if (todosStateStatus === 'loading')
     return (
@@ -56,7 +56,7 @@ const TodosSidebar: React.FC<TodosSidebarProps> = ({ listId }) => {
   const [showListEditorPanel, setShowListEditorPanel] = useState<boolean>(false)
   const [editingList, setEditingList] = useState<string>('')
 
-  const todoLists = useSelector(selectTodoLists)
+  const todoLists = useAppSelector(selectTodoLists)
 
   const openListAdder = () => {
     setShowListEditorPanel(true)
@@ -150,7 +150,7 @@ const TodoListEditorPanel: React.FC<TodoListEditorPanelProps> = ({
   edit,
   listId
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const location = useLocation().pathname.split('/')[2]
@@ -162,7 +162,7 @@ const TodoListEditorPanel: React.FC<TodoListEditorPanelProps> = ({
 
   let todoList: ITodoList = null
   if (edit) {
-    todoList = useSelector((state: IState) => selectTodoListById(state, listId))
+    todoList = useAppSelector((state: IState) => selectTodoListById(state, listId))
   }
 
   useEffect(() => {

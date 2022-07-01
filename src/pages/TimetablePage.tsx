@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import {
@@ -17,9 +16,10 @@ import TimeBlockEditor from '../components/TimeBlockEditor'
 import ConfigsPanel from '../components/ConfigsPanel'
 import IconButton from '../components/IconButton'
 import NotificationsToggle from '../components/NotificationsToggle'
+import { updateTimeStamps } from '../redux/slices/appSlice'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import GearIcon from '../assets/icons/Gear.svg'
-import { updateTimeStamps } from '../redux/slices/appSlice'
 
 const TimetablePage = () => (
   <TimetablePageContainer>
@@ -32,11 +32,11 @@ const TimetablePage = () => (
 )
 
 const TimetableHeader = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const showCurrentTime = useSelector(selectTimetableShowCurrentTime)
-  const showCurrentBlock = useSelector(selectTimetableShowCurrentBlock)
-  const notificationsActive = useSelector(selectTimetableNotificationStateCombined)
+  const showCurrentTime = useAppSelector(selectTimetableShowCurrentTime)
+  const showCurrentBlock = useAppSelector(selectTimetableShowCurrentBlock)
+  const notificationsActive = useAppSelector(selectTimetableNotificationStateCombined)
 
   const [showAddPanel, setShowAddPanel] = useState<boolean>(false)
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)

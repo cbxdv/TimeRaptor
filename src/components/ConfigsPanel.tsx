@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import WithModal from '../wrappers/WithModal'
-import { flexCenter } from '../styles/styleUtils'
 import {
   AboutTab,
   AppConfigsTab,
@@ -11,6 +10,7 @@ import {
   TodosConfigsTab,
   WaterTrackerConfigsTab
 } from './ConfigTabsComponents'
+import { flexCenter } from '../styles/styleUtils'
 
 const UserConfigsPanel: React.FC<UserConfigsPanelProps> = ({ closeHandler }) => {
   const [currentTab, setCurrentTab] = useState<string>('app')

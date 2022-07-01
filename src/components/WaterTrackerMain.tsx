@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { getAlreadyCompletedTime } from '../utils/waterTrackerUtils'
@@ -13,6 +12,7 @@ import {
 import { flexCenter } from '../styles/styleUtils'
 import TextButton from './TextButton'
 import WaterBottle from './WaterBottle'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
 
 const WaterTrackerMain = () => (
   <MainContainer>
@@ -28,13 +28,13 @@ const WaterTrackerMain = () => (
 )
 
 const WaterTrackerContols = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [rem, setRem] = useState<number>(0)
 
-  const isServiceRunning = useSelector(selectIsWaterTrackerServiceRunning)
-  const lastStarted = useSelector(selectWaterTrackerLastStarted)
-  const interval = useSelector(selectWaterTrackerWaterInterval)
+  const isServiceRunning = useAppSelector(selectIsWaterTrackerServiceRunning)
+  const lastStarted = useAppSelector(selectWaterTrackerLastStarted)
+  const interval = useAppSelector(selectWaterTrackerWaterInterval)
 
   const toggleService = () => {
     if (isServiceRunning) {

@@ -7,7 +7,7 @@ import todosReducer from './slices/todosSlice'
 import dayPlannerReducer from './slices/dayPlannerSlice'
 import waterTrackerReducer from './slices/waterTrackerSlice'
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     app: appReducer,
     configs: configsReducer,
@@ -18,3 +18,8 @@ export default configureStore({
   },
   devTools: true
 })
+
+export default store
+
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>

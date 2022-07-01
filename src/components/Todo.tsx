@@ -1,22 +1,22 @@
 import React, { useState, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
 
-import { flexCenter } from '../styles/styleUtils'
 import CheckBox from './CheckBox'
 import { selectTodoById, todoStarredToggled, todoToggled } from '../redux/slices/todosSlice'
 import TodoEditor from './TodoEditor'
 import { IState } from '../@types/StateInterfaces'
 import StarFilledIcon from '../assets/icons/StarFilled.svg'
 import StarOutlineIcon from '../assets/icons/StarOutline.svg'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
+import { flexCenter } from '../styles/styleUtils'
 
 const Todo: React.FC<TodoProps> = ({ todoId, index }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [showTodoEditor, setShowTodoEditor] = useState<boolean>(false)
 
-  const todo = useSelector((state: IState) => selectTodoById(state, todoId))
+  const todo = useAppSelector((state: IState) => selectTodoById(state, todoId))
 
   const boxRef = useRef<HTMLDivElement>()
   const starRef = useRef<HTMLDivElement>()

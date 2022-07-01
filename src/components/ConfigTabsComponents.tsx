@@ -1,9 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import { emojiTextStyles, flexCenter } from '../styles/styleUtils'
 import Logo from '../assets/Logo.png'
 import {
   notificationServiceStarted,
@@ -12,10 +10,6 @@ import {
   selectVersion,
   updateTimeStamps
 } from '../redux/slices/appSlice'
-import Octocat from '../assets/icons/Octocat.png'
-import WaveEmoji from '../assets/icons/Wave.png'
-import CrossEmoji from '../assets/icons/Cross.png'
-import PartyPopperEmoji from '../assets/icons/PartyPopper.png'
 import { openRepo, quitApp } from '../utils/electronUtils'
 import CheckBox from './CheckBox'
 import {
@@ -59,9 +53,15 @@ import {
   waterTrackerStarted,
   waterTrackerStopped
 } from '../redux/slices/waterTrackerSlice'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
+import Octocat from '../assets/icons/Octocat.png'
+import WaveEmoji from '../assets/icons/Wave.png'
+import CrossEmoji from '../assets/icons/Cross.png'
+import PartyPopperEmoji from '../assets/icons/PartyPopper.png'
+import { emojiTextStyles, flexCenter } from '../styles/styleUtils'
 
 export const AboutTab = () => {
-  const appVersion = useSelector(selectVersion)
+  const appVersion = useAppSelector(selectVersion)
 
   return (
     <ComponentContainer>
@@ -87,10 +87,10 @@ export const AboutTab = () => {
 }
 
 export const AppConfigsTab = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const configs = useSelector(selectConfigs)
-  const isNotificationServiceRunning = useSelector(selectIsNotificationServiceRunning)
+  const configs = useAppSelector(selectConfigs)
+  const isNotificationServiceRunning = useAppSelector(selectIsNotificationServiceRunning)
 
   const toggleNotificationService = () => {
     if (isNotificationServiceRunning) {
@@ -163,10 +163,10 @@ export const AppConfigsTab = () => {
 }
 
 export const TimetableConfigsTab = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const configs = useSelector(selectConfigs)
+  const configs = useAppSelector(selectConfigs)
 
   return (
     <ComponentContainer>
@@ -304,8 +304,8 @@ export const TimetableConfigsTab = () => {
 }
 
 const DaysToShowComponent = () => {
-  const dispatch = useDispatch()
-  const daysToShow = useSelector(selectTimetableDaysToShow)
+  const dispatch = useAppDispatch()
+  const daysToShow = useAppSelector(selectTimetableDaysToShow)
 
   const toggleDayToShow = (day: DayStringTypes) => {
     dispatch(timetableDaysToShowToggled(day))
@@ -364,10 +364,10 @@ const DaysToShowComponent = () => {
 }
 
 export const TodosConfigsTab = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const configs = useSelector(selectConfigs)
+  const configs = useAppSelector(selectConfigs)
 
   return (
     <ComponentContainer>
@@ -412,10 +412,10 @@ export const TodosConfigsTab = () => {
 }
 
 export const DayPlannerConfigsTab = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const configs = useSelector(selectConfigs)
+  const configs = useAppSelector(selectConfigs)
 
   return (
     <ComponentContainer>
@@ -565,10 +565,10 @@ export const DayPlannerConfigsTab = () => {
 }
 
 export const WaterTrackerConfigsTab = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const configs = useSelector(selectConfigs)
-  const isServiceRunning = useSelector(selectIsWaterTrackerServiceRunning)
+  const configs = useAppSelector(selectConfigs)
+  const isServiceRunning = useAppSelector(selectIsWaterTrackerServiceRunning)
 
   const toggleService = () => {
     if (isServiceRunning) {

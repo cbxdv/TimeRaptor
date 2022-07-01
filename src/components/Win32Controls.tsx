@@ -1,18 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
 
 import { selectAppMaximized, maximizedToggled } from '../redux/slices/appSlice'
-import { flexCenter } from '../styles/styleUtils'
+import { closeWindow, maximizeWindow, minimizeWindow, restoreWindow } from '../utils/electronUtils'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
 import CloseIcon from '../assets/icons/Close.svg'
 import MinimizeIcon from '../assets/icons/Minimize.svg'
 import OpenFull from '../assets/icons/OpenFull.svg'
-import { closeWindow, maximizeWindow, minimizeWindow, restoreWindow } from '../utils/electronUtils'
+import { flexCenter } from '../styles/styleUtils'
 
 const Win32Controls = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const isMaximized = useSelector(selectAppMaximized)
+  const isMaximized = useAppSelector(selectAppMaximized)
 
   const maximizeHandler = () => {
     if (isMaximized || window.innerHeight > 1000 || window.innerWidth > 1500) {

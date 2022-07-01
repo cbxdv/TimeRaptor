@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { useDispatch, useSelector } from 'react-redux'
 import ConfigsPanel from '../components/ConfigsPanel'
 import Header from '../components/Header'
 import CurrentTime from '../components/CurrentTime'
 import NotificationsToggle from '../components/NotificationsToggle'
 import IconButton from '../components/IconButton'
-import GearIcon from '../assets/icons/Gear.svg'
 import TimeLine from '../components/TimeLine'
 import AddBlockIcon from '../assets/icons/AddBlock.svg'
 import TimeBlockEditor from '../components/TimeBlockEditor'
-
+import { useAppDispatch, useAppSelector } from '../redux/hook'
 import DayPlannerDayContainer from '../components/DayPlannerDayContainer'
 import {
   dayPlannerNotificationsToggled,
@@ -19,6 +17,7 @@ import {
   selectDayPlannerShowCurrentTime
 } from '../redux/slices/configsSlice'
 import { updateTimeStamps } from '../redux/slices/appSlice'
+import GearIcon from '../assets/icons/Gear.svg'
 
 const DayPlannerPage = () => (
   <DayPlannerPageContainer>
@@ -31,13 +30,13 @@ const DayPlannerPage = () => (
 )
 
 const DayPlannerHeader = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [showAddPanel, setShowAddPanel] = useState<boolean>(false)
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
 
-  const showCurrentTime = useSelector(selectDayPlannerShowCurrentTime)
-  const notificationsActive = useSelector(selectDayPlannerNotificaionStateCombined)
+  const showCurrentTime = useAppSelector(selectDayPlannerShowCurrentTime)
+  const notificationsActive = useAppSelector(selectDayPlannerNotificaionStateCombined)
   const toggleNotifications = () => {
     dispatch(dayPlannerNotificationsToggled())
     dispatch(updateTimeStamps())

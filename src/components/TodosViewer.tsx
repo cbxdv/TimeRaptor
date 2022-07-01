@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd'
 
-import { flexCenter } from '../styles/styleUtils'
-import AddCircleIcon from '../assets/icons/AddCircle.svg'
 import { todoAdded, todoOrderUpdated, selectTodoListById } from '../redux/slices/todosSlice'
 import { IState } from '../@types/StateInterfaces'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
 import Todo from './Todo'
+import AddCircleIcon from '../assets/icons/AddCircle.svg'
+import { flexCenter } from '../styles/styleUtils'
 
 const TodosViewer: React.FC<TodosViewerProps> = ({ listId }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const todosList = useSelector((state: IState) => selectTodoListById(state, listId))
+  const todosList = useAppSelector((state: IState) => selectTodoListById(state, listId))
 
   if (!todosList) return <>Error</>
 
@@ -74,7 +74,7 @@ TodosViewer.defaultProps = {
 }
 
 const TodoInputComponent: React.FC<TodoInputComponentProps> = ({ listId }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [inputText, setInputText] = useState('')
 

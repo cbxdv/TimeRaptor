@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from 'react'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import WithModal from '../wrappers/WithModal'
@@ -14,7 +13,7 @@ import DayInput from './DayInput'
 import TextArea from './TextArea'
 import TextInput from './TextInput'
 import TimeInput from './TimeInput'
-
+import { useAppDispatch } from '../redux/hook'
 import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
 import { ColorStringTypes, ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { updateTimeStamps } from '../redux/slices/appSlice'
@@ -29,7 +28,7 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
   dayPlanner,
   currentDayPlannerBlock
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [title, setTitle] = useState<string>('')
   const [day, setDay] = useState<DayStringTypes>('monday')

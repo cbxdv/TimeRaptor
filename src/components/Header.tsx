@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -7,11 +6,12 @@ import Logo from '../assets/Logo.png'
 import { closeWindow, reloadWindow } from '../utils/electronUtils'
 import { flexCenter } from '../styles/styleUtils'
 import { selectPlatform } from '../redux/slices/appSlice'
+import { useAppSelector } from '../redux/hook'
 
 const Header: React.FC<HeaderProps> = ({ title, headerBubble1, headerBubble2, actions }) => {
   const navigate = useNavigate()
 
-  const platform = useSelector(selectPlatform)
+  const platform = useAppSelector(selectPlatform)
 
   const keyBindHandler = (event: KeyboardEvent) => {
     if ((event.key === 'q' || event.key === 'Q') && event.ctrlKey) {

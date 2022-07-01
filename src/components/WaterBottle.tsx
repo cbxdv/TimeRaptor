@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import {
@@ -8,13 +7,14 @@ import {
 } from '../redux/slices/waterTrackerSlice'
 import { selectWaterTrackerWaterInterval } from '../redux/slices/configsSlice'
 import { getAlreadyCompletedTime } from '../utils/waterTrackerUtils'
+import { useAppSelector } from '../redux/hook'
 
 const WaterBottle = () => {
   const [percentage, setPercentage] = useState<number>(100)
 
-  const isServiceRunning = useSelector(selectIsWaterTrackerServiceRunning)
-  const lastStarted = useSelector(selectWaterTrackerLastStarted)
-  const interval = useSelector(selectWaterTrackerWaterInterval)
+  const isServiceRunning = useAppSelector(selectIsWaterTrackerServiceRunning)
+  const lastStarted = useAppSelector(selectWaterTrackerLastStarted)
+  const interval = useAppSelector(selectWaterTrackerWaterInterval)
 
   let timer: NodeJS.Timer
 

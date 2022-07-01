@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { selectBlocksByDay } from '../redux/slices/timetableSlice'
@@ -11,11 +10,12 @@ import { DayStringTypes } from '../@types/DayAndTimeInterfaces'
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { IState } from '../@types/StateInterfaces'
 import { selectTimetableShowCurrentBlock } from '../redux/slices/configsSlice'
+import { useAppSelector } from '../redux/hook'
 
 const DayColumn: React.FC<DayColumnProps> = ({ dayId, showIndicator, dayPlanner }) => {
-  const dayData = useSelector((state: IState) => selectBlocksByDay(state, dayId))
+  const dayData = useAppSelector((state: IState) => selectBlocksByDay(state, dayId))
 
-  const showCurrentBlock = useSelector(selectTimetableShowCurrentBlock)
+  const showCurrentBlock = useAppSelector(selectTimetableShowCurrentBlock)
 
   const [isToday, setIsToday] = useState<boolean>(false)
 

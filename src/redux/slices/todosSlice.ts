@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 
 import { createAsyncThunk, createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
-import { fetchTodosData, updateTodosToDisk } from '../../utils/electronUtils'
 
+import { fetchTodosData, updateTodosToDisk } from '../../utils/electronUtils'
 import { IState, ITodosState } from '../../@types/StateInterfaces'
 import {
   ITodo,

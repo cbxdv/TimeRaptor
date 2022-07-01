@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
+import { ITimeBlock } from '../@types/TimeBlockInterfaces'
+import { IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
+import { getTimeString12 } from '../utils/timeUtils'
 import BinIcon from '../assets/icons/Bin.svg'
 import EditIcon from '../assets/icons/Edit.svg'
 import { buttonStyles, flexCenter } from '../styles/styleUtils'
-import { getTimeString12 } from '../utils/timeUtils'
-import { ITimeBlock } from '../@types/TimeBlockInterfaces'
-import { IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
 
 const BlockTool: React.FC<BlockToolProps> = ({
   timeBlock,

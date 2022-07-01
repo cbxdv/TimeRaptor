@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import PaletteIcon from '../assets/icons/Palette.svg'
+import { ColorStringTypes } from '../@types/TimeBlockInterfaces'
 import WithModal from '../wrappers/WithModal'
+import PaletteIcon from '../assets/icons/Palette.svg'
 import { varietyColorStrings } from '../utils/strings'
 import { varietyColors } from '../styles/styleConstants'
 import { buttonStyles, flexCenter, inputBack } from '../styles/styleUtils'
-
-import { ColorStringTypes } from '../@types/TimeBlockInterfaces'
 
 const ColorPicker: React.FC<ColorPickerProps> = ({ title, color, valueSetHandler }) => {
   const [showPickerPanel, setShowPickerPanel] = useState<boolean>(false)

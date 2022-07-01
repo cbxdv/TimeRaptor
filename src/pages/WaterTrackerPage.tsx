@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import ConfigsPanel from '../components/ConfigsPanel'
 import Header from '../components/Header'
 import IconButton from '../components/IconButton'
-import GearIcon from '../assets/icons/Gear.svg'
 import {
   selectWaterTrackerNotifications,
   selectWaterTrackerShowCurrentTime,
@@ -14,6 +12,8 @@ import {
 import CurrentTime from '../components/CurrentTime'
 import NotificationsToggle from '../components/NotificationsToggle'
 import WaterTrackerMain from '../components/WaterTrackerMain'
+import { useAppDispatch, useAppSelector } from '../redux/hook'
+import GearIcon from '../assets/icons/Gear.svg'
 
 const WaterTrackerPage = () => (
   <WaterTrackerPageContainer>
@@ -25,12 +25,12 @@ const WaterTrackerPage = () => (
 )
 
 const WaterTrackerHeader = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [showUConfigPanel, setShowUConfigPanel] = useState<boolean>(false)
 
-  const showCurrentTime = useSelector(selectWaterTrackerShowCurrentTime)
-  const notificationsActive = useSelector(selectWaterTrackerNotifications)
+  const showCurrentTime = useAppSelector(selectWaterTrackerShowCurrentTime)
+  const notificationsActive = useAppSelector(selectWaterTrackerNotifications)
 
   const toggleNotifications = () => {
     dispatch(waterTrackerNotificationsToggled())

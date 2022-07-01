@@ -1,21 +1,20 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { blockDeleted } from '../redux/slices/timetableSlice'
 import { getTimeString12 } from '../utils/timeUtils'
 import BlockTool, { PositionTypes } from './BlockTool'
 import TimeBlockEditor from './TimeBlockEditor'
-import { flexCenter } from '../styles/styleUtils'
-import { varietyColors } from '../styles/styleConstants'
-
 import { ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { updateTimeStamps } from '../redux/slices/appSlice'
 import { IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
 import { blockDeleted as dayPlannerBlockDeleted } from '../redux/slices/dayPlannerSlice'
+import { useAppDispatch } from '../redux/hook'
+import { varietyColors } from '../styles/styleConstants'
+import { flexCenter } from '../styles/styleUtils'
 
 const TimeBlock: React.FC<TimeBlockProps> = ({ timeblock, dayPlanner, disableTool }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const { day, title, startTime, endTime, duration, blockColor } = timeblock
 

@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice, createAsyncThunk, nanoid, PayloadAction } from '@reduxjs/toolkit'
-import { fetchTimetableData, saveBlocksToDisk } from '../../utils/electronUtils'
 
+import { fetchTimetableData, saveBlocksToDisk } from '../../utils/electronUtils'
 import { IState, ITimetableState } from '../../@types/StateInterfaces'
 import {
   CurrentTimeBlockUpdatePayloadAction,

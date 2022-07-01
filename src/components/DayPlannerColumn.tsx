@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import CurrentTimeLine from './CurrentTimeLine'
@@ -13,6 +12,7 @@ import {
 import { flexCenter } from '../styles/styleUtils'
 import AfterIcon from '../assets/icons/NavigateAfter.svg'
 import BeforeIcon from '../assets/icons/NavigateBefore.svg'
+import { useAppSelector } from '../redux/hook'
 
 const DayPlannerColumn: React.FC<DayPlannerColumnProps> = ({
   day,
@@ -21,9 +21,9 @@ const DayPlannerColumn: React.FC<DayPlannerColumnProps> = ({
 }) => {
   let dayData = []
   if (day === 'currentDay') {
-    dayData = useSelector(selectCurrentDayPlannerBlocks)
+    dayData = useAppSelector(selectCurrentDayPlannerBlocks)
   } else {
-    dayData = useSelector(selectNextDayPlannerBlocks)
+    dayData = useAppSelector(selectNextDayPlannerBlocks)
   }
 
   return (
