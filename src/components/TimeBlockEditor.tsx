@@ -19,13 +19,14 @@ import { DayStringTypes, ITimeObject } from '../@types/DayAndTimeInterfaces'
 import { ColorStringTypes, ITimeBlock } from '../@types/TimeBlockInterfaces'
 import { updateTimeStamps } from '../redux/slices/appSlice'
 import { DayPlannerDayTypes, IDayPlannerBlock } from '../@types/DayPlannerInterfaces'
+import CheckBox from './CheckBox'
+import { flexCenter, inputBack } from '../styles/styleUtils'
 
 const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
   closeHandler,
   edit = false,
   currentBlock = null,
   dayPlanner,
-  dpDay,
   currentDayPlannerBlock
 }) => {
   const dispatch = useDispatch()
@@ -45,6 +46,7 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
   })
   const [blockColor, setBlockColor] = useState<ColorStringTypes>('decoPeach')
   const [description, setDescription] = useState<string>('')
+  const [isRecurringEnabled, setIsRecurringEnabled] = useState<boolean>(false)
 
   const [titleError, setTitleError] = useState<boolean>(false)
   const [timeError, setTimeError] = useState<boolean>(false)
@@ -92,7 +94,8 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
         endTime,
         duration: getDurationMinutes(startTime, endTime),
         blockColor,
-        description
+        description,
+        isRecurringEveryday: isRecurringEnabled
       }
       setTimeout(() => {
         if (edit) {
@@ -142,11 +145,12 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
         return
       }
       setTitle(currentDayPlannerBlock.title)
-      setDayPlannerDay(dpDay)
+      setDayPlannerDay(currentDayPlannerBlock.day)
       setStartTime(currentDayPlannerBlock.startTime)
       setEndTime(currentDayPlannerBlock.endTime)
       setBlockColor(currentDayPlannerBlock.blockColor)
       setDescription(currentDayPlannerBlock.description)
+      setIsRecurringEnabled(currentDayPlannerBlock.isRecurringEveryday)
     } else {
       if (!currentBlock || Object.keys(currentBlock).length === 0) {
         return
@@ -227,6 +231,16 @@ const TimeBlockEditor: React.FC<TimeBlockEditorProps> = ({
           />
         </InputContainer>
 
+        {/* <InputContainer> */}
+        <SecContainer>
+          <span>Recur Everyday</span>
+          <CheckBox
+            checked={isRecurringEnabled}
+            onClick={() => setIsRecurringEnabled(!isRecurringEnabled)}
+          />
+        </SecContainer>
+        {/* </InputContainer> */}
+
         <InputContainer>
           <ColorPicker
             title='Block Color'
@@ -255,7 +269,6 @@ type TimeBlockEditorProps = {
   edit?: boolean
   currentBlock?: ITimeBlock | null
   dayPlanner?: boolean
-  dpDay?: DayPlannerDayTypes
   currentDayPlannerBlock?: IDayPlannerBlock | null
 }
 
@@ -263,7 +276,6 @@ TimeBlockEditor.defaultProps = {
   edit: false,
   currentBlock: null,
   dayPlanner: false,
-  dpDay: 'currentDay',
   currentDayPlannerBlock: null
 }
 
@@ -273,6 +285,14 @@ const AddForm = styled.div`
 
 const InputContainer = styled.div`
   margin: 40px 0;
+`
+
+const SecContainer = styled.div`
+  ${flexCenter({ justifyContent: 'space-between' })};
+  ${inputBack()};
+  width: 100%;
+  margin: 40px 0;
+  padding: 0 14px;
 `
 
 export default TimeBlockEditor

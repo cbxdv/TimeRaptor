@@ -12,6 +12,7 @@ import { todoDeleted, todoUpdated } from '../redux/slices/todosSlice'
 import DayWithTimeInput from './DayWithTimeInput'
 import { checkValidDate, checkValidTime12 } from '../utils/timeUtils'
 import { updateTimeStamps } from '../redux/slices/appSlice'
+import { checkIsDefinedListId } from '../utils/todoUtils'
 
 const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
   const dispatch = useDispatch()
@@ -20,6 +21,7 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [notificationEnabled, setNotificationEnabled] = useState<boolean>(false)
+  const [isRecurringEnabled, setIsRecurringEnabled] = useState<boolean>(false)
 
   const [day, setDay] = useState<string>('')
   const [month, setMonth] = useState<string>('')
@@ -28,8 +30,24 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
   const [minutes, setMinutes] = useState<string>('')
   const [amPm, setAmPm] = useState<string>('')
 
+  const [isDefinedList, setIsDefinedList] = useState<boolean>(true)
+
   const [titleError, setTitleError] = useState<boolean>(false)
   const [dateTimeError, setDateTimeError] = useState<boolean>(false)
+
+  const checkDefinedListTodo = () => {
+    let pdl = false
+    todo.lists.forEach(lid => {
+      if (checkIsDefinedListId(lid)) {
+        pdl = true
+      }
+    })
+    if (pdl) {
+      setIsDefinedList(true)
+    } else {
+      setIsDefinedList(false)
+    }
+  }
 
   useEffect(() => {
     setIsCompleted(todo.isCompleted)
@@ -53,6 +71,9 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
     }
     setHours(String(timeHours))
     setMinutes(String(time.getMinutes()))
+    setIsRecurringEnabled(todo.isRecurringEveryday)
+
+    checkDefinedListTodo()
   }, [])
 
   const submitHandler = (close = () => {}) => {
@@ -95,11 +116,12 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
 
     close()
 
-    const newTodo = {
+    const newTodo: ITodo = {
       ...todo,
       isCompleted,
       title,
-      description
+      description,
+      isRecurringEveryday: isRecurringEnabled
     }
 
     if (notificationEnabled) {
@@ -184,6 +206,17 @@ const TodoEditor: React.FC<TodoEditorProps> = ({ todo, closeHandler }) => {
             />
           )}
         </div>
+        {isDefinedList && (
+          <div style={{ marginTop: '40px', marginBottom: '40px' }}>
+            <SecContainer>
+              <CheckBox
+                checked={isRecurringEnabled}
+                onClick={() => setIsRecurringEnabled(!isRecurringEnabled)}
+              />
+              <span style={{ marginLeft: '20px' }}>Recur Everyday</span>
+            </SecContainer>
+          </div>
+        )}
         <TextArea
           name='todoDescription'
           inputValue={description}

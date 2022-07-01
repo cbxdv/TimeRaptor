@@ -9,6 +9,7 @@ interface IDayPlannerBlockBase {
   duration: number
   blockColor: ColorStringTypes
   description?: string
+  isRecurringEveryday: boolean
 }
 
 export interface IDayPlannerBlock extends IDayPlannerBlockBase {

@@ -44,7 +44,7 @@ const DayPlannerColumn: React.FC<DayPlannerColumnProps> = ({
       <DayPlannerColumnMain>
         <TimeBlockContainer>
           {dayData.map((timeblock: IDayPlannerBlock) => (
-            <TimeBlock dayPlanner key={timeblock.id} timeblock={timeblock} />
+            <TimeBlock dayPlanner key={`${timeblock.id}_${day}`} timeblock={timeblock} />
           ))}
           {day === 'currentDay' && <CurrentTimeLine />}
         </TimeBlockContainer>

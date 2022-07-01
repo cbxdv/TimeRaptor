@@ -5,6 +5,7 @@ interface ITodoBase {
   remainder?: number
   lists: string[]
   isStarred: boolean
+  isRecurringEveryday: boolean
   extraProps?: {
     addedOnTomorrow?: number
     addedOnToday?: number

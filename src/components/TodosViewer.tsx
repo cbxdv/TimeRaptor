@@ -96,7 +96,8 @@ const TodoInputComponent: React.FC<TodoInputComponentProps> = ({ listId }) => {
         description: '',
         isCompleted: false,
         lists: listIds,
-        isStarred: false
+        isStarred: false,
+        isRecurringEveryday: false
       })
     )
     setInputText('')

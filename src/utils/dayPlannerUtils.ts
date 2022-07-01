@@ -12,6 +12,7 @@ export const dayPlannerDayProcedures = async (data: IDayPlannerData) => {
   if (!checkWhetherYesterday(data.lastUpdated)) return data
 
   const currentDay: IDayPlannerBlock[] = []
+  const nextDay: IDayPlannerBlock[] = []
 
   data.dayData.nextDay.forEach(block => {
     const newBlock: IDayPlannerBlock = {
@@ -21,11 +22,29 @@ export const dayPlannerDayProcedures = async (data: IDayPlannerData) => {
     currentDay.push(newBlock)
   })
 
+  data.dayData.nextDay.forEach(block => {
+    if (block.isRecurringEveryday) {
+      // add to current day
+      const newCurrentDayBlock: IDayPlannerBlock = {
+        ...block,
+        day: 'currentDay'
+      }
+      currentDay.push(newCurrentDayBlock)
+
+      // add to next day
+      const newNextDayBlock: IDayPlannerBlock = {
+        ...block,
+        day: 'nextDay'
+      }
+      nextDay.push(newNextDayBlock)
+    }
+  })
+
   const newData: IDayPlannerData = {
     lastUpdated: new Date().valueOf(),
     dayData: {
       currentDay,
-      nextDay: []
+      nextDay
     }
   }
 

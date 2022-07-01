@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice, nanoid, PayloadAction } from '@reduxjs/t
 
 import { IDayPlannerState, IState } from '../../@types/StateInterfaces'
 import {
+  IDayPlannerBlock,
   IDayPlannerBlockPayloadAction,
   IDayPlannerBlocksUpdatePayloadAction,
   IDayPlannerData
@@ -35,7 +36,20 @@ const dayPlannerSlice = createSlice({
       const { day } = action.payload
       const block = action.payload
       block.id = nanoid()
-      state.dayData[day].push(action.payload)
+
+      if (block.isRecurringEveryday) {
+        if (block.day === 'currentDay') {
+          state.dayData.currentDay.push(action.payload)
+        }
+        const newBlock: IDayPlannerBlock = {
+          ...action.payload,
+          day: 'nextDay'
+        }
+        state.dayData.nextDay.push(newBlock)
+      } else {
+        state.dayData[day].push(action.payload)
+      }
+
       state.lastUpdated = new Date().valueOf()
 
       const data: IDayPlannerData = {
@@ -61,12 +75,38 @@ const dayPlannerSlice = createSlice({
       const { oldBlock, newBlock } = action.payload
 
       // Deleting existing block
-      state.dayData[oldBlock.day] = state.dayData[oldBlock.day].filter(
-        block => block.id !== oldBlock.id
-      )
+      if (oldBlock.isRecurringEveryday) {
+        // delete two days
+        if (oldBlock.day === 'currentDay') {
+          state.dayData.currentDay = state.dayData.currentDay.filter(
+            block => block.id !== oldBlock.id
+          )
+        }
+        // always delete to next
+        state.dayData.nextDay = state.dayData.nextDay.filter(block => block.id !== oldBlock.id)
+      } else {
+        // non recurring delete
+        state.dayData[oldBlock.day] = state.dayData[oldBlock.day].filter(
+          block => block.id !== oldBlock.id
+        )
+      }
 
       // Adding new block
-      state.dayData[newBlock.day].push(newBlock)
+      if (newBlock.isRecurringEveryday) {
+        if (newBlock.day === 'currentDay') {
+          // add two days
+          state.dayData.currentDay.push(newBlock)
+        }
+        // always all to next
+        const nextDayBlock: IDayPlannerBlock = {
+          ...newBlock,
+          day: 'nextDay'
+        }
+        state.dayData.nextDay.push(nextDayBlock)
+      } else {
+        // non recurring delete
+        state.dayData[newBlock.day].push(newBlock)
+      }
 
       state.lastUpdated = new Date().valueOf()
 

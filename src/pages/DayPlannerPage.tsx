@@ -46,13 +46,7 @@ const DayPlannerHeader = () => {
   return (
     <>
       {showUConfigPanel && <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />}
-      {showAddPanel && (
-        <TimeBlockEditor
-          closeHandler={() => setShowAddPanel(false)}
-          dayPlanner
-          dpDay='currentDay'
-        />
-      )}
+      {showAddPanel && <TimeBlockEditor closeHandler={() => setShowAddPanel(false)} dayPlanner />}
       <Header
         title='Day Planner'
         headerBubble1={showCurrentTime && <CurrentTime />}
