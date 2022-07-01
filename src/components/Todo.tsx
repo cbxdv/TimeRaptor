@@ -18,14 +18,18 @@ const Todo: React.FC<TodoProps> = ({ todoId, index }) => {
 
   const todo = useSelector((state: IState) => selectTodoById(state, todoId))
 
-  const ref = useRef<HTMLDivElement>()
+  const boxRef = useRef<HTMLDivElement>()
+  const starRef = useRef<HTMLDivElement>()
 
   const toggle = () => {
     dispatch(todoToggled(todo.id))
   }
 
   const openEditor = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (ref.current && ref.current.contains(event.target as Node)) {
+    if (boxRef.current && boxRef.current.contains(event.target as Node)) {
+      return
+    }
+    if (starRef.current && starRef.current.contains(event.target as Node)) {
       return
     }
     setShowTodoEditor(true)
@@ -47,13 +51,13 @@ const Todo: React.FC<TodoProps> = ({ todoId, index }) => {
             onAuxClick={openEditor}
             onClick={openEditor}
           >
-            <div ref={ref}>
+            <div ref={boxRef}>
               <CheckBox checked={todo.isCompleted} onClick={toggle} />
             </div>
             <TodoTitle>
               <span>{todo.title}</span>
             </TodoTitle>
-            <StarButton starred={todo.isStarred} onClick={toggleStarred} ref={ref}>
+            <StarButton starred={todo.isStarred} onClick={toggleStarred} ref={starRef}>
               {todo.isStarred ? <StarFilledIcon /> : <StarOutlineIcon />}
             </StarButton>
           </TodoContainer>
