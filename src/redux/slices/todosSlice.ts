@@ -327,7 +327,11 @@ export const selectTodosByListId = (state: IState, listId: string) => {
   })
   return todos
 }
-
 export const selectTodoLists = (state: IState) => state.todos.lists
-
 export const selectTodoStateStatus = (state: IState) => state.todos.status
+export const selectTodosCountByListId = (state: IState, listId: string) => {
+  if (checkIsDefinedListId(listId)) {
+    return state.todos.definedLists[listId as TodoDefinedListTypes].tasks.length
+  }
+  return state.todos.lists[listId].tasks.length
+}

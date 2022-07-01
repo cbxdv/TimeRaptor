@@ -11,6 +11,7 @@ import TextArea from '../components/TextArea'
 import {
   selectTodoListById,
   selectTodoLists,
+  selectTodosCountByListId,
   selectTodoStateStatus,
   todoListAdded,
   todoListDeleted,
@@ -81,6 +82,12 @@ const TodosSidebar: React.FC<TodosSidebarProps> = ({ listId }) => {
     }
   }
 
+  const todayCount = useAppSelector(state => selectTodosCountByListId(state, 'today'))
+  const tomorrowCount = useAppSelector(state => selectTodosCountByListId(state, 'tomorrow'))
+  const laterCount = useAppSelector(state => selectTodosCountByListId(state, 'later'))
+  const starredCount = useAppSelector(state => selectTodosCountByListId(state, 'starred'))
+  const allCount = useAppSelector(state => selectTodosCountByListId(state, 'all'))
+
   return (
     <>
       {showUConfigPanel && <ConfigsPanel closeHandler={() => setShowUConfigPanel(false)} />}
@@ -99,19 +106,34 @@ const TodosSidebar: React.FC<TodosSidebarProps> = ({ listId }) => {
         </AppHeader>
         <div>
           <Link to='/todos/today'>
-            <TabLink selected={listId === 'today'}>Today</TabLink>
+            <TabLink selected={listId === 'today'}>
+              Today
+              {todayCount !== 0 && <NumberIndicator>{todayCount}</NumberIndicator>}
+            </TabLink>
           </Link>
           <Link to='/todos/tomorrow'>
-            <TabLink selected={listId === 'tomorrow'}>Tomorrow</TabLink>
+            <TabLink selected={listId === 'tomorrow'}>
+              Tomorrow
+              {tomorrowCount !== 0 && <NumberIndicator>{tomorrowCount}</NumberIndicator>}
+            </TabLink>
           </Link>
           <Link to='/todos/later'>
-            <TabLink selected={listId === 'later'}>Later</TabLink>
+            <TabLink selected={listId === 'later'}>
+              Later
+              {laterCount !== 0 && <NumberIndicator>{laterCount}</NumberIndicator>}
+            </TabLink>
           </Link>
           <Link to='/todos/starred'>
-            <TabLink selected={listId === 'starred'}>Starred</TabLink>
+            <TabLink selected={listId === 'starred'}>
+              Starred
+              {starredCount !== 0 && <NumberIndicator>{starredCount}</NumberIndicator>}
+            </TabLink>
           </Link>
           <Link to='/todos/all'>
-            <TabLink selected={listId === 'all'}>All</TabLink>
+            <TabLink selected={listId === 'all'}>
+              All
+              {allCount !== 0 && <NumberIndicator>{allCount}</NumberIndicator>}
+            </TabLink>
           </Link>
         </div>
         <div style={{ marginTop: '30px' }}>
@@ -298,7 +320,8 @@ const AppLogo = styled.img`
 `
 
 const TabLink = styled.div<{ selected?: boolean }>`
-  ${flexCenter()};
+  ${flexCenter({ justifyContent: 'space-between' })};
+  padding: 0 30px;
   height: 48px;
   width: 250px;
   background: ${({ theme, selected }) => selected && theme.accent};
@@ -310,6 +333,17 @@ const TabLink = styled.div<{ selected?: boolean }>`
   &:hover {
     background: ${({ theme, selected }) => !selected && theme.secondary};
   }
+`
+
+const NumberIndicator = styled.div`
+  ${flexCenter()};
+  background: ${({ theme }) => (theme.name === 'dark' ? theme.text : theme.background)};
+  color: ${({ theme }) => theme.accent};
+  font-size: 14px;
+  font-weight: bold;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
 `
 
 const SidebarFooter = styled.div`
