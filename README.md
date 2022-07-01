@@ -15,11 +15,14 @@
 ### Features
 
 - A complete app for managing time
-- Only timetable mode avaialable now.
-- More in future...
+- Modes available
+  - Timetable
+  - Todos
+  - Day Planner
+  - Water Tracker
+  - More in future...
 
 ### About the App
 
 - Created using [Electron](https://www.electronjs.org/), [React](https://reactjs.org/) and [Redux](https://redux.js.org/)
 - If any issues, use [Issues](https://github.com/cbxdv/TimeRaptor/issues) tab to raise an issue
-- ⭐ or Follow is appreciated 😁
