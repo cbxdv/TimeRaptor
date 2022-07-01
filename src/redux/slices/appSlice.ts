@@ -22,6 +22,7 @@ import { startNotificationsService, stopNotificationService } from '../../utils/
 import { fetchTodos } from './todosSlice'
 import { fetchConfigs } from './configsSlice'
 import { fetchDayPlannerBlocks } from './dayPlannerSlice'
+import { startAppService, stopAppService } from '../../utils/appService'
 
 const initialState: IAppState = {
   timeStamps: [],
@@ -54,6 +55,9 @@ export const fetchAppProps = createAsyncThunk('app/fetch', async () => {
     platform,
     appVersion
   }
+
+  stopAppService()
+  startAppService()
 
   return data
 })

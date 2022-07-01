@@ -48,7 +48,9 @@ ipcMain.on('window:close', async () => {
 
 ipcMain.on('window:reload', () => {
   const win = BrowserWindow.getFocusedWindow();
-  win.reload();
+  if (win) {
+    win.reload();
+  }
 });
 
 ipcMain.on('app:notify', (_, { title, body }) => {
